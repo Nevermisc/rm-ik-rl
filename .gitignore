@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Editors and operating system
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Isaac Sim / Omniverse caches and generated logs
+cache/
+logs/
+outputs/
+omni_logs/
+
+# Training artifacts
+runs/
+wandb/
+checkpoints/
+*.ckpt
+*.pth
+*.pt
+
+# Large/generated robot assets: keep source/configuration, document downloads
+*.usd
+*.usda
+*.usdc
+*.zip
+*.tar
+*.tar.gz
+
+# Secrets and machine-specific environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+id_ed25519*
