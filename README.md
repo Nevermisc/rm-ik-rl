@@ -20,6 +20,7 @@
 - [x] 跑通 RM65-B 传统完整位姿 IK（无界面自动验收）
 - [x] 在 Isaac Sim 5.1.0 正式版运行 RM65-B 可视化 IK
 - [x] 建立 GitHub 远程仓库并完成首次上传
+- [ ] 运行 RM65-B 强化学习 reaching 最小原型
 - [ ] 创建 Isaac Lab reaching 环境
 - [ ] 训练和评估强化学习策略
 - [ ] 整理简历材料和演示视频
@@ -42,6 +43,7 @@
 - `rm65_robot_description.yaml`：Lula 运动学描述；
 - `rm65_ik_headless.py`：传统完整位姿 IK 自动验收；
 - `rm65_ik_visual.py`：目标方块沿曲线移动的可视化 IK 演示。
+- `rm65_rl_reach_es.py`：基于 rollout reward 的强化学习 reaching 最小原型。
 
 ## 文档入口
 
@@ -49,6 +51,7 @@
 - [GitHub 零基础指南](docs/01-github-guide.md)
 - [一个月项目与求职路线](docs/02-one-month-roadmap.md)
 - [机器人算法知识地图与 LeetCode 建议](docs/03-algorithm-learning.md)
+- [RM65 强化学习 reaching 原型](docs/04-rl-reaching-baseline.md)
 
 ## 建议的仓库边界
 
