@@ -19,7 +19,7 @@
 - [x] 导入 RM65-B URDF 并保存 USD
 - [x] 跑通 RM65-B 传统完整位姿 IK（无界面自动验收）
 - [x] 在 Isaac Sim 5.1.0 正式版运行 RM65-B 可视化 IK
-- [ ] 建立 GitHub 远程仓库并完成首次推送
+- [x] 建立 GitHub 远程仓库并完成首次上传
 - [ ] 创建 Isaac Lab reaching 环境
 - [ ] 训练和评估强化学习策略
 - [ ] 整理简历材料和演示视频
