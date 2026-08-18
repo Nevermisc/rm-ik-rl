@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
 add_executable(plan_pose src/plan_pose.cpp)
 
 ament_target_dependencies(
@@ -17,6 +18,7 @@ ament_target_dependencies(
   rclcpp
   moveit_ros_planning_interface
   geometry_msgs
+  visualization_msgs
 )
 
 install(TARGETS
@@ -24,6 +26,10 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 if(BUILD_TESTING)
