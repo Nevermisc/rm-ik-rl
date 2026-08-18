@@ -2,9 +2,10 @@
 
 这个包用于学习如何使用 MoveIt2 控制 RM65 机械臂。
 
-当前示例：
+当前包含两个层次的示例：
 
-- `plan_pose.cpp`：给 RM65 的末端 `Link6` 一个目标位姿，让 MoveIt2 规划轨迹，并通过 fake controller 在 RViz 中执行。
+- `plan_pose.cpp`：给 RM65 的末端 `Link6` 一个目标位姿，让 MoveIt2 规划轨迹并执行。
+- `isaac_control_test.launch.py`：启动使用自定义 `RMIsaacSystem` hardware plugin 的 `ros2_control` 控制链路。
 
 ## 1. 编译
 
@@ -12,13 +13,13 @@
 
 ```bash
 cd ~/robot-learning/rm_moveit2_ws
-colcon build --packages-select rm_moveit2_examples --symlink-install
+colcon build --packages-select rm_moveit2_examples rm_isaac_ros2_control --symlink-install
 source install/setup.bash
 ```
 
-## 2. 启动官方 RM65 MoveIt2 demo
+## 2. 单独运行 MoveIt2 目标位姿程序
 
-打开第一个终端：
+先启动官方 RM65 MoveIt2 demo：
 
 ```bash
 cd ~/robot-learning/rm_moveit2_ws
@@ -26,64 +27,88 @@ source install/setup.bash
 ros2 launch rm_65_config demo.launch.py
 ```
 
-等待 RViz 打开，并看到 RM65 机械臂。
-
-## 3. 运行自己的目标位姿规划程序
-
-打开第二个终端：
+再开第二个终端运行：
 
 ```bash
 cd ~/robot-learning/rm_moveit2_ws
 source install/setup.bash
-ros2 launch rm_moveit2_examples plan_pose.launch.py
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
 ```
 
 如果成功，会看到类似输出：
 
 ```text
 Planning succeeded.
-Trajectory point count: ...
 Executing trajectory...
 Execution succeeded.
 ```
 
-RViz 中灰色的 RM65 机械臂会移动到新的姿态。
+## 3. MoveIt2 + ros2_control + Isaac Sim 联动
 
-## 4. 修改目标点
+启动顺序：
 
-目标点在：
+1. 启动 Isaac Sim 侧 ROS2 bridge：
 
-```cpp
-target_pose.position.x = 0.25;
-target_pose.position.y = -0.25;
-target_pose.position.z = 0.45;
+```bash
+cd ~/robot-learning/rm-ik-rl
+~/isaac-sim-5.1.0/python.sh rm65_isaac_ros2_bridge.py
+```
+
+2. 启动自定义 ros2_control 链路：
+
+```bash
+cd ~/robot-learning/rm_moveit2_ws
+source install/setup.bash
+ros2 launch rm_moveit2_examples isaac_control_test.launch.py
+```
+
+3. 启动 MoveIt2 `move_group`：
+
+```bash
+cd ~/robot-learning/rm_moveit2_ws
+source install/setup.bash
+ros2 launch rm_65_config move_group.launch.py
+```
+
+4. 运行目标位姿规划：
+
+```bash
+cd ~/robot-learning/rm_moveit2_ws
+source install/setup.bash
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
+```
+
+最终链路：
+
+```text
+MoveIt2
+↓
+/rm_group_controller/follow_joint_trajectory
+↓
+JointTrajectoryController
+↓
+RMIsaacSystem hardware plugin
+↓
+/isaac_joint_commands
+↓
+Isaac Sim ROS2 Bridge
+↓
+Isaac Sim RM65-B articulation
+```
+
+## 4. 目标点参数
+
+`plan_pose.launch.py` 支持运行时传目标点：
+
+```bash
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
 ```
 
 单位是米，参考坐标系是 `base_link`。
 
-修改代码后，需要重新编译：
+## 5. 注意事项
 
-```bash
-cd ~/robot-learning/rm_moveit2_ws
-colcon build --packages-select rm_moveit2_examples --symlink-install
-source install/setup.bash
-ros2 launch rm_moveit2_examples plan_pose.launch.py
-```
-
-## 5. 当前理解
-
-这个示例完成了：
-
-```text
-目标位姿
-↓
-MoveIt2 / KDL 求 IK
-↓
-MoveIt2 / OMPL 规划轨迹
-↓
-fake controller 执行
-↓
-RViz 中机械臂运动
-```
-
-注意：当前只是仿真/可视化 demo，没有连接真实机械臂。
+- 当前 MoveIt2 规划末端 link 是 `Link6`。
+- Isaac Sim USD 中的 articulation root 是 `/RM65/root_joint/root_joint`。
+- Isaac Sim USD 的关节名是 `joint_1` 到 `joint_6`，MoveIt2 / ros2_control 使用 `joint1` 到 `joint6`，映射在 `RMIsaacSystem` 中完成。
+- 当前示例依赖本地 RM65-B USD asset，不把大体积 USD 资产上传到仓库。
