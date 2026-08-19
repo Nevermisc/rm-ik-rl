@@ -42,6 +42,7 @@ docs/08-rl-grasping-baseline.md
 docs/09-pregrasp-rl-grasp-combo.md
 docs/10-project-block-map.md
 docs/11-link6-follow-gripper-v1.md
+docs/12-bridge-with-link6-gripper-v2.md
 ```
 
 你后面写简历/项目介绍时，主要从这几篇里提炼。
@@ -340,7 +341,53 @@ FINAL link6_follow_gripper_v1_done=True
 还没有把 RL policy 的 action 接到这个 link_6-follow gripper 上
 ```
 
-## Block 9：pre-grasp + RL grasp 组合流程
+## Block 9：MoveIt2 + Isaac bridge + link_6 跟随夹爪 V2
+
+位置：
+
+```text
+isaac_sim/rm65_isaac_bridge_with_link6_gripper_v2.py
+scripts/run_moveit2_isaac_link6_gripper_v2.sh
+```
+
+它做的事情：
+
+```text
+在同一个 Isaac Sim 场景里加载 RM65-B
+创建 ROS2 bridge ActionGraph
+发布 /isaac_joint_states
+订阅 /isaac_joint_commands
+创建桌子和目标方块
+创建跟随 /RM65/root_joint/link_6 的功能夹爪
+```
+
+当前验证结果：
+
+```text
+RM65 Isaac ROS2 bridge with link_6 gripper V2 started.
+Publishing: /isaac_joint_states
+Subscribing: /isaac_joint_commands
+FOUND_LINK6 path=/RM65/root_joint/link_6
+FINAL bridge_with_link6_gripper_v2 steps=80 max_cube_z=0.0322
+```
+
+这一块的意义：
+
+```text
+V1 只证明夹爪能跟随 link_6。
+V2 把 RM65 ROS2 bridge、桌面方块和 link_6-follow gripper 放进同一个场景。
+它是后续把 RL policy 接到真实机械臂末端局部抓取的过渡版本。
+```
+
+当前限制：
+
+```text
+夹爪闭合仍是时间表，不是 policy 输出
+夹爪仍是 kinematic functional gripper
+还没有把 MoveIt2 pre-grasp 和 RL grasp 接成一个自动闭环
+```
+
+## Block 10：pre-grasp + RL grasp 组合流程
 
 位置：
 
@@ -359,15 +406,15 @@ scripts/run_pregrasp_then_rl_grasp_v0.sh
 
 ```text
 pre-grasp 和 RL grasp 还是两个阶段式流程
-V1 夹爪跟随能力还没有接入组合脚本
+V2 还没有接入 RL policy
 没有物体位姿随机化
 没有相机/点云输入
 ```
 
-下一步 V2：
+下一步 V3：
 
 ```text
-把 MoveIt2 pre-grasp、Isaac bridge、link_6-follow gripper、RL policy 接成一个连续脚本。
+把 PPO/BC warm start 的 policy 输出接到 link_6-follow gripper，形成 RM65 arm + local RL gripper grasp。
 ```
 
 ## 什么不该上传
@@ -396,8 +443,8 @@ SSH 私钥
 随后我接入 MoveIt2，写了目标位姿规划脚本。
 为了让 MoveIt2 的轨迹驱动 Isaac Sim 中的机械臂，我实现了一个 ros2_control hardware plugin 和 Isaac ROS2 bridge。
 在抓取阶段，我没有一开始做端到端大规模 RL，而是先拆成 pre-grasp planning + local RL grasping：MoveIt2 负责靠近目标，RL policy 负责接触闭合和上抬。
-目前已经完成简化夹爪物理抓取、PPO/BC warm start baseline，并完成了一个跟随 RM65 link_6 的功能夹爪 V1。
-下一步会把 MoveIt2 pre-grasp、link_6-follow gripper 和 RL grasp policy 接成连续闭环。
+目前已经完成简化夹爪物理抓取、PPO/BC warm start baseline、跟随 RM65 link_6 的功能夹爪 V1，并进一步把 RM65 bridge、桌面方块和 link_6-follow gripper 整合到 V2 场景。
+下一步会把 RL policy 的夹爪动作接到 link_6-follow gripper 上，形成更连续的 arm + local RL grasp 流程。
 ```
 
 这套说法比“我跑了一个 Isaac Sim demo”高级很多。
