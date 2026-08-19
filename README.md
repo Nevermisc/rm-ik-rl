@@ -33,7 +33,7 @@ RL policy 负责接触阶段的夹爪闭合和上抬
 - [x] 简化功能夹爪物理抓取
 - [x] PPO/BC warm start RL 抓取 baseline
 - [x] MoveIt2 pre-grasp + RL grasp V0 组合脚本
-- [ ] 简化夹爪挂接到 RM65 link_6
+- [x] 简化夹爪跟随 RM65 link_6 V1
 - [ ] 物体位姿随机化与更完整 observation
 - [ ] 真夹爪模型/真实机械臂接口
 
@@ -137,7 +137,29 @@ action / observation / reward / success 是否闭环
 策略是否能通过 PPO/BC warm start 完成抓取
 ```
 
-### 6. 组合流程脚本
+### 6. link_6 跟随夹爪 V1
+
+目录：
+
+```text
+isaac_sim/
+```
+
+核心文件：
+
+```text
+rm65_link6_follow_gripper_v1.py
+```
+
+作用：
+
+```text
+读取 RM65 link_6 世界位姿
+让简化功能夹爪 palm / fingers 跟随 link_6
+验证夹爪在空间上属于机械臂末端
+```
+
+### 7. 组合流程脚本
 
 目录：
 
@@ -191,6 +213,14 @@ source install/setup.bash
 ros2 launch rm_65_config move_group.launch.py
 ```
 
+### 运行 link_6 跟随夹爪 V1
+
+```bash
+cd ~/robot-learning/rm-ik-rl
+ISAAC_HEADLESS=1 ISAAC_MAX_STEPS=60 \
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_link6_follow_gripper_v1.py
+```
+
 ### 运行 pre-grasp + RL grasp V0
 
 ```bash
@@ -210,6 +240,7 @@ bash scripts/run_pregrasp_then_rl_grasp_v0.sh
 - [08 RL grasping baseline](docs/08-rl-grasping-baseline.md)
 - [09 Pre-grasp + RL grasp 组合流程](docs/09-pregrasp-rl-grasp-combo.md)
 - [10 项目分块地图](docs/10-project-block-map.md)
+- [11 RM65 link_6 跟随夹爪 V1](docs/11-link6-follow-gripper-v1.md)
 
 ## 不上传的内容
 
