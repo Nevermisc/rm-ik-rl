@@ -13,6 +13,8 @@ ros2_control 控制接口
         ↓
 Isaac Sim 仿真机械臂
         ↓
+link_6 跟随功能夹爪
+        ↓
 RL 局部夹爪抓取
         ↓
 pre-grasp + grasp 组合流程
@@ -39,6 +41,7 @@ docs/07-moveit2-isaac-ros2-control-integration.md
 docs/08-rl-grasping-baseline.md
 docs/09-pregrasp-rl-grasp-combo.md
 docs/10-project-block-map.md
+docs/11-link6-follow-gripper-v1.md
 ```
 
 你后面写简历/项目介绍时，主要从这几篇里提炼。
@@ -296,7 +299,48 @@ EVAL_FINAL success_count=3/3
 
 注意：训练出来的 `.pt` 权重不上传 GitHub，因为它是训练产物，不适合塞进源码仓库。
 
-## Block 8：pre-grasp + RL grasp 组合流程
+## Block 8：link_6 跟随功能夹爪 V1
+
+位置：
+
+```text
+isaac_sim/rm65_link6_follow_gripper_v1.py
+```
+
+它做的事情：
+
+```text
+加载 RM65-B USD
+找到 /RM65/root_joint/link_6
+创建简化 palm / left_finger / right_finger
+每一帧读取 link_6 的世界位姿
+根据 link_6 重新计算夹爪位置
+执行 open → close 测试
+```
+
+当前验证结果：
+
+```text
+FOUND_LINK6 path=/RM65/root_joint/link_6
+FINAL link6_follow_gripper_v1_done=True
+```
+
+这一块的意义：
+
+```text
+之前夹爪只是独立 demo。
+现在夹爪已经能在空间上跟随 RM65 末端，为真正 arm + gripper 组合抓取做准备。
+```
+
+当前限制：
+
+```text
+它还不是真正的 USD articulation 子关节
+它仍是 kinematic functional gripper
+还没有把 RL policy 的 action 接到这个 link_6-follow gripper 上
+```
+
+## Block 9：pre-grasp + RL grasp 组合流程
 
 位置：
 
@@ -315,17 +359,15 @@ scripts/run_pregrasp_then_rl_grasp_v0.sh
 
 ```text
 pre-grasp 和 RL grasp 还是两个阶段式流程
-简化夹爪还没有真正挂到 RM65 link_6 上
+V1 夹爪跟随能力还没有接入组合脚本
 没有物体位姿随机化
 没有相机/点云输入
 ```
 
-下一步 V1：
+下一步 V2：
 
 ```text
-把简化夹爪挂到 RM65 link_6 附近
-让 pre-grasp 点和 cube 位置绑定
-实现真正的 arm approach + local grasp
+把 MoveIt2 pre-grasp、Isaac bridge、link_6-follow gripper、RL policy 接成一个连续脚本。
 ```
 
 ## 什么不该上传
@@ -354,7 +396,8 @@ SSH 私钥
 随后我接入 MoveIt2，写了目标位姿规划脚本。
 为了让 MoveIt2 的轨迹驱动 Isaac Sim 中的机械臂，我实现了一个 ros2_control hardware plugin 和 Isaac ROS2 bridge。
 在抓取阶段，我没有一开始做端到端大规模 RL，而是先拆成 pre-grasp planning + local RL grasping：MoveIt2 负责靠近目标，RL policy 负责接触闭合和上抬。
-目前已经完成简化夹爪的物理抓取和 PPO/BC warm start baseline，下一步会把夹爪挂到 RM65 末端并加入物体位姿随机化。
+目前已经完成简化夹爪物理抓取、PPO/BC warm start baseline，并完成了一个跟随 RM65 link_6 的功能夹爪 V1。
+下一步会把 MoveIt2 pre-grasp、link_6-follow gripper 和 RL grasp policy 接成连续闭环。
 ```
 
 这套说法比“我跑了一个 Isaac Sim demo”高级很多。
