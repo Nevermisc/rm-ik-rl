@@ -34,6 +34,8 @@ RL policy 负责接触阶段的夹爪闭合和上抬
 - [x] PPO/BC warm start RL 抓取 baseline
 - [x] MoveIt2 pre-grasp + RL grasp V0 组合脚本
 - [x] 简化夹爪跟随 RM65 link_6 V1
+- [x] MoveIt2 + Isaac bridge + link_6 跟随夹爪 V2
+- [ ] 将 RL policy 接到 link_6 跟随夹爪
 - [ ] 物体位姿随机化与更完整 observation
 - [ ] 真夹爪模型/真实机械臂接口
 
@@ -159,7 +161,32 @@ rm65_link6_follow_gripper_v1.py
 验证夹爪在空间上属于机械臂末端
 ```
 
-### 7. 组合流程脚本
+### 7. MoveIt2 + Isaac bridge + link_6 跟随夹爪 V2
+
+目录：
+
+```text
+isaac_sim/
+scripts/
+```
+
+核心文件：
+
+```text
+isaac_sim/rm65_isaac_bridge_with_link6_gripper_v2.py
+scripts/run_moveit2_isaac_link6_gripper_v2.sh
+```
+
+作用：
+
+```text
+在同一个 Isaac Sim 场景里加载 RM65-B、ROS2 bridge、桌子、方块和 link_6-follow gripper。
+MoveIt2 / ros2_control 仍负责机械臂关节命令，简化夹爪每帧跟随 link_6。
+```
+
+这是把“机械臂执行”和“末端夹爪”接到同一个场景中的过渡版本。
+
+### 8. 组合流程脚本
 
 目录：
 
@@ -194,6 +221,7 @@ ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
 
 ```bash
 cd ~/robot-learning/rm-ik-rl
+source /opt/ros/humble/setup.bash
 ~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_isaac_ros2_bridge.py
 ```
 
@@ -221,6 +249,24 @@ ISAAC_HEADLESS=1 ISAAC_MAX_STEPS=60 \
 ~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_link6_follow_gripper_v1.py
 ```
 
+### 运行 MoveIt2 + Isaac bridge + link_6 跟随夹爪 V2 smoke test
+
+```bash
+cd ~/robot-learning/rm-ik-rl
+source /opt/ros/humble/setup.bash
+ISAAC_HEADLESS=1 ISAAC_MAX_STEPS=80 \
+GRIPPER_CLOSE_START_STEP=20 \
+GRIPPER_CLOSE_DURATION_STEPS=40 \
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_isaac_bridge_with_link6_gripper_v2.py
+```
+
+### 查看 V2 四终端运行说明
+
+```bash
+cd ~/robot-learning/rm-ik-rl
+bash scripts/run_moveit2_isaac_link6_gripper_v2.sh
+```
+
 ### 运行 pre-grasp + RL grasp V0
 
 ```bash
@@ -241,6 +287,7 @@ bash scripts/run_pregrasp_then_rl_grasp_v0.sh
 - [09 Pre-grasp + RL grasp 组合流程](docs/09-pregrasp-rl-grasp-combo.md)
 - [10 项目分块地图](docs/10-project-block-map.md)
 - [11 RM65 link_6 跟随夹爪 V1](docs/11-link6-follow-gripper-v1.md)
+- [12 MoveIt2 + Isaac bridge + link_6 跟随夹爪 V2](docs/12-bridge-with-link6-gripper-v2.md)
 
 ## 不上传的内容
 
