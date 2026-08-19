@@ -6,10 +6,11 @@
 
 ```text
 001 先会用 RViz + MoveIt2 让 RM65 到目标点
-002 再把 MoveIt2 和 Isaac Sim 联动
-003 再加入简化夹爪
-004 再做强化学习抓取 baseline
-005 最后整理成求职作品集
+002 接入真实 D435i 相机，并在 RViz 中和 RM65 同屏显示
+003 再把 MoveIt2 和 Isaac Sim 联动
+004 再加入简化夹爪
+005 再做强化学习抓取 baseline
+006 最后整理成求职作品集
 ```
 
 每个小项目都尽量做到：
@@ -56,6 +57,26 @@ projects/001-rm65-moveit2-rviz-ik/
 - [RViz + MoveIt2 新手解释](projects/001-rm65-moveit2-rviz-ik/docs/rviz-moveit2-basic.md)
 - [2026-08-19 学习日志](learning-log/2026-08-19-rm65-moveit2-rviz-ik.md)
 
+### 002 - RM65 + D435i RealSense ROS2 接入
+
+目录：
+
+```text
+projects/002-rm65-d435i-realsense-ros2/
+```
+
+目标：
+
+```text
+在同一个 RViz 中同时显示 RM65 机械臂和 D435i 真实相机图像，并用临时 TF 把 camera_link 挂到 Link6 下。
+```
+
+入口文档：
+
+- [002 小项目 README](projects/002-rm65-d435i-realsense-ros2/README.md)
+- [RealSense + RViz + TF 新手解释](projects/002-rm65-d435i-realsense-ros2/docs/realsense-rviz-tf-basic.md)
+- [2026-08-19 D435i 学习日志](learning-log/2026-08-19-rm65-d435i-realsense-ros2.md)
+
 ## 已完成阶段
 
 - [x] 跑通 Isaac Sim 官方 Franka IK 示例
@@ -64,9 +85,10 @@ projects/001-rm65-moveit2-rviz-ik/
 - [x] 跑通 RM65 官方 MoveIt2 RViz demo
 - [x] 写出自己的 MoveIt2 目标点规划程序 `plan_pose.cpp`
 - [x] 整理第一个独立小项目：`001-rm65-moveit2-rviz-ik`
-- [ ] 整理第二个独立小项目：MoveIt2 + Isaac Sim 联动
-- [ ] 整理第三个独立小项目：简化夹爪抓取
-- [ ] 整理第四个独立小项目：强化学习抓取 baseline
+- [x] 整理第二个独立小项目：`002-rm65-d435i-realsense-ros2`
+- [ ] 整理第三个独立小项目：MoveIt2 + Isaac Sim 联动
+- [ ] 整理第四个独立小项目：简化夹爪抓取
+- [ ] 整理第五个独立小项目：强化学习抓取 baseline
 
 ## 为什么要这样分文件夹
 
@@ -95,7 +117,7 @@ projects/003-xxx
 
 ```text
 先保证旧代码还能运行
-再逐步整理成 projects/002、projects/003、projects/004
+再逐步整理成 projects/003、projects/004、projects/005
 最后再把废弃实验归档到 archive/
 ```
 
@@ -117,6 +139,7 @@ projects/003-xxx
 - 大型 USD/模型资源；
 - 训练权重 `.pt` / `.pth` / `.ckpt`；
 - API key、token、密码；
-- 临时日志、缓存、`__pycache__`。
+- 临时日志、缓存、`__pycache__`；
+- 真实设备序列号等不必要公开的硬件标识。
 
 这些内容只保存在实验室电脑或本地环境。
