@@ -18,6 +18,7 @@ cache/
 logs/
 outputs/
 omni_logs/
+*.log
 
 # Training artifacts
 runs/
@@ -28,6 +29,7 @@ checkpoints/
 *.pt
 
 # Large/generated robot assets: keep source/configuration, document downloads
+assets/
 *.usd
 *.usda
 *.usdc
