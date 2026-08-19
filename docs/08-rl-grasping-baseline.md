@@ -177,7 +177,7 @@ EVAL_FINAL success_count=3/3
 
 ```bash
 cd ~/robot-learning/rm-ik-rl
-~/isaac-sim-5.1.0/python.sh simple_gripper_grasp_physics_test.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/simple_gripper_grasp_physics_test.py
 ```
 
 ### RL scripted demo
@@ -185,7 +185,7 @@ cd ~/robot-learning/rm-ik-rl
 ```bash
 cd ~/robot-learning/rm-ik-rl
 ISAAC_HEADLESS=1 ISAAC_MAX_STEPS=360 \
-~/isaac-sim-5.1.0/python.sh rm65_grasp_task_skeleton.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_grasp_task_skeleton.py
 ```
 
 ### 随机策略测试
@@ -193,7 +193,7 @@ ISAAC_HEADLESS=1 ISAAC_MAX_STEPS=360 \
 ```bash
 cd ~/robot-learning/rm-ik-rl
 ISAAC_HEADLESS=1 ISAAC_NUM_EPISODES=2 ISAAC_EPISODE_STEPS=240 \
-~/isaac-sim-5.1.0/python.sh rm65_grasp_random_policy_test.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_grasp_random_policy_test.py
 ```
 
 ### BC + PPO 训练
@@ -210,7 +210,7 @@ ISAAC_PPO_EPISODE_STEPS=240 \
 ISAAC_PPO_TRAIN_EPOCHS=2 \
 ISAAC_PPO_POLICY_LR=1e-4 \
 ISAAC_PPO_VALUE_LR=5e-4 \
-~/isaac-sim-5.1.0/python.sh rm65_grasp_ppo_train.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_grasp_ppo_train.py
 ```
 
 ### 策略评估
@@ -221,7 +221,7 @@ cd ~/robot-learning/rm-ik-rl
 ISAAC_HEADLESS=1 \
 ISAAC_EVAL_EPISODES=3 \
 ISAAC_EVAL_STEPS=240 \
-~/isaac-sim-5.1.0/python.sh rm65_grasp_policy_eval.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_grasp_policy_eval.py
 ```
 
 ## 当前限制
@@ -253,4 +253,3 @@ RL policy 控制功能夹爪完成抓取
 传统规划负责靠近目标
 学习策略负责接触抓取
 ```
-

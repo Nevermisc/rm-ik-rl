@@ -40,6 +40,6 @@ cd "${PROJECT_DIR}"
 ISAAC_HEADLESS="${HEADLESS}" \
 ISAAC_EVAL_EPISODES="${EVAL_EPISODES}" \
 ISAAC_EVAL_STEPS="${EVAL_STEPS}" \
-"${ISAAC_PYTHON}" rm65_grasp_policy_eval.py
+"${ISAAC_PYTHON}" isaac_sim/rm65_grasp_policy_eval.py
 
 echo "[Done] Pre-grasp + RL grasp V0 pipeline completed."
