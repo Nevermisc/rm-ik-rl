@@ -51,7 +51,7 @@ V0 组合流程分两段：
 
 ```bash
 cd ~/robot-learning/rm-ik-rl
-~/isaac-sim-5.1.0/python.sh rm65_isaac_ros2_bridge.py
+~/isaac-sim-5.1.0/python.sh isaac_sim/rm65_isaac_ros2_bridge.py
 ```
 
 ### 终端 2：ros2_control
