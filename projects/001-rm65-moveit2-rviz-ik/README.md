@@ -19,6 +19,7 @@
 - 为什么输入某些目标点会规划失败；
 - 怎么用终端发送目标点，让机械臂动一次后停住；
 - 为什么一次性 demo 重新运行时，机械臂可能像是先回到原点再去新目标；
+- 为什么 `setStartStateToCurrentState()` 有时仍然不够稳；
 - MoveIt2 在这个阶段到底帮我做了什么。
 
 ## 这个 demo 分成几个小块
@@ -106,6 +107,8 @@ ros2 launch rm_moveit2_examples interactive_pose_commander.launch.py
 
 这个版本更接近真实 ROS2 项目里的控制逻辑。它不是靠反复重新 launch 程序，而是让一个节点持续运行，然后通过 ROS2 topic 给它发命令。
 
+为了避免 fake controller / RViz 当前状态同步不稳定，新版交互程序还会在每次执行成功后，记住这条轨迹最后的 6 个关节角。下一次规划时，程序会优先把“上一次执行成功后的终点关节角”显式设为规划起点。
+
 ### 5. 目标点可视化 marker
 
 两个 demo 都会发布目标点 marker。
@@ -133,16 +136,20 @@ interactive_target_marker
 ↓
 设置目标位姿
 ↓
-从当前状态开始规划
+设置规划起点
 ↓
 生成关节轨迹
 ↓
 发送给 fake controller 执行
 ↓
 RViz 中机械臂移动
+↓
+记住这次执行成功后的最后关节角
 ```
 
-其中交互式版本的关键代码是：
+其中关键逻辑有两层。
+
+第一层是 MoveIt2 当前状态：
 
 ```cpp
 move_group.setStartStateToCurrentState();
@@ -153,6 +160,18 @@ move_group.setStartStateToCurrentState();
 ```text
 这一次不要从默认初始状态规划，要从机械臂当前姿态开始规划。
 ```
+
+第二层是本 demo 自己记住上一次执行后的终点关节角：
+
+```text
+Execution succeeded
+↓
+保存轨迹最后一个 point 的 joint positions
+↓
+下一次规划前，把这组 joint positions 显式设为 start state
+```
+
+这样做的原因是：在 fake controller / RViz demo 里，当前状态有时可能同步不够及时，导致视觉上看起来下一次规划又从初始姿态开始。
 
 ## 文件结构
 
@@ -306,7 +325,9 @@ ros2 topic pub --once /rm65_target_point geometry_msgs/msg/Point "{x: 0.30, y: 0
 ros2 topic pub --once /rm65_target_point geometry_msgs/msg/Point "{x: 0.30, y: 0.30, z: 0.40}"
 ```
 
-这时节点不会退出，也不会重新启动。它会从当前姿态继续规划到下一个目标。
+这时节点不会退出，也不会重新启动。它会从上一次执行成功后的关节状态继续规划到下一个目标。
+
+如果刚刚重新编译过 `interactive_pose_commander.cpp`，需要把旧的交互式节点按 `Ctrl + C` 关掉，再重新运行 launch。否则终端里跑的还是旧二进制。
 
 ## 为什么旧版本换目标点时可能先回原点再绕一圈
 
@@ -331,13 +352,7 @@ ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.30 z:=0.40
 3. 同一个末端位置可能有多组 IK 解，机械臂可能选择不同的肘部/手腕姿态；
 4. OMPL / RRTConnect 更关注“找到可行路径”，不保证路径一定是人眼看起来最短、最顺的。
 
-交互式版本通过持续运行节点，并在每次规划前执行：
-
-```cpp
-move_group.setStartStateToCurrentState();
-```
-
-来尽量让下一次规划从当前姿态开始。
+交互式版本通过持续运行节点，并在每次执行成功后记住最后的关节角，来尽量让下一次规划从上一次终点开始。
 
 ## 推荐测试点
 
@@ -398,7 +413,8 @@ Displays
 5. 不是所有输入点都能成功，机械臂有工作空间、姿态、关节限制和规划时间限制；
 6. 一次性 demo 和持续运行 demo 的行为不同；
 7. 真正项目里要尽量从当前状态规划，而不是每次都像重新启动一样规划；
-8. ROS2 里更标准的交互方式是让节点长期运行，然后通过 topic/service/action 给节点发任务。
+8. ROS2 里更标准的交互方式是让节点长期运行，然后通过 topic/service/action 给节点发任务；
+9. 在仿真 demo 里，仅仅依赖当前状态监听有时不够稳，可以在程序层保存上一次执行成功后的终点状态。
 
 ## 下一步
 
