@@ -1,24 +1,19 @@
 #include <chrono>
-#include <iostream>
+#include <condition_variable>
 #include <memory>
-#include <sstream>
+#include <mutex>
+#include <queue>
 #include <string>
 #include <thread>
 
 #include <rclcpp/rclcpp.hpp>
+#include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <moveit/move_group_interface/move_group_interface.h>
 
 namespace
 {
-bool parseTargetLine(const std::string & line, double & x, double & y, double & z)
-{
-  std::istringstream stream(line);
-  stream >> x >> y >> z;
-  return !stream.fail();
-}
-
 visualization_msgs::msg::Marker makeTargetMarker(
   const rclcpp::Node::SharedPtr & node,
   const std::string & frame_id,
@@ -53,6 +48,22 @@ int main(int argc, char * argv[])
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
+  std::mutex target_mutex;
+  std::condition_variable target_cv;
+  std::queue<geometry_msgs::msg::Point> target_queue;
+
+  auto target_sub = node->create_subscription<geometry_msgs::msg::Point>(
+    "rm65_target_point",
+    rclcpp::QoS(10),
+    [&](const geometry_msgs::msg::Point::SharedPtr msg) {
+      {
+        std::lock_guard<std::mutex> lock(target_mutex);
+        target_queue.push(*msg);
+      }
+      target_cv.notify_one();
+    }
+  );
+
   rclcpp::executors::SingleThreadedExecutor executor;
   executor.add_node(node);
   std::thread spinner([&executor]() {
@@ -78,36 +89,34 @@ int main(int argc, char * argv[])
   RCLCPP_INFO(node->get_logger(), "MoveIt2 connected.");
   RCLCPP_INFO(node->get_logger(), "Planning frame: %s", move_group.getPlanningFrame().c_str());
   RCLCPP_INFO(node->get_logger(), "End effector link: %s", end_effector_link.c_str());
-  RCLCPP_INFO(node->get_logger(), "Type a target as: x y z");
-  RCLCPP_INFO(node->get_logger(), "Example: 0.30 0.20 0.40");
-  RCLCPP_INFO(node->get_logger(), "Type q and press Enter to quit.");
+  RCLCPP_INFO(node->get_logger(), "Waiting for target points on topic: /rm65_target_point");
+  RCLCPP_INFO(node->get_logger(), "Example command:");
+  RCLCPP_INFO(
+    node->get_logger(),
+    "ros2 topic pub --once /rm65_target_point geometry_msgs/msg/Point '{x: 0.30, y: 0.20, z: 0.40}'"
+  );
 
-  std::string line;
   while (rclcpp::ok()) {
-    std::cout << "\nRM65 target x y z > " << std::flush;
+    geometry_msgs::msg::Point target_point;
+    {
+      std::unique_lock<std::mutex> lock(target_mutex);
+      target_cv.wait(lock, [&]() {
+        return !target_queue.empty() || !rclcpp::ok();
+      });
 
-    if (!std::getline(std::cin, line)) {
-      break;
-    }
+      if (!rclcpp::ok()) {
+        break;
+      }
 
-    if (line == "q" || line == "Q" || line == "quit" || line == "exit") {
-      RCLCPP_INFO(node->get_logger(), "Quit command received.");
-      break;
-    }
-
-    double target_x = 0.0;
-    double target_y = 0.0;
-    double target_z = 0.0;
-    if (!parseTargetLine(line, target_x, target_y, target_z)) {
-      RCLCPP_WARN(node->get_logger(), "Invalid input. Please type three numbers, for example: 0.30 0.20 0.40");
-      continue;
+      target_point = target_queue.front();
+      target_queue.pop();
     }
 
     geometry_msgs::msg::Pose target_pose;
     target_pose.orientation.w = 1.0;
-    target_pose.position.x = target_x;
-    target_pose.position.y = target_y;
-    target_pose.position.z = target_z;
+    target_pose.position.x = target_point.x;
+    target_pose.position.y = target_point.y;
+    target_pose.position.z = target_point.z;
 
     auto marker = makeTargetMarker(node, move_group.getPlanningFrame(), target_pose);
     marker_pub->publish(marker);
