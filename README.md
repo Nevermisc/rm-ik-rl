@@ -5,12 +5,14 @@
 我目前是从机械背景转向机器人算法与工程开发，所以这个仓库不追求一上来做一个“大而全”的系统，而是按小项目一步一步推进：
 
 ```text
-001 先会用 RViz + MoveIt2 让 RM65 到目标点
-002 接入真实 D435i 相机，并在 RViz 中和 RM65 同屏显示
-003 再把 MoveIt2 和 Isaac Sim 联动
-004 再加入简化夹爪
-005 再做强化学习抓取 baseline
-006 最后整理成求职作品集
+001    先会用 RViz + MoveIt2 让 RM65 到单个目标点
+001-v2 升级成连续目标点交互节点
+001-v3 让 RM65 末端在空中画一个圆
+002    接入真实 D435i 相机，并在 RViz 中和 RM65 同屏显示
+003    再把 MoveIt2 和 Isaac Sim 联动
+004    再加入简化夹爪
+005    再做强化学习抓取 baseline
+006    最后整理成求职作品集
 ```
 
 每个小项目都尽量做到：
@@ -48,7 +50,7 @@ projects/001-rm65-moveit2-rviz-ik/
 目标：
 
 ```text
-在 RViz 中显示 RM65，通过终端输入目标点，让 MoveIt2 规划并执行，机械臂到达后停住。
+在 RViz 中显示 RM65，通过一次性 launch 输入目标点，让 MoveIt2 规划并执行。
 ```
 
 入口文档：
@@ -56,6 +58,42 @@ projects/001-rm65-moveit2-rviz-ik/
 - [001 小项目 README](projects/001-rm65-moveit2-rviz-ik/README.md)
 - [RViz + MoveIt2 新手解释](projects/001-rm65-moveit2-rviz-ik/docs/rviz-moveit2-basic.md)
 - [2026-08-19 学习日志](learning-log/2026-08-19-rm65-moveit2-rviz-ik.md)
+
+### 001-v2 - RM65 MoveIt2 交互式连续目标点 Demo
+
+目录：
+
+```text
+projects/001-v2-rm65-moveit2-interactive-target/
+```
+
+目标：
+
+```text
+启动一个常驻 ROS2 节点，通过 /rm65_target_point 连续发送目标点，让机械臂从上一次终点继续规划。
+```
+
+入口文档：
+
+- [001-v2 小项目 README](projects/001-v2-rm65-moveit2-interactive-target/README.md)
+
+### 001-v3 - RM65 MoveIt2 空中画圆 Demo
+
+目录：
+
+```text
+projects/001-v3-rm65-moveit2-draw-circle/
+```
+
+目标：
+
+```text
+先移动到圆的起点，再通过 Cartesian Path 让 Link6 在空中沿圆形路径运动。
+```
+
+入口文档：
+
+- [001-v3 小项目 README](projects/001-v3-rm65-moveit2-draw-circle/README.md)
 
 ### 002 - RM65 + D435i RealSense ROS2 接入
 
@@ -85,6 +123,8 @@ projects/002-rm65-d435i-realsense-ros2/
 - [x] 跑通 RM65 官方 MoveIt2 RViz demo
 - [x] 写出自己的 MoveIt2 目标点规划程序 `plan_pose.cpp`
 - [x] 整理第一个独立小项目：`001-rm65-moveit2-rviz-ik`
+- [x] 整理升级项目：`001-v2-rm65-moveit2-interactive-target`
+- [x] 整理升级项目：`001-v3-rm65-moveit2-draw-circle`
 - [x] 整理第二个独立小项目：`002-rm65-d435i-realsense-ros2`
 - [ ] 整理第三个独立小项目：MoveIt2 + Isaac Sim 联动
 - [ ] 整理第四个独立小项目：简化夹爪抓取
@@ -103,8 +143,9 @@ projects/002-rm65-d435i-realsense-ros2/
 
 ```text
 projects/001-xxx
+projects/001-v2-xxx
+projects/001-v3-xxx
 projects/002-xxx
-projects/003-xxx
 ```
 
 以后每完成一个阶段，就新建一个编号文件夹。
