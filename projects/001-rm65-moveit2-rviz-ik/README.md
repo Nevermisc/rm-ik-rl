@@ -4,7 +4,7 @@
 
 目标很简单：
 
-> 在 RViz 里显示 RM65 机械臂，然后通过终端输入目标点坐标，让 MoveIt2 规划轨迹并执行。机械臂动到目标点后停住。
+> 在 RViz 里显示 RM65 机械臂，然后通过终端发送目标点坐标，让 MoveIt2 规划轨迹并执行。机械臂动到目标点后停住，等待下一个目标点。
 
 它不是强化学习，也不是 Isaac Sim 物理仿真。它是后面所有抓取、仿真、真实机械臂控制的前置基础。
 
@@ -17,7 +17,7 @@
 - RViz 里不同颜色/残影的机械臂分别是什么意思；
 - MoveIt2 里的 `Plan`、`Execute`、`Plan & Execute` 有什么区别；
 - 为什么输入某些目标点会规划失败；
-- 怎么用终端输入目标点，让机械臂动一次后停住；
+- 怎么用终端发送目标点，让机械臂动一次后停住；
 - 为什么一次性 demo 重新运行时，机械臂可能像是先回到原点再去新目标；
 - MoveIt2 在这个阶段到底帮我做了什么。
 
@@ -97,14 +97,14 @@ ros2 launch rm_moveit2_examples interactive_pose_commander.launch.py
 
 ```text
 启动一次
-一直等待输入
-每输入一个 x y z
+一直等待 /rm65_target_point 目标点话题
+每收到一个 x y z
 就从当前机械臂姿态规划到新目标
 执行完停住
 继续等待下一个目标
 ```
 
-这个版本更接近真实项目里的控制逻辑。
+这个版本更接近真实 ROS2 项目里的控制逻辑。它不是靠反复重新 launch 程序，而是让一个节点持续运行，然后通过 ROS2 topic 给它发命令。
 
 ### 5. 目标点可视化 marker
 
@@ -126,9 +126,11 @@ interactive_target_marker
 
 ### 6. 轨迹规划与执行
 
-每次输入目标点后，程序会调用 MoveIt2：
+每次收到目标点后，程序会调用 MoveIt2：
 
 ```text
+接收 /rm65_target_point
+↓
 设置目标位姿
 ↓
 从当前状态开始规划
@@ -173,7 +175,7 @@ move_group.setStartStateToCurrentState();
 其中：
 
 - `rm_moveit2_examples/src/plan_pose.cpp`：一次性目标点规划程序，适合理解最小流程。
-- `rm_moveit2_examples/src/interactive_pose_commander.cpp`：交互式连续目标程序，适合演示“输入一个点，动一次，再等下一个点”。
+- `rm_moveit2_examples/src/interactive_pose_commander.cpp`：交互式连续目标程序，适合演示“发一个点，动一次，再等下一个点”。
 - `rm_moveit2_examples/launch/plan_pose.launch.py`：一次性 demo 的启动文件。
 - `rm_moveit2_examples/launch/interactive_pose_commander.launch.py`：交互式 demo 的启动文件。
 - `docs/rviz-moveit2-basic.md`：新手解释文档。
@@ -276,7 +278,9 @@ Execution succeeded.
 
 ## 第二步 B：运行交互式连续目标 demo
 
-更推荐平时演示用这个版本：
+更推荐平时演示用这个版本。
+
+先开第二个终端，启动交互式节点：
 
 ```bash
 cd ~/robot-learning/rm_moveit2_ws
@@ -285,23 +289,24 @@ source install/setup.bash
 ros2 launch rm_moveit2_examples interactive_pose_commander.launch.py
 ```
 
-看到提示后输入目标点：
+这个终端不要关。它会一直等待目标点。
 
-```text
-0.30 0.20 0.40
+再开第三个终端，每次发一个目标点：
+
+```bash
+cd ~/robot-learning/rm_moveit2_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 topic pub --once /rm65_target_point geometry_msgs/msg/Point "{x: 0.30, y: 0.20, z: 0.40}"
 ```
 
-执行完以后，它不会退出，会继续等待下一个目标点：
+等机械臂执行完，再发下一个目标点：
 
-```text
-0.30 0.30 0.40
+```bash
+ros2 topic pub --once /rm65_target_point geometry_msgs/msg/Point "{x: 0.30, y: 0.30, z: 0.40}"
 ```
 
-想退出时输入：
-
-```text
-q
-```
+这时节点不会退出，也不会重新启动。它会从当前姿态继续规划到下一个目标。
 
 ## 为什么旧版本换目标点时可能先回原点再绕一圈
 
@@ -392,7 +397,8 @@ Displays
 4. MoveIt2 可以接收目标位姿并规划机械臂关节轨迹；
 5. 不是所有输入点都能成功，机械臂有工作空间、姿态、关节限制和规划时间限制；
 6. 一次性 demo 和持续运行 demo 的行为不同；
-7. 真正项目里要尽量从当前状态规划，而不是每次都像重新启动一样规划。
+7. 真正项目里要尽量从当前状态规划，而不是每次都像重新启动一样规划；
+8. ROS2 里更标准的交互方式是让节点长期运行，然后通过 topic/service/action 给节点发任务。
 
 ## 下一步
 
