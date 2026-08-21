@@ -18,7 +18,139 @@
 - MoveIt2 里的 `Plan`、`Execute`、`Plan & Execute` 有什么区别；
 - 为什么输入某些目标点会规划失败；
 - 怎么用终端输入目标点，让机械臂动一次后停住；
+- 为什么一次性 demo 重新运行时，机械臂可能像是先回到原点再去新目标；
 - MoveIt2 在这个阶段到底帮我做了什么。
+
+## 这个 demo 分成几个小块
+
+这个项目可以分成 6 个小块。理解这 6 块，就能理解整个 demo 是怎么串起来的。
+
+### 1. 官方 RM65 模型与 MoveIt2 配置
+
+来源：睿尔曼官方 ROS2 仓库 `ros2_rm_robot`。
+
+主要提供：
+
+- RM65 的 link / joint / mesh；
+- 关节角限制；
+- MoveIt2 planning group：`rm_group`；
+- 末端 link：`Link6`；
+- IK 配置：`kdl_kinematics_plugin/KDLKinematicsPlugin`。
+
+这一块回答的是：
+
+```text
+MoveIt2 怎么知道 RM65 长什么样、有哪些关节、末端在哪里？
+```
+
+### 2. RViz + MoveIt2 官方 demo
+
+启动命令：
+
+```bash
+ros2 launch rm_65_config demo.launch.py
+```
+
+它负责启动：
+
+- RViz；
+- MoveIt2 `move_group`；
+- fake controller；
+- robot_state_publisher；
+- 当前机械臂状态显示。
+
+这一块回答的是：
+
+```text
+我在哪里看到机械臂？MoveIt2 的规划服务在哪里运行？
+```
+
+### 3. 一次性目标点 demo：`plan_pose.cpp`
+
+启动命令示例：
+
+```bash
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
+```
+
+它的特点是：
+
+```text
+启动一次
+读取一个目标点
+规划一次
+执行一次
+退出
+```
+
+这个版本适合学习“最基本的 MoveIt2 调用流程”。
+
+### 4. 交互式连续目标 demo：`interactive_pose_commander.cpp`
+
+启动命令：
+
+```bash
+ros2 launch rm_moveit2_examples interactive_pose_commander.launch.py
+```
+
+它的特点是：
+
+```text
+启动一次
+一直等待输入
+每输入一个 x y z
+就从当前机械臂姿态规划到新目标
+执行完停住
+继续等待下一个目标
+```
+
+这个版本更接近真实项目里的控制逻辑。
+
+### 5. 目标点可视化 marker
+
+两个 demo 都会发布目标点 marker。
+
+作用是：
+
+```text
+在 RViz 里显示目标点在哪里，避免只看终端坐标没有感觉。
+```
+
+交互式版本使用的话题是：
+
+```text
+interactive_target_marker
+```
+
+如果 RViz 里想看到红色目标球，可以手动添加 Marker 显示。
+
+### 6. 轨迹规划与执行
+
+每次输入目标点后，程序会调用 MoveIt2：
+
+```text
+设置目标位姿
+↓
+从当前状态开始规划
+↓
+生成关节轨迹
+↓
+发送给 fake controller 执行
+↓
+RViz 中机械臂移动
+```
+
+其中交互式版本的关键代码是：
+
+```cpp
+move_group.setStartStateToCurrentState();
+```
+
+它的作用是告诉 MoveIt2：
+
+```text
+这一次不要从默认初始状态规划，要从机械臂当前姿态开始规划。
+```
 
 ## 文件结构
 
@@ -29,17 +161,21 @@
 │   ├── CMakeLists.txt
 │   ├── package.xml
 │   ├── launch/
-│   │   └── plan_pose.launch.py
+│   │   ├── plan_pose.launch.py
+│   │   └── interactive_pose_commander.launch.py
 │   └── src/
-│       └── plan_pose.cpp
+│       ├── plan_pose.cpp
+│       └── interactive_pose_commander.cpp
 └── docs/
     └── rviz-moveit2-basic.md
 ```
 
 其中：
 
-- `rm_moveit2_examples/src/plan_pose.cpp`：核心 C++ 程序，负责接收目标点、调用 MoveIt2 规划、执行轨迹。
-- `rm_moveit2_examples/launch/plan_pose.launch.py`：启动文件，允许我在终端输入 `x y z`。
+- `rm_moveit2_examples/src/plan_pose.cpp`：一次性目标点规划程序，适合理解最小流程。
+- `rm_moveit2_examples/src/interactive_pose_commander.cpp`：交互式连续目标程序，适合演示“输入一个点，动一次，再等下一个点”。
+- `rm_moveit2_examples/launch/plan_pose.launch.py`：一次性 demo 的启动文件。
+- `rm_moveit2_examples/launch/interactive_pose_commander.launch.py`：交互式 demo 的启动文件。
 - `docs/rviz-moveit2-basic.md`：新手解释文档。
 
 ## 依赖环境
@@ -118,7 +254,7 @@ ros2 launch rm_65_config demo.launch.py
 - fake controller
 - robot_state_publisher
 
-## 第二步：用终端输入目标点
+## 第二步 A：运行一次性目标点 demo
 
 再开第二个终端：
 
@@ -136,36 +272,83 @@ Planning succeeded.
 Execution succeeded.
 ```
 
-这表示：
+这个版本适合第一次验证 MoveIt2 能不能规划成功。
+
+## 第二步 B：运行交互式连续目标 demo
+
+更推荐平时演示用这个版本：
+
+```bash
+cd ~/robot-learning/rm_moveit2_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch rm_moveit2_examples interactive_pose_commander.launch.py
+```
+
+看到提示后输入目标点：
 
 ```text
-终端输入目标点
-↓
-MoveIt2 接收目标
-↓
-KDL/MoveIt2 求解目标姿态
-↓
-OMPL 规划关节轨迹
-↓
-fake controller 执行轨迹
-↓
-RViz 里的机械臂移动到目标点并停住
+0.30 0.20 0.40
 ```
+
+执行完以后，它不会退出，会继续等待下一个目标点：
+
+```text
+0.30 0.30 0.40
+```
+
+想退出时输入：
+
+```text
+q
+```
+
+## 为什么旧版本换目标点时可能先回原点再绕一圈
+
+比如我先运行：
+
+```bash
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
+```
+
+然后再运行：
+
+```bash
+ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.30 z:=0.40
+```
+
+可能看到机械臂好像先回到原点，再绕一圈去新位置。
+
+这通常不是 IK 坏了，而是因为：
+
+1. `plan_pose.cpp` 是一次性程序，每次 launch 都是重新启动一个节点；
+2. fake controller / RViz 里的当前状态不一定按我直觉保存成上一次执行后的状态；
+3. 同一个末端位置可能有多组 IK 解，机械臂可能选择不同的肘部/手腕姿态；
+4. OMPL / RRTConnect 更关注“找到可行路径”，不保证路径一定是人眼看起来最短、最顺的。
+
+交互式版本通过持续运行节点，并在每次规划前执行：
+
+```cpp
+move_group.setStartStateToCurrentState();
+```
+
+来尽量让下一次规划从当前姿态开始。
 
 ## 推荐测试点
 
 这些点相对容易成功：
 
-```bash
-ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.30 y:=0.20 z:=0.40
-ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.25 y:=-0.25 z:=0.45
-ros2 launch rm_moveit2_examples plan_pose.launch.py x:=0.35 y:=0.00 z:=0.40
+```text
+0.30 0.20 0.40
+0.30 0.30 0.40
+0.25 -0.25 0.45
+0.35 0.00 0.40
 ```
 
 这些点不一定成功：
 
-```bash
-ros2 launch rm_moveit2_examples plan_pose.launch.py x:=-0.35 y:=-0.30 z:=0.60
+```text
+-0.35 -0.30 0.60
 ```
 
 原因不是命令错了，而是目标位置和固定末端姿态一起约束时，MoveIt2 可能找不到可行轨迹。
@@ -207,14 +390,22 @@ Displays
 2. MoveIt2 的 planning group；
 3. RViz 不是仿真器，而是可视化和交互工具；
 4. MoveIt2 可以接收目标位姿并规划机械臂关节轨迹；
-5. 不是所有输入点都能成功，机械臂有工作空间、姿态、关节限制和规划时间限制。
+5. 不是所有输入点都能成功，机械臂有工作空间、姿态、关节限制和规划时间限制；
+6. 一次性 demo 和持续运行 demo 的行为不同；
+7. 真正项目里要尽量从当前状态规划，而不是每次都像重新启动一样规划。
 
 ## 下一步
 
 下一阶段会在这个基础上继续做：
 
 ```text
-002 - RM65 MoveIt2 + Isaac Sim 联动
+002 - RM65 + D435i RealSense + RViz 可视化
+```
+
+再之后继续做：
+
+```text
+003 - RM65 MoveIt2 + Isaac Sim 联动
 ```
 
 也就是：
@@ -222,5 +413,5 @@ Displays
 ```text
 MoveIt2 负责规划
 Isaac Sim 负责物理仿真显示
-机械臂在 Isaac Sim 里真实跟着 MoveIt2 的轨迹动
+机械臂在 Isaac Sim 里跟着 MoveIt2 的轨迹动
 ```
