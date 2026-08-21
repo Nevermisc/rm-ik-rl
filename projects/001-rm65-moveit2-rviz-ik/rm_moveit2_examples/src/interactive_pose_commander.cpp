@@ -1,16 +1,19 @@
 #include <chrono>
 #include <condition_variable>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <queue>
 #include <string>
 #include <thread>
+#include <vector>
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <moveit/move_group_interface/move_group_interface.h>
+#include <moveit/robot_state/robot_state.h>
 
 namespace
 {
@@ -37,6 +40,90 @@ visualization_msgs::msg::Marker makeTargetMarker(
   marker.lifetime = rclcpp::Duration::from_seconds(0.0);
   return marker;
 }
+
+void logTrajectoryPoint(
+  const rclcpp::Logger & logger,
+  const std::string & title,
+  const std::vector<std::string> & joint_names,
+  const trajectory_msgs::msg::JointTrajectoryPoint & point)
+{
+  RCLCPP_INFO(logger, "%s", title.c_str());
+  for (size_t i = 0; i < joint_names.size() && i < point.positions.size(); ++i) {
+    RCLCPP_INFO(logger, "  %s = %.4f rad", joint_names[i].c_str(), point.positions[i]);
+  }
+}
+
+void rememberTrajectoryEnd(
+  const trajectory_msgs::msg::JointTrajectory & trajectory,
+  std::map<std::string, double> & remembered_joint_positions)
+{
+  if (trajectory.points.empty()) {
+    return;
+  }
+
+  remembered_joint_positions.clear();
+  const auto & last_point = trajectory.points.back();
+  for (size_t i = 0; i < trajectory.joint_names.size() && i < last_point.positions.size(); ++i) {
+    remembered_joint_positions[trajectory.joint_names[i]] = last_point.positions[i];
+  }
+}
+
+bool setRememberedStartState(
+  const rclcpp::Node::SharedPtr & node,
+  moveit::planning_interface::MoveGroupInterface & move_group,
+  const std::map<std::string, double> & remembered_joint_positions)
+{
+  if (remembered_joint_positions.empty()) {
+    move_group.setStartStateToCurrentState();
+    RCLCPP_INFO(node->get_logger(), "Using MoveIt2 current state as planning start.");
+    return true;
+  }
+
+  auto current_state = move_group.getCurrentState(2.0);
+  if (!current_state) {
+    move_group.setStartStateToCurrentState();
+    RCLCPP_WARN(
+      node->get_logger(),
+      "Could not read current state within timeout. Falling back to MoveIt2 current state."
+    );
+    return false;
+  }
+
+  moveit::core::RobotState start_state(*current_state);
+  const moveit::core::JointModelGroup * joint_model_group =
+    start_state.getJointModelGroup("rm_group");
+
+  if (joint_model_group == nullptr) {
+    move_group.setStartStateToCurrentState();
+    RCLCPP_WARN(node->get_logger(), "Could not find joint model group rm_group. Falling back to current state.");
+    return false;
+  }
+
+  std::vector<double> group_positions;
+  start_state.copyJointGroupPositions(joint_model_group, group_positions);
+
+  const auto & variable_names = joint_model_group->getVariableNames();
+  for (size_t i = 0; i < variable_names.size() && i < group_positions.size(); ++i) {
+    const auto remembered = remembered_joint_positions.find(variable_names[i]);
+    if (remembered != remembered_joint_positions.end()) {
+      group_positions[i] = remembered->second;
+    }
+  }
+
+  start_state.setJointGroupPositions(joint_model_group, group_positions);
+  start_state.update();
+  move_group.setStartState(start_state);
+
+  RCLCPP_INFO(node->get_logger(), "Using remembered executed joint state as planning start:");
+  for (const auto & name : variable_names) {
+    const auto remembered = remembered_joint_positions.find(name);
+    if (remembered != remembered_joint_positions.end()) {
+      RCLCPP_INFO(node->get_logger(), "  %s = %.4f rad", name.c_str(), remembered->second);
+    }
+  }
+
+  return true;
+}
 }
 
 int main(int argc, char * argv[])
@@ -51,6 +138,7 @@ int main(int argc, char * argv[])
   std::mutex target_mutex;
   std::condition_variable target_cv;
   std::queue<geometry_msgs::msg::Point> target_queue;
+  std::map<std::string, double> remembered_joint_positions;
 
   auto target_sub = node->create_subscription<geometry_msgs::msg::Point>(
     "rm65_target_point",
@@ -130,7 +218,7 @@ int main(int argc, char * argv[])
       target_pose.orientation.w
     );
 
-    move_group.setStartStateToCurrentState();
+    setRememberedStartState(node, move_group, remembered_joint_positions);
     move_group.setPoseTarget(target_pose, end_effector_link);
 
     moveit::planning_interface::MoveGroupInterface::Plan plan;
@@ -154,23 +242,27 @@ int main(int argc, char * argv[])
     RCLCPP_INFO(node->get_logger(), "Trajectory point count: %zu", trajectory.points.size());
 
     if (!trajectory.points.empty()) {
-      const auto & last_point = trajectory.points.back();
-      RCLCPP_INFO(node->get_logger(), "Final joint target:");
-      for (size_t i = 0; i < trajectory.joint_names.size(); ++i) {
-        RCLCPP_INFO(
-          node->get_logger(),
-          "  %s = %.4f rad",
-          trajectory.joint_names[i].c_str(),
-          last_point.positions[i]
-        );
-      }
+      logTrajectoryPoint(
+        node->get_logger(),
+        "First trajectory point used by this plan:",
+        trajectory.joint_names,
+        trajectory.points.front()
+      );
+      logTrajectoryPoint(
+        node->get_logger(),
+        "Final joint target:",
+        trajectory.joint_names,
+        trajectory.points.back()
+      );
     }
 
     RCLCPP_INFO(node->get_logger(), "Executing trajectory...");
     const auto execute_result = move_group.execute(plan);
 
     if (execute_result == moveit::core::MoveItErrorCode::SUCCESS) {
-      RCLCPP_INFO(node->get_logger(), "Execution succeeded. Waiting for the next target.");
+      rememberTrajectoryEnd(trajectory, remembered_joint_positions);
+      RCLCPP_INFO(node->get_logger(), "Execution succeeded. Remembered final joint state for next target.");
+      RCLCPP_INFO(node->get_logger(), "Waiting for the next target.");
     } else {
       RCLCPP_ERROR(node->get_logger(), "Execution failed.");
     }
