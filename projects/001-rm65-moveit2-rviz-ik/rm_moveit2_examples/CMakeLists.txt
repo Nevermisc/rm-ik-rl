@@ -11,7 +11,9 @@ find_package(rclcpp REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+
 add_executable(plan_pose src/plan_pose.cpp)
+add_executable(interactive_pose_commander src/interactive_pose_commander.cpp)
 
 ament_target_dependencies(
   plan_pose
@@ -21,8 +23,17 @@ ament_target_dependencies(
   visualization_msgs
 )
 
+ament_target_dependencies(
+  interactive_pose_commander
+  rclcpp
+  moveit_ros_planning_interface
+  geometry_msgs
+  visualization_msgs
+)
+
 install(TARGETS
   plan_pose
+  interactive_pose_commander
   DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY launch
