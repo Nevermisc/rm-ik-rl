@@ -65,6 +65,48 @@ def prefix_gripper_names(robot: ET.Element, prefix: str) -> tuple[dict[str, str]
     return link_map, joint_map
 
 
+def regularize_gripper_inertials(
+    robot: ET.Element,
+    minimum_mass_kg: float,
+    minimum_diagonal_inertia: float,
+    zero_cross_inertia: bool,
+) -> list[dict[str, object]]:
+    """Regularize tiny CAD-exported inertias for an explicitly labeled physics proxy."""
+
+    changes: list[dict[str, object]] = []
+    for link in robot.findall("link"):
+        inertial = link.find("inertial")
+        if inertial is None:
+            continue
+        mass = inertial.find("mass")
+        inertia = inertial.find("inertia")
+        if mass is None or inertia is None or mass.get("value") is None:
+            continue
+        before_mass = float(mass.get("value"))
+        after_mass = max(before_mass, minimum_mass_kg)
+        before_inertia = {name: float(inertia.get(name, "0")) for name in ("ixx", "ixy", "ixz", "iyy", "iyz", "izz")}
+        after_inertia = before_inertia.copy()
+        for name in ("ixx", "iyy", "izz"):
+            after_inertia[name] = max(after_inertia[name], minimum_diagonal_inertia)
+        if zero_cross_inertia:
+            for name in ("ixy", "ixz", "iyz"):
+                after_inertia[name] = 0.0
+        mass.set("value", f"{after_mass:.12g}")
+        for name, value in after_inertia.items():
+            inertia.set(name, f"{value:.12g}")
+        if after_mass != before_mass or after_inertia != before_inertia:
+            changes.append(
+                {
+                    "link": link.get("name"),
+                    "mass_before_kg": before_mass,
+                    "mass_after_kg": after_mass,
+                    "inertia_before_kg_m2": before_inertia,
+                    "inertia_after_kg_m2": after_inertia,
+                }
+            )
+    return changes
+
+
 def joint_record(joint: ET.Element) -> dict[str, object]:
     limit = joint.find("limit")
     parent = joint.find("parent")
@@ -95,6 +137,9 @@ def main() -> None:
     parser.add_argument("--report", type=Path)
     parser.add_argument("--mount-xyz", type=parse_vector, default="0 0 0")
     parser.add_argument("--mount-rpy", type=parse_vector, default="0 0 0")
+    parser.add_argument("--gripper-min-mass-kg", type=float, default=0.0)
+    parser.add_argument("--gripper-min-diagonal-inertia", type=float, default=0.0)
+    parser.add_argument("--zero-gripper-cross-inertia", action="store_true")
     parser.add_argument(
         "--preserve-mimic",
         action="store_true",
@@ -114,6 +159,14 @@ def main() -> None:
         raise ValueError(f"gripper URDF must contain root link {args.gripper_root_link!r}")
     gripper_meshes = rewrite_meshes(gripper, args.gripper_mesh_dir.expanduser())
     link_map, joint_map = prefix_gripper_names(gripper, args.gripper_name_prefix)
+    if args.gripper_min_mass_kg < 0 or args.gripper_min_diagonal_inertia < 0:
+        raise ValueError("gripper mass and inertia floors must be non-negative")
+    inertial_changes = regularize_gripper_inertials(
+        gripper,
+        args.gripper_min_mass_kg,
+        args.gripper_min_diagonal_inertia,
+        args.zero_gripper_cross_inertia,
+    )
     gripper_root_link = link_map[args.gripper_root_link]
     source_mimic_follower_joints = sorted(
         joint.get("name") for joint in gripper.findall("joint") if joint.find("mimic") is not None
@@ -160,6 +213,12 @@ def main() -> None:
         "output_urdf": str(output),
         "mount": {"parent": "link_6", "child": gripper_root_link, "xyz": args.mount_xyz, "rpy": args.mount_rpy},
         "gripper_name_prefix": args.gripper_name_prefix,
+        "gripper_inertial_regularization": {
+            "minimum_mass_kg": args.gripper_min_mass_kg,
+            "minimum_diagonal_inertia_kg_m2": args.gripper_min_diagonal_inertia,
+            "zero_cross_inertia": args.zero_gripper_cross_inertia,
+            "changed_links": inertial_changes,
+        },
         "gripper_link_name_map": link_map,
         "gripper_joint_name_map": joint_map,
         "gripper_control": {

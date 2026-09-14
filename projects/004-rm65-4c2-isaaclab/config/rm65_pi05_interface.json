@@ -20,7 +20,9 @@
     "gripper_position": {
       "shape": [1],
       "source_joint": "tool_gripper_joint",
-      "normalization": "clip(position_rad / 0.865, 0, 1)"
+      "normalization": "clip(position_rad / 0.865, 0, 1)",
+      "semantics": "0=open, 1=closed",
+      "verified_direction": "increasing joint value monotonically decreases both measured fingertip-pair distances"
     },
     "prompt": {
       "type": "string"
@@ -35,7 +37,7 @@
       "joint_4_absolute_target_rad",
       "joint_5_absolute_target_rad",
       "joint_6_absolute_target_rad",
-      "gripper_normalized_target"
+      "gripper_normalized_close_target_0_open_1_closed"
     ]
   },
   "current_droid_checkpoint_output": {

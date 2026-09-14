@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "task": "stability check while closing the software-coupled 4C2 around a floating 25 x 60 x 25 mm contact block",
+  "contact_block_size_m": [
+    0.025,
+    0.06,
+    0.025
+  ],
+  "contact_block_gravity_disabled": true,
+  "support_surface_present": false,
+  "lift_attempted": false,
+  "contact_confirmed": false,
+  "maximum_cube_contact_force_n": 0.0,
+  "cube_contact_force_by_gripper_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_r_3": 0.0
+  },
+  "net_contact_force_by_gripper_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_r_3": 0.0
+  },
+  "moving_gripper_gravity_disabled": true,
+  "gravity_disabled_body_paths": [
+    "/World/Robot/tool_r_1",
+    "/World/Robot/tool_r_3",
+    "/World/Robot/tool_l_1",
+    "/World/Robot/tool_l_3",
+    "/World/Robot/tool_l_2",
+    "/World/Robot/tool_r_2"
+  ],
+  "gripper_close_target_rad": 0.55,
+  "open_fingertip_midpoint_m": [
+    -0.2225608080625534,
+    -1.5553086996078491e-06,
+    0.757273256778717
+  ],
+  "contact_block_center_m": [
+    -0.19973894953727722,
+    -1.6196331671380904e-06,
+    0.7470672130584717
+  ],
+  "contact_block_inward_offset_m": 0.025,
+  "closed_gripper_joint_position_rad": [
+    0.5534939765930176,
+    0.5529197454452515,
+    0.535974383354187,
+    0.5377821326255798,
+    0.5472473502159119,
+    0.5473037958145142
+  ],
+  "closed_l2_tip_gap_m": 0.02555699087679386,
+  "closed_l3_tip_gap_m": 0.04462103918194771,
+  "cube_displacement_during_close_m": 0.036708470433950424,
+  "all_states_finite": true,
+  "warning": "Finite closing is verified and contact_confirmed is derived from a filtered ContactSensor. The experimental --attempt-lift path currently causes a native PhysX exit."
+}

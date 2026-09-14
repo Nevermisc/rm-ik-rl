@@ -1,0 +1,77 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "task": "move link_6 to a deterministic pre-grasp pose 0.10 m above a red cube",
+  "gravity_enabled": false,
+  "gravity_note": "zero gravity isolates the kinematic reach baseline from the known 4C2 gravity issue",
+  "dof_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "arm_joint_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "target_cube_position_m": [
+    0.0008223181831949339,
+    -0.02265183463012156,
+    0.5948570768695224
+  ],
+  "target_end_effector_position_m": [
+    0.0008223181831949339,
+    -0.02265183463012156,
+    0.6948570768695224
+  ],
+  "start_joint_position_rad": [
+    0.0,
+    -0.5,
+    1.0,
+    0.0,
+    0.5,
+    0.0
+  ],
+  "ik_joint_position_rad": [
+    0.3489452640028141,
+    -0.7999375548158396,
+    1.1496657086242752,
+    0.2499213867879258,
+    0.6505248878005375,
+    -0.2995487644564024
+  ],
+  "actual_joint_position_rad": [
+    0.3489455580711365,
+    -0.79993736743927,
+    1.1496660709381104,
+    0.2499212920665741,
+    0.6505246758460999,
+    -0.2995496690273285
+  ],
+  "trajectory_steps": 240,
+  "settle_steps": 120,
+  "initial_position_error_m": 0.10747760006019065,
+  "final_position_error_m": 9.685636514480149e-07,
+  "final_rotation_error_rad": 0.0009186094360276737,
+  "final_joint_error_rad": 9.045709261079615e-07,
+  "maximum_command_step_rad": 0.002180857416038434,
+  "criteria": {
+    "final_position_error_m_lt": 0.01,
+    "final_rotation_error_rad_lt": 0.05,
+    "final_joint_error_rad_lt": 0.03,
+    "maximum_command_step_rad_lt": 0.05,
+    "minimum_position_improvement_m_gt": 0.05
+  }
+}

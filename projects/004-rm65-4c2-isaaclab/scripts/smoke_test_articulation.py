@@ -26,6 +26,11 @@ parser.add_argument("--gripper-effort", type=float, default=50.0)
 parser.add_argument("--gripper-stiffness", type=float, default=200.0)
 parser.add_argument("--gripper-damping", type=float, default=20.0)
 parser.add_argument("--disable-gripper-gravity", action="store_true")
+parser.add_argument("--disable-distal-gripper-gravity", action="store_true")
+parser.add_argument("--disable-moving-gripper-gravity", action="store_true")
+parser.add_argument("--no-ground", action="store_true")
+parser.add_argument("--robot-height", type=float, default=0.0)
+parser.add_argument("--physics-dt", type=float, default=1.0 / 120.0)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 
@@ -57,9 +62,19 @@ def main() -> None:
     output = args.output.expanduser().resolve()
     if not usd.is_file():
         raise FileNotFoundError(usd)
+    gravity_isolation_options = (
+        args.disable_gripper_gravity,
+        args.disable_distal_gripper_gravity,
+        args.disable_moving_gripper_gravity,
+    )
+    if sum(gravity_isolation_options) > 1:
+        raise ValueError("choose only one gripper gravity isolation scope")
 
-    sim = SimulationContext(sim_utils.SimulationCfg(dt=1.0 / 120.0, device=args.device))
-    sim_utils.GroundPlaneCfg().func("/World/Ground", sim_utils.GroundPlaneCfg())
+    if args.physics_dt <= 0:
+        raise ValueError("physics-dt must be positive")
+    sim = SimulationContext(sim_utils.SimulationCfg(dt=args.physics_dt, device=args.device))
+    if not args.no_ground:
+        sim_utils.GroundPlaneCfg().func("/World/Ground", sim_utils.GroundPlaneCfg())
     light_cfg = sim_utils.DomeLightCfg(intensity=2500.0, color=(0.8, 0.8, 0.8))
     light_cfg.func("/World/Light", light_cfg)
 
@@ -104,17 +119,32 @@ def main() -> None:
             ),
         ),
         init_state=ArticulationCfg.InitialStateCfg(
-            pos=(0.0, 0.0, 0.0),
+            pos=(0.0, 0.0, args.robot_height),
             joint_pos={"joint_.*": 0.0, "tool_.*": 0.0},
         ),
         actuators=actuators,
     )
     robot = Articulation(robot_cfg)
     gravity_disabled_body_paths: list[str] = []
-    if args.disable_gripper_gravity:
+    distal_paths = {
+        "/World/Robot/tool_r_2",
+        "/World/Robot/tool_l_2",
+        "/World/Robot/tool_r_3",
+        "/World/Robot/tool_l_3",
+    }
+    moving_paths = distal_paths | {
+        "/World/Robot/tool_r_1",
+        "/World/Robot/tool_l_1",
+    }
+    if any(gravity_isolation_options):
         for prim in get_current_stage().Traverse():
             path = str(prim.GetPath())
-            if path.startswith("/World/Robot/tool_") and prim.HasAPI(UsdPhysics.RigidBodyAPI):
+            selected = (
+                args.disable_gripper_gravity and path.startswith("/World/Robot/tool_")
+            ) or (args.disable_distal_gripper_gravity and path in distal_paths) or (
+                args.disable_moving_gripper_gravity and path in moving_paths
+            )
+            if selected and prim.HasAPI(UsdPhysics.RigidBodyAPI):
                 PhysxSchema.PhysxRigidBodyAPI.Apply(prim).CreateDisableGravityAttr().Set(True)
                 gravity_disabled_body_paths.append(path)
     sim.reset()
@@ -178,8 +208,13 @@ def main() -> None:
         "usd": str(usd),
         "motion_steps": args.steps,
         "settle_steps": args.settle_steps,
+        "physics_dt_seconds": args.physics_dt,
         "gravity_enabled": args.enable_gravity,
+        "ground_enabled": not args.no_ground,
+        "robot_height_m": args.robot_height,
         "gripper_gravity_disabled": args.disable_gripper_gravity,
+        "distal_gripper_gravity_disabled": args.disable_distal_gripper_gravity,
+        "moving_gripper_gravity_disabled": args.disable_moving_gripper_gravity,
         "gravity_disabled_body_paths": gravity_disabled_body_paths,
         "actuator_profile": {
             "arm": {"effort_limit": 300.0, "stiffness": 1000.0, "damping": 100.0},

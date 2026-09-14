@@ -14,23 +14,65 @@
       "status": "pass",
       "usd_joints": 16
     },
+    "usd_physics_inventory": {
+      "status": "pass",
+      "rigid_bodies": 16,
+      "enabled_collision_prims": 16,
+      "tool_links_with_enabled_collision": 9
+    },
     "articulation_no_gravity": {
       "status": "pass"
     },
     "articulation_arm_gravity": {
       "status": "pass",
-      "max_arm_return_error_rad": 0.0010857860324904323,
-      "max_gripper_return_error_rad": 0.000704500766005367
+      "gravity_isolated_moving_gripper_bodies": 6,
+      "max_arm_return_error_rad": 0.008226921781897545,
+      "max_gripper_return_error_rad": 0.001344512915238738
     },
     "combined_usd_lula_ik": {
       "status": "pass",
       "position_error_m": 1.0294073266941676e-06,
       "rotation_error_rad": 0.0009184560334303311
     },
+    "deterministic_pregrasp_reach": {
+      "status": "pass",
+      "initial_position_error_m": 0.10747760006019065,
+      "final_position_error_m": 9.685636514480149e-07,
+      "maximum_command_step_rad": 0.002180857416038434
+    },
+    "multi_target_reach_robustness": {
+      "status": "pass",
+      "trials": 12,
+      "passed_trials": 12,
+      "success_rate": 1.0,
+      "worst_position_error_m": 2.091028333757352e-05,
+      "worst_rotation_error_rad": 0.0009962783158521775,
+      "maximum_command_step_rad": 0.03909123398359493
+    },
+    "gripper_aperture_geometry": {
+      "status": "pass",
+      "zero_rad_semantics": "open",
+      "positive_direction_semantics": "closing",
+      "l2_pair_total_distance_change_m": -0.07001804397441447,
+      "l3_pair_total_distance_change_m": -0.06882977113127708
+    },
+    "gripper_static_close_stability": {
+      "status": "pass",
+      "all_states_finite": true,
+      "contact_confirmed": false,
+      "lift_attempted": false,
+      "floating_block_displacement_m": 0.036708470433950424
+    },
     "observation": {
       "status": "pass",
       "external_red_pixels": 966,
-      "wrist_red_pixels": 1260
+      "wrist_red_pixels": 1256
+    },
+    "wrist_camera_follow": {
+      "status": "pass",
+      "camera_motion_m": 0.018181614577770233,
+      "camera_to_tool_distance_change_m": 5.960464477539063e-08,
+      "maximum_pose_command_error_m": 0.0
     },
     "pi05_transport_dry_run": {
       "status": "pass",
@@ -53,8 +95,9 @@
     }
   },
   "known_limitations": [
-    "The unmodified 4C2 PhysX model is unstable under gravity; the validated baseline disables gravity only for gripper rigid bodies.",
-    "The wrist-like view is derived from link_6 but is not yet parented to a moving wrist in a continuous environment.",
+    "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
+    "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
+    "Static gripper closing is finite, but the floating block starts with collision-geometry overlap and its displacement is collision resolution rather than grasp evidence; the filtered sensor reports zero force and the experimental transport path exits in native PhysX code.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
     "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]
