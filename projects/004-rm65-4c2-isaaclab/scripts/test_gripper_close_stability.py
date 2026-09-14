@@ -14,6 +14,13 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--usd", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--attempt-lift", action="store_true")
+parser.add_argument("--block-length-m", type=float, default=0.060)
+parser.add_argument("--block-width-m", type=float, default=0.040)
+parser.add_argument("--block-height-m", type=float, default=0.025)
+parser.add_argument("--block-mass-kg", type=float, default=0.030)
+parser.add_argument("--block-inward-offset-m", type=float, default=-0.010)
+parser.add_argument("--close-target-rad", type=float, default=0.65)
+parser.add_argument("--close-steps", type=int, default=180)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -21,6 +28,7 @@ simulation_app = app_launcher.app
 
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
+import carb  # noqa: E402
 import isaaclab.sim as sim_utils  # noqa: E402
 from isaaclab.actuators import ImplicitActuatorCfg  # noqa: E402
 from isaaclab.assets import Articulation, ArticulationCfg, RigidObject, RigidObjectCfg  # noqa: E402
@@ -39,6 +47,11 @@ MOVING_GRIPPER_BODY_PATHS = {
     "/World/Robot/tool_l_2",
     "/World/Robot/tool_r_3",
     "/World/Robot/tool_l_3",
+}
+GRIPPER_CONTACT_BODY_PATHS = MOVING_GRIPPER_BODY_PATHS | {
+    "/World/Robot/tool_base_link",
+    "/World/Robot/tool_l_2_base",
+    "/World/Robot/tool_r_2_base",
 }
 TIP_LOCAL_POINTS = {
     "tool_r_2": (0.04368, -0.00645, 0.01250),
@@ -80,7 +93,13 @@ def main() -> int:
     output = args.output.expanduser().resolve()
     if not usd.is_file():
         raise FileNotFoundError(usd)
+    if min(args.block_length_m, args.block_width_m, args.block_height_m, args.block_mass_kg) <= 0:
+        raise ValueError("block dimensions and mass must be positive")
+    if args.close_target_rad < 0:
+        raise ValueError("--close-target-rad must be non-negative")
 
+    carb_settings = carb.settings.get_settings()
+    carb_settings.set_bool("/physics/disableContactProcessing", False)
     sim = SimulationContext(sim_utils.SimulationCfg(dt=1.0 / 240.0, device=args.device))
     print("CONTACT_STAGE=SIMULATION_CREATED", flush=True)
     light_cfg = sim_utils.DomeLightCfg(intensity=2500.0, color=(0.8, 0.8, 0.8))
@@ -124,14 +143,16 @@ def main() -> int:
         RigidObjectCfg(
             prim_path="/World/Cube",
             spawn=sim_utils.CuboidCfg(
-                size=(0.025, 0.060, 0.025),
+                # The gripper closes along world Y at this test pose.  Keep the
+                # narrow side across the fingers and the long side along X.
+                size=(args.block_length_m, args.block_width_m, args.block_height_m),
                 rigid_props=sim_utils.RigidBodyPropertiesCfg(
                     disable_gravity=True,
                     solver_position_iteration_count=32,
                     solver_velocity_iteration_count=4,
                     max_depenetration_velocity=1.0,
                 ),
-                mass_props=sim_utils.MassPropertiesCfg(mass=0.03),
+                mass_props=sim_utils.MassPropertiesCfg(mass=args.block_mass_kg),
                 collision_props=sim_utils.CollisionPropertiesCfg(),
                 visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.85, 0.10, 0.08)),
                 physics_material=sim_utils.RigidBodyMaterialCfg(
@@ -142,6 +163,7 @@ def main() -> int:
         )
     )
     print("CONTACT_STAGE=CUBE_CREATED", flush=True)
+    PhysxSchema.PhysxContactReportAPI.Apply(get_current_stage().GetPrimAtPath("/World/Cube"))
     contact_sensors = {
         body_path.rsplit("/", 1)[-1]: ContactSensor(
             ContactSensorCfg(
@@ -151,8 +173,15 @@ def main() -> int:
                 filter_prim_paths_expr=["/World/Cube"],
             )
         )
-        for body_path in sorted(MOVING_GRIPPER_BODY_PATHS)
+        for body_path in sorted(GRIPPER_CONTACT_BODY_PATHS)
     }
+    contact_sensors["cube_any_contact"] = ContactSensor(
+        ContactSensorCfg(
+            prim_path="/World/Cube",
+            update_period=0.0,
+            history_length=400,
+        )
+    )
     isolated_paths = []
     for prim in get_current_stage().Traverse():
         path = str(prim.GetPath())
@@ -190,17 +219,28 @@ def main() -> int:
     print("CONTACT_STAGE=LIFT_SELECTED", flush=True)
 
     tip_midpoints = []
+    l2_midpoint = None
+    closing_axis = None
     for left_name, right_name in (("tool_l_2", "tool_r_2"), ("tool_l_3", "tool_r_3")):
+        left_tip = tip_world_position(robot, left_name)
+        right_tip = tip_world_position(robot, right_name)
         tip_midpoints.append(
-            (tip_world_position(robot, left_name) + tip_world_position(robot, right_name)) / 2.0
+            (left_tip + right_tip) / 2.0
         )
-    open_midpoint = torch.stack(tip_midpoints).mean(dim=0)
+        if left_name == "tool_l_2":
+            l2_midpoint = tip_midpoints[-1]
+            closing_axis = torch.nn.functional.normalize(left_tip - right_tip, dim=0)
+    open_midpoint = l2_midpoint
     tool_position_before_close = robot.data.body_pos_w[0, tool_body_id].clone()
     outward_direction = torch.nn.functional.normalize(open_midpoint - tool_position_before_close, dim=0)
-    contact_block_center = open_midpoint - 0.025 * outward_direction
+    block_z_axis = torch.nn.functional.normalize(torch.linalg.cross(outward_direction, closing_axis), dim=0)
+    block_y_axis = torch.nn.functional.normalize(torch.linalg.cross(block_z_axis, outward_direction), dim=0)
+    block_rotation = torch.stack((outward_direction, block_y_axis, block_z_axis), dim=-1)
+    block_quaternion = math_utils.quat_from_matrix(block_rotation.unsqueeze(0))[0]
+    contact_block_center = open_midpoint - args.block_inward_offset_m * outward_direction
     cube_pose = cube.data.default_root_state[:, :7].clone()
     cube_pose[:, :3] = contact_block_center
-    cube_pose[:, 3:7] = torch.tensor([1.0, 0.0, 0.0, 0.0], device=sim.device)
+    cube_pose[:, 3:7] = block_quaternion
     cube.write_root_pose_to_sim(cube_pose)
     cube.write_root_velocity_to_sim(torch.zeros((1, 6), device=sim.device))
     step_simulation(sim, robot, cube, contact_sensors, open_state, 60)
@@ -210,9 +250,11 @@ def main() -> int:
     initial_cube_to_tool = initial_cube_position - initial_tool_position
 
     close_state = open_state.clone()
-    close_target_rad = 0.55
-    for step in range(180):
-        progress = (step + 1) / 180
+    close_target_rad = args.close_target_rad
+    if args.close_steps < 1:
+        raise ValueError("--close-steps must be positive")
+    for step in range(args.close_steps):
+        progress = (step + 1) / args.close_steps
         close_state[:, gripper_ids] = close_target_rad * (3 * progress**2 - 2 * progress**3)
         step_simulation(sim, robot, cube, contact_sensors, close_state, 1)
     step_simulation(sim, robot, cube, contact_sensors, close_state, 120)
@@ -230,6 +272,13 @@ def main() -> int:
         )
     )
     close_cube_displacement = float(torch.linalg.vector_norm(closed_cube_position - initial_cube_position))
+    sensor_binding = {
+        body_name: {
+            "body_count": int(contact_sensor.body_physx_view.count),
+            "filter_count": int(contact_sensor.contact_physx_view.filter_count),
+        }
+        for body_name, contact_sensor in contact_sensors.items()
+    }
     contact_force_by_body_n = {}
     net_contact_force_by_body_n = {}
     for body_name, contact_sensor in contact_sensors.items():
@@ -245,8 +294,22 @@ def main() -> int:
             if net_forces is None
             else float(torch.linalg.vector_norm(net_forces, dim=-1).max())
         )
-    maximum_cube_contact_force_n = max(contact_force_by_body_n.values())
+    maximum_gripper_filtered_contact_force_n = max(
+        value for name, value in contact_force_by_body_n.items() if name != "cube_any_contact"
+    )
+    maximum_cube_contact_force_n = max(
+        maximum_gripper_filtered_contact_force_n, net_contact_force_by_body_n["cube_any_contact"]
+    )
     contact_confirmed = maximum_cube_contact_force_n > 0.05
+    left_finger_contact_force_n = max(
+        contact_force_by_body_n[name] for name in ("tool_l_1", "tool_l_2", "tool_l_3")
+    )
+    right_finger_contact_force_n = max(
+        contact_force_by_body_n[name] for name in ("tool_r_1", "tool_r_2", "tool_r_3")
+    )
+    bilateral_fingertip_contact_confirmed = (
+        left_finger_contact_force_n > 0.05 and right_finger_contact_force_n > 0.05
+    )
     close_state_finite = bool(
         torch.isfinite(cube.data.root_state_w).all().item()
         and torch.isfinite(robot.data.joint_pos).all().item()
@@ -261,28 +324,40 @@ def main() -> int:
         report = {
             "status": "pass" if close_passed else "fail",
             "simulation_only": True,
-            "task": "stability check while closing the software-coupled 4C2 around a floating 25 x 60 x 25 mm contact block",
-            "contact_block_size_m": [0.025, 0.060, 0.025],
+            "task": "stability check while closing the software-coupled 4C2 around a floating contact block",
+            "contact_block_size_m": [args.block_length_m, args.block_width_m, args.block_height_m],
             "contact_block_gravity_disabled": True,
+            "contact_block_mass_kg": args.block_mass_kg,
             "support_surface_present": False,
             "lift_attempted": False,
             "contact_confirmed": contact_confirmed,
+            "contact_confirmed_definition": "any contact reported on the block or a 4C2 link above 0.05 N",
+            "bilateral_fingertip_contact_confirmed": bilateral_fingertip_contact_confirmed,
             "maximum_cube_contact_force_n": maximum_cube_contact_force_n,
+            "maximum_gripper_filtered_contact_force_n": maximum_gripper_filtered_contact_force_n,
+            "left_finger_contact_force_n": left_finger_contact_force_n,
+            "right_finger_contact_force_n": right_finger_contact_force_n,
             "cube_contact_force_by_gripper_body_n": contact_force_by_body_n,
             "net_contact_force_by_gripper_body_n": net_contact_force_by_body_n,
+            "contact_processing_disabled": bool(carb_settings.get_as_bool("/physics/disableContactProcessing")),
+            "contact_sensor_binding": sensor_binding,
             "moving_gripper_gravity_disabled": True,
             "gravity_disabled_body_paths": isolated_paths,
             "gripper_close_target_rad": close_target_rad,
+            "gripper_close_steps": args.close_steps,
+            "gripper_close_duration_s": args.close_steps * sim.get_physics_dt(),
             "open_fingertip_midpoint_m": open_midpoint.detach().cpu().tolist(),
             "contact_block_center_m": contact_block_center.detach().cpu().tolist(),
-            "contact_block_inward_offset_m": 0.025,
+            "contact_block_quaternion_wxyz": block_quaternion.detach().cpu().tolist(),
+            "contact_block_width_axis_world": block_y_axis.detach().cpu().tolist(),
+            "contact_block_inward_offset_m": args.block_inward_offset_m,
             "closed_gripper_joint_position_rad": closed_gripper_position.detach().cpu().tolist(),
             "closed_l2_tip_gap_m": closed_l2_gap,
             "closed_l3_tip_gap_m": closed_l3_gap,
             "cube_displacement_during_close_m": close_cube_displacement,
             "all_states_finite": close_state_finite,
             "warning": (
-                "Finite closing is verified and contact_confirmed is derived from a filtered ContactSensor. "
+                "Finite closing is verified; any contact and bilateral finger contact are reported separately. "
                 "The experimental --attempt-lift path currently causes a native PhysX exit."
             ),
         }
@@ -319,7 +394,7 @@ def main() -> int:
     report = {
         "status": "pass" if passed else "fail",
         "simulation_only": True,
-        "task": "close the software-coupled 4C2 on a floating 25 x 60 x 25 mm contact block and transport",
+        "task": "close the software-coupled 4C2 on a floating contact block and transport",
         "moving_gripper_gravity_disabled": True,
         "gravity_disabled_body_paths": isolated_paths,
         "gripper_close_target_rad": close_target_rad,

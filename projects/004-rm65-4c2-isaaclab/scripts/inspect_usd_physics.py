@@ -44,12 +44,24 @@ def main() -> None:
             rigid_bodies.append({"path": path, "enabled": True if enabled is None else bool(enabled)})
         if prim.HasAPI(UsdPhysics.CollisionAPI):
             enabled = UsdPhysics.CollisionAPI(prim).GetCollisionEnabledAttr().Get()
+            approximation = None
+            if prim.HasAPI(UsdPhysics.MeshCollisionAPI):
+                approximation = UsdPhysics.MeshCollisionAPI(prim).GetApproximationAttr().Get()
+            descendants = [
+                {"path": str(child.GetPath()), "type": child.GetTypeName()}
+                for child in Usd.PrimRange(prim, Usd.TraverseInstanceProxies())
+                if child != prim
+            ]
             collisions.append(
                 {
                     "path": path,
                     "type": prim.GetTypeName(),
                     "enabled": True if enabled is None else bool(enabled),
                     "tool_link": inherited_tool_link(path),
+                    "is_instance_proxy": prim.IsInstanceProxy(),
+                    "applied_schemas": list(prim.GetAppliedSchemas()),
+                    "mesh_approximation": approximation,
+                    "descendants": descendants,
                 }
             )
 

@@ -37,12 +37,17 @@ def main() -> None:
     sim = SimulationContext(sim_utils.SimulationCfg(dt=1.0 / 120.0, device=args.device))
     light_cfg = sim_utils.DomeLightCfg(intensity=3500.0, color=(0.9, 0.9, 0.9))
     light_cfg.func("/World/Light", light_cfg)
-    block_center = (-0.1997, 0.0, 0.7472)
+    block_center = (-0.22128649, -0.00000383, 0.75670463)
     block_cfg = sim_utils.CuboidCfg(
-        size=(0.025, 0.060, 0.025),
+        size=(0.060, 0.040, 0.025),
         visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.85, 0.10, 0.08)),
     )
-    block_cfg.func("/World/ContactBlock", block_cfg, translation=block_center)
+    block_cfg.func(
+        "/World/ContactBlock",
+        block_cfg,
+        translation=block_center,
+        orientation=(-0.20872162, -0.00000211, 0.97797507, 0.00002437),
+    )
     robot = Articulation(
         ArticulationCfg(
             prim_path="/World/Robot",
@@ -84,7 +89,7 @@ def main() -> None:
     gripper_ids = [index for index, name in enumerate(joint_names) if name.startswith("tool_")]
     state = robot.data.default_joint_pos.clone()
     state[:, arm_ids] = torch.tensor([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], device=sim.device)
-    state[:, gripper_ids] = 0.55
+    state[:, gripper_ids] = 0.65
     robot.write_joint_state_to_sim(state, torch.zeros_like(state))
     robot.set_joint_position_target(state)
     robot.write_data_to_sim()

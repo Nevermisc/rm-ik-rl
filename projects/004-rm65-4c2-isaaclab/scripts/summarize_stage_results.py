@@ -41,6 +41,7 @@ def main() -> None:
     reach_robustness = load_json(result_dir / "reach_robustness.json")
     gripper_aperture = load_json(result_dir / "gripper_aperture_test.json")
     gripper_close = load_json(result_dir / "gripper_close_stability.json")
+    gripper_base_contact = load_json(result_dir / "diagnostic_gripper_base_contact.json")
     observation = load_json(result_dir / "observation.json")
     wrist_follow = load_json(result_dir / "wrist_camera_follow_test.json")
     pi_first = load_json(result_dir / "pi05_interface_final_first.json")
@@ -59,6 +60,12 @@ def main() -> None:
     require(
         usd_inventory["tool_links_with_enabled_collision_count"] == 9,
         "all nine 4C2 links must keep enabled collision geometry",
+    )
+    tool_collision_prims = [item for item in usd_inventory["collisions"] if item["tool_link"] is not None]
+    require(len(tool_collision_prims) == 9, "expected one collision prim per 4C2 link")
+    require(
+        all(item["mesh_approximation"] == "convexHull" for item in tool_collision_prims),
+        "4C2 collision approximation changed",
     )
     require(no_gravity["status"] == "pass", "no-gravity articulation check did not pass")
     require(arm_gravity["status"] == "pass", "arm-gravity articulation check did not pass")
@@ -84,9 +91,39 @@ def main() -> None:
     require(gripper_close["status"] == "pass", "gripper close stability check did not pass")
     require(gripper_close["lift_attempted"] is False, "default close check must not attempt unstable lift")
     require(gripper_close["contact_confirmed"] is False, "contact must not be claimed without a sensor")
+    require(gripper_close["bilateral_fingertip_contact_confirmed"] is False, "bilateral grasp contact is not validated")
     require(gripper_close["support_surface_present"] is False, "close check must not mix table contact into the result")
     require(gripper_close["contact_block_gravity_disabled"] is True, "floating diagnostic block changed")
-    require(gripper_close["cube_displacement_during_close_m"] > 0.03, "expected geometric interaction was not observed")
+    require(gripper_close["contact_processing_disabled"] is False, "global contact processing must be enabled")
+    gripper_sensor_bindings = {
+        name: binding
+        for name, binding in gripper_close["contact_sensor_binding"].items()
+        if name.startswith("tool_")
+    }
+    require(len(gripper_sensor_bindings) == 9, "all nine prefixed 4C2 links must have sensors")
+    require(
+        all(binding == {"body_count": 1, "filter_count": 1} for binding in gripper_sensor_bindings.values()),
+        "each gripper body must have a one-body, one-filter contact view",
+    )
+    require(
+        gripper_close["contact_sensor_binding"]["cube_any_contact"]
+        == {"body_count": 1, "filter_count": 0},
+        "the contact block must have an unfiltered one-body contact view",
+    )
+    require(
+        gripper_close["contact_sensor_binding"]["tool_base_link"]
+        == {"body_count": 1, "filter_count": 1},
+        "the gripper base contact view changed",
+    )
+    require(gripper_close["contact_block_size_m"] == [0.06, 0.04, 0.025], "contact block geometry changed")
+    require(gripper_close["contact_block_inward_offset_m"] == -0.01, "safe outward block offset changed")
+    require(gripper_close["closed_l2_tip_gap_m"] < gripper_close["contact_block_size_m"][1], "l2 proxy gap did not cross the block width")
+    require(gripper_close["closed_l3_tip_gap_m"] < gripper_close["contact_block_size_m"][1], "l3 proxy gap did not cross the block width")
+    require(gripper_base_contact["contact_confirmed"] is True, "base-contact diagnostic lost contact")
+    require(gripper_base_contact["bilateral_fingertip_contact_confirmed"] is False, "base-contact diagnostic must not claim grasp")
+    require(gripper_base_contact["cube_contact_force_by_gripper_body_n"]["tool_base_link"] > 0.1, "base contact force changed")
+    require(gripper_base_contact["left_finger_contact_force_n"] == 0.0, "unexpected left-finger contact")
+    require(gripper_base_contact["right_finger_contact_force_n"] == 0.0, "unexpected right-finger contact")
     require(observation["status"] == "pass", "observation capture did not pass")
     require(observation["images"]["external"]["red_target_pixel_count"] > 20, "target missing externally")
     require(observation["images"]["wrist"]["red_target_pixel_count"] > 20, "target missing in wrist view")
@@ -119,6 +156,7 @@ def main() -> None:
                 "rigid_bodies": usd_inventory["rigid_body_count"],
                 "enabled_collision_prims": usd_inventory["enabled_collision_prim_count"],
                 "tool_links_with_enabled_collision": usd_inventory["tool_links_with_enabled_collision_count"],
+                "tool_collision_approximation": "convexHull",
             },
             "articulation_no_gravity": {"status": "pass"},
             "articulation_arm_gravity": {
@@ -164,6 +202,16 @@ def main() -> None:
                 "contact_confirmed": False,
                 "lift_attempted": False,
                 "floating_block_displacement_m": gripper_close["cube_displacement_during_close_m"],
+                "contact_processing_enabled": not gripper_close["contact_processing_disabled"],
+                "sensor_bindings_valid": True,
+            },
+            "gripper_base_contact_diagnostic": {
+                "status": "known_failure",
+                "base_contact_force_n": gripper_base_contact["cube_contact_force_by_gripper_body_n"][
+                    "tool_base_link"
+                ],
+                "block_displacement_m": gripper_base_contact["cube_displacement_during_close_m"],
+                "bilateral_fingertip_contact_confirmed": False,
             },
             "observation": {
                 "status": "pass",
@@ -198,7 +246,7 @@ def main() -> None:
         "known_limitations": [
             "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
             "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-            "Static gripper closing is finite, but the floating block starts with collision-geometry overlap and its displacement is collision resolution rather than grasp evidence; the filtered sensor reports zero force and the experimental transport path exits in native PhysX code.",
+            "Static gripper closing is finite, but the safe outward block pose has no contact while the zero-offset pose contacts only tool_base_link and ejects the block; bilateral fingertip contact is not validated and the 4C2 collision approximation must be rebuilt.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
             "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
         ],

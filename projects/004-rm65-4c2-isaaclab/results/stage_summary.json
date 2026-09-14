@@ -18,7 +18,8 @@
       "status": "pass",
       "rigid_bodies": 16,
       "enabled_collision_prims": 16,
-      "tool_links_with_enabled_collision": 9
+      "tool_links_with_enabled_collision": 9,
+      "tool_collision_approximation": "convexHull"
     },
     "articulation_no_gravity": {
       "status": "pass"
@@ -61,7 +62,15 @@
       "all_states_finite": true,
       "contact_confirmed": false,
       "lift_attempted": false,
-      "floating_block_displacement_m": 0.036708470433950424
+      "floating_block_displacement_m": 0.0,
+      "contact_processing_enabled": true,
+      "sensor_bindings_valid": true
+    },
+    "gripper_base_contact_diagnostic": {
+      "status": "known_failure",
+      "base_contact_force_n": 0.1362907886505127,
+      "block_displacement_m": 0.04796954244375229,
+      "bilateral_fingertip_contact_confirmed": false
     },
     "observation": {
       "status": "pass",
@@ -97,7 +106,7 @@
   "known_limitations": [
     "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
     "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-    "Static gripper closing is finite, but the floating block starts with collision-geometry overlap and its displacement is collision resolution rather than grasp evidence; the filtered sensor reports zero force and the experimental transport path exits in native PhysX code.",
+    "Static gripper closing is finite, but the safe outward block pose has no contact while the zero-offset pose contacts only tool_base_link and ejects the block; bilateral fingertip contact is not validated and the 4C2 collision approximation must be rebuilt.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
     "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]
