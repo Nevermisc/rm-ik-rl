@@ -9,10 +9,10 @@
 001-v2 升级成连续目标点交互节点
 001-v3 让 RM65 末端在空中画一个圆
 002    接入真实 D435i 相机，并在 RViz 中和 RM65 同屏显示
-003    再把 MoveIt2 和 Isaac Sim 联动
-004    再加入简化夹爪
-005    再做强化学习抓取 baseline
-006    最后整理成求职作品集
+003    用 π0.5 控制 Isaac Lab 中的 Franka，并完成鲁棒性评测
+004    把 RM65 与夹爪迁移到 Isaac Lab
+005    采集 RM65 数据并微调 π0.5
+006    将策略安全部署到 RM65 真机
 ```
 
 每个小项目都尽量做到：
@@ -115,6 +115,29 @@ projects/002-rm65-d435i-realsense-ros2/
 - [RealSense + RViz + TF 新手解释](projects/002-rm65-d435i-realsense-ros2/docs/realsense-rviz-tf-basic.md)
 - [2026-08-19 D435i 学习日志](learning-log/2026-08-19-rm65-d435i-realsense-ros2.md)
 
+### 003 - π0.5 × Franka × Isaac Lab
+
+目录：
+
+```text
+projects/003-pi05-franka-isaaclab/
+```
+
+目标：
+
+```text
+使用 π0.5 DROID joint-position 策略控制 Isaac Lab 中的 Franka + Robotiq，
+完成三个视觉语言操作任务，并测试位置、语言和亮度扰动下的鲁棒性。
+```
+
+已验证结果：官方场景严格基线 `9/9`，鲁棒性测试 `17/18`，任务评测合计 `26/27`。
+
+入口文档：
+
+- [003 小项目 README](projects/003-pi05-franka-isaaclab/README.md)
+- [Franka 阶段报告与复现手册](projects/003-pi05-franka-isaaclab/docs/FRANKA_STAGE_REPORT_ZH.md)
+- [评测结果 JSON](projects/003-pi05-franka-isaaclab/results/pi05_franka_summary_20260914.json)
+
 ## 已完成阶段
 
 - [x] 跑通 Isaac Sim 官方 Franka IK 示例
@@ -126,9 +149,10 @@ projects/002-rm65-d435i-realsense-ros2/
 - [x] 整理升级项目：`001-v2-rm65-moveit2-interactive-target`
 - [x] 整理升级项目：`001-v3-rm65-moveit2-draw-circle`
 - [x] 整理第二个独立小项目：`002-rm65-d435i-realsense-ros2`
-- [ ] 整理第三个独立小项目：MoveIt2 + Isaac Sim 联动
-- [ ] 整理第四个独立小项目：简化夹爪抓取
-- [ ] 整理第五个独立小项目：强化学习抓取 baseline
+- [x] 整理第三个独立小项目：`003-pi05-franka-isaaclab`
+- [ ] 把 RM65 与夹爪模型迁移到 Isaac Lab
+- [ ] 采集 RM65 示教数据并微调 π0.5
+- [ ] 将 π0.5 安全部署到 RM65 真机
 
 ## 为什么要这样分文件夹
 
@@ -146,6 +170,7 @@ projects/001-xxx
 projects/001-v2-xxx
 projects/001-v3-xxx
 projects/002-xxx
+projects/003-xxx
 ```
 
 以后每完成一个阶段，就新建一个编号文件夹。
@@ -158,7 +183,7 @@ projects/002-xxx
 
 ```text
 先保证旧代码还能运行
-再逐步整理成 projects/003、projects/004、projects/005
+再逐步整理后续 RM65 仿真、微调和真机项目
 最后再把废弃实验归档到 archive/
 ```
 
