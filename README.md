@@ -138,6 +138,30 @@ projects/003-pi05-franka-isaaclab/
 - [Franka 阶段报告与复现手册](projects/003-pi05-franka-isaaclab/docs/FRANKA_STAGE_REPORT_ZH.md)
 - [评测结果 JSON](projects/003-pi05-franka-isaaclab/results/pi05_franka_summary_20260914.json)
 
+### 004 - RM65-B + 4C2 × Isaac Lab × π0.5 接口
+
+目录：
+
+```text
+projects/004-rm65-4c2-isaaclab/
+```
+
+目标：
+
+```text
+把 RM65-B 与真实 4C2 模型组合成可控 Isaac Lab articulation，
+验证 Lula 全位姿 IK、双相机、六轴状态、一维夹爪接口、动作安全层，
+并安全验证 π0.5 网络与张量链路。
+```
+
+已验证组合/导入、无重力运动、机械臂重力保持、目标可见的外部/腕部观测，以及 π0.5 `15×8` 非执行式 dry-run。4C2 的原始关节模型在 PhysX 重力下存在非物理约束力，当前显式隔离夹爪刚体重力并保留碰撞与控制。
+
+入口文档：
+
+- [004 小项目 README](projects/004-rm65-4c2-isaaclab/README.md)
+- [RM65 + 4C2 阶段报告与复现手册](projects/004-rm65-4c2-isaaclab/docs/RM65_4C2_STAGE_REPORT_ZH.md)
+- [验证结果](projects/004-rm65-4c2-isaaclab/results/)
+
 ## 已完成阶段
 
 - [x] 跑通 Isaac Sim 官方 Franka IK 示例
@@ -150,7 +174,7 @@ projects/003-pi05-franka-isaaclab/
 - [x] 整理升级项目：`001-v3-rm65-moveit2-draw-circle`
 - [x] 整理第二个独立小项目：`002-rm65-d435i-realsense-ros2`
 - [x] 整理第三个独立小项目：`003-pi05-franka-isaaclab`
-- [ ] 把 RM65 与夹爪模型迁移到 Isaac Lab
+- [x] 把 RM65 与 4C2 夹爪模型迁移到 Isaac Lab，并完成 π0.5 接口 dry-run
 - [ ] 采集 RM65 示教数据并微调 π0.5
 - [ ] 将 π0.5 安全部署到 RM65 真机
 

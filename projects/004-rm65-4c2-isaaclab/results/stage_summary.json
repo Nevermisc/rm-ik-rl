@@ -1,0 +1,61 @@
+{
+  "status": "pass_with_known_limitations",
+  "stage": "RM65-B + 4C2 asset, observation, and pi0.5 interface baseline",
+  "real_robot_command_sent": false,
+  "closed_loop_task_complete": false,
+  "checks": {
+    "combined_urdf": {
+      "status": "pass",
+      "links": 16,
+      "joints": 15,
+      "movable_joints": 12
+    },
+    "usd_import": {
+      "status": "pass",
+      "usd_joints": 16
+    },
+    "articulation_no_gravity": {
+      "status": "pass"
+    },
+    "articulation_arm_gravity": {
+      "status": "pass",
+      "max_arm_return_error_rad": 0.0010857860324904323,
+      "max_gripper_return_error_rad": 0.000704500766005367
+    },
+    "combined_usd_lula_ik": {
+      "status": "pass",
+      "position_error_m": 1.0294073266941676e-06,
+      "rotation_error_rad": 0.0009184560334303311
+    },
+    "observation": {
+      "status": "pass",
+      "external_red_pixels": 966,
+      "wrist_red_pixels": 1260
+    },
+    "pi05_transport_dry_run": {
+      "status": "pass",
+      "output_shape": [
+        15,
+        8
+      ],
+      "first_latency_seconds": 152.09623708599975,
+      "steady_latency_seconds": 0.3164716370010865,
+      "executed": false
+    },
+    "rm65_policy_transform": {
+      "status": "pass",
+      "output_width": 7
+    },
+    "action_guard": {
+      "status": "pass",
+      "nan_rejected": true,
+      "maximum_output_step_rad": 0.05000000074505806
+    }
+  },
+  "known_limitations": [
+    "The unmodified 4C2 PhysX model is unstable under gravity; the validated baseline disables gravity only for gripper rigid bodies.",
+    "The wrist-like view is derived from link_6 but is not yet parented to a moving wrist in a continuous environment.",
+    "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
+    "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
+  ]
+}

@@ -1,0 +1,8 @@
+services:
+  openpi_server:
+    environment:
+      - SERVER_ARGS
+      - XLA_PYTHON_CLIENT_MEM_FRACTION=0.50
+      - XLA_FLAGS=--xla_gpu_enable_command_buffer=
+    volumes:
+      - ${RM65_PROJECT_DIR}:/rm65_project

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "urdf": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.urdf",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+  "imported_path": "/rm65_4c2",
+  "usd_joint_count": 16,
+  "parse_mimic": false,
+  "gripper_coupling": "software_coupled_joint_targets",
+  "articulation_roots": [
+    "/rm65_4c2/root_joint"
+  ]
+}

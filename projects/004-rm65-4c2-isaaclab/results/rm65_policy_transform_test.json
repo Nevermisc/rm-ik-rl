@@ -1,0 +1,27 @@
+{
+  "state_shape": [
+    7
+  ],
+  "state_dtype": "float32",
+  "action_input_shape": [
+    16,
+    7
+  ],
+  "action_output_shape": [
+    16,
+    7
+  ],
+  "base_image_shape": [
+    480,
+    640,
+    3
+  ],
+  "wrist_image_shape": [
+    480,
+    640,
+    3
+  ],
+  "right_wrist_mask": false,
+  "prompt": "pick up the red cube",
+  "status": "pass"
+}

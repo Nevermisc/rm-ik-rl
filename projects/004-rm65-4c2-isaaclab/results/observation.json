@@ -1,0 +1,109 @@
+{
+  "status": "pass",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+  "capture_mode": "two isolated Isaac Sim processes",
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "body_names": [
+    "base_link",
+    "link_1",
+    "link_2",
+    "link_3",
+    "link_4",
+    "link_5",
+    "link_6",
+    "tool_base_link",
+    "tool_r_1",
+    "tool_l_1",
+    "tool_l_2_base",
+    "tool_r_2_base",
+    "tool_r_3",
+    "tool_l_3",
+    "tool_l_2",
+    "tool_r_2"
+  ],
+  "rm65_joint_position_rad": [
+    0.0,
+    -0.550000011920929,
+    1.0499999523162842,
+    0.0,
+    0.6499999761581421,
+    0.0
+  ],
+  "gripper_joint_position_rad": [
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355
+  ],
+  "images": {
+    "external": {
+      "path": "external_rgb.png",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 1,
+      "max": 248,
+      "mean": 155.9168532986111,
+      "std": 50.638797595017046,
+      "red_target_pixel_count": 966
+    },
+    "wrist": {
+      "path": "wrist_rgb.png",
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "dtype": "uint8",
+      "min": 5,
+      "max": 249,
+      "mean": 168.5079926215278,
+      "std": 64.578185439375,
+      "red_target_pixel_count": 1260
+    }
+  },
+  "camera_poses": {
+    "external": {
+      "eye": [
+        1.149999976158142,
+        1.149999976158142,
+        0.8999999761581421
+      ],
+      "target": [
+        0.18000000715255737,
+        0.0,
+        0.3499999940395355
+      ]
+    },
+    "wrist": {
+      "eye": [
+        -0.09831204265356064,
+        0.1499996781349182,
+        0.8018594980239868
+      ],
+      "target": [
+        0.44999998807907104,
+        0.0,
+        0.04500000178813934
+      ]
+    }
+  }
+}

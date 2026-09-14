@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "observation": {
+    "external_rgb": {
+      "render_shape": [480, 640, 3],
+      "model_shape": [224, 224, 3],
+      "dtype": "uint8",
+      "resize": "resize_with_pad"
+    },
+    "wrist_rgb": {
+      "render_shape": [480, 640, 3],
+      "model_shape": [224, 224, 3],
+      "dtype": "uint8",
+      "resize": "resize_with_pad"
+    },
+    "rm65_joint_position_rad": {
+      "shape": [6],
+      "joint_order": ["joint_1", "joint_2", "joint_3", "joint_4", "joint_5", "joint_6"]
+    },
+    "gripper_position": {
+      "shape": [1],
+      "source_joint": "tool_gripper_joint",
+      "normalization": "clip(position_rad / 0.865, 0, 1)"
+    },
+    "prompt": {
+      "type": "string"
+    }
+  },
+  "rm65_target_action": {
+    "shape": [7],
+    "semantics": [
+      "joint_1_absolute_target_rad",
+      "joint_2_absolute_target_rad",
+      "joint_3_absolute_target_rad",
+      "joint_4_absolute_target_rad",
+      "joint_5_absolute_target_rad",
+      "joint_6_absolute_target_rad",
+      "gripper_normalized_target"
+    ]
+  },
+  "current_droid_checkpoint_output": {
+    "shape": [15, 8],
+    "semantics": "seven Franka absolute joint targets plus one gripper command",
+    "compatible_with_rm65": false,
+    "allowed_use": "transport and tensor-contract dry-run only"
+  },
+  "execution_gate": {
+    "enabled": false,
+    "required_before_simulation_execution": [
+      "RM65-specific policy transform and normalization statistics",
+      "RM65 fine-tuned checkpoint",
+      "joint-limit and per-step velocity clamp",
+      "collision and workspace guard",
+      "closed-loop simulation task evaluation"
+    ],
+    "required_before_real_robot_execution": [
+      "all simulation gates",
+      "validated RM65 command bridge",
+      "hardware emergency stop",
+      "low-speed empty-workspace test",
+      "human supervisor present"
+    ]
+  }
+}

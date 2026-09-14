@@ -1,0 +1,160 @@
+{
+  "status": "pass",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+  "motion_steps": 240,
+  "settle_steps": 120,
+  "gravity_enabled": false,
+  "gripper_gravity_disabled": false,
+  "gravity_disabled_body_paths": [],
+  "actuator_profile": {
+    "arm": {
+      "effort_limit": 300.0,
+      "stiffness": 1000.0,
+      "damping": 100.0
+    },
+    "gripper": {
+      "effort_limit": 50.0,
+      "stiffness": 200.0,
+      "damping": 20.0
+    }
+  },
+  "actuator_joint_names": {
+    "arm": [
+      "joint_1",
+      "joint_2",
+      "joint_3",
+      "joint_4",
+      "joint_5",
+      "joint_6"
+    ],
+    "gripper": [
+      "tool_gripper_joint",
+      "tool_l_1_joint",
+      "tool_r_3_joint",
+      "tool_l_3_joint",
+      "tool_l_2_joint",
+      "tool_r_2_joint"
+    ]
+  },
+  "gripper_control_mode": "software-coupled",
+  "gripper_master_joint": "tool_gripper_joint",
+  "gripper_follower_joints": [
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "mimic_followers_responded_to_master_only": null,
+  "min_follower_peak_movement_rad": 0.531468391418457,
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "dof_count": 12,
+  "all_joint_positions_finite": true,
+  "criteria": {
+    "max_arm_return_error_rad_lt": 0.03,
+    "max_gripper_return_error_rad_lt": 0.08,
+    "min_arm_peak_movement_rad_gt": 0.03,
+    "min_gripper_peak_movement_rad_gt": 0.1
+  },
+  "max_arm_return_error_rad": 0.002995650516822934,
+  "max_gripper_return_error_rad": 0.004604280926287174,
+  "min_arm_peak_movement_rad": 0.07937853038311005,
+  "min_gripper_peak_movement_rad": 0.531468391418457,
+  "max_abs_tracking_error_rad": {
+    "joint_1": 0.011727743782103062,
+    "joint_2": 0.015838537365198135,
+    "joint_3": 0.029782680794596672,
+    "joint_4": 0.013550534844398499,
+    "joint_5": 0.024116268381476402,
+    "joint_6": 0.012216179631650448,
+    "tool_gripper_joint": 0.0987003967165947,
+    "tool_l_1_joint": 0.10016181319952011,
+    "tool_r_3_joint": 0.13520175218582153,
+    "tool_l_3_joint": 0.10312613844871521,
+    "tool_l_2_joint": 0.08716370910406113,
+    "tool_r_2_joint": 0.08689684420824051
+  },
+  "peak_abs_movement_rad": {
+    "joint_1": 0.07937853038311005,
+    "joint_2": 0.08157439529895782,
+    "joint_3": 0.08935309946537018,
+    "joint_4": 0.08051192760467529,
+    "joint_5": 0.08591011166572571,
+    "joint_6": 0.07950897514820099,
+    "tool_gripper_joint": 0.5535374283790588,
+    "tool_l_1_joint": 0.5468350052833557,
+    "tool_r_3_joint": 0.531468391418457,
+    "tool_l_3_joint": 0.541168749332428,
+    "tool_l_2_joint": 0.5458781123161316,
+    "tool_r_2_joint": 0.5497040748596191
+  },
+  "final_return_error_rad": {
+    "joint_1": 7.111979357432574e-05,
+    "joint_2": 0.000780318514443934,
+    "joint_3": 0.002995650516822934,
+    "joint_4": 0.00030766683630645275,
+    "joint_5": 0.0021481735166162252,
+    "joint_6": 5.265458457870409e-05,
+    "tool_gripper_joint": 4.903207440065671e-08,
+    "tool_l_1_joint": 2.998015702360135e-08,
+    "tool_r_3_joint": 0.0038699409924447536,
+    "tool_l_3_joint": 0.004604280926287174,
+    "tool_l_2_joint": 1.9452688971351856e-13,
+    "tool_r_2_joint": 1.2053686770496091e-13
+  },
+  "final_joint_position_rad": {
+    "joint_1": 7.111979357432574e-05,
+    "joint_2": 0.000780318514443934,
+    "joint_3": 0.002995650516822934,
+    "joint_4": 0.00030766683630645275,
+    "joint_5": 0.0021481735166162252,
+    "joint_6": -5.265458457870409e-05,
+    "tool_gripper_joint": -4.903207440065671e-08,
+    "tool_l_1_joint": -2.998015702360135e-08,
+    "tool_r_3_joint": 0.0038699409924447536,
+    "tool_l_3_joint": 0.004604280926287174,
+    "tool_l_2_joint": -1.9452688971351856e-13,
+    "tool_r_2_joint": 1.2053686770496091e-13
+  },
+  "final_computed_torque": {
+    "joint_1": -0.011802516877651215,
+    "joint_2": -0.12587696313858032,
+    "joint_3": -0.4834299087524414,
+    "joint_4": -0.05034193396568298,
+    "joint_5": -0.34667134284973145,
+    "joint_6": 0.008135218173265457,
+    "tool_gripper_joint": 5.657636847899994e-06,
+    "tool_l_1_joint": -3.2029947760747746e-07,
+    "tool_r_3_joint": -1.1945710182189941,
+    "tool_l_3_joint": -0.7689282298088074,
+    "tool_l_2_joint": -2.0468104988680125e-10,
+    "tool_r_2_joint": 5.364060307044838e-10
+  },
+  "final_applied_torque": {
+    "joint_1": -0.011802516877651215,
+    "joint_2": -0.12587696313858032,
+    "joint_3": -0.4834299087524414,
+    "joint_4": -0.05034193396568298,
+    "joint_5": -0.34667134284973145,
+    "joint_6": 0.008135218173265457,
+    "tool_gripper_joint": 5.657636847899994e-06,
+    "tool_l_1_joint": -3.2029947760747746e-07,
+    "tool_r_3_joint": -1.1945710182189941,
+    "tool_l_3_joint": -0.7689282298088074,
+    "tool_l_2_joint": -2.0468104988680125e-10,
+    "tool_r_2_joint": 5.364060307044838e-10
+  }
+}
