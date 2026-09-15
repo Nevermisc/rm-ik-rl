@@ -59,6 +59,10 @@ def main() -> None:
     assisted_pick_place = load_json(result_dir / "pick_place_assisted_robustness.json")
     dynamic_pick_place = load_json(result_dir / "pick_place_dynamic_robustness.json")
     natural_pick_place = load_json(result_dir / "pick_place_natural_bridge.json")
+    natural_wide_contact = load_json(result_dir / "natural_wide_pads_close_065.json")
+    natural_single_pass = load_json(result_dir / "natural_pick_place_single_pass.json")
+    natural_robustness = load_json(result_dir / "natural_pick_place_robustness.json")
+    natural_unassisted_release = load_json(result_dir / "natural_unassisted_release_failure.json")
 
     require(combined["link_count"] == 16, "combined URDF must contain 16 links")
     require(combined["joint_count"] == 15, "combined URDF must contain 15 joints")
@@ -192,6 +196,20 @@ def main() -> None:
         "natural-gravity contact/lift boundary changed",
     )
     require(natural_pick_place["natural_source_gravity"] is True, "natural-gravity evidence lost gravity")
+    require(natural_wide_contact["natural_source_gravity"] is True, "wide-pad contact lost natural gravity")
+    require(
+        natural_wide_contact["close_recent_mean_contact_force_by_body_n"]["tool_l_2"] > 0.03
+        and natural_wide_contact["close_recent_mean_contact_force_by_body_n"]["tool_r_2"] > 0.03,
+        "wide pads did not preserve sustained bilateral contact",
+    )
+    require(natural_single_pass["status"] == "pass", "natural-gravity 0.8 rad reference no longer passes")
+    require(natural_single_pass["natural_source_gravity"] is True, "reference grasp lost natural gravity")
+    require(natural_single_pass["block_lift_height_m"] > 0.03, "natural-gravity reference lift is too small")
+    require(natural_single_pass["pi05_used"] is False, "scripted reference must not claim pi0.5 control")
+    require(natural_robustness["status"] == "fail", "natural robustness result must preserve partial failure")
+    require(natural_robustness["passed_trials"] == 1, "natural robustness pass count changed")
+    require(natural_unassisted_release["status"] == "fail", "unassisted release failure was not preserved")
+    require(natural_unassisted_release["release_unassisted"] is True, "release diagnostic used assistance")
 
     summary = {
         "status": "pass_with_known_limitations",
@@ -328,7 +346,23 @@ def main() -> None:
                 "pi05_used": False,
                 "unassisted_full_task_complete": False,
             },
-            "natural_gravity_contact_bridge": natural_pick_place,
+            "natural_gravity_contact_bridge_historical": natural_pick_place,
+            "natural_gravity_scripted_pick_place": {
+                "status": "partial_with_simulation_assistance",
+                "reference_transfer_joint_1_rad": natural_single_pass["transfer_joint_1_rad"],
+                "reference_block_lift_m": natural_single_pass["block_lift_height_m"],
+                "reference_final_target_error_m": natural_single_pass["final_target_position_error_m"],
+                "robustness_trials": natural_robustness["trial_count"],
+                "robustness_passed_trials": natural_robustness["passed_trials"],
+                "minimum_block_lift_m": natural_robustness["minimum_block_lift_height_m"],
+                "maximum_final_target_error_m": natural_robustness[
+                    "maximum_final_target_position_error_m"
+                ],
+                "unassisted_release_status": "fail",
+                "pi05_used": False,
+                "real_robot_command_sent": False,
+                "development_assistance": natural_robustness["development_assistance"],
+            },
             "observation": {
                 "status": "pass",
                 "external_red_pixels": observation["images"]["external"]["red_target_pixel_count"],
@@ -362,11 +396,12 @@ def main() -> None:
         "known_limitations": [
             "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
             "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-            "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
+            "Empirically derived 4C2 contact pads provide sustained bilateral contact and natural-gravity transport, but they still require calibration against the physical gripper.",
             "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
-            "Natural-gravity bilateral tool_l_2/tool_r_2 contact is validated on a narrow strip support, but the 30 g block is not retained during lift.",
+            "The natural-gravity scripted grasp, vertical lift, and transport pass in all three transfer trials, but assisted placement passes only one of three and unassisted release fails.",
+            "The natural-gravity reference disables arm gravity through transport, isolates gravity on six moving finger bodies, delays target-platform collision, and uses a release pose/velocity assist.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
-            "A sustained natural-gravity grasp, unassisted release, integrated expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
+            "A robust scripted place-and-release trajectory, integrated expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
         ],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

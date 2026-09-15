@@ -20,4 +20,8 @@ python3 scripts/summarize_stage_results.py
 
 `pick_place_dynamic_2cm.json`、`4cm.json`、`6cm.json`、`10cm.json` 去掉了“初始化在抓取位”，让机械臂从四个距离执行笛卡尔接近。`pick_place_dynamic_robustness.json` 汇总为 4/4，最小抬升 `0.03730 m`，最大落点误差 `0.00863 m`。这些测试仍在闭合前暂时关闭方块重力，放置时仍使用延迟平台碰撞和 50 mm 分离辅助。
 
-`pick_place_contact_reference.json` 保存悬空辅助姿态的 `tool_l_2/tool_r_2` 接触参考。`pick_place_natural_contact_xminus4cm.json` 记录自然重力、条形支撑和 −40 mm 世界 x 修正下的双侧接触，左右力为 `0.05346/0.05835 N`。`pick_place_natural_lift_failure.json` 使用更强的夹爪参数后仍在抬升阶段失败，脚本在 `failure_stage=lift` 立即停止。`pick_place_natural_bridge.json` 将当前阶段明确汇总为 `bilateral_contact_pass_lift_fail`；它是需要继续解决的边界，不是通过项。
+`pick_place_contact_reference.json` 保存悬空辅助姿态的 `tool_l_2/tool_r_2` 接触参考。`pick_place_natural_contact_xminus4cm.json` 记录自然重力、条形支撑和 −40 mm 世界 x 修正下的双侧接触，左右峰值为 `0.05346/0.05835 N`。`pick_place_natural_lift_failure.json` 保存当时更强夹爪参数仍在抬升阶段失败的结果，`pick_place_natural_bridge.json` 汇总这段历史边界。后续实验已经发现这些峰值不是持续接触，并用下面的新证据推进到自然重力抬升；旧失败文件继续保留用于记录诊断过程。
+
+`natural_close_sweep.json` 用当前力和最近窗口均值重新检查原始 `25×10×20 mm` 经验垫；0.45 至 0.75 rad 共 7 次都没有持续双侧当前接触。`wide_pads_urdf_report.json` 与 `wide_pads_import_report.json` 记录独立的 `40×14×18 mm` 候选碰撞垫资产，`natural_wide_pads_close_065.json` 记录该资产的持续双侧接触。
+
+`natural_pick_place_single_pass.json` 是 0.8 rad 的单次自然重力辅助通过证据：方块抬升 `0.03907 m`，最终误差 `0.002918 m`。`natural_pick_place_0p6.json`、`0p8.json`、`1p0.json` 与 `natural_pick_place_robustness.json` 是 80 mm 释放分离辅助下的三角度复测；抓取和抬升 3/3，但完整任务仅 1/3，所以汇总有意保留 `status=fail`。`natural_unassisted_release_failure.json` 记录夹爪张开并向上撤离后仍带走方块的失败。所有这些实验都为仿真脚本专家，`pi05_used=false`、`real_robot_command_sent=false`，并保留报告中列出的开发辅助。

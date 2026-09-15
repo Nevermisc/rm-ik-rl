@@ -107,7 +107,9 @@ def regularize_gripper_inertials(
     return changes
 
 
-def add_4c2_contact_pads(robot: ET.Element, prefix: str) -> list[dict[str, str]]:
+def add_4c2_contact_pads(
+    robot: ET.Element, prefix: str, pad_dimensions_m: tuple[float, float, float]
+) -> list[dict[str, str]]:
     """Add thin box colliders at empirically derived left/right grasp surfaces.
 
     The poses are expressed in each second-finger link frame.  They were
@@ -115,7 +117,7 @@ def add_4c2_contact_pads(robot: ET.Element, prefix: str) -> list[dict[str, str]]
     closing pose, with 2 mm of intended compression per side.
     """
 
-    pad_size = "0.025 0.010 0.020"
+    pad_size = " ".join(f"{value:.9g}" for value in pad_dimensions_m)
     specs = {
         f"{prefix}l_2": {
             "xyz": "0.027286683 0.013343694 -0.072958842",
@@ -179,6 +181,15 @@ def main() -> None:
         help="Add two thin, box-shaped collision pads for bilateral grasp diagnostics.",
     )
     parser.add_argument(
+        "--4c2-contact-pad-size-m",
+        dest="contact_pad_size_m",
+        type=float,
+        nargs=3,
+        metavar=("X", "Y", "Z"),
+        default=(0.025, 0.010, 0.020),
+        help="Box dimensions in each second-finger link frame (default: 0.025 0.010 0.020).",
+    )
+    parser.add_argument(
         "--preserve-mimic",
         action="store_true",
         help="Keep source mimic tags. The default strips them for stable software-coupled drives in PhysX.",
@@ -199,13 +210,19 @@ def main() -> None:
     link_map, joint_map = prefix_gripper_names(gripper, args.gripper_name_prefix)
     if args.gripper_min_mass_kg < 0 or args.gripper_min_diagonal_inertia < 0:
         raise ValueError("gripper mass and inertia floors must be non-negative")
+    if any(value <= 0.0 for value in args.contact_pad_size_m):
+        raise ValueError("4C2 contact-pad dimensions must be positive")
     inertial_changes = regularize_gripper_inertials(
         gripper,
         args.gripper_min_mass_kg,
         args.gripper_min_diagonal_inertia,
         args.zero_gripper_cross_inertia,
     )
-    contact_pads = add_4c2_contact_pads(gripper, args.gripper_name_prefix) if args.add_4c2_contact_pads else []
+    contact_pads = (
+        add_4c2_contact_pads(gripper, args.gripper_name_prefix, tuple(args.contact_pad_size_m))
+        if args.add_4c2_contact_pads
+        else []
+    )
     gripper_root_link = link_map[args.gripper_root_link]
     source_mimic_follower_joints = sorted(
         joint.get("name") for joint in gripper.findall("joint") if joint.find("mimic") is not None

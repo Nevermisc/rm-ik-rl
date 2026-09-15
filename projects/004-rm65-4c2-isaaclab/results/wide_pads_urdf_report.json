@@ -1,0 +1,417 @@
+{
+  "robot_name": "rm65_4c2",
+  "output_urdf": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_wide_pads.urdf",
+  "mount": {
+    "parent": "link_6",
+    "child": "tool_base_link",
+    "xyz": "0 0 0",
+    "rpy": "0 0 0"
+  },
+  "gripper_name_prefix": "tool_",
+  "gripper_inertial_regularization": {
+    "minimum_mass_kg": 0.0,
+    "minimum_diagonal_inertia_kg_m2": 0.0,
+    "zero_cross_inertia": false,
+    "changed_links": []
+  },
+  "gripper_link_name_map": {
+    "base_link": "tool_base_link",
+    "r_1": "tool_r_1",
+    "r_3": "tool_r_3",
+    "l_1": "tool_l_1",
+    "l_3": "tool_l_3",
+    "r_2_base": "tool_r_2_base",
+    "r_2": "tool_r_2",
+    "l_2_base": "tool_l_2_base",
+    "l_2": "tool_l_2"
+  },
+  "gripper_contact_pads": [
+    {
+      "link": "tool_l_2",
+      "xyz": "0.027286683 0.013343694 -0.072958842",
+      "rpy": "0.005034454 0.254940134 0.652909860",
+      "size": "0.04 0.014 0.018"
+    },
+    {
+      "link": "tool_r_2",
+      "xyz": "0.028775714 -0.011597111 -0.073257379",
+      "rpy": "0.005034429 0.254940104 -0.644663208",
+      "size": "0.04 0.014 0.018"
+    }
+  ],
+  "gripper_joint_name_map": {
+    "gripper_joint": "tool_gripper_joint",
+    "r_3_joint": "tool_r_3_joint",
+    "l_1_joint": "tool_l_1_joint",
+    "l_3_joint": "tool_l_3_joint",
+    "r_2_base_joint": "tool_r_2_base_joint",
+    "r_2_joint": "tool_r_2_joint",
+    "l_2_base_joint": "tool_l_2_base_joint",
+    "l_2_joint": "tool_l_2_joint"
+  },
+  "gripper_control": {
+    "master_joint": "tool_gripper_joint",
+    "follower_joints": [
+      "tool_l_1_joint",
+      "tool_l_2_joint",
+      "tool_l_3_joint",
+      "tool_r_2_joint",
+      "tool_r_3_joint"
+    ],
+    "source_uses_mimic": true,
+    "output_preserves_mimic": false,
+    "simulation_mode": "software_coupled_joint_targets",
+    "note": "The source 4C2 has one command joint and five mimic followers."
+  },
+  "link_count": 16,
+  "joint_count": 15,
+  "movable_joint_count": 12,
+  "links": [
+    "base_link",
+    "link_1",
+    "link_2",
+    "link_3",
+    "link_4",
+    "link_5",
+    "link_6",
+    "tool_base_link",
+    "tool_r_1",
+    "tool_r_3",
+    "tool_l_1",
+    "tool_l_3",
+    "tool_r_2_base",
+    "tool_r_2",
+    "tool_l_2_base",
+    "tool_l_2"
+  ],
+  "joints": [
+    {
+      "name": "joint_1",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "link_1",
+      "lower": -3.106,
+      "upper": 3.106,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "joint_2",
+      "type": "revolute",
+      "parent": "link_1",
+      "child": "link_2",
+      "lower": -2.2689,
+      "upper": 2.2689,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "joint_3",
+      "type": "revolute",
+      "parent": "link_2",
+      "child": "link_3",
+      "lower": -2.356,
+      "upper": 2.356,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "joint_4",
+      "type": "revolute",
+      "parent": "link_3",
+      "child": "link_4",
+      "lower": -3.106,
+      "upper": 3.106,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "joint_5",
+      "type": "revolute",
+      "parent": "link_4",
+      "child": "link_5",
+      "lower": -2.234,
+      "upper": 2.234,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "joint_6",
+      "type": "revolute",
+      "parent": "link_5",
+      "child": "link_6",
+      "lower": -6.28,
+      "upper": 6.28,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_gripper_joint",
+      "type": "revolute",
+      "parent": "tool_base_link",
+      "child": "tool_r_1",
+      "lower": 0.0,
+      "upper": 0.865,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_r_3_joint",
+      "type": "revolute",
+      "parent": "tool_r_1",
+      "child": "tool_r_3",
+      "lower": 0.0,
+      "upper": 1.0,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_l_1_joint",
+      "type": "revolute",
+      "parent": "tool_base_link",
+      "child": "tool_l_1",
+      "lower": 0.0,
+      "upper": 1.0,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_l_3_joint",
+      "type": "revolute",
+      "parent": "tool_l_1",
+      "child": "tool_l_3",
+      "lower": 0.0,
+      "upper": 1.0,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_r_2_base_joint",
+      "type": "fixed",
+      "parent": "tool_base_link",
+      "child": "tool_r_2_base",
+      "lower": null,
+      "upper": null,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_r_2_joint",
+      "type": "revolute",
+      "parent": "tool_r_2_base",
+      "child": "tool_r_2",
+      "lower": 0.0,
+      "upper": 1.0,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_l_2_base_joint",
+      "type": "fixed",
+      "parent": "tool_base_link",
+      "child": "tool_l_2_base",
+      "lower": null,
+      "upper": null,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "tool_l_2_joint",
+      "type": "revolute",
+      "parent": "tool_l_2_base",
+      "child": "tool_l_2",
+      "lower": 0.0,
+      "upper": 1.0,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    },
+    {
+      "name": "rm65_to_4c2",
+      "type": "fixed",
+      "parent": "link_6",
+      "child": "tool_base_link",
+      "lower": null,
+      "upper": null,
+      "mimic_joint": null,
+      "mimic_multiplier": null,
+      "mimic_offset": null
+    }
+  ],
+  "mesh_count": 32,
+  "meshes": [
+    {
+      "original": "package://RM65-B/meshes/base_link.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/base_link.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/base_link.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/base_link.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/base_link.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/base_link.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_1.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_1.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_1.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_1.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_1.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_1.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_2.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_2.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_2.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_2.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_2.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_2.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_3.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_3.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_3.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_3.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_3.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_3.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_4.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_4.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_4.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_4.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_4.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_4.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_5.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_5.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_5.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_5.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_5.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_5.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_6.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_6.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_6.STL"
+    },
+    {
+      "original": "package://RM65-B/meshes/link_6.STL",
+      "resolved": "/home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_6.STL",
+      "uri": "file:///home/iot22/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_6.STL"
+    },
+    {
+      "original": "package://4C2/meshes/base_link.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL"
+    },
+    {
+      "original": "package://4C2/meshes/base_link.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_1.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_1.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_3.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_3.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_1.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_1.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_3.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_3.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_2_base.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_2_base.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_2.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL"
+    },
+    {
+      "original": "package://4C2/meshes/r_2.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_2_base.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_2_base.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_2.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL"
+    },
+    {
+      "original": "package://4C2/meshes/l_2.STL",
+      "resolved": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL",
+      "uri": "file:///home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL"
+    }
+  ]
+}

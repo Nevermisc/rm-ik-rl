@@ -1,0 +1,122 @@
+{
+  "status": "diagnostic",
+  "simulation_only": true,
+  "collision_bypass_during_approach": false,
+  "initialized_at_grasp": false,
+  "arm_gravity_disabled_during_approach": false,
+  "natural_source_gravity": true,
+  "arm_actuator": {
+    "effort_limit_sim": 300.0,
+    "stiffness": 1000.0,
+    "damping": 100.0
+  },
+  "gripper_actuator": {
+    "effort_limit_sim": 40.0,
+    "stiffness": 250.0,
+    "damping": 25.0,
+    "close_target_rad": 0.65
+  },
+  "pregrasp_distance_m": 0.1,
+  "grasp_world_offset_x_m": -0.04,
+  "lift_mode": "joint_reference",
+  "cartesian_lift_height_m": 0.04,
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.831066351267509e-06,
+    0.7454999685287476
+  ],
+  "settled_source_quaternion_wxyz": [
+    1.0,
+    4.230034562624496e-07,
+    9.174375463771867e-07,
+    1.1775314057160813e-08
+  ],
+  "closed_position_m": [
+    -0.22128650546073914,
+    -3.895756435667863e-06,
+    0.7455000281333923
+  ],
+  "close_left_finger_contact_force_n": 0.0935681015253067,
+  "close_right_finger_contact_force_n": 0.08761102706193924,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0935681015253067,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.08761102706193924,
+    "tool_r_3": 0.0
+  },
+  "close_current_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.06147447228431702,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.03778618201613426,
+    "tool_r_3": 0.0
+  },
+  "close_recent_mean_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.051636967808008194,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.051319997757673264,
+    "tool_r_3": 0.0
+  },
+  "approach_actual_arm_joint_position_rad": [
+    -1.4390880096470937e-05,
+    -0.4656182825565338,
+    1.2182857990264893,
+    0.008632835000753403,
+    0.6556752920150757,
+    -0.005511085502803326
+  ],
+  "approach_target_arm_joint_position_rad": [
+    -2.881880800393607e-07,
+    -0.4640693562222981,
+    1.090112061953264,
+    -1.4621203179857728e-06,
+    0.49763327819495906,
+    0.0
+  ],
+  "cartesian_retreat_distances_m": [
+    0.01,
+    0.020000000000000004,
+    0.030000000000000006,
+    0.04000000000000001,
+    0.05000000000000001,
+    0.06000000000000001,
+    0.07,
+    0.08,
+    0.09000000000000001,
+    0.1
+  ],
+  "cartesian_pregrasp_joint_position_rad": [
+    -0.0007410947406291675,
+    -0.8149599387171219,
+    1.32995260655063,
+    0.0004079868110244767,
+    0.6092893916120169,
+    -0.00015543087129835277
+  ],
+  "approach_max_arm_joint_error_rad": 0.15804201382011662,
+  "approach_l2_midpoint_to_block_center_m": 0.10759765654802322,
+  "approach_l2_midpoint_world_m": [
+    -0.29375579953193665,
+    -0.0014106780290603638,
+    0.6659796833992004
+  ],
+  "approach_l2_midpoint_minus_block_center_m": [
+    -0.0724693089723587,
+    -0.0014068474993109703,
+    -0.07952028512954712
+  ],
+  "closed_l2_tip_gap_m": 0.04889662563800812,
+  "closed_gripper_joint_position_rad": [
+    0.6494162082672119,
+    0.6493152379989624,
+    0.6513574719429016,
+    0.6516607999801636,
+    0.2487020343542099,
+    0.2967378795146942
+  ]
+}

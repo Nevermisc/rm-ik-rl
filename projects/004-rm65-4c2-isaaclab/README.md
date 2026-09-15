@@ -30,7 +30,8 @@
 - 修复夹持后运输命令的 `float64`/`float32` 类型错误，给接触设置明确的高摩擦材料，并在夹紧后恢复测试块重力；中心及横向 ±2 mm 的 3 次抬升运输全部通过；
 - 建立“初始化在抓取位 → 闭合 → 抬升 → 转运 → 辅助释放到平台 → 撤离”的开发状态机；关节 1 转动 0.6、0.8、1.0 rad 三次均通过。该基线使用初始化抓取位、延迟启用平台碰撞和 50 mm 释放分离辅助，不能算无辅助完整任务，也没有使用 π0.5；
 - 去掉“初始化在抓取位”，从方块外侧 2、4、6、10 cm 依次执行笛卡尔接近；4/4 次都完成闭合、抬升、转移和辅助放置，最小抬升 `0.03730 m`，最大落点误差 `0.00863 m`。闭合前方块仍暂时关闭重力，因此这是动态接近基线，不是自然桌面抓取；
-- 在自然重力下加入条形支撑和左右指接触传感器。世界 x 方向修正 −40 mm 后，`tool_l_2/tool_r_2` 双侧接触达到 `0.0535/0.0583 N`；增强夹爪参数后达到 `0.0718/0.0727 N`，但抬升时仍脱落。脚本现在会在抬升失败处立即停止并保存原因；
+- 区分接触力峰值、当前值和最近窗口均值后，确认原来的 `25×10×20 mm` 经验碰撞垫只产生瞬时接触；单独生成 `40×14×18 mm` 宽垫候选资产，在自然重力下获得持续双侧接触；
+- 修正抬升轨迹，使末端沿世界 z 方向上升 40 mm。0.8 rad 转运角的单次自然重力实验完成抓取、抬升 39.07 mm、转运约 17 cm 和辅助放置，最终误差 `2.918 mm`；三种转运角复测仅通过 1/3，说明抓取和运输已跑通，释放与落台仍不鲁棒；
 - USD 物理清单确认 16 个刚体、16 个启用的碰撞体，4C2 的 9 个 link 均保留碰撞；
 - 定义外部/腕部 RGB、六轴关节和夹爪状态的 π0.5 观测接口；
 - 实现 RM65 专用 OpenPI 输入/输出 transform，并在 OpenPI 容器内通过单元测试；
@@ -64,9 +65,10 @@
 | 辅助状态机最大落点误差 / 落台漂移 | `0.00520 m / 3.73×10⁻⁹ m` |
 | 动态接近距离评测 | `4/4`（2、4、6、10 cm），仍含闭合前方块重力辅助 |
 | 动态接近最小抬升 / 最大落点误差 | `0.03730 / 0.00863 m` |
-| 自然重力 `tool_2` 双侧接触 | PASS，`0.0535 / 0.0583 N` |
-| 自然重力持续承重抬升 | FAIL，方块未稳定随夹爪离开支撑 |
-| 无辅助自然释放 | 未通过 |
+| 宽碰撞垫自然重力最近窗口双侧接触力 | 至少 `0.5686 / 0.5041 N`（三次完整实验） |
+| 自然重力持续承重抬升 | 3/3，最小抬升 `0.03907 m` |
+| 自然重力完整辅助状态机 | 1/3；0.8 rad 最终误差 `0.00257 m` |
+| 无辅助自然释放 | FAIL，方块仍被夹爪夹持或带走 |
 | USD 刚体 / 启用碰撞体 | `16 / 16` |
 | 外部图红色目标像素 | 966 |
 | 腕部图红色目标像素 | 1256 |
@@ -254,36 +256,41 @@ bash scripts/run_pick_place_dynamic_suite.sh
 
 该套件顺序测试 2、4、6、10 cm，并用 `summarize_pick_place_dynamic.py` 汇总。四次都通过，但闭合前方块仍暂时关闭重力，放置端仍包含延迟平台碰撞和释放分离辅助。
 
-自然重力条形支撑的当前接触与承重边界可用下面两条命令复现。第一条只诊断双侧接触；第二条会尝试抬升，并预期在 `failure_stage=lift` 早停：
+原始 `25×10×20 mm` 经验碰撞垫的闭合角扫描可用下面的命令复现。结果是 7 个闭合角都没有持续双侧接触，说明此前只看峰值会误把瞬时碰撞当成稳定夹持：
 
 ```bash
-~/robot-learning/IsaacLab/isaaclab.sh -p scripts/run_pick_place_baseline.py \
-  --usd generated/rm65_4c2_contact_pads.usd \
-  --urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
-  --description ~/robot-learning/rm-ik-rl/rm65_robot_description.yaml \
-  --output outputs/natural_contact.json \
-  --pregrasp-distance-m 0.10 \
-  --grasp-world-offset-x-m -0.04 \
-  --natural-source-gravity \
-  --diagnose-approach-only \
-  --headless
+bash scripts/run_natural_close_sweep.sh
+```
 
-~/robot-learning/IsaacLab/isaaclab.sh -p scripts/run_pick_place_baseline.py \
-  --usd generated/rm65_4c2_contact_pads.usd \
-  --urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
-  --description ~/robot-learning/rm-ik-rl/rm65_robot_description.yaml \
-  --output outputs/natural_lift_attempt.json \
-  --pregrasp-distance-m 0.10 \
-  --grasp-world-offset-x-m -0.04 \
-  --natural-source-gravity \
-  --gripper-effort-limit-sim 40 \
-  --gripper-stiffness 250 \
-  --gripper-damping 25 \
-  --gripper-close-target-rad 0.75 \
+宽碰撞垫必须生成到独立资产，避免覆盖原始模型：
+
+```bash
+python3 scripts/build_combined_urdf.py \
+  --rm65-urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
+  --rm65-mesh-dir ~/robot-learning/rm-ik-rl/assets/RM65-B/meshes \
+  --gripper-urdf external/4C2/urdf/4C2.urdf \
+  --gripper-mesh-dir external/4C2/meshes \
+  --gripper-root-link base_link \
+  --gripper-name-prefix tool_ \
+  --add-4c2-contact-pads \
+  --4c2-contact-pad-size-m 0.040 0.014 0.018 \
+  --output generated/rm65_4c2_wide_pads.urdf \
+  --report outputs/wide_pads_urdf_report.json
+
+~/robot-learning/IsaacLab/isaaclab.sh -p scripts/import_combined_urdf.py \
+  --urdf generated/rm65_4c2_wide_pads.urdf \
+  --usd generated/rm65_4c2_wide_pads.usd \
+  --report outputs/wide_pads_import_report.json \
   --headless
 ```
 
-自然重力模式使用 `120×18×20 mm` 条形开发支撑，让左右手指能够下探。它验证了真实重力下的双侧接触，但目前夹持不能持续承重；下一步应先用实物尺寸校准 4C2 碰撞垫和抓取几何，再接 π0.5 动作执行。
+运行三种转运角的自然重力套件：
+
+```bash
+bash scripts/run_pick_place_natural_suite.sh
+```
+
+该套件让方块从一开始就承受重力，并从 10 cm 外动态接近。三次都稳定抬升 39.07 mm，但只有 0.8 rad 完成验收；0.6 rad 因落台后漂移 43.09 mm 失败，1.0 rad 的最终误差为 52.02 mm。当前仍关闭机械臂及活动指节的重力，使用未经实物标定的宽碰撞垫、延迟启用目标平台碰撞，并在释放时向下分离 80 mm、施加 0.10 m/s 初速度。去掉释放辅助后，方块会卡在指间或随夹爪离开，因此下一步是让机械臂先下降到平台附近再张开夹爪。
 
 生成两张 `480×640` RGB 观测图和关节状态；客户端会补边缩放为模型使用的 `224×224`：
 

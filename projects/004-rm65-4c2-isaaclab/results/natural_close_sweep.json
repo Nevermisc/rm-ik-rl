@@ -1,0 +1,81 @@
+{
+  "status": "diagnostic",
+  "simulation_only": true,
+  "pi05_used": false,
+  "asset": "generated/rm65_4c2_contact_pads.usd",
+  "trial_count": 7,
+  "bilateral_sustained_current_contact_count": 0,
+  "conclusion": "The original 25x10x20 mm empirical pads produce transient contact but no bilateral sustained final contact in this scan.",
+  "trials": [
+    {
+      "close_target_rad": 0.45,
+      "closed_l2_tip_gap_m": 0.033627863973379135,
+      "left_peak_n": 0.0,
+      "right_peak_n": 0.0,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.0,
+      "right_recent_mean_n": 0.0
+    },
+    {
+      "close_target_rad": 0.5,
+      "closed_l2_tip_gap_m": 0.029449522495269775,
+      "left_peak_n": 0.0,
+      "right_peak_n": 0.0,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.0,
+      "right_recent_mean_n": 0.0
+    },
+    {
+      "close_target_rad": 0.55,
+      "closed_l2_tip_gap_m": 0.025348125025629997,
+      "left_peak_n": 0.0,
+      "right_peak_n": 0.0,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.0,
+      "right_recent_mean_n": 0.0
+    },
+    {
+      "close_target_rad": 0.6,
+      "closed_l2_tip_gap_m": 0.02133309096097946,
+      "left_peak_n": 0.0,
+      "right_peak_n": 0.0,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.0,
+      "right_recent_mean_n": 0.0
+    },
+    {
+      "close_target_rad": 0.65,
+      "closed_l2_tip_gap_m": 0.019394515082240105,
+      "left_peak_n": 0.044830404222011566,
+      "right_peak_n": 0.06609167158603668,
+      "left_current_n": 0.04303846135735512,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.0018845199374482036,
+      "right_recent_mean_n": 0.0017302852356806397
+    },
+    {
+      "close_target_rad": 0.7,
+      "closed_l2_tip_gap_m": 0.01897997409105301,
+      "left_peak_n": 0.11118485778570175,
+      "right_peak_n": 0.09658703953027725,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.004017316270619631,
+      "right_recent_mean_n": 0.0037377579137682915
+    },
+    {
+      "close_target_rad": 0.75,
+      "closed_l2_tip_gap_m": 0.01846722885966301,
+      "left_peak_n": 0.07181492447853088,
+      "right_peak_n": 0.07274841517210007,
+      "left_current_n": 0.0,
+      "right_current_n": 0.0,
+      "left_recent_mean_n": 0.006003616843372583,
+      "right_recent_mean_n": 0.006129138171672821
+    }
+  ]
+}

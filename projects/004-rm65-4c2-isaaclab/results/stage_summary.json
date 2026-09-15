@@ -135,7 +135,7 @@
       "pi05_used": false,
       "unassisted_full_task_complete": false
     },
-    "natural_gravity_contact_bridge": {
+    "natural_gravity_contact_bridge_historical": {
       "status": "bilateral_contact_pass_lift_fail",
       "simulation_only": true,
       "pi05_used": false,
@@ -169,6 +169,26 @@
         "failure_stage": "lift"
       },
       "next_engineering_step": "Calibrate the 4C2 collision pads and grasp geometry against measured hardware dimensions, then retest sustained contact before any pi0.5 action execution."
+    },
+    "natural_gravity_scripted_pick_place": {
+      "status": "partial_with_simulation_assistance",
+      "reference_transfer_joint_1_rad": 0.8,
+      "reference_block_lift_m": 0.03907138109207153,
+      "reference_final_target_error_m": 0.002918221039252657,
+      "robustness_trials": 3,
+      "robustness_passed_trials": 1,
+      "minimum_block_lift_m": 0.03907138109207153,
+      "maximum_final_target_error_m": 0.05202496253511925,
+      "unassisted_release_status": "fail",
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "development_assistance": {
+        "arm_gravity_disabled_through_transport": true,
+        "enlarged_empirical_contact_pads": true,
+        "target_platform_collision_enabled_after_transfer": true,
+        "release_separation_assist_m": 0.08,
+        "release_downward_speed_assist_m_s": 0.1
+      }
     },
     "observation": {
       "status": "pass",
@@ -204,10 +224,11 @@
   "known_limitations": [
     "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
     "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-    "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
+    "Empirically derived 4C2 contact pads provide sustained bilateral contact and natural-gravity transport, but they still require calibration against the physical gripper.",
     "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
-    "Natural-gravity bilateral tool_l_2/tool_r_2 contact is validated on a narrow strip support, but the 30 g block is not retained during lift.",
+    "The natural-gravity scripted grasp, vertical lift, and transport pass in all three transfer trials, but assisted placement passes only one of three and unassisted release fails.",
+    "The natural-gravity reference disables arm gravity through transport, isolates gravity on six moving finger bodies, delays target-platform collision, and uses a release pose/velocity assist.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
-    "A sustained natural-gravity grasp, unassisted release, integrated expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
+    "A robust scripted place-and-release trajectory, integrated expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]
 }

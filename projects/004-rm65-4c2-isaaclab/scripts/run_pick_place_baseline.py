@@ -26,11 +26,31 @@ parser.add_argument("--gripper-damping", type=float, default=12.0)
 parser.add_argument("--gripper-close-target-rad", type=float, default=0.65)
 parser.add_argument("--pregrasp-distance-m", type=float, default=0.10)
 parser.add_argument("--grasp-world-offset-x-m", type=float, default=0.0)
+parser.add_argument("--grasp-world-offset-z-m", type=float, default=0.0)
+parser.add_argument(
+    "--lift-mode",
+    choices=("joint_reference", "cartesian_vertical"),
+    default="joint_reference",
+    help="Use the historical fixed joint target or solve a local vertical lift from the current grasp pose.",
+)
+parser.add_argument("--cartesian-lift-height-m", type=float, default=0.04)
+parser.add_argument("--release-clearance-m", type=float, default=0.08)
+parser.add_argument("--release-separation-assist-m", type=float, default=0.05)
 parser.add_argument("--diagnose-approach-only", action="store_true")
 parser.add_argument("--collision-bypass-during-approach", action="store_true")
 parser.add_argument("--initialize-at-grasp", action="store_true")
 parser.add_argument("--disable-arm-gravity-during-approach", action="store_true")
+parser.add_argument(
+    "--disable-arm-gravity-through-transport",
+    action="store_true",
+    help="Keep arm-link gravity disabled after approach to isolate object grasp/transport physics.",
+)
 parser.add_argument("--natural-source-gravity", action="store_true")
+parser.add_argument(
+    "--unassisted-release",
+    action="store_true",
+    help="After opening the gripper, let gravity place the block without pose or velocity injection.",
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -78,6 +98,10 @@ TIP_LOCAL_POINTS = {
     "tool_r_2": (0.04368, -0.00645, 0.01250),
     "tool_l_2": (0.04368, 0.00645, 0.01257),
 }
+PAD_LOCAL_CENTERS = {
+    "tool_r_2": (0.028775714, -0.011597111, -0.073257379),
+    "tool_l_2": (0.027286683, 0.013343694, -0.072958842),
+}
 CONTACT_SENSORS: dict[str, ContactSensor] = {}
 
 
@@ -118,6 +142,21 @@ def quaternion_to_matrix_wxyz(quaternion: np.ndarray) -> np.ndarray:
 def tip_world_position(robot: Articulation, body_name: str) -> torch.Tensor:
     body_id = list(robot.data.body_names).index(body_name)
     local = torch.tensor(TIP_LOCAL_POINTS[body_name], device=robot.device).unsqueeze(0)
+    return robot.data.body_pos_w[0, body_id] + math_utils.quat_apply(
+        robot.data.body_quat_w[0, body_id].unsqueeze(0), local
+    )[0]
+
+
+def body_world_position(robot: Articulation, body_name: str) -> torch.Tensor:
+    body_id = list(robot.data.body_names).index(body_name)
+    return robot.data.body_pos_w[0, body_id]
+
+
+def local_point_world_position(
+    robot: Articulation, body_name: str, local_position: tuple[float, float, float]
+) -> torch.Tensor:
+    body_id = list(robot.data.body_names).index(body_name)
+    local = torch.tensor(local_position, device=robot.device).unsqueeze(0)
     return robot.data.body_pos_w[0, body_id] + math_utils.quat_apply(
         robot.data.body_quat_w[0, body_id].unsqueeze(0), local
     )[0]
@@ -169,6 +208,23 @@ def hold(
             contact_sensor.update(sim.get_physics_dt())
 
 
+def contact_force_statistics(contact_sensor: ContactSensor, recent_steps: int = 60) -> dict[str, float]:
+    """Return peak, current, and recent sustained cube-contact force magnitudes."""
+
+    current = contact_sensor.data.force_matrix_w
+    history = contact_sensor.data.force_matrix_w_history
+    if current is None or history is None:
+        return {"peak_n": 0.0, "current_n": 0.0, "recent_mean_n": 0.0}
+    current_n = float(torch.linalg.vector_norm(current, dim=-1).max())
+    history_norm = torch.linalg.vector_norm(history, dim=-1)
+    peak_n = float(history_norm.max())
+    recent = history_norm[0, : min(recent_steps, history_norm.shape[1])].reshape(
+        min(recent_steps, history_norm.shape[1]), -1
+    )
+    recent_mean_n = float(recent.max(dim=1).values.mean())
+    return {"peak_n": peak_n, "current_n": current_n, "recent_mean_n": recent_mean_n}
+
+
 def spawn_platform(
     path: str,
     position: np.ndarray,
@@ -209,6 +265,14 @@ def main() -> int:
         raise ValueError("--pregrasp-distance-m must be between 0.01 and 0.10")
     if abs(args.grasp_world_offset_x_m) > 0.08:
         raise ValueError("--grasp-world-offset-x-m must be between -0.08 and 0.08")
+    if abs(args.grasp_world_offset_z_m) > 0.08:
+        raise ValueError("--grasp-world-offset-z-m must be between -0.08 and 0.08")
+    if not 0.02 <= args.cartesian_lift_height_m <= 0.15:
+        raise ValueError("--cartesian-lift-height-m must be between 0.02 and 0.15")
+    if not 0.03 <= args.release_clearance_m <= 0.20:
+        raise ValueError("--release-clearance-m must be between 0.03 and 0.20")
+    if not 0.0 <= args.release_separation_assist_m <= 0.20:
+        raise ValueError("--release-separation-assist-m must be between 0.0 and 0.20")
 
     grasp_arm = np.array([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], dtype=np.float64)
     lift_arm = np.array([0.0, -0.73, 0.87, 0.0, 0.65, 0.0], dtype=np.float64)
@@ -219,9 +283,9 @@ def main() -> int:
         source_block_quaternion = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
     lula = LulaKinematicsSolver(robot_description_path=str(description), urdf_path=str(urdf))
     grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
-    if args.grasp_world_offset_x_m != 0.0:
+    if args.grasp_world_offset_x_m != 0.0 or args.grasp_world_offset_z_m != 0.0:
         offset_target_position = grasp_link_position + np.array(
-            [args.grasp_world_offset_x_m, 0.0, 0.0], dtype=np.float64
+            [args.grasp_world_offset_x_m, 0.0, args.grasp_world_offset_z_m], dtype=np.float64
         )
         offset_grasp_arm, success = lula.compute_inverse_kinematics(
             "link_6",
@@ -231,14 +295,45 @@ def main() -> int:
             position_tolerance=1e-4,
         )
         if not success:
-            raise RuntimeError("Lula failed to solve --grasp-world-offset-x-m")
+            raise RuntimeError("Lula failed to solve the requested grasp world offset")
         grasp_arm = np.asarray(offset_grasp_arm, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
+    if args.lift_mode == "cartesian_vertical":
+        vertical_lift_target = grasp_link_position + np.array(
+            [0.0, 0.0, args.cartesian_lift_height_m], dtype=np.float64
+        )
+        lift_arm_solution, success = lula.compute_inverse_kinematics(
+            "link_6",
+            vertical_lift_target,
+            rot_matrix_to_quat(grasp_link_rotation),
+            warm_start=grasp_arm,
+            position_tolerance=1e-4,
+            orientation_tolerance=1e-3,
+        )
+        if not success:
+            raise RuntimeError("Lula failed to solve the local Cartesian vertical lift")
+        lift_arm = np.asarray(lift_arm_solution, dtype=np.float64)
     lift_link_position, _ = lula.compute_forward_kinematics("link_6", lift_arm)
     expected_lift_translation = lift_link_position - grasp_link_position
     expected_source_lift_block_position = source_block_position + expected_lift_translation
     target_lift_arm = lift_arm.copy()
     target_lift_arm[0] = args.transfer_joint_1_rad
+    transferred_link_position, _ = lula.compute_forward_kinematics("link_6", target_lift_arm)
+    release_clear_arm = None
+    if args.unassisted_release:
+        release_clear_target = transferred_link_position + np.array(
+            [0.0, 0.0, args.release_clearance_m], dtype=np.float64
+        )
+        release_clear_solution, success = lula.compute_inverse_kinematics(
+            "link_6",
+            release_clear_target,
+            target_orientation=None,
+            warm_start=target_lift_arm,
+            position_tolerance=1e-4,
+        )
+        if not success:
+            raise RuntimeError("Lula failed to solve the vertical release-clearance motion")
+        release_clear_arm = np.asarray(release_clear_solution, dtype=np.float64)
 
     transfer_quaternion = np.array(
         [np.cos(args.transfer_joint_1_rad / 2.0), 0.0, 0.0, np.sin(args.transfer_joint_1_rad / 2.0)],
@@ -373,7 +468,7 @@ def main() -> int:
     for prim in get_current_stage().Traverse():
         path = str(prim.GetPath())
         if (
-            args.disable_arm_gravity_during_approach
+            (args.disable_arm_gravity_during_approach or args.disable_arm_gravity_through_transport)
             and path in ARM_BODY_PATHS
             and prim.HasAPI(UsdPhysics.RigidBodyAPI)
         ):
@@ -479,6 +574,17 @@ def main() -> int:
     )
     open_midpoint_world = open_l2_midpoint.detach().cpu().numpy()
     open_midpoint_minus_block = open_midpoint_world - cube.data.root_pos_w[0].detach().cpu().numpy()
+    open_pad_center_world_by_body = {
+        body_name: local_point_world_position(robot, body_name, local_position).detach().cpu().tolist()
+        for body_name, local_position in PAD_LOCAL_CENTERS.items()
+    }
+    open_pad_center_minus_block_by_body = {
+        body_name: (
+            np.asarray(world_position, dtype=np.float64)
+            - cube.data.root_pos_w[0].detach().cpu().numpy()
+        ).tolist()
+        for body_name, world_position in open_pad_center_world_by_body.items()
+    }
     print(
         "PICK_PLACE_APPROACH="
         + json.dumps(
@@ -495,19 +601,43 @@ def main() -> int:
     smooth_move(sim, robot, cube, state, gripper_ids, close_start, close_target, 180, "CLOSE")
     hold(sim, robot, cube, state, 120)
     closed_position = cube.data.root_pos_w[0].clone()
+    closed_link_6_position = body_world_position(robot, "link_6").clone()
+    closed_pad_center_world_by_body = {
+        body_name: local_point_world_position(robot, body_name, local_position).detach().cpu().tolist()
+        for body_name, local_position in PAD_LOCAL_CENTERS.items()
+    }
+    closed_pad_center_minus_block_by_body = {
+        body_name: (np.asarray(world_position, dtype=np.float64) - closed_position.detach().cpu().numpy()).tolist()
+        for body_name, world_position in closed_pad_center_world_by_body.items()
+    }
     closed_l2_gap = float(
         torch.linalg.vector_norm(
             tip_world_position(robot, "tool_l_2") - tip_world_position(robot, "tool_r_2")
         )
     )
     closed_gripper_joint_position = robot.data.joint_pos[0, gripper_ids].clone()
-    close_contact_force_by_body_n = {}
+    close_contact_force_statistics_by_body = {}
     for body_name, contact_sensor in CONTACT_SENSORS.items():
-        filtered_forces = contact_sensor.data.force_matrix_w_history
-        close_contact_force_by_body_n[body_name] = (
-            0.0
-            if filtered_forces is None
-            else float(torch.linalg.vector_norm(filtered_forces, dim=-1).max())
+        close_contact_force_statistics_by_body[body_name] = contact_force_statistics(contact_sensor)
+    close_contact_force_by_body_n = {
+        body_name: statistics["peak_n"]
+        for body_name, statistics in close_contact_force_statistics_by_body.items()
+    }
+    close_current_contact_force_by_body_n = {
+        body_name: statistics["current_n"]
+        for body_name, statistics in close_contact_force_statistics_by_body.items()
+    }
+    close_recent_mean_contact_force_by_body_n = {
+        body_name: statistics["recent_mean_n"]
+        for body_name, statistics in close_contact_force_statistics_by_body.items()
+    }
+    close_current_contact_force_vector_by_body_n = {}
+    for body_name, contact_sensor in CONTACT_SENSORS.items():
+        current = contact_sensor.data.force_matrix_w
+        close_current_contact_force_vector_by_body_n[body_name] = (
+            [0.0, 0.0, 0.0]
+            if current is None
+            else current.reshape(-1, 3).sum(dim=0).detach().cpu().tolist()
         )
     close_left_finger_contact_force_n = max(
         close_contact_force_by_body_n[name] for name in ("tool_l_1", "tool_l_2", "tool_l_3")
@@ -521,6 +651,9 @@ def main() -> int:
             {
                 "left_finger_force_n": close_left_finger_contact_force_n,
                 "right_finger_force_n": close_right_finger_contact_force_n,
+                "current_force_by_body_n": close_current_contact_force_by_body_n,
+                "recent_mean_force_by_body_n": close_recent_mean_contact_force_by_body_n,
+                "current_force_vector_by_body_n": close_current_contact_force_vector_by_body_n,
             }
         ),
         flush=True,
@@ -533,6 +666,7 @@ def main() -> int:
             "collision_bypass_during_approach": args.collision_bypass_during_approach,
             "initialized_at_grasp": args.initialize_at_grasp,
             "arm_gravity_disabled_during_approach": args.disable_arm_gravity_during_approach,
+            "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
             "natural_source_gravity": args.natural_source_gravity,
             "arm_actuator": {
                 "effort_limit_sim": args.arm_effort_limit_sim,
@@ -547,12 +681,18 @@ def main() -> int:
             },
             "pregrasp_distance_m": args.pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
+            "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+            "lift_mode": args.lift_mode,
+            "cartesian_lift_height_m": args.cartesian_lift_height_m,
             "settled_source_position_m": settled_source_position.detach().cpu().tolist(),
             "settled_source_quaternion_wxyz": settled_source_quaternion.detach().cpu().tolist(),
             "closed_position_m": closed_position.detach().cpu().tolist(),
             "close_left_finger_contact_force_n": close_left_finger_contact_force_n,
             "close_right_finger_contact_force_n": close_right_finger_contact_force_n,
             "close_contact_force_by_body_n": close_contact_force_by_body_n,
+            "close_current_contact_force_by_body_n": close_current_contact_force_by_body_n,
+            "close_recent_mean_contact_force_by_body_n": close_recent_mean_contact_force_by_body_n,
+            "close_current_contact_force_vector_by_body_n": close_current_contact_force_vector_by_body_n,
             "approach_actual_arm_joint_position_rad": actual_approach_arm.tolist(),
             "approach_target_arm_joint_position_rad": grasp_arm.tolist(),
             "cartesian_retreat_distances_m": retreat_distances.tolist(),
@@ -561,6 +701,10 @@ def main() -> int:
             "approach_l2_midpoint_to_block_center_m": open_midpoint_to_block,
             "approach_l2_midpoint_world_m": open_midpoint_world.tolist(),
             "approach_l2_midpoint_minus_block_center_m": open_midpoint_minus_block.tolist(),
+            "approach_pad_center_world_by_body_m": open_pad_center_world_by_body,
+            "approach_pad_center_minus_block_by_body_m": open_pad_center_minus_block_by_body,
+            "closed_pad_center_world_by_body_m": closed_pad_center_world_by_body,
+            "closed_pad_center_minus_block_by_body_m": closed_pad_center_minus_block_by_body,
             "closed_l2_tip_gap_m": closed_l2_gap,
             "closed_gripper_joint_position_rad": closed_gripper_joint_position.detach().cpu().tolist(),
         }
@@ -569,14 +713,18 @@ def main() -> int:
         print(json.dumps(diagnostic, indent=2), flush=True)
         return 0
 
-    for rigid_body_api in approach_arm_gravity_apis:
-        rigid_body_api.CreateDisableGravityAttr().Set(False)
-    if approach_arm_gravity_apis:
+    if not args.disable_arm_gravity_through_transport:
+        for rigid_body_api in approach_arm_gravity_apis:
+            rigid_body_api.CreateDisableGravityAttr().Set(False)
+    if approach_arm_gravity_apis and not args.disable_arm_gravity_through_transport:
         print("PICK_PLACE_STAGE=ARM_GRAVITY_RESTORED", flush=True)
     cube_rigid_body_api.CreateDisableGravityAttr().Set(False)
     smooth_move(sim, robot, cube, state, arm_ids, grasp_arm, lift_arm, 240, "LIFT")
     hold(sim, robot, cube, state, 120)
     lifted_position = cube.data.root_pos_w[0].clone()
+    lifted_link_6_position = body_world_position(robot, "link_6").clone()
+    actual_lift_link_translation = lifted_link_6_position - closed_link_6_position
+    actual_lift_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy()
     lift_height_after_attempt = float((lifted_position[2] - closed_position[2]).item())
     if lift_height_after_attempt <= 0.02:
         failed_lift_report = {
@@ -586,8 +734,12 @@ def main() -> int:
             "pi05_used": False,
             "real_robot_command_sent": False,
             "natural_source_gravity": args.natural_source_gravity,
+            "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
             "pregrasp_distance_m": args.pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
+            "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+            "lift_mode": args.lift_mode,
+            "cartesian_lift_height_m": args.cartesian_lift_height_m,
             "gripper_actuator": {
                 "effort_limit_sim": args.gripper_effort_limit_sim,
                 "stiffness": args.gripper_stiffness,
@@ -602,8 +754,18 @@ def main() -> int:
             "close_left_finger_contact_force_n": close_left_finger_contact_force_n,
             "close_right_finger_contact_force_n": close_right_finger_contact_force_n,
             "close_contact_force_by_body_n": close_contact_force_by_body_n,
+            "close_current_contact_force_by_body_n": close_current_contact_force_by_body_n,
+            "close_recent_mean_contact_force_by_body_n": close_recent_mean_contact_force_by_body_n,
+            "close_current_contact_force_vector_by_body_n": close_current_contact_force_vector_by_body_n,
+            "closed_link_6_position_m": closed_link_6_position.detach().cpu().tolist(),
+            "lifted_link_6_position_m": lifted_link_6_position.detach().cpu().tolist(),
+            "actual_lift_link_translation_m": actual_lift_link_translation.detach().cpu().tolist(),
+            "lift_max_arm_joint_error_rad": float(np.max(np.abs(actual_lift_arm - lift_arm))),
+            "lift_actual_arm_joint_position_rad": actual_lift_arm.tolist(),
+            "lift_target_arm_joint_position_rad": lift_arm.tolist(),
             "approach_max_arm_joint_error_rad": float(np.max(np.abs(actual_approach_arm - grasp_arm))),
             "approach_l2_midpoint_minus_block_center_m": open_midpoint_minus_block.tolist(),
+            "closed_pad_center_minus_block_by_body_m": closed_pad_center_minus_block_by_body,
             "reason": "The block did not clear the source support after the commanded lift.",
         }
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -621,21 +783,30 @@ def main() -> int:
     pre_release_position = cube.data.root_pos_w[0].clone()
 
     smooth_move(sim, robot, cube, state, gripper_ids, close_target, close_start, 180, "OPEN")
-    release_pose = cube.data.root_state_w[:, :7].clone()
-    release_pose[:, 2] -= RELEASE_SEPARATION_ASSIST_M
-    cube.write_root_pose_to_sim(release_pose)
-    release_velocity = torch.zeros_like(cube.data.root_vel_w)
-    release_velocity[:, 2] = -RELEASE_DOWNWARD_SPEED_M_S
-    cube.write_root_velocity_to_sim(release_velocity)
-    print("PICK_PLACE_STAGE=RELEASE_ASSIST_APPLIED", flush=True)
-    hold(sim, robot, cube, state, 480)
-    released_position = cube.data.root_pos_w[0].clone()
-    target_clear_arm = target_lift_arm.copy()
-    target_clear_arm[1] -= 0.10
-    target_clear_arm[2] -= 0.10
-    smooth_move(sim, robot, cube, state, arm_ids, target_lift_arm, target_clear_arm, 240, "RETREAT")
-    hold(sim, robot, cube, state, 120)
-    final_position = cube.data.root_pos_w[0].clone()
+    if args.unassisted_release:
+        print("PICK_PLACE_STAGE=UNASSISTED_RELEASE", flush=True)
+        assert release_clear_arm is not None
+        smooth_move(sim, robot, cube, state, arm_ids, target_lift_arm, release_clear_arm, 240, "RETREAT")
+        hold(sim, robot, cube, state, 480)
+        released_position = cube.data.root_pos_w[0].clone()
+        hold(sim, robot, cube, state, 120)
+        final_position = cube.data.root_pos_w[0].clone()
+    else:
+        target_clear_arm = target_lift_arm.copy()
+        target_clear_arm[1] -= 0.10
+        target_clear_arm[2] -= 0.10
+        release_pose = cube.data.root_state_w[:, :7].clone()
+        release_pose[:, 2] -= args.release_separation_assist_m
+        cube.write_root_pose_to_sim(release_pose)
+        release_velocity = torch.zeros_like(cube.data.root_vel_w)
+        release_velocity[:, 2] = -RELEASE_DOWNWARD_SPEED_M_S
+        cube.write_root_velocity_to_sim(release_velocity)
+        print("PICK_PLACE_STAGE=RELEASE_ASSIST_APPLIED", flush=True)
+        hold(sim, robot, cube, state, 480)
+        released_position = cube.data.root_pos_w[0].clone()
+        smooth_move(sim, robot, cube, state, arm_ids, target_lift_arm, target_clear_arm, 240, "RETREAT")
+        hold(sim, robot, cube, state, 120)
+        final_position = cube.data.root_pos_w[0].clone()
 
     settled_source_np = settled_source_position.detach().cpu().numpy()
     closed_np = closed_position.detach().cpu().numpy()
@@ -676,13 +847,18 @@ def main() -> int:
             if args.initialize_at_grasp
             else "scripted Cartesian-approach and joint-space transport baseline; pi0.5 is not used"
         ),
-        "task": "approach, close, lift, transfer, assisted release onto a platform, and retreat",
+        "task": (
+            "approach, close, lift, transfer, unassisted release, and vertical clearance"
+            if args.unassisted_release
+            else "approach, close, lift, transfer, assisted release onto a platform, and retreat"
+        ),
         "real_robot_command_sent": False,
         "unassisted_full_task_complete": False,
         "transfer_joint_1_rad": args.transfer_joint_1_rad,
         "collision_bypass_during_approach": args.collision_bypass_during_approach,
         "initialized_at_grasp": args.initialize_at_grasp,
         "arm_gravity_disabled_during_approach": args.disable_arm_gravity_during_approach,
+        "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
         "natural_source_gravity": args.natural_source_gravity,
         "arm_actuator": {
             "effort_limit_sim": args.arm_effort_limit_sim,
@@ -697,13 +873,17 @@ def main() -> int:
         },
         "pregrasp_distance_m": args.pregrasp_distance_m,
         "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
+        "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+        "lift_mode": args.lift_mode,
+        "cartesian_lift_height_m": args.cartesian_lift_height_m,
         "development_assistance": {
             "initialized_at_grasp": args.initialize_at_grasp,
             "arm_gravity_disabled_during_approach": args.disable_arm_gravity_during_approach,
+            "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
             "source_block_gravity_disabled_until_close": not args.natural_source_gravity,
             "target_platform_collision_enabled_after_transfer": True,
-            "release_separation_assist_m": RELEASE_SEPARATION_ASSIST_M,
-            "release_downward_speed_assist_m_s": RELEASE_DOWNWARD_SPEED_M_S,
+            "release_separation_assist_m": 0.0 if args.unassisted_release else args.release_separation_assist_m,
+            "release_downward_speed_assist_m_s": 0.0 if args.unassisted_release else RELEASE_DOWNWARD_SPEED_M_S,
         },
         "block_mass_kg": BLOCK_MASS_KG,
         "block_size_m": list(BLOCK_SIZE),
@@ -722,8 +902,10 @@ def main() -> int:
         "target_platform_position_m": target_platform_position.tolist(),
         "target_platform_size_m": list(TARGET_PLATFORM_SIZE),
         "target_platform_collision_enabled_after_transfer": True,
-        "release_downward_speed_assist_m_s": RELEASE_DOWNWARD_SPEED_M_S,
-        "release_separation_assist_m": RELEASE_SEPARATION_ASSIST_M,
+        "release_unassisted": args.unassisted_release,
+        "release_clearance_m": args.release_clearance_m if args.unassisted_release else None,
+        "release_downward_speed_assist_m_s": 0.0 if args.unassisted_release else RELEASE_DOWNWARD_SPEED_M_S,
+        "release_separation_assist_m": 0.0 if args.unassisted_release else args.release_separation_assist_m,
         "cartesian_retreat_distances_m": retreat_distances.tolist(),
         "cartesian_pregrasp_joint_position_rad": pregrasp_arm.tolist(),
         "settled_source_position_m": settled_source_np.tolist(),
@@ -739,11 +921,24 @@ def main() -> int:
         "approach_l2_midpoint_to_block_center_m": open_midpoint_to_block,
         "approach_l2_midpoint_world_m": open_midpoint_world.tolist(),
         "approach_l2_midpoint_minus_block_center_m": open_midpoint_minus_block.tolist(),
+        "approach_pad_center_world_by_body_m": open_pad_center_world_by_body,
+        "approach_pad_center_minus_block_by_body_m": open_pad_center_minus_block_by_body,
+        "closed_pad_center_world_by_body_m": closed_pad_center_world_by_body,
+        "closed_pad_center_minus_block_by_body_m": closed_pad_center_minus_block_by_body,
         "closed_l2_tip_gap_m": closed_l2_gap,
         "closed_gripper_joint_position_rad": closed_gripper_joint_position.detach().cpu().tolist(),
         "close_left_finger_contact_force_n": close_left_finger_contact_force_n,
         "close_right_finger_contact_force_n": close_right_finger_contact_force_n,
         "close_contact_force_by_body_n": close_contact_force_by_body_n,
+        "close_current_contact_force_by_body_n": close_current_contact_force_by_body_n,
+        "close_recent_mean_contact_force_by_body_n": close_recent_mean_contact_force_by_body_n,
+        "close_current_contact_force_vector_by_body_n": close_current_contact_force_vector_by_body_n,
+        "closed_link_6_position_m": closed_link_6_position.detach().cpu().tolist(),
+        "lifted_link_6_position_m": lifted_link_6_position.detach().cpu().tolist(),
+        "actual_lift_link_translation_m": actual_lift_link_translation.detach().cpu().tolist(),
+        "lift_max_arm_joint_error_rad": float(np.max(np.abs(actual_lift_arm - lift_arm))),
+        "lift_actual_arm_joint_position_rad": actual_lift_arm.tolist(),
+        "lift_target_arm_joint_position_rad": lift_arm.tolist(),
         "final_target_xy_error_m": final_target_xy_error,
         "final_target_position_error_m": final_target_position_error,
         "post_release_drift_m": release_drift,

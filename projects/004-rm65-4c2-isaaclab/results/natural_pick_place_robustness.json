@@ -1,0 +1,46 @@
+{
+  "status": "fail",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "trial_count": 3,
+  "passed_trials": 1,
+  "success_rate": 0.3333333333333333,
+  "natural_source_gravity": true,
+  "minimum_block_lift_height_m": 0.03907138109207153,
+  "maximum_final_target_position_error_m": 0.05202496253511925,
+  "maximum_approach_arm_joint_error_rad": 0.00936951987299639,
+  "minimum_recent_left_contact_force_n": 0.5685610771179199,
+  "minimum_recent_right_contact_force_n": 0.5040879249572754,
+  "development_assistance": {
+    "arm_gravity_disabled_through_transport": true,
+    "enlarged_empirical_contact_pads": true,
+    "target_platform_collision_enabled_after_transfer": true,
+    "release_separation_assist_m": 0.08,
+    "release_downward_speed_assist_m_s": 0.1
+  },
+  "unassisted_full_task_complete": false,
+  "trials": {
+    "transfer_0p6_rad": {
+      "status": "fail",
+      "transfer_joint_1_rad": 0.6,
+      "block_lift_height_m": 0.03907138109207153,
+      "final_target_position_error_m": 0.036553004234188544,
+      "approach_max_arm_joint_error_rad": 0.00936951987299639
+    },
+    "transfer_0p8_rad": {
+      "status": "pass",
+      "transfer_joint_1_rad": 0.8,
+      "block_lift_height_m": 0.03907138109207153,
+      "final_target_position_error_m": 0.002571081527108393,
+      "approach_max_arm_joint_error_rad": 0.00936951987299639
+    },
+    "transfer_1p0_rad": {
+      "status": "fail",
+      "transfer_joint_1_rad": 1.0,
+      "block_lift_height_m": 0.03907138109207153,
+      "final_target_position_error_m": 0.05202496253511925,
+      "approach_max_arm_joint_error_rad": 0.00936951987299639
+    }
+  }
+}
