@@ -409,6 +409,7 @@ def main() -> None:
             "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
             "High-level release without a place descent is a historical 1/3 result; a 100 mm Cartesian descent followed by release passes three transfer angles without block pose or velocity injection.",
             "The natural-gravity place baseline disables arm gravity through transport, isolates gravity on six moving finger bodies, uses empirical wide pads and a rotated narrow support, and enables target collision only after descent.",
+            "The current side/below grasp places link_6 below the support top plane, so a new above-table end-effector orientation is required before collecting expert data for ordinary tabletop tasks.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
             "A fully collision-active and gravity-consistent expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
         ],
