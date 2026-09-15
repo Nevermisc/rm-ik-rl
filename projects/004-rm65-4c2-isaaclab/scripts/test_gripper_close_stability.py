@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import traceback
 from pathlib import Path
 
 from isaaclab.app import AppLauncher
@@ -19,8 +20,25 @@ parser.add_argument("--block-width-m", type=float, default=0.040)
 parser.add_argument("--block-height-m", type=float, default=0.025)
 parser.add_argument("--block-mass-kg", type=float, default=0.030)
 parser.add_argument("--block-inward-offset-m", type=float, default=-0.010)
+parser.add_argument("--block-width-axis-offset-m", type=float, default=0.0)
 parser.add_argument("--close-target-rad", type=float, default=0.65)
 parser.add_argument("--close-steps", type=int, default=180)
+parser.add_argument("--transport-scale", type=float, default=1.0)
+parser.add_argument("--transport-steps", type=int, default=240)
+parser.add_argument("--pause-contact-sensor-updates-during-transport", action="store_true")
+parser.add_argument(
+    "--enable-block-gravity-during-transport",
+    dest="enable_block_gravity_during_transport",
+    action="store_true",
+    help="Enable realistic gravity after both fingers contact the block (default).",
+)
+parser.add_argument(
+    "--disable-block-gravity-during-transport",
+    dest="enable_block_gravity_during_transport",
+    action="store_false",
+    help="Keep the diagnostic block gravity-disabled during transport.",
+)
+parser.set_defaults(enable_block_gravity_during_transport=True)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -97,10 +115,25 @@ def main() -> int:
         raise ValueError("block dimensions and mass must be positive")
     if args.close_target_rad < 0:
         raise ValueError("--close-target-rad must be non-negative")
+    if args.transport_scale < 0:
+        raise ValueError("--transport-scale must be non-negative")
+    if args.transport_steps < 1:
+        raise ValueError("--transport-steps must be positive")
 
     carb_settings = carb.settings.get_settings()
     carb_settings.set_bool("/physics/disableContactProcessing", False)
-    sim = SimulationContext(sim_utils.SimulationCfg(dt=1.0 / 240.0, device=args.device))
+    sim = SimulationContext(
+        sim_utils.SimulationCfg(
+            dt=1.0 / 240.0,
+            device=args.device,
+            physics_material=sim_utils.RigidBodyMaterialCfg(
+                static_friction=1.5,
+                dynamic_friction=1.2,
+                restitution=0.0,
+                friction_combine_mode="max",
+            ),
+        )
+    )
     print("CONTACT_STAGE=SIMULATION_CREATED", flush=True)
     light_cfg = sim_utils.DomeLightCfg(intensity=2500.0, color=(0.8, 0.8, 0.8))
     light_cfg.func("/World/Light", light_cfg)
@@ -156,7 +189,10 @@ def main() -> int:
                 collision_props=sim_utils.CollisionPropertiesCfg(),
                 visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.85, 0.10, 0.08)),
                 physics_material=sim_utils.RigidBodyMaterialCfg(
-                    static_friction=1.5, dynamic_friction=1.2, restitution=0.0
+                    static_friction=1.5,
+                    dynamic_friction=1.2,
+                    restitution=0.0,
+                    friction_combine_mode="max",
                 ),
             ),
             init_state=RigidObjectCfg.InitialStateCfg(pos=(-0.2225, 0.0, 0.7575)),
@@ -213,9 +249,9 @@ def main() -> int:
     # Selected offline from the RM65 URDF: decreasing joints 2 and 3 by
     # 0.18 rad raises link_6 by 0.0387 m from the test pose.
     lift_q = start_arm_np.copy()
-    lift_q[1] -= 0.18
-    lift_q[2] -= 0.18
-    expected_lift_height = 0.038703798585405735
+    lift_q[1] -= 0.18 * args.transport_scale
+    lift_q[2] -= 0.18 * args.transport_scale
+    expected_lift_height = 0.038703798585405735 * args.transport_scale
     print("CONTACT_STAGE=LIFT_SELECTED", flush=True)
 
     tip_midpoints = []
@@ -237,7 +273,11 @@ def main() -> int:
     block_y_axis = torch.nn.functional.normalize(torch.linalg.cross(block_z_axis, outward_direction), dim=0)
     block_rotation = torch.stack((outward_direction, block_y_axis, block_z_axis), dim=-1)
     block_quaternion = math_utils.quat_from_matrix(block_rotation.unsqueeze(0))[0]
-    contact_block_center = open_midpoint - args.block_inward_offset_m * outward_direction
+    contact_block_center = (
+        open_midpoint
+        - args.block_inward_offset_m * outward_direction
+        + args.block_width_axis_offset_m * block_y_axis
+    )
     cube_pose = cube.data.default_root_state[:, :7].clone()
     cube_pose[:, :3] = contact_block_center
     cube_pose[:, 3:7] = block_quaternion
@@ -261,6 +301,19 @@ def main() -> int:
     print("CONTACT_STAGE=GRIPPER_CLOSED", flush=True)
     closed_cube_position = cube.data.root_pos_w[0].clone()
     closed_gripper_position = robot.data.joint_pos[0, gripper_ids].clone()
+    block_pose_in_finger_frames = {}
+    for body_name in ("tool_l_2", "tool_r_2"):
+        body_id = list(robot.data.body_names).index(body_name)
+        relative_position, relative_quaternion = math_utils.subtract_frame_transforms(
+            robot.data.body_pos_w[0, body_id].unsqueeze(0),
+            robot.data.body_quat_w[0, body_id].unsqueeze(0),
+            cube.data.root_pos_w[0].unsqueeze(0),
+            cube.data.root_quat_w[0].unsqueeze(0),
+        )
+        block_pose_in_finger_frames[body_name] = {
+            "position_m": relative_position[0].detach().cpu().tolist(),
+            "quaternion_wxyz": relative_quaternion[0].detach().cpu().tolist(),
+        }
     closed_l2_gap = float(
         torch.linalg.vector_norm(
             tip_world_position(robot, "tool_l_2") - tip_world_position(robot, "tool_r_2")
@@ -350,7 +403,9 @@ def main() -> int:
             "contact_block_center_m": contact_block_center.detach().cpu().tolist(),
             "contact_block_quaternion_wxyz": block_quaternion.detach().cpu().tolist(),
             "contact_block_width_axis_world": block_y_axis.detach().cpu().tolist(),
+            "contact_block_pose_in_finger_frames": block_pose_in_finger_frames,
             "contact_block_inward_offset_m": args.block_inward_offset_m,
+            "contact_block_width_axis_offset_m": args.block_width_axis_offset_m,
             "closed_gripper_joint_position_rad": closed_gripper_position.detach().cpu().tolist(),
             "closed_l2_tip_gap_m": closed_l2_gap,
             "closed_l3_tip_gap_m": closed_l3_gap,
@@ -358,7 +413,7 @@ def main() -> int:
             "all_states_finite": close_state_finite,
             "warning": (
                 "Finite closing is verified; any contact and bilateral finger contact are reported separately. "
-                "The experimental --attempt-lift path currently causes a native PhysX exit."
+                "Use --attempt-lift to run the gravity-enabled transport check."
             ),
         }
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -367,14 +422,28 @@ def main() -> int:
         print(f"GRIPPER_CLOSE_STABILITY={'PASS' if close_passed else 'FAIL'}", flush=True)
         return 0 if close_passed else 1
 
+    if not bilateral_fingertip_contact_confirmed:
+        raise RuntimeError("transport requires confirmed left and right fingertip contact")
+
+    if args.enable_block_gravity_during_transport:
+        cube_prim = get_current_stage().GetPrimAtPath("/World/Cube")
+        PhysxSchema.PhysxRigidBodyAPI.Apply(cube_prim).CreateDisableGravityAttr().Set(False)
+
     lifted_state = close_state.clone()
-    for step in range(240):
-        progress = (step + 1) / 240
+    transport_sensors = {} if args.pause_contact_sensor_updates_during_transport else contact_sensors
+    print("CONTACT_STAGE=TRANSPORT_START", flush=True)
+    progress_markers = {0, args.transport_steps // 10 - 1, args.transport_steps // 2 - 1, args.transport_steps - 1}
+    for step in range(args.transport_steps):
+        progress = (step + 1) / args.transport_steps
         smooth = 3 * progress**2 - 2 * progress**3
         command = start_arm_np + smooth * (lift_q - start_arm_np)
-        lifted_state[:, arm_ids] = torch.tensor(command, device=sim.device)
-        step_simulation(sim, robot, cube, contact_sensors, lifted_state, 1)
-    step_simulation(sim, robot, cube, contact_sensors, lifted_state, 120)
+        lifted_state[:, arm_ids] = torch.as_tensor(
+            command, device=sim.device, dtype=lifted_state.dtype
+        )
+        step_simulation(sim, robot, cube, transport_sensors, lifted_state, 1)
+        if step in progress_markers:
+            print(f"CONTACT_STAGE=TRANSPORT_STEP_{step + 1}", flush=True)
+    step_simulation(sim, robot, cube, transport_sensors, lifted_state, 120)
     print("CONTACT_STAGE=LIFT_COMPLETE", flush=True)
 
     final_cube_position = cube.data.root_pos_w[0].clone()
@@ -396,8 +465,19 @@ def main() -> int:
         "simulation_only": True,
         "task": "close the software-coupled 4C2 on a floating contact block and transport",
         "moving_gripper_gravity_disabled": True,
+        "contact_static_friction": 1.5,
+        "contact_dynamic_friction": 1.2,
+        "contact_friction_combine_mode": "max",
+        "block_gravity_enabled_during_transport": args.enable_block_gravity_during_transport,
+        "contact_block_size_m": [args.block_length_m, args.block_width_m, args.block_height_m],
+        "contact_block_mass_kg": args.block_mass_kg,
+        "contact_block_inward_offset_m": args.block_inward_offset_m,
+        "contact_block_width_axis_offset_m": args.block_width_axis_offset_m,
+        "bilateral_fingertip_contact_confirmed_before_transport": bilateral_fingertip_contact_confirmed,
         "gravity_disabled_body_paths": isolated_paths,
         "gripper_close_target_rad": close_target_rad,
+        "transport_steps": args.transport_steps,
+        "transport_duration_s": args.transport_steps * sim.get_physics_dt(),
         "open_fingertip_midpoint_m": open_midpoint.detach().cpu().tolist(),
         "initial_cube_position_m": initial_cube_position.detach().cpu().tolist(),
         "closed_cube_position_m": closed_cube_position.detach().cpu().tolist(),
@@ -425,6 +505,13 @@ def main() -> int:
 
 try:
     exit_code = main()
+except BaseException:
+    # AppLauncher uses an immediate shutdown path, which can hide the original
+    # Python traceback. Print it before closing so headless CI/SSH logs retain
+    # the actual failure that triggered cleanup.
+    print("CONTACT_STAGE=PYTHON_EXCEPTION", flush=True)
+    traceback.print_exc()
+    raise
 finally:
     simulation_app.close(skip_cleanup=True)
 

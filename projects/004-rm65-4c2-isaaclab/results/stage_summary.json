@@ -72,6 +72,31 @@
       "block_displacement_m": 0.04796954244375229,
       "bilateral_fingertip_contact_confirmed": false
     },
+    "gripper_contact_pad_static_grasp": {
+      "status": "pass",
+      "collision_prims": 18,
+      "perturbation_trials": 5,
+      "passed_trials": 5,
+      "success_rate": 1.0,
+      "minimum_left_contact_force_n": 0.07785709202289581,
+      "minimum_right_contact_force_n": 0.06647354364395142,
+      "maximum_base_contact_force_n": 0.0,
+      "maximum_block_displacement_m": 0.0013698573457077146,
+      "arm_reach_regression": {
+        "passed_trials": 12,
+        "trial_count": 12
+      }
+    },
+    "gripper_contact_pad_transport": {
+      "status": "pass",
+      "gravity_enabled_during_transport": true,
+      "perturbation_trials": 3,
+      "passed_trials": 3,
+      "success_rate": 1.0,
+      "minimum_tool_lift_m": 0.06079554557800293,
+      "minimum_block_lift_m": 0.03760260343551636,
+      "maximum_block_to_tool_relative_position_change_m": 0.029831232503056526
+    },
     "observation": {
       "status": "pass",
       "external_red_pixels": 966,
@@ -106,7 +131,8 @@
   "known_limitations": [
     "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
     "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-    "Static gripper closing is finite, but the safe outward block pose has no contact while the zero-offset pose contacts only tool_base_link and ejects the block; bilateral fingertip contact is not validated and the 4C2 collision approximation must be rebuilt.",
+    "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
+    "The transport benchmark begins with a suspended 30 g block already between the fingers; table pickup and release are not yet validated.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
     "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]

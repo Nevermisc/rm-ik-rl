@@ -1,0 +1,591 @@
+{
+  "status": "pass",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_contact_pads.usd",
+  "rigid_body_count": 16,
+  "collision_prim_count": 18,
+  "enabled_collision_prim_count": 18,
+  "tool_links_with_enabled_collision": [
+    "tool_base_link",
+    "tool_l_1",
+    "tool_l_2",
+    "tool_l_2_base",
+    "tool_l_3",
+    "tool_r_1",
+    "tool_r_2",
+    "tool_r_2_base",
+    "tool_r_3"
+  ],
+  "tool_links_with_enabled_collision_count": 9,
+  "rigid_bodies": [
+    {
+      "path": "/rm65_4c2/base_link",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_1",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_2",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_3",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_4",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_5",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/link_6",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_base_link",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_r_1",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_r_3",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_l_1",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_l_3",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2_base",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2_base",
+      "enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2",
+      "enabled": true
+    }
+  ],
+  "collisions": [
+    {
+      "path": "/rm65_4c2/base_link/collisions/base_link/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/base_link/collisions/base_link/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/base_link/collisions/base_link/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/base_link/collisions/base_link/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/base_link/collisions/base_link/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_1/collisions/link_1/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_1/collisions/link_1/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_1/collisions/link_1/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_1/collisions/link_1/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_1/collisions/link_1/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_2/collisions/link_2/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_2/collisions/link_2/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_2/collisions/link_2/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_2/collisions/link_2/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_2/collisions/link_2/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_3/collisions/link_3/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_3/collisions/link_3/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_3/collisions/link_3/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_3/collisions/link_3/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_3/collisions/link_3/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_4/collisions/link_4/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_4/collisions/link_4/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_4/collisions/link_4/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_4/collisions/link_4/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_4/collisions/link_4/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_5/collisions/link_5/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_5/collisions/link_5/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_5/collisions/link_5/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_5/collisions/link_5/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_5/collisions/link_5/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/link_6/collisions/link_6/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": null,
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/link_6/collisions/link_6/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/link_6/collisions/link_6/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/link_6/collisions/link_6/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/link_6/collisions/link_6/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_base_link",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_r_1",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_r_3",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_l_1",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_l_3",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_l_2_base",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_l_2",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2/collisions/contact_pad_box/box",
+      "type": "Cube",
+      "enabled": true,
+      "tool_link": "tool_l_2",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI"
+      ],
+      "mesh_approximation": null,
+      "descendants": []
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_r_2_base",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_",
+      "type": "Xform",
+      "enabled": true,
+      "tool_link": "tool_r_2",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI",
+        "PhysicsMeshCollisionAPI"
+      ],
+      "mesh_approximation": "convexHull",
+      "descendants": [
+        {
+          "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_/Looks",
+          "type": "Scope"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_/Looks/DefaultMaterial",
+          "type": "Material"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_/Looks/DefaultMaterial/DefaultMaterial",
+          "type": "Shader"
+        },
+        {
+          "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh",
+          "type": "Mesh"
+        }
+      ]
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2/collisions/contact_pad_box/box",
+      "type": "Cube",
+      "enabled": true,
+      "tool_link": "tool_r_2",
+      "is_instance_proxy": true,
+      "applied_schemas": [
+        "PhysicsCollisionAPI"
+      ],
+      "mesh_approximation": null,
+      "descendants": []
+    }
+  ]
+}

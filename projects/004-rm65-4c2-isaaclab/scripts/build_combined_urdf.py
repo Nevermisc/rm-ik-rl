@@ -107,6 +107,39 @@ def regularize_gripper_inertials(
     return changes
 
 
+def add_4c2_contact_pads(robot: ET.Element, prefix: str) -> list[dict[str, str]]:
+    """Add thin box colliders at empirically derived left/right grasp surfaces.
+
+    The poses are expressed in each second-finger link frame.  They were
+    back-projected from a centered 40 mm block at the validated 0.65 rad
+    closing pose, with 2 mm of intended compression per side.
+    """
+
+    pad_size = "0.025 0.010 0.020"
+    specs = {
+        f"{prefix}l_2": {
+            "xyz": "0.027286683 0.013343694 -0.072958842",
+            "rpy": "0.005034454 0.254940134 0.652909860",
+        },
+        f"{prefix}r_2": {
+            "xyz": "0.028775714 -0.011597111 -0.073257379",
+            "rpy": "0.005034429 0.254940104 -0.644663208",
+        },
+    }
+    links = {link.get("name"): link for link in robot.findall("link")}
+    records: list[dict[str, str]] = []
+    for link_name, pose in specs.items():
+        link = links.get(link_name)
+        if link is None:
+            raise ValueError(f"cannot add 4C2 contact pad: missing link {link_name!r}")
+        collision = ET.SubElement(link, "collision", {"name": "contact_pad_box"})
+        ET.SubElement(collision, "origin", {"xyz": pose["xyz"], "rpy": pose["rpy"]})
+        geometry = ET.SubElement(collision, "geometry")
+        ET.SubElement(geometry, "box", {"size": pad_size})
+        records.append({"link": link_name, "xyz": pose["xyz"], "rpy": pose["rpy"], "size": pad_size})
+    return records
+
+
 def joint_record(joint: ET.Element) -> dict[str, object]:
     limit = joint.find("limit")
     parent = joint.find("parent")
@@ -141,6 +174,11 @@ def main() -> None:
     parser.add_argument("--gripper-min-diagonal-inertia", type=float, default=0.0)
     parser.add_argument("--zero-gripper-cross-inertia", action="store_true")
     parser.add_argument(
+        "--add-4c2-contact-pads",
+        action="store_true",
+        help="Add two thin, box-shaped collision pads for bilateral grasp diagnostics.",
+    )
+    parser.add_argument(
         "--preserve-mimic",
         action="store_true",
         help="Keep source mimic tags. The default strips them for stable software-coupled drives in PhysX.",
@@ -167,6 +205,7 @@ def main() -> None:
         args.gripper_min_diagonal_inertia,
         args.zero_gripper_cross_inertia,
     )
+    contact_pads = add_4c2_contact_pads(gripper, args.gripper_name_prefix) if args.add_4c2_contact_pads else []
     gripper_root_link = link_map[args.gripper_root_link]
     source_mimic_follower_joints = sorted(
         joint.get("name") for joint in gripper.findall("joint") if joint.find("mimic") is not None
@@ -220,6 +259,7 @@ def main() -> None:
             "changed_links": inertial_changes,
         },
         "gripper_link_name_map": link_map,
+        "gripper_contact_pads": contact_pads,
         "gripper_joint_name_map": joint_map,
         "gripper_control": {
             "master_joint": joint_map.get("gripper_joint"),

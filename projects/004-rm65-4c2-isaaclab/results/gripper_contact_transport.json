@@ -1,0 +1,70 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "task": "close the software-coupled 4C2 on a floating contact block and transport",
+  "moving_gripper_gravity_disabled": true,
+  "contact_static_friction": 1.5,
+  "contact_dynamic_friction": 1.2,
+  "contact_friction_combine_mode": "max",
+  "block_gravity_enabled_during_transport": true,
+  "contact_block_size_m": [
+    0.06,
+    0.04,
+    0.025
+  ],
+  "contact_block_mass_kg": 0.03,
+  "contact_block_inward_offset_m": -0.01,
+  "contact_block_width_axis_offset_m": 0.0,
+  "bilateral_fingertip_contact_confirmed_before_transport": true,
+  "gravity_disabled_body_paths": [
+    "/World/Robot/tool_r_1",
+    "/World/Robot/tool_r_3",
+    "/World/Robot/tool_l_1",
+    "/World/Robot/tool_l_3",
+    "/World/Robot/tool_l_2",
+    "/World/Robot/tool_r_2"
+  ],
+  "gripper_close_target_rad": 0.65,
+  "transport_steps": 240,
+  "transport_duration_s": 1.0,
+  "open_fingertip_midpoint_m": [
+    -0.21215778589248657,
+    -3.688037395477295e-06,
+    0.752622127532959
+  ],
+  "initial_cube_position_m": [
+    -0.22128649055957794,
+    -3.831012236332754e-06,
+    0.7567046284675598
+  ],
+  "closed_cube_position_m": [
+    -0.22119566798210144,
+    -5.937062087468803e-05,
+    0.757098376750946
+  ],
+  "final_cube_position_m": [
+    -0.05620231106877327,
+    0.0024469634518027306,
+    0.7947009801864624
+  ],
+  "selected_lift_joint_position_rad": [
+    0.0,
+    -0.7300000119209289,
+    0.8699999523162842,
+    0.0,
+    0.6499999761581421,
+    0.0
+  ],
+  "urdf_predicted_tool_lift_m": 0.038703798585405735,
+  "actual_tool_lift_m": 0.06079709529876709,
+  "actual_cube_lift_m": 0.03760260343551636,
+  "cube_to_tool_relative_position_change_m": 0.029492776840925217,
+  "cube_state_finite": true,
+  "criteria": {
+    "urdf_predicted_tool_lift_m_gt": 0.03,
+    "actual_tool_lift_m_gt": 0.03,
+    "actual_cube_lift_m_gt": 0.02,
+    "cube_to_tool_relative_position_change_m_lt": 0.04
+  },
+  "warning": "This is a contact-model diagnostic, not a validated grasp benchmark."
+}

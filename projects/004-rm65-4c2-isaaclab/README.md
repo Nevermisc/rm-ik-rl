@@ -26,6 +26,8 @@
 - 12 个随机可达目标的到位鲁棒性评测全部通过；
 - 验证 4C2 的正方向为闭合：两组指尖代理距离均单调减小；
 - 60×40×25 mm 悬浮测试块按夹爪局部坐标对齐后，静态闭合保持有限数值；安全外移 10 mm 时无接触，零偏移时只与 `tool_base_link` 接触并被推出 `0.04797 m`，左右指尖均未确认接触；
+- 根据闭合姿态反算左右指面局部坐标，加入两个薄盒碰撞垫；5 个中心附近位置全部形成双侧静态接触，最大物体位移 `1.370 mm`，且 12 目标到位回归仍为 12/12；
+- 修复夹持后运输命令的 `float64`/`float32` 类型错误，给接触设置明确的高摩擦材料，并在夹紧后恢复测试块重力；中心及横向 ±2 mm 的 3 次抬升运输全部通过；
 - USD 物理清单确认 16 个刚体、16 个启用的碰撞体，4C2 的 9 个 link 均保留碰撞；
 - 定义外部/腕部 RGB、六轴关节和夹爪状态的 π0.5 观测接口；
 - 实现 RM65 专用 OpenPI 输入/输出 transform，并在 OpenPI 容器内通过单元测试；
@@ -48,6 +50,12 @@
 | 4C2 静态闭合稳定性 | PASS，接触未确认 |
 | 悬浮测试块闭合期间位移 / 接触力 | `0 m / 0 N` |
 | 零偏移对照 | 基座接触 `0.136 N`，指尖双侧接触否 |
+| 碰撞垫静态夹持扰动测试 | `5/5`，双侧接触 |
+| 碰撞垫最小左 / 右接触力 | `0.07786 / 0.06647 N` |
+| 碰撞垫最大物体位移 / 基座力 | `0.001370 m / 0 N` |
+| 碰撞垫重力运输扰动测试 | `3/3`，100% |
+| 运输最小物体抬升 | `0.03760 m` |
+| 运输最大物体相对夹爪位移 | `0.02983 m` |
 | USD 刚体 / 启用碰撞体 | `16 / 16` |
 | 外部图红色目标像素 | 966 |
 | 腕部图红色目标像素 | 1256 |
@@ -106,6 +114,21 @@ python3 scripts/build_combined_urdf.py \
   --gripper-name-prefix tool_ \
   --output generated/rm65_4c2_software.urdf \
   --report outputs/combined_urdf_report.json
+```
+
+需要验证静态夹持时，在相同命令中加入 `--add-4c2-contact-pads`，并把输出改为独立文件，避免覆盖原始资产：
+
+```bash
+python3 scripts/build_combined_urdf.py \
+  --rm65-urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
+  --rm65-mesh-dir ~/robot-learning/rm-ik-rl/assets/RM65-B/meshes \
+  --gripper-urdf external/4C2/urdf/4C2.urdf \
+  --gripper-mesh-dir external/4C2/meshes \
+  --gripper-root-link base_link \
+  --gripper-name-prefix tool_ \
+  --add-4c2-contact-pads \
+  --output generated/rm65_4c2_contact_pads.urdf \
+  --report outputs/contact_pads_urdf_report.json
 ```
 
 导入为 USD：
@@ -168,12 +191,26 @@ python3 scripts/build_combined_urdf.py \
   --headless
 
 ~/robot-learning/IsaacLab/isaaclab.sh -p scripts/test_gripper_close_stability.py \
-  --usd generated/rm65_4c2_software.usd \
-  --output outputs/gripper_close_stability.json \
+  --usd generated/rm65_4c2_contact_pads.usd \
+  --output outputs/gripper_contact_pads_center.json \
+  --headless
+
+python3 scripts/summarize_gripper_contact_pads.py
+
+~/robot-learning/IsaacLab/isaaclab.sh -p scripts/test_gripper_close_stability.py \
+  --usd generated/rm65_4c2_contact_pads.usd \
+  --output outputs/gripper_contact_transport.json \
+  --attempt-lift \
   --headless
 ```
 
-第二个脚本使用关闭重力的悬浮测试块且不放置桌面，以免把桌面接触力误判为夹爪接触。测试块根据二级指尖位置自动对齐夹爪局部坐标；长度、宽度、高度、质量、内移量、闭合角和闭合步数都可通过参数修改。接触处理已开启，4C2 全部 9 个 link 与测试块自身都有独立传感器。当前安全默认把块外移 10 mm；零偏移对照确认接触来自夹爪基座，而不是左右指尖。默认不会移动机械臂。实验性的 `--attempt-lift` 路径目前会在机械臂开始移动时触发 PhysX 原生退出，只用于复现问题。
+静态阶段使用关闭重力的悬浮测试块且不放置桌面，以免把桌面接触力误判为夹爪接触；`--attempt-lift` 在确认双侧接触后恢复物体重力，再执行 1 秒平滑运输。测试块根据二级指尖位置自动对齐夹爪局部坐标；长度、宽度、高度、质量、内移量、横向偏移、闭合角、闭合步数和运输步数都可通过参数修改。接触处理已开启，4C2 全部 9 个 link 与测试块自身都有独立传感器。原始凸包的零偏移接触来自夹爪基座；反算得到的两个碰撞垫在五个静态扰动位置形成双侧接触，并在中心及横向 ±2 mm 的三个位置完成重力运输。先前的“PhysX 原生退出”实际是 NumPy `float64` 命令写入 PyTorch `float32` 张量导致的异常，现已修复并保留显式回溯输出。碰撞垫来自仿真姿态反算，还需要用真实夹爪尺寸校准。
+
+完整复现实验套件会依次运行 5 个静态位置、3 个运输位置和两份汇总：
+
+```bash
+bash scripts/run_gripper_contact_suite.sh
+```
 
 生成两张 `480×640` RGB 观测图和关节状态；客户端会补边缩放为模型使用的 `224×224`：
 

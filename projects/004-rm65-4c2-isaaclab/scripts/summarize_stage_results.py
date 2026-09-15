@@ -42,6 +42,14 @@ def main() -> None:
     gripper_aperture = load_json(result_dir / "gripper_aperture_test.json")
     gripper_close = load_json(result_dir / "gripper_close_stability.json")
     gripper_base_contact = load_json(result_dir / "diagnostic_gripper_base_contact.json")
+    contact_pads_urdf = load_json(result_dir / "contact_pads_urdf_report.json")
+    contact_pads_import = load_json(result_dir / "contact_pads_import_report.json")
+    contact_pads_inventory = load_json(result_dir / "contact_pads_usd_inventory.json")
+    contact_pads_smoke = load_json(result_dir / "contact_pads_articulation_smoke.json")
+    contact_pads_ik = load_json(result_dir / "contact_pads_combined_ik.json")
+    contact_pads_reach = load_json(result_dir / "contact_pads_reach_robustness.json")
+    contact_pads_robustness = load_json(result_dir / "gripper_contact_pad_robustness.json")
+    gripper_transport = load_json(result_dir / "gripper_transport_robustness.json")
     observation = load_json(result_dir / "observation.json")
     wrist_follow = load_json(result_dir / "wrist_camera_follow_test.json")
     pi_first = load_json(result_dir / "pi05_interface_final_first.json")
@@ -124,6 +132,29 @@ def main() -> None:
     require(gripper_base_contact["cube_contact_force_by_gripper_body_n"]["tool_base_link"] > 0.1, "base contact force changed")
     require(gripper_base_contact["left_finger_contact_force_n"] == 0.0, "unexpected left-finger contact")
     require(gripper_base_contact["right_finger_contact_force_n"] == 0.0, "unexpected right-finger contact")
+    require(len(contact_pads_urdf["gripper_contact_pads"]) == 2, "two contact pads must be generated")
+    require(contact_pads_import["status"] == "pass", "contact-pad USD import failed")
+    require(contact_pads_inventory["enabled_collision_prim_count"] == 18, "contact-pad collision count changed")
+    require(
+        len([item for item in contact_pads_inventory["collisions"] if "contact_pad_box" in item["path"]]) == 2,
+        "imported contact pads are missing",
+    )
+    require(contact_pads_smoke["status"] == "pass", "contact-pad articulation smoke test failed")
+    require(contact_pads_ik["status"] == "pass", "contact-pad IK mapping failed")
+    require(contact_pads_ik["combined_usd_position_error_m"] < 1e-3, "contact-pad IK error is too large")
+    require(contact_pads_reach["status"] == "pass", "contact-pad reach robustness failed")
+    require(contact_pads_reach["passed_trials"] == 12, "contact-pad reach regression changed")
+    require(contact_pads_robustness["status"] == "pass", "contact-pad static grasp robustness failed")
+    require(contact_pads_robustness["passed_trials"] == 5, "contact-pad perturbation count changed")
+    require(contact_pads_robustness["maximum_block_displacement_m"] < 0.002, "contact-pad block motion is too large")
+    require(gripper_transport["status"] == "pass", "gravity-enabled gripper transport failed")
+    require(gripper_transport["passed_trials"] == 3, "gripper transport perturbation count changed")
+    require(gripper_transport["gravity_enabled_during_transport"] is True, "transport block gravity was not enabled")
+    require(gripper_transport["minimum_block_lift_m"] > 0.02, "transport block lift is too small")
+    require(
+        gripper_transport["maximum_block_to_tool_relative_position_change_m"] < 0.04,
+        "transport block drift is too large",
+    )
     require(observation["status"] == "pass", "observation capture did not pass")
     require(observation["images"]["external"]["red_target_pixel_count"] > 20, "target missing externally")
     require(observation["images"]["wrist"]["red_target_pixel_count"] > 20, "target missing in wrist view")
@@ -213,6 +244,37 @@ def main() -> None:
                 "block_displacement_m": gripper_base_contact["cube_displacement_during_close_m"],
                 "bilateral_fingertip_contact_confirmed": False,
             },
+            "gripper_contact_pad_static_grasp": {
+                "status": "pass",
+                "collision_prims": contact_pads_inventory["enabled_collision_prim_count"],
+                "perturbation_trials": contact_pads_robustness["trial_count"],
+                "passed_trials": contact_pads_robustness["passed_trials"],
+                "success_rate": contact_pads_robustness["success_rate"],
+                "minimum_left_contact_force_n": contact_pads_robustness[
+                    "minimum_left_finger_contact_force_n"
+                ],
+                "minimum_right_contact_force_n": contact_pads_robustness[
+                    "minimum_right_finger_contact_force_n"
+                ],
+                "maximum_base_contact_force_n": contact_pads_robustness["maximum_base_contact_force_n"],
+                "maximum_block_displacement_m": contact_pads_robustness["maximum_block_displacement_m"],
+                "arm_reach_regression": {
+                    "passed_trials": contact_pads_reach["passed_trials"],
+                    "trial_count": contact_pads_reach["trial_count"],
+                },
+            },
+            "gripper_contact_pad_transport": {
+                "status": "pass",
+                "gravity_enabled_during_transport": True,
+                "perturbation_trials": gripper_transport["trial_count"],
+                "passed_trials": gripper_transport["passed_trials"],
+                "success_rate": gripper_transport["success_rate"],
+                "minimum_tool_lift_m": gripper_transport["minimum_tool_lift_m"],
+                "minimum_block_lift_m": gripper_transport["minimum_block_lift_m"],
+                "maximum_block_to_tool_relative_position_change_m": gripper_transport[
+                    "maximum_block_to_tool_relative_position_change_m"
+                ],
+            },
             "observation": {
                 "status": "pass",
                 "external_red_pixels": observation["images"]["external"]["red_target_pixel_count"],
@@ -246,7 +308,8 @@ def main() -> None:
         "known_limitations": [
             "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
             "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
-            "Static gripper closing is finite, but the safe outward block pose has no contact while the zero-offset pose contacts only tool_base_link and ejects the block; bilateral fingertip contact is not validated and the 4C2 collision approximation must be rebuilt.",
+            "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
+            "The transport benchmark begins with a suspended 30 g block already between the fingers; table pickup and release are not yet validated.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
             "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
         ],

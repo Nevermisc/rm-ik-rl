@@ -118,7 +118,36 @@
     1.0,
     4.8550507926847786e-05
   ],
+  "contact_block_pose_in_finger_frames": {
+    "tool_l_2": {
+      "position_m": [
+        0.06858377158641815,
+        0.012942440807819366,
+        -0.029761403799057007
+      ],
+      "quaternion_wxyz": [
+        -0.0007980987429618835,
+        -0.355779230594635,
+        0.9302458167076111,
+        0.08979672193527222
+      ]
+    },
+    "tool_r_2": {
+      "position_m": [
+        0.06722170114517212,
+        -0.014738425612449646,
+        -0.0298357754945755
+      ],
+      "quaternion_wxyz": [
+        0.05362126603722572,
+        0.2785835862159729,
+        0.9562045335769653,
+        0.07203369587659836
+      ]
+    }
+  },
   "contact_block_inward_offset_m": 0.0,
+  "contact_block_width_axis_offset_m": 0.0,
   "closed_gripper_joint_position_rad": [
     0.6572495698928833,
     0.6559213399887085,
@@ -131,5 +160,5 @@
   "closed_l3_tip_gap_m": 0.03559426963329315,
   "cube_displacement_during_close_m": 0.04796954244375229,
   "all_states_finite": true,
-  "warning": "Finite closing is verified and contact_confirmed is derived from a filtered ContactSensor. The experimental --attempt-lift path currently causes a native PhysX exit."
+  "warning": "Finite closing is verified; any contact and bilateral finger contact are reported separately. Use --attempt-lift to run the gravity-enabled transport check."
 }
