@@ -29,6 +29,8 @@
 - 根据闭合姿态反算左右指面局部坐标，加入两个薄盒碰撞垫；5 个中心附近位置全部形成双侧静态接触，最大物体位移 `1.370 mm`，且 12 目标到位回归仍为 12/12；
 - 修复夹持后运输命令的 `float64`/`float32` 类型错误，给接触设置明确的高摩擦材料，并在夹紧后恢复测试块重力；中心及横向 ±2 mm 的 3 次抬升运输全部通过；
 - 建立“初始化在抓取位 → 闭合 → 抬升 → 转运 → 辅助释放到平台 → 撤离”的开发状态机；关节 1 转动 0.6、0.8、1.0 rad 三次均通过。该基线使用初始化抓取位、延迟启用平台碰撞和 50 mm 释放分离辅助，不能算无辅助完整任务，也没有使用 π0.5；
+- 去掉“初始化在抓取位”，从方块外侧 2、4、6、10 cm 依次执行笛卡尔接近；4/4 次都完成闭合、抬升、转移和辅助放置，最小抬升 `0.03730 m`，最大落点误差 `0.00863 m`。闭合前方块仍暂时关闭重力，因此这是动态接近基线，不是自然桌面抓取；
+- 在自然重力下加入条形支撑和左右指接触传感器。世界 x 方向修正 −40 mm 后，`tool_l_2/tool_r_2` 双侧接触达到 `0.0535/0.0583 N`；增强夹爪参数后达到 `0.0718/0.0727 N`，但抬升时仍脱落。脚本现在会在抬升失败处立即停止并保存原因；
 - USD 物理清单确认 16 个刚体、16 个启用的碰撞体，4C2 的 9 个 link 均保留碰撞；
 - 定义外部/腕部 RGB、六轴关节和夹爪状态的 π0.5 观测接口；
 - 实现 RM65 专用 OpenPI 输入/输出 transform，并在 OpenPI 容器内通过单元测试；
@@ -60,7 +62,11 @@
 | 辅助抓取搬运状态机 | `3/3`，仅仿真开发基线 |
 | 辅助状态机最小抬升 / 搬运距离 | `0.03783 / 0.15928 m` |
 | 辅助状态机最大落点误差 / 落台漂移 | `0.00520 m / 3.73×10⁻⁹ m` |
-| 无辅助动态接近与自然释放 | 未通过 |
+| 动态接近距离评测 | `4/4`（2、4、6、10 cm），仍含闭合前方块重力辅助 |
+| 动态接近最小抬升 / 最大落点误差 | `0.03730 / 0.00863 m` |
+| 自然重力 `tool_2` 双侧接触 | PASS，`0.0535 / 0.0583 N` |
+| 自然重力持续承重抬升 | FAIL，方块未稳定随夹爪离开支撑 |
+| 无辅助自然释放 | 未通过 |
 | USD 刚体 / 启用碰撞体 | `16 / 16` |
 | 外部图红色目标像素 | 966 |
 | 腕部图红色目标像素 | 1256 |
@@ -239,6 +245,45 @@ bash scripts/run_pick_place_assisted_suite.sh
 ```
 
 这条命令会让 30 g 方块承受重力并真实完成抬升、转运和落台，但仍包含四个明确的开发辅助：从抓取姿态初始化、闭合前暂时关闭方块重力、转运后才启用目标平台碰撞、打开夹爪后向下分离 50 mm 并给 0.10 m/s 初速度。0.6、0.8、1.0 rad 三组结果汇总为 3/3，最大落点误差 `5.20 mm`。它用于验证后半程状态机，不能用于训练，也不能写成 π0.5 或无辅助完整抓取成功。
+
+从多个安全距离动态接近，而不是直接初始化到抓取位：
+
+```bash
+bash scripts/run_pick_place_dynamic_suite.sh
+```
+
+该套件顺序测试 2、4、6、10 cm，并用 `summarize_pick_place_dynamic.py` 汇总。四次都通过，但闭合前方块仍暂时关闭重力，放置端仍包含延迟平台碰撞和释放分离辅助。
+
+自然重力条形支撑的当前接触与承重边界可用下面两条命令复现。第一条只诊断双侧接触；第二条会尝试抬升，并预期在 `failure_stage=lift` 早停：
+
+```bash
+~/robot-learning/IsaacLab/isaaclab.sh -p scripts/run_pick_place_baseline.py \
+  --usd generated/rm65_4c2_contact_pads.usd \
+  --urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
+  --description ~/robot-learning/rm-ik-rl/rm65_robot_description.yaml \
+  --output outputs/natural_contact.json \
+  --pregrasp-distance-m 0.10 \
+  --grasp-world-offset-x-m -0.04 \
+  --natural-source-gravity \
+  --diagnose-approach-only \
+  --headless
+
+~/robot-learning/IsaacLab/isaaclab.sh -p scripts/run_pick_place_baseline.py \
+  --usd generated/rm65_4c2_contact_pads.usd \
+  --urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
+  --description ~/robot-learning/rm-ik-rl/rm65_robot_description.yaml \
+  --output outputs/natural_lift_attempt.json \
+  --pregrasp-distance-m 0.10 \
+  --grasp-world-offset-x-m -0.04 \
+  --natural-source-gravity \
+  --gripper-effort-limit-sim 40 \
+  --gripper-stiffness 250 \
+  --gripper-damping 25 \
+  --gripper-close-target-rad 0.75 \
+  --headless
+```
+
+自然重力模式使用 `120×18×20 mm` 条形开发支撑，让左右手指能够下探。它验证了真实重力下的双侧接触，但目前夹持不能持续承重；下一步应先用实物尺寸校准 4C2 碰撞垫和抓取几何，再接 π0.5 动作执行。
 
 生成两张 `480×640` RGB 观测图和关节状态；客户端会补边缩放为模型使用的 `224×224`：
 

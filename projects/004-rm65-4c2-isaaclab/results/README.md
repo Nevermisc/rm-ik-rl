@@ -17,3 +17,7 @@ python3 scripts/summarize_stage_results.py
 `contact_pads_*.json` 和 `gripper_contact_pads_center.json` 记录反算碰撞垫的构建、导入、物理清单、关节/IK/到位回归及五个静态接触位置。`gripper_contact_pad_robustness.json` 汇总为 5/5。`gripper_contact_transport*.json` 在双侧接触后恢复物体重力，记录中心和横向 ±2 mm 的三次抬升；`gripper_transport_robustness.json` 汇总为 3/3。运输测试从已经位于指间的悬浮物体开始，不包含桌面拾取和放置。
 
 `pick_place_robust_0p6.json`、`0p8.json`、`1p0.json` 记录三种底座转角下的辅助搬运与放置状态机，`pick_place_assisted_robustness.json` 汇总为 3/3。每份报告都明确写入 `unassisted_full_task_complete=false`：测试从抓取姿态初始化，闭合前关闭物体重力，转运后才启用平台碰撞，并用 50 mm 向下分离解除释放卡滞。它证明后半程状态机可运行，不证明无辅助完整抓取或 π0.5 闭环。
+
+`pick_place_dynamic_2cm.json`、`4cm.json`、`6cm.json`、`10cm.json` 去掉了“初始化在抓取位”，让机械臂从四个距离执行笛卡尔接近。`pick_place_dynamic_robustness.json` 汇总为 4/4，最小抬升 `0.03730 m`，最大落点误差 `0.00863 m`。这些测试仍在闭合前暂时关闭方块重力，放置时仍使用延迟平台碰撞和 50 mm 分离辅助。
+
+`pick_place_contact_reference.json` 保存悬空辅助姿态的 `tool_l_2/tool_r_2` 接触参考。`pick_place_natural_contact_xminus4cm.json` 记录自然重力、条形支撑和 −40 mm 世界 x 修正下的双侧接触，左右力为 `0.05346/0.05835 N`。`pick_place_natural_lift_failure.json` 使用更强的夹爪参数后仍在抬升阶段失败，脚本在 `failure_stage=lift` 立即停止。`pick_place_natural_bridge.json` 将当前阶段明确汇总为 `bilateral_contact_pass_lift_fail`；它是需要继续解决的边界，不是通过项。

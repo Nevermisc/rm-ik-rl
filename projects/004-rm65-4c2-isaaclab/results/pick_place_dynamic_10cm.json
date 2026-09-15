@@ -1,0 +1,215 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "pi05_used": false,
+  "expert": "scripted Cartesian-approach and joint-space transport baseline; pi0.5 is not used",
+  "task": "approach, close, lift, transfer, assisted release onto a platform, and retreat",
+  "real_robot_command_sent": false,
+  "unassisted_full_task_complete": false,
+  "transfer_joint_1_rad": 0.8,
+  "collision_bypass_during_approach": false,
+  "initialized_at_grasp": false,
+  "arm_gravity_disabled_during_approach": false,
+  "natural_source_gravity": false,
+  "arm_actuator": {
+    "effort_limit_sim": 300.0,
+    "stiffness": 1000.0,
+    "damping": 100.0
+  },
+  "gripper_actuator": {
+    "effort_limit_sim": 20.0,
+    "stiffness": 120.0,
+    "damping": 12.0,
+    "close_target_rad": 0.65
+  },
+  "pregrasp_distance_m": 0.1,
+  "grasp_world_offset_x_m": 0.0,
+  "development_assistance": {
+    "initialized_at_grasp": false,
+    "arm_gravity_disabled_during_approach": false,
+    "source_block_gravity_disabled_until_close": true,
+    "target_platform_collision_enabled_after_transfer": true,
+    "release_separation_assist_m": 0.05,
+    "release_downward_speed_assist_m_s": 0.1
+  },
+  "block_mass_kg": 0.03,
+  "block_size_m": [
+    0.06,
+    0.04,
+    0.025
+  ],
+  "moving_gripper_gravity_disabled": true,
+  "gravity_disabled_body_paths": [
+    "/World/Robot/tool_r_1",
+    "/World/Robot/tool_r_3",
+    "/World/Robot/tool_l_1",
+    "/World/Robot/tool_l_3",
+    "/World/Robot/tool_l_2",
+    "/World/Robot/tool_r_2"
+  ],
+  "source_block_position_m": [
+    -0.22128649,
+    -3.83e-06,
+    0.75670463
+  ],
+  "target_block_position_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.6625
+  ],
+  "expected_lift_translation_from_fk_m": [
+    0.13743275587855586,
+    5.04819222512974e-07,
+    0.03870379858540607
+  ],
+  "expected_source_lift_block_position_m": [
+    -0.08385373412144415,
+    -3.3251807774870257e-06,
+    0.7954084285854061
+  ],
+  "expected_release_position_before_drop_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.7954084285854061
+  ],
+  "source_block_quaternion_wxyz": [
+    -0.20872162,
+    -2.11e-06,
+    0.97797507,
+    2.437e-05
+  ],
+  "target_block_quaternion_wxyz": [
+    -0.19225483291209453,
+    -0.3808433740172838,
+    0.9007738684115387,
+    -0.08125758100795223
+  ],
+  "source_block_temporarily_gravity_disabled": true,
+  "source_platform_size_m": null,
+  "gravity_enabled_after_gripper_close": true,
+  "target_platform_position_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.63
+  ],
+  "target_platform_size_m": [
+    0.2,
+    0.2,
+    0.04
+  ],
+  "target_platform_collision_enabled_after_transfer": true,
+  "release_downward_speed_assist_m_s": 0.1,
+  "release_separation_assist_m": 0.05,
+  "cartesian_retreat_distances_m": [
+    0.01,
+    0.020000000000000004,
+    0.030000000000000006,
+    0.04000000000000001,
+    0.05000000000000001,
+    0.06000000000000001,
+    0.07,
+    0.08,
+    0.09000000000000001,
+    0.1
+  ],
+  "cartesian_pregrasp_joint_position_rad": [
+    -6.805975261933367e-05,
+    0.2108746586218499,
+    -1.2224650091137694,
+    -9.668906397998523e-06,
+    2.1617867924117644,
+    6.434940985846394e-05
+  ],
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.82999996872968e-06,
+    0.7567046284675598
+  ],
+  "settled_source_quaternion_wxyz": [
+    -0.20872162282466888,
+    -2.1099999685247894e-06,
+    0.977975070476532,
+    2.4369999664486386e-05
+  ],
+  "closed_position_m": [
+    -0.22135934233665466,
+    -3.367275348864496e-05,
+    0.7569065690040588
+  ],
+  "lifted_position_m": [
+    -0.05621720850467682,
+    0.001819045515730977,
+    0.7947052717208862
+  ],
+  "pre_release_position_m": [
+    -0.04025876149535179,
+    -0.03897843137383461,
+    0.794758677482605
+  ],
+  "released_position_m": [
+    -0.056585200130939484,
+    -0.05614548176527023,
+    0.6624999642372131
+  ],
+  "final_position_m": [
+    -0.056585196405649185,
+    -0.05614548176527023,
+    0.6624999642372131
+  ],
+  "source_to_target_xy_distance_m": 0.17362026098942496,
+  "block_lift_height_m": 0.03779870271682739,
+  "approach_max_arm_joint_error_rad": 0.1478471517562866,
+  "approach_l2_midpoint_to_block_center_m": 0.08632729202508926,
+  "approach_l2_midpoint_world_m": [
+    -0.24892070889472961,
+    -0.0007940772920846939,
+    0.6749236583709717
+  ],
+  "approach_l2_midpoint_minus_block_center_m": [
+    -0.027634218335151672,
+    -0.0007902472862042487,
+    -0.08178097009658813
+  ],
+  "closed_l2_tip_gap_m": 0.027493035420775414,
+  "closed_gripper_joint_position_rad": [
+    0.6620110869407654,
+    0.6621938347816467,
+    0.6110664010047913,
+    0.6106509566307068,
+    0.5265722274780273,
+    0.5206024050712585
+  ],
+  "close_left_finger_contact_force_n": 0.09163780510425568,
+  "close_right_finger_contact_force_n": 0.07518220692873001,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.09163780510425568,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.07518220692873001,
+    "tool_r_3": 0.0
+  },
+  "final_target_xy_error_m": 0.004409283103204239,
+  "final_target_position_error_m": 0.004409283103349272,
+  "post_release_drift_m": 3.725290298461914e-09,
+  "final_l2_tip_gap_m": 0.07289697974920273,
+  "final_gripper_joint_position_rad": [
+    0.0008068403112702072,
+    0.0004910554271191359,
+    0.05379782244563103,
+    0.0589318573474884,
+    4.433657886693254e-05,
+    2.531323116272688e-05
+  ],
+  "all_states_finite": true,
+  "criteria": {
+    "source_to_target_xy_distance_m_gt": 0.12,
+    "block_lift_height_m_gt": 0.02,
+    "final_target_xy_error_m_lt": 0.05,
+    "final_target_position_error_m_lt": 0.05,
+    "post_release_drift_m_lt": 0.02,
+    "final_gripper_joint_position_rad_lt": 0.12,
+    "final_l2_tip_gap_m_gt": 0.06
+  },
+  "limitation": "The collision pads and scripted waypoints still require physical calibration."
+}

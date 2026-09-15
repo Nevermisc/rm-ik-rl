@@ -1,0 +1,173 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "expert": "scripted Cartesian-approach and joint-space transport baseline; pi0.5 is not used",
+  "task": "close, enable gravity, lift, transfer, assisted release onto a platform, and retreat",
+  "real_robot_command_sent": false,
+  "unassisted_full_task_complete": false,
+  "transfer_joint_1_rad": 0.8,
+  "collision_bypass_during_approach": false,
+  "initialized_at_grasp": false,
+  "arm_gravity_disabled_during_approach": false,
+  "arm_actuator": {
+    "effort_limit_sim": 300.0,
+    "stiffness": 1000.0,
+    "damping": 100.0
+  },
+  "pregrasp_distance_m": 0.04,
+  "development_assistance": {
+    "initialized_at_grasp": false,
+    "arm_gravity_disabled_during_approach": false,
+    "source_block_gravity_disabled_until_close": true,
+    "target_platform_collision_enabled_after_transfer": true,
+    "release_separation_assist_m": 0.05,
+    "release_downward_speed_assist_m_s": 0.1
+  },
+  "block_mass_kg": 0.03,
+  "block_size_m": [
+    0.06,
+    0.04,
+    0.025
+  ],
+  "moving_gripper_gravity_disabled": true,
+  "gravity_disabled_body_paths": [
+    "/World/Robot/tool_r_1",
+    "/World/Robot/tool_r_3",
+    "/World/Robot/tool_l_1",
+    "/World/Robot/tool_l_3",
+    "/World/Robot/tool_l_2",
+    "/World/Robot/tool_r_2"
+  ],
+  "source_block_position_m": [
+    -0.22128649,
+    -3.83e-06,
+    0.75670463
+  ],
+  "target_block_position_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.6625
+  ],
+  "expected_lift_translation_from_fk_m": [
+    0.13743275587855586,
+    5.04819222512974e-07,
+    0.03870379858540607
+  ],
+  "expected_source_lift_block_position_m": [
+    -0.08385373412144415,
+    -3.3251807774870257e-06,
+    0.7954084285854061
+  ],
+  "expected_release_position_before_drop_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.7954084285854061
+  ],
+  "source_block_quaternion_wxyz": [
+    -0.20872162,
+    -2.11e-06,
+    0.97797507,
+    2.437e-05
+  ],
+  "target_block_quaternion_wxyz": [
+    -0.19225483291209453,
+    -0.3808433740172838,
+    0.9007738684115387,
+    -0.08125758100795223
+  ],
+  "source_block_temporarily_gravity_disabled": true,
+  "gravity_enabled_after_gripper_close": true,
+  "target_platform_position_m": [
+    -0.0584190738275394,
+    -0.060155303592444566,
+    0.63
+  ],
+  "target_platform_size_m": [
+    0.2,
+    0.2,
+    0.04
+  ],
+  "target_platform_collision_enabled_after_transfer": true,
+  "release_downward_speed_assist_m_s": 0.1,
+  "release_separation_assist_m": 0.05,
+  "cartesian_retreat_distances_m": [
+    0.01,
+    0.02,
+    0.03,
+    0.04
+  ],
+  "cartesian_pregrasp_joint_position_rad": [
+    6.749666557608664e-07,
+    -0.6874052774505416,
+    1.1450030975715626,
+    -7.750991034366522e-06,
+    0.6927605376892102,
+    -7.655749217956798e-08
+  ],
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.82999996872968e-06,
+    0.7567046284675598
+  ],
+  "closed_position_m": [
+    -0.22134734690189362,
+    -6.214928725967184e-05,
+    0.7568489909172058
+  ],
+  "lifted_position_m": [
+    -0.055935442447662354,
+    0.0024456249084323645,
+    0.7945308089256287
+  ],
+  "pre_release_position_m": [
+    -0.04049838334321976,
+    -0.038334473967552185,
+    0.7945820093154907
+  ],
+  "released_position_m": [
+    -0.05698857083916664,
+    -0.05557568371295929,
+    0.6624999642372131
+  ],
+  "final_position_m": [
+    -0.05698857083916664,
+    -0.05557568371295929,
+    0.6624999642372131
+  ],
+  "source_to_target_xy_distance_m": 0.17362026098942496,
+  "block_lift_height_m": 0.03768181800842285,
+  "approach_max_arm_joint_error_rad": 0.1478379130363464,
+  "approach_l2_midpoint_to_block_center_m": 0.08632300794124603,
+  "closed_l2_tip_gap_m": 0.027494117617607117,
+  "closed_gripper_joint_position_rad": [
+    0.6621135473251343,
+    0.6622715592384338,
+    0.6107749342918396,
+    0.6104056239128113,
+    0.526569128036499,
+    0.520578920841217
+  ],
+  "final_target_xy_error_m": 0.004797838788488014,
+  "final_target_position_error_m": 0.004797838788621301,
+  "post_release_drift_m": 0.0,
+  "final_l2_tip_gap_m": 0.07289697974920273,
+  "final_gripper_joint_position_rad": [
+    0.000805658521130681,
+    0.000491108454298228,
+    0.05378643795847893,
+    0.058932386338710785,
+    4.4336113205645233e-05,
+    2.5312387151643634e-05
+  ],
+  "all_states_finite": true,
+  "criteria": {
+    "source_to_target_xy_distance_m_gt": 0.12,
+    "block_lift_height_m_gt": 0.02,
+    "final_target_xy_error_m_lt": 0.05,
+    "final_target_position_error_m_lt": 0.05,
+    "post_release_drift_m_lt": 0.02,
+    "final_gripper_joint_position_rad_lt": 0.12,
+    "final_l2_tip_gap_m_gt": 0.06
+  },
+  "limitation": "The collision pads and scripted waypoints still require physical calibration."
+}

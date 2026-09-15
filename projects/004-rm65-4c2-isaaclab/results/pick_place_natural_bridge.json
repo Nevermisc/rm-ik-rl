@@ -1,0 +1,35 @@
+{
+  "status": "bilateral_contact_pass_lift_fail",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "natural_source_gravity": true,
+  "source_support": {
+    "type": "narrow_strip_development_support",
+    "size_m": [
+      0.12,
+      0.018,
+      0.02
+    ]
+  },
+  "contact_reference": {
+    "left_force_n": 0.09163780510425568,
+    "right_force_n": 0.07518220692873001
+  },
+  "natural_gravity_contact": {
+    "grasp_world_offset_x_m": -0.04,
+    "left_force_n": 0.05346052348613739,
+    "right_force_n": 0.05834924057126045,
+    "contact_bodies": [
+      "tool_l_2",
+      "tool_r_2"
+    ]
+  },
+  "stronger_grip_lift_attempt": {
+    "left_force_n": 0.07181492447853088,
+    "right_force_n": 0.07274841517210007,
+    "block_cleared_source_support": false,
+    "failure_stage": "lift"
+  },
+  "next_engineering_step": "Calibrate the 4C2 collision pads and grasp geometry against measured hardware dimensions, then retest sustained contact before any pi0.5 action execution."
+}

@@ -1,0 +1,54 @@
+{
+  "status": "fail",
+  "failure_stage": "lift",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "natural_source_gravity": true,
+  "pregrasp_distance_m": 0.1,
+  "grasp_world_offset_x_m": -0.04,
+  "gripper_actuator": {
+    "effort_limit_sim": 40.0,
+    "stiffness": 250.0,
+    "damping": 25.0,
+    "close_target_rad": 0.75
+  },
+  "source_platform_size_m": [
+    0.12,
+    0.018,
+    0.02
+  ],
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.831066351267509e-06,
+    0.7454999685287476
+  ],
+  "closed_position_m": [
+    -0.22128649055957794,
+    -3.829959950962802e-06,
+    0.7454999685287476
+  ],
+  "lifted_position_m": [
+    -0.048820994794368744,
+    0.1554860919713974,
+    -0.1298610270023346
+  ],
+  "block_lift_height_m": -0.8753609657287598,
+  "close_left_finger_contact_force_n": 0.07181492447853088,
+  "close_right_finger_contact_force_n": 0.07274841517210007,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.07181492447853088,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.07274841517210007,
+    "tool_r_3": 0.0
+  },
+  "approach_max_arm_joint_error_rad": 0.15804201382011662,
+  "approach_l2_midpoint_minus_block_center_m": [
+    -0.0724693089723587,
+    -0.0014068474993109703,
+    -0.07952028512954712
+  ],
+  "reason": "The block did not clear the source support after the commanded lift."
+}
