@@ -171,7 +171,7 @@
       "next_engineering_step": "Calibrate the 4C2 collision pads and grasp geometry against measured hardware dimensions, then retest sustained contact before any pi0.5 action execution."
     },
     "natural_gravity_scripted_pick_place": {
-      "status": "partial_with_simulation_assistance",
+      "status": "historical_partial_with_simulation_assistance",
       "reference_transfer_joint_1_rad": 0.8,
       "reference_block_lift_m": 0.03907138109207153,
       "reference_final_target_error_m": 0.002918221039252657,
@@ -188,6 +188,68 @@
         "target_platform_collision_enabled_after_transfer": true,
         "release_separation_assist_m": 0.08,
         "release_downward_speed_assist_m_s": 0.1
+      }
+    },
+    "natural_gravity_place_descent": {
+      "status": "pass_with_simulation_assistance",
+      "simulation_only": true,
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "trial_count": 3,
+      "passed_trials": 3,
+      "success_rate": 1.0,
+      "minimum_block_lift_height_m": 0.03907138109207153,
+      "maximum_final_target_position_error_m": 0.009479173717708941,
+      "maximum_place_arm_joint_error_rad": 0.011934251605210444,
+      "unassisted_release": true,
+      "unassisted_full_task_complete": false,
+      "development_assistance": {
+        "arm_gravity_disabled_through_transport": true,
+        "moving_finger_gravity_disabled": true,
+        "enlarged_empirical_contact_pads": true,
+        "rotated_narrow_target_support": true,
+        "target_collision_enable_stage": "after_place_descent"
+      },
+      "trials": {
+        "transfer_0p6_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.6,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0009004846215248108,
+            -3.759562969207764e-05,
+            -0.10006392002105713
+          ],
+          "place_max_arm_joint_error_rad": 0.011932225068560287,
+          "final_target_position_error_m": 0.009479173717708941,
+          "post_release_drift_m": 1.4901161193847656e-08
+        },
+        "transfer_0p8_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.8,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0010188296437263489,
+            2.136826515197754e-05,
+            -0.10006201267242432
+          ],
+          "place_max_arm_joint_error_rad": 0.011929840876503728,
+          "final_target_position_error_m": 0.00929397594382738,
+          "post_release_drift_m": 0.0
+        },
+        "transfer_1p0_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 1.0,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0011406391859054565,
+            0.00013376027345657349,
+            -0.10005950927734375
+          ],
+          "place_max_arm_joint_error_rad": 0.011934251605210444,
+          "final_target_position_error_m": 0.009299697179641105,
+          "post_release_drift_m": 7.450580596923828e-09
+        }
       }
     },
     "observation": {
@@ -226,9 +288,9 @@
     "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
     "Empirically derived 4C2 contact pads provide sustained bilateral contact and natural-gravity transport, but they still require calibration against the physical gripper.",
     "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
-    "The natural-gravity scripted grasp, vertical lift, and transport pass in all three transfer trials, but assisted placement passes only one of three and unassisted release fails.",
-    "The natural-gravity reference disables arm gravity through transport, isolates gravity on six moving finger bodies, delays target-platform collision, and uses a release pose/velocity assist.",
+    "High-level release without a place descent is a historical 1/3 result; a 100 mm Cartesian descent followed by release passes three transfer angles without block pose or velocity injection.",
+    "The natural-gravity place baseline disables arm gravity through transport, isolates gravity on six moving finger bodies, uses empirical wide pads and a rotated narrow support, and enables target collision only after descent.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
-    "A robust scripted place-and-release trajectory, integrated expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
+    "A fully collision-active and gravity-consistent expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]
 }

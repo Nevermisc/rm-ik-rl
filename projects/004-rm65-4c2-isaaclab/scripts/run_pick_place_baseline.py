@@ -36,6 +36,18 @@ parser.add_argument(
 parser.add_argument("--cartesian-lift-height-m", type=float, default=0.04)
 parser.add_argument("--release-clearance-m", type=float, default=0.08)
 parser.add_argument("--release-separation-assist-m", type=float, default=0.05)
+parser.add_argument("--place-descent", action="store_true")
+parser.add_argument("--place-descent-distance-m", type=float, default=0.10)
+parser.add_argument(
+    "--target-support-mode",
+    choices=("wide_platform", "rotated_strip"),
+    default="wide_platform",
+)
+parser.add_argument(
+    "--target-collision-enable-stage",
+    choices=("after_transfer", "after_place_descent"),
+    default="after_transfer",
+)
 parser.add_argument("--diagnose-approach-only", action="store_true")
 parser.add_argument("--collision-bypass-during-approach", action="store_true")
 parser.add_argument("--initialize-at-grasp", action="store_true")
@@ -91,6 +103,7 @@ SOURCE_BLOCK_QUATERNION_WXYZ = (-0.20872162, -0.00000211, 0.97797507, 0.00002437
 TARGET_PLATFORM_SIZE = (0.200, 0.200, 0.040)
 TARGET_PLATFORM_TOP_Z = 0.650
 SOURCE_PLATFORM_SIZE = (0.120, 0.018, 0.020)
+TARGET_STRIP_SIZE = (0.070, 0.018, 0.020)
 SOURCE_PLATFORM_TOP_Z = 0.7330
 RELEASE_DOWNWARD_SPEED_M_S = 0.10
 RELEASE_SEPARATION_ASSIST_M = 0.05
@@ -230,6 +243,7 @@ def spawn_platform(
     position: np.ndarray,
     size: tuple[float, float, float],
     color: tuple[float, float, float],
+    orientation: tuple[float, float, float, float] | None = None,
 ) -> None:
     cfg = sim_utils.CuboidCfg(
         size=size,
@@ -242,7 +256,10 @@ def spawn_platform(
             friction_combine_mode="max",
         ),
     )
-    cfg.func(path, cfg, translation=tuple(position))
+    kwargs = {"translation": tuple(position)}
+    if orientation is not None:
+        kwargs["orientation"] = orientation
+    cfg.func(path, cfg, **kwargs)
 
 
 def main() -> int:
@@ -273,6 +290,8 @@ def main() -> int:
         raise ValueError("--release-clearance-m must be between 0.03 and 0.20")
     if not 0.0 <= args.release_separation_assist_m <= 0.20:
         raise ValueError("--release-separation-assist-m must be between 0.0 and 0.20")
+    if not 0.03 <= args.place_descent_distance_m <= 0.13:
+        raise ValueError("--place-descent-distance-m must be between 0.03 and 0.13")
 
     grasp_arm = np.array([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], dtype=np.float64)
     lift_arm = np.array([0.0, -0.73, 0.87, 0.0, 0.65, 0.0], dtype=np.float64)
@@ -318,9 +337,11 @@ def main() -> int:
     expected_source_lift_block_position = source_block_position + expected_lift_translation
     target_lift_arm = lift_arm.copy()
     target_lift_arm[0] = args.transfer_joint_1_rad
-    transferred_link_position, _ = lula.compute_forward_kinematics("link_6", target_lift_arm)
+    transferred_link_position, transferred_link_rotation = lula.compute_forward_kinematics(
+        "link_6", target_lift_arm
+    )
     release_clear_arm = None
-    if args.unassisted_release:
+    if args.unassisted_release and not args.place_descent:
         release_clear_target = transferred_link_position + np.array(
             [0.0, 0.0, args.release_clearance_m], dtype=np.float64
         )
@@ -343,14 +364,41 @@ def main() -> int:
     target_block_position = target_release_position.copy()
     target_block_position[2] = TARGET_PLATFORM_TOP_Z + BLOCK_SIZE[2] / 2.0
     target_block_quaternion = quaternion_multiply_wxyz(transfer_quaternion, source_block_quaternion)
+    target_platform_size = (
+        TARGET_STRIP_SIZE if args.target_support_mode == "rotated_strip" else TARGET_PLATFORM_SIZE
+    )
+    target_platform_orientation = (
+        tuple(transfer_quaternion) if args.target_support_mode == "rotated_strip" else None
+    )
     target_platform_position = np.array(
         [
             target_block_position[0],
             target_block_position[1],
-            TARGET_PLATFORM_TOP_Z - TARGET_PLATFORM_SIZE[2] / 2.0,
+            TARGET_PLATFORM_TOP_Z - target_platform_size[2] / 2.0,
         ],
         dtype=np.float64,
     )
+    place_waypoints = []
+    if args.place_descent:
+        place_waypoint_count = max(1, int(round(args.place_descent_distance_m / 0.01)))
+        place_distances = np.linspace(0.01, args.place_descent_distance_m, place_waypoint_count)
+        place_warm_start = target_lift_arm.copy()
+        for distance in place_distances:
+            place_link_target = transferred_link_position - np.array(
+                [0.0, 0.0, distance], dtype=np.float64
+            )
+            place_solution, success = lula.compute_inverse_kinematics(
+                "link_6",
+                place_link_target,
+                rot_matrix_to_quat(transferred_link_rotation),
+                warm_start=place_warm_start,
+                position_tolerance=1e-4,
+                orientation_tolerance=1e-3,
+            )
+            if not success:
+                raise RuntimeError(f"Lula failed to solve place waypoint at {distance:.3f} m")
+            place_warm_start = np.asarray(place_solution, dtype=np.float64)
+            place_waypoints.append(place_warm_start.copy())
 
     sim = SimulationContext(
         sim_utils.SimulationCfg(
@@ -368,7 +416,11 @@ def main() -> int:
     light_cfg.func("/World/Light", light_cfg)
     if not args.diagnose_approach_only:
         spawn_platform(
-            "/World/TargetPlatform", target_platform_position, TARGET_PLATFORM_SIZE, (0.12, 0.45, 0.20)
+            "/World/TargetPlatform",
+            target_platform_position,
+            target_platform_size,
+            (0.12, 0.45, 0.20),
+            target_platform_orientation,
         )
     if args.natural_source_gravity:
         source_platform_position = np.array(
@@ -775,21 +827,73 @@ def main() -> int:
         return 1
 
     smooth_move(sim, robot, cube, state, arm_ids, lift_arm, target_lift_arm, 360, "TRANSFER")
-    for collision_api in target_platform_collision_apis:
-        collision_api.CreateCollisionEnabledAttr().Set(True)
-    if target_platform_collision_apis:
-        print("PICK_PLACE_STAGE=TARGET_PLATFORM_COLLISION_ENABLED", flush=True)
+    if args.target_collision_enable_stage == "after_transfer":
+        for collision_api in target_platform_collision_apis:
+            collision_api.CreateCollisionEnabledAttr().Set(True)
+        if target_platform_collision_apis:
+            print("PICK_PLACE_STAGE=TARGET_PLATFORM_COLLISION_ENABLED", flush=True)
+            hold(sim, robot, cube, state, 120)
+    pre_place_position = cube.data.root_pos_w[0].clone()
+    pre_place_link_6_position = body_world_position(robot, "link_6").clone()
+    place_actual_arm = None
+    place_actual_link_6_position = None
+    place_commanded_link_6_position = None
+    release_start_arm = target_lift_arm
+    if args.place_descent:
+        previous_place_waypoint = target_lift_arm
+        for index, waypoint in enumerate(place_waypoints, start=1):
+            smooth_move(
+                sim,
+                robot,
+                cube,
+                state,
+                arm_ids,
+                previous_place_waypoint,
+                waypoint,
+                60,
+                f"PLACE_DESCENT_{index}",
+            )
+            previous_place_waypoint = waypoint
         hold(sim, robot, cube, state, 120)
+        release_start_arm = place_waypoints[-1]
+        place_actual_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy()
+        place_actual_link_6_position = body_world_position(robot, "link_6").clone()
+        place_commanded_link_6_position, _ = lula.compute_forward_kinematics(
+            "link_6", place_waypoints[-1]
+        )
+        if args.target_collision_enable_stage == "after_place_descent":
+            for collision_api in target_platform_collision_apis:
+                collision_api.CreateCollisionEnabledAttr().Set(True)
+            if target_platform_collision_apis:
+                print("PICK_PLACE_STAGE=TARGET_PLATFORM_COLLISION_ENABLED_AFTER_PLACE", flush=True)
+                hold(sim, robot, cube, state, 120)
     pre_release_position = cube.data.root_pos_w[0].clone()
 
     smooth_move(sim, robot, cube, state, gripper_ids, close_target, close_start, 180, "OPEN")
     if args.unassisted_release:
         print("PICK_PLACE_STAGE=UNASSISTED_RELEASE", flush=True)
-        assert release_clear_arm is not None
-        smooth_move(sim, robot, cube, state, arm_ids, target_lift_arm, release_clear_arm, 240, "RETREAT")
-        hold(sim, robot, cube, state, 480)
+        hold(sim, robot, cube, state, 240)
         released_position = cube.data.root_pos_w[0].clone()
-        hold(sim, robot, cube, state, 120)
+        if args.place_descent:
+            retreat_place_waypoints = list(reversed(place_waypoints[:-1])) + [target_lift_arm]
+            previous_place_waypoint = release_start_arm
+            for index, waypoint in enumerate(retreat_place_waypoints, start=1):
+                smooth_move(
+                    sim,
+                    robot,
+                    cube,
+                    state,
+                    arm_ids,
+                    previous_place_waypoint,
+                    waypoint,
+                    60,
+                    f"RETREAT_{index}",
+                )
+                previous_place_waypoint = waypoint
+        else:
+            assert release_clear_arm is not None
+            smooth_move(sim, robot, cube, state, arm_ids, release_start_arm, release_clear_arm, 240, "RETREAT")
+        hold(sim, robot, cube, state, 480)
         final_position = cube.data.root_pos_w[0].clone()
     else:
         target_clear_arm = target_lift_arm.copy()
@@ -848,7 +952,11 @@ def main() -> int:
             else "scripted Cartesian-approach and joint-space transport baseline; pi0.5 is not used"
         ),
         "task": (
-            "approach, close, lift, transfer, unassisted release, and vertical clearance"
+            (
+                "approach, close, lift, transfer, Cartesian place descent, unassisted release, and retreat"
+                if args.place_descent
+                else "approach, close, lift, transfer, unassisted release, and vertical clearance"
+            )
             if args.unassisted_release
             else "approach, close, lift, transfer, assisted release onto a platform, and retreat"
         ),
@@ -881,7 +989,7 @@ def main() -> int:
             "arm_gravity_disabled_during_approach": args.disable_arm_gravity_during_approach,
             "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
             "source_block_gravity_disabled_until_close": not args.natural_source_gravity,
-            "target_platform_collision_enabled_after_transfer": True,
+            "target_platform_collision_enable_stage": args.target_collision_enable_stage,
             "release_separation_assist_m": 0.0 if args.unassisted_release else args.release_separation_assist_m,
             "release_downward_speed_assist_m_s": 0.0 if args.unassisted_release else RELEASE_DOWNWARD_SPEED_M_S,
         },
@@ -900,10 +1008,48 @@ def main() -> int:
         "source_platform_size_m": list(SOURCE_PLATFORM_SIZE) if args.natural_source_gravity else None,
         "gravity_enabled_after_gripper_close": True,
         "target_platform_position_m": target_platform_position.tolist(),
-        "target_platform_size_m": list(TARGET_PLATFORM_SIZE),
-        "target_platform_collision_enabled_after_transfer": True,
+        "target_platform_size_m": list(target_platform_size),
+        "target_support_mode": args.target_support_mode,
+        "target_platform_quaternion_wxyz": (
+            list(target_platform_orientation) if target_platform_orientation is not None else None
+        ),
+        "target_platform_collision_enabled_after_transfer": (
+            args.target_collision_enable_stage == "after_transfer"
+        ),
+        "target_collision_enable_stage": args.target_collision_enable_stage,
         "release_unassisted": args.unassisted_release,
-        "release_clearance_m": args.release_clearance_m if args.unassisted_release else None,
+        "place_descent": args.place_descent,
+        "place_descent_distance_m": args.place_descent_distance_m if args.place_descent else None,
+        "pre_place_block_position_m": pre_place_position.detach().cpu().tolist(),
+        "pre_place_link_6_position_m": pre_place_link_6_position.detach().cpu().tolist(),
+        "place_actual_block_translation_m": (
+            (pre_release_position - pre_place_position).detach().cpu().tolist()
+            if args.place_descent
+            else None
+        ),
+        "place_actual_link_6_position_m": (
+            place_actual_link_6_position.detach().cpu().tolist()
+            if place_actual_link_6_position is not None
+            else None
+        ),
+        "place_commanded_link_6_position_m": (
+            place_commanded_link_6_position.tolist()
+            if place_commanded_link_6_position is not None
+            else None
+        ),
+        "place_actual_link_translation_m": (
+            (place_actual_link_6_position - pre_place_link_6_position).detach().cpu().tolist()
+            if place_actual_link_6_position is not None
+            else None
+        ),
+        "place_max_arm_joint_error_rad": (
+            float(np.max(np.abs(place_actual_arm - place_waypoints[-1])))
+            if place_actual_arm is not None
+            else None
+        ),
+        "release_clearance_m": (
+            args.release_clearance_m if args.unassisted_release and not args.place_descent else None
+        ),
         "release_downward_speed_assist_m_s": 0.0 if args.unassisted_release else RELEASE_DOWNWARD_SPEED_M_S,
         "release_separation_assist_m": 0.0 if args.unassisted_release else args.release_separation_assist_m,
         "cartesian_retreat_distances_m": retreat_distances.tolist(),

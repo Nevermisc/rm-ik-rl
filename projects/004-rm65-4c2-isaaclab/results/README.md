@@ -25,3 +25,5 @@ python3 scripts/summarize_stage_results.py
 `natural_close_sweep.json` 用当前力和最近窗口均值重新检查原始 `25×10×20 mm` 经验垫；0.45 至 0.75 rad 共 7 次都没有持续双侧当前接触。`wide_pads_urdf_report.json` 与 `wide_pads_import_report.json` 记录独立的 `40×14×18 mm` 候选碰撞垫资产，`natural_wide_pads_close_065.json` 记录该资产的持续双侧接触。
 
 `natural_pick_place_single_pass.json` 是 0.8 rad 的单次自然重力辅助通过证据：方块抬升 `0.03907 m`，最终误差 `0.002918 m`。`natural_pick_place_0p6.json`、`0p8.json`、`1p0.json` 与 `natural_pick_place_robustness.json` 是 80 mm 释放分离辅助下的三角度复测；抓取和抬升 3/3，但完整任务仅 1/3，所以汇总有意保留 `status=fail`。`natural_unassisted_release_failure.json` 记录夹爪张开并向上撤离后仍带走方块的失败。所有这些实验都为仿真脚本专家，`pi05_used=false`、`real_robot_command_sent=false`，并保留报告中列出的开发辅助。
+
+`natural_place_descent_collision_failure.json` 记录目标支座在下降前启用碰撞时的路径受阻：末端未完成 100 mm 下降，放置关节误差升高，方块被挤离目标。`natural_place_descent_0p6.json`、`0p8.json`、`1p0.json` 在下降完成后才启用旋转窄支座碰撞，再张开夹爪并自然沉降；`natural_place_descent_robustness.json` 汇总为 3/3，最大最终误差 `9.48 mm`。该阶段没有直接改写释放时的方块位姿或速度，但仍包含机械臂/活动指节重力隔离、经验宽碰撞垫、专用窄支座和延迟碰撞，因此状态是 `pass_with_simulation_assistance`，不是无辅助完整任务。
