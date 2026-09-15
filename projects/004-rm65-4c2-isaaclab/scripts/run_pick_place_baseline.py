@@ -28,6 +28,12 @@ parser.add_argument("--pregrasp-distance-m", type=float, default=0.10)
 parser.add_argument("--grasp-world-offset-x-m", type=float, default=0.0)
 parser.add_argument("--grasp-world-offset-z-m", type=float, default=0.0)
 parser.add_argument(
+    "--grasp-orientation-mode",
+    choices=("reference", "top_down"),
+    default="reference",
+)
+parser.add_argument("--top-down-yaw-rad", type=float, default=0.0)
+parser.add_argument(
     "--lift-mode",
     choices=("joint_reference", "cartesian_vertical"),
     default="joint_reference",
@@ -78,6 +84,7 @@ enable_extension("isaacsim.robot_motion.motion_generation")
 from isaaclab.actuators import ImplicitActuatorCfg  # noqa: E402
 from isaaclab.assets import Articulation, ArticulationCfg, RigidObject, RigidObjectCfg  # noqa: E402
 from isaaclab.sensors import ContactSensor, ContactSensorCfg  # noqa: E402
+from grasp_geometry import compute_top_down_link_pose  # noqa: E402
 from isaaclab.sim import SimulationContext  # noqa: E402
 from isaaclab.utils import math as math_utils  # noqa: E402
 from isaacsim.core.utils.rotations import rot_matrix_to_quat  # noqa: E402
@@ -284,6 +291,8 @@ def main() -> int:
         raise ValueError("--grasp-world-offset-x-m must be between -0.08 and 0.08")
     if abs(args.grasp_world_offset_z_m) > 0.08:
         raise ValueError("--grasp-world-offset-z-m must be between -0.08 and 0.08")
+    if abs(args.top_down_yaw_rad) > np.pi:
+        raise ValueError("--top-down-yaw-rad must be between -pi and pi")
     if not 0.02 <= args.cartesian_lift_height_m <= 0.15:
         raise ValueError("--cartesian-lift-height-m must be between 0.02 and 0.15")
     if not 0.03 <= args.release_clearance_m <= 0.20:
@@ -316,6 +325,28 @@ def main() -> int:
         if not success:
             raise RuntimeError("Lula failed to solve the requested grasp world offset")
         grasp_arm = np.asarray(offset_grasp_arm, dtype=np.float64)
+        grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
+    reference_block_from_link_local = grasp_link_rotation.T @ (source_block_position - grasp_link_position)
+    if args.grasp_orientation_mode == "top_down":
+        top_down_link_position, top_down_rotation, reference_block_from_link_local = (
+            compute_top_down_link_pose(
+                grasp_link_position,
+                grasp_link_rotation,
+                source_block_position,
+                args.top_down_yaw_rad,
+            )
+        )
+        top_down_solution, success = lula.compute_inverse_kinematics(
+            "link_6",
+            top_down_link_position,
+            rot_matrix_to_quat(top_down_rotation),
+            warm_start=grasp_arm,
+            position_tolerance=1e-4,
+            orientation_tolerance=1e-3,
+        )
+        if not success:
+            raise RuntimeError("Lula failed to solve the top-down grasp pose")
+        grasp_arm = np.asarray(top_down_solution, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
     if args.lift_mode == "cartesian_vertical":
         vertical_lift_target = grasp_link_position + np.array(
@@ -551,9 +582,13 @@ def main() -> int:
     gripper_ids = [index for index, name in enumerate(joint_names) if name.startswith("tool_")]
 
     grasp_link_quaternion = rot_matrix_to_quat(grasp_link_rotation)
-    outward_direction = quaternion_to_matrix_wxyz(
-        np.asarray(SOURCE_BLOCK_QUATERNION_WXYZ, dtype=np.float64)
-    )[:, 0]
+    outward_direction = (
+        np.array([0.0, 0.0, -1.0], dtype=np.float64)
+        if args.grasp_orientation_mode == "top_down"
+        else quaternion_to_matrix_wxyz(
+            np.asarray(SOURCE_BLOCK_QUATERNION_WXYZ, dtype=np.float64)
+        )[:, 0]
+    )
     waypoint_count = max(1, int(round(args.pregrasp_distance_m / 0.01)))
     retreat_distances = np.linspace(0.01, args.pregrasp_distance_m, waypoint_count)
     retreat_waypoints = []
@@ -734,6 +769,9 @@ def main() -> int:
             "pregrasp_distance_m": args.pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
             "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+            "grasp_orientation_mode": args.grasp_orientation_mode,
+            "top_down_yaw_rad": args.top_down_yaw_rad,
+            "reference_block_from_link_local_m": reference_block_from_link_local.tolist(),
             "lift_mode": args.lift_mode,
             "cartesian_lift_height_m": args.cartesian_lift_height_m,
             "settled_source_position_m": settled_source_position.detach().cpu().tolist(),
@@ -982,6 +1020,9 @@ def main() -> int:
         "pregrasp_distance_m": args.pregrasp_distance_m,
         "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
         "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+        "grasp_orientation_mode": args.grasp_orientation_mode,
+        "top_down_yaw_rad": args.top_down_yaw_rad,
+        "reference_block_from_link_local_m": reference_block_from_link_local.tolist(),
         "lift_mode": args.lift_mode,
         "cartesian_lift_height_m": args.cartesian_lift_height_m,
         "development_assistance": {
