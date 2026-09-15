@@ -97,6 +97,29 @@
       "minimum_block_lift_m": 0.03760260343551636,
       "maximum_block_to_tool_relative_position_change_m": 0.029831232503056526
     },
+    "assisted_pick_place_state_machine": {
+      "status": "pass_with_simulation_assistance",
+      "trials": 3,
+      "passed_trials": 3,
+      "transfer_joint_1_rad": [
+        0.6,
+        0.8,
+        1.0
+      ],
+      "minimum_block_lift_m": 0.03782552480697632,
+      "minimum_transfer_distance_m": 0.15928047587734404,
+      "maximum_final_target_error_m": 0.00519735919940024,
+      "maximum_post_release_drift_m": 3.725290298461914e-09,
+      "pi05_used": false,
+      "unassisted_full_task_complete": false,
+      "development_assistance": {
+        "initialized_at_grasp": true,
+        "source_block_gravity_disabled_until_close": true,
+        "target_platform_collision_enabled_after_transfer": true,
+        "release_separation_assist_m": 0.05,
+        "release_downward_speed_assist_m_s": 0.1
+      }
+    },
     "observation": {
       "status": "pass",
       "external_red_pixels": 966,
@@ -133,6 +156,7 @@
     "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
     "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
     "The transport benchmark begins with a suspended 30 g block already between the fingers; table pickup and release are not yet validated.",
+    "A close-lift-transfer-assisted-release-retreat state machine passes at three base rotation angles, but it initializes at the grasp pose, delays target-platform collision, and applies a 50 mm release separation; it is not an unassisted task result or training demonstration.",
     "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
     "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required."
   ]

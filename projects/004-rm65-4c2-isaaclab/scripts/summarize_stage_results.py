@@ -56,6 +56,7 @@ def main() -> None:
     pi_steady = load_json(result_dir / "pi05_interface_final_steady.json")
     transform = load_json(result_dir / "rm65_policy_transform_test.json")
     guard = load_json(result_dir / "action_guard_test.json")
+    assisted_pick_place = load_json(result_dir / "pick_place_assisted_robustness.json")
 
     require(combined["link_count"] == 16, "combined URDF must contain 16 links")
     require(combined["joint_count"] == 15, "combined URDF must contain 15 joints")
@@ -168,6 +169,16 @@ def main() -> None:
     require(transform["action_output_shape"][1] == 7, "RM65 transform action width must be seven")
     require(guard["status"] == "pass" and guard["nan_rejected"] is True, "action guard test did not pass")
     require(guard["maximum_output_step_rad"] <= 0.050001, "action guard exceeded step bound")
+    require(
+        assisted_pick_place["status"] == "pass_with_simulation_assistance",
+        "assisted pick-place state machine did not pass",
+    )
+    require(assisted_pick_place["passed_trials"] == 3, "assisted pick-place trial count changed")
+    require(assisted_pick_place["pi05_used"] is False, "assisted baseline must not claim pi0.5 control")
+    require(
+        assisted_pick_place["unassisted_full_task_complete"] is False,
+        "assisted baseline must not claim an unassisted full task",
+    )
 
     summary = {
         "status": "pass_with_known_limitations",
@@ -275,6 +286,23 @@ def main() -> None:
                     "maximum_block_to_tool_relative_position_change_m"
                 ],
             },
+            "assisted_pick_place_state_machine": {
+                "status": "pass_with_simulation_assistance",
+                "trials": assisted_pick_place["trial_count"],
+                "passed_trials": assisted_pick_place["passed_trials"],
+                "transfer_joint_1_rad": assisted_pick_place["transfer_joint_1_rad"],
+                "minimum_block_lift_m": assisted_pick_place["minimum_block_lift_m"],
+                "minimum_transfer_distance_m": assisted_pick_place["minimum_transfer_distance_m"],
+                "maximum_final_target_error_m": assisted_pick_place[
+                    "maximum_final_target_error_m"
+                ],
+                "maximum_post_release_drift_m": assisted_pick_place[
+                    "maximum_post_release_drift_m"
+                ],
+                "pi05_used": False,
+                "unassisted_full_task_complete": False,
+                "development_assistance": assisted_pick_place["development_assistance"],
+            },
             "observation": {
                 "status": "pass",
                 "external_red_pixels": observation["images"]["external"]["red_target_pixel_count"],
@@ -310,6 +338,7 @@ def main() -> None:
             "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
             "Empirically derived 4C2 contact pads provide bilateral static contact and gravity-enabled transport across small pose perturbations, but they still require calibration against the physical gripper.",
             "The transport benchmark begins with a suspended 30 g block already between the fingers; table pickup and release are not yet validated.",
+            "A close-lift-transfer-assisted-release-retreat state machine passes at three base rotation angles, but it initializes at the grasp pose, delays target-platform collision, and applies a 50 mm release separation; it is not an unassisted task result or training demonstration.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
             "A task scene, expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
         ],

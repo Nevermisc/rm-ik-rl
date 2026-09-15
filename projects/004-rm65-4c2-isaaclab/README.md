@@ -28,6 +28,7 @@
 - 60×40×25 mm 悬浮测试块按夹爪局部坐标对齐后，静态闭合保持有限数值；安全外移 10 mm 时无接触，零偏移时只与 `tool_base_link` 接触并被推出 `0.04797 m`，左右指尖均未确认接触；
 - 根据闭合姿态反算左右指面局部坐标，加入两个薄盒碰撞垫；5 个中心附近位置全部形成双侧静态接触，最大物体位移 `1.370 mm`，且 12 目标到位回归仍为 12/12；
 - 修复夹持后运输命令的 `float64`/`float32` 类型错误，给接触设置明确的高摩擦材料，并在夹紧后恢复测试块重力；中心及横向 ±2 mm 的 3 次抬升运输全部通过；
+- 建立“初始化在抓取位 → 闭合 → 抬升 → 转运 → 辅助释放到平台 → 撤离”的开发状态机；关节 1 转动 0.6、0.8、1.0 rad 三次均通过。该基线使用初始化抓取位、延迟启用平台碰撞和 50 mm 释放分离辅助，不能算无辅助完整任务，也没有使用 π0.5；
 - USD 物理清单确认 16 个刚体、16 个启用的碰撞体，4C2 的 9 个 link 均保留碰撞；
 - 定义外部/腕部 RGB、六轴关节和夹爪状态的 π0.5 观测接口；
 - 实现 RM65 专用 OpenPI 输入/输出 transform，并在 OpenPI 容器内通过单元测试；
@@ -56,6 +57,10 @@
 | 碰撞垫重力运输扰动测试 | `3/3`，100% |
 | 运输最小物体抬升 | `0.03760 m` |
 | 运输最大物体相对夹爪位移 | `0.02983 m` |
+| 辅助抓取搬运状态机 | `3/3`，仅仿真开发基线 |
+| 辅助状态机最小抬升 / 搬运距离 | `0.03783 / 0.15928 m` |
+| 辅助状态机最大落点误差 / 落台漂移 | `0.00520 m / 3.73×10⁻⁹ m` |
+| 无辅助动态接近与自然释放 | 未通过 |
 | USD 刚体 / 启用碰撞体 | `16 / 16` |
 | 外部图红色目标像素 | 966 |
 | 腕部图红色目标像素 | 1256 |
@@ -211,6 +216,29 @@ python3 scripts/summarize_gripper_contact_pads.py
 ```bash
 bash scripts/run_gripper_contact_suite.sh
 ```
+
+从已验证抓取姿态运行带开发辅助的搬运和放置状态机：
+
+```bash
+~/robot-learning/IsaacLab/isaaclab.sh -p scripts/run_pick_place_baseline.py \
+  --usd generated/rm65_4c2_contact_pads.usd \
+  --urdf ~/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf \
+  --description ~/robot-learning/rm-ik-rl/rm65_robot_description.yaml \
+  --output outputs/pick_place_robust_0p8.json \
+  --transfer-joint-1-rad 0.8 \
+  --initialize-at-grasp \
+  --headless
+
+python3 scripts/summarize_pick_place_assisted.py
+```
+
+一键顺序运行三种转角并汇总：
+
+```bash
+bash scripts/run_pick_place_assisted_suite.sh
+```
+
+这条命令会让 30 g 方块承受重力并真实完成抬升、转运和落台，但仍包含四个明确的开发辅助：从抓取姿态初始化、闭合前暂时关闭方块重力、转运后才启用目标平台碰撞、打开夹爪后向下分离 50 mm 并给 0.10 m/s 初速度。0.6、0.8、1.0 rad 三组结果汇总为 3/3，最大落点误差 `5.20 mm`。它用于验证后半程状态机，不能用于训练，也不能写成 π0.5 或无辅助完整抓取成功。
 
 生成两张 `480×640` RGB 观测图和关节状态；客户端会补边缩放为模型使用的 `224×224`：
 

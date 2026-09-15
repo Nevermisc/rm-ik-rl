@@ -1,0 +1,28 @@
+{
+  "status": "pass_with_simulation_assistance",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "pi05_used": false,
+  "unassisted_full_task_complete": false,
+  "trial_count": 3,
+  "passed_trials": 3,
+  "success_rate": 1.0,
+  "transfer_joint_1_rad": [
+    0.6,
+    0.8,
+    1.0
+  ],
+  "minimum_block_lift_m": 0.03782552480697632,
+  "minimum_transfer_distance_m": 0.15928047587734404,
+  "maximum_final_target_error_m": 0.00519735919940024,
+  "maximum_post_release_drift_m": 3.725290298461914e-09,
+  "minimum_final_l2_tip_gap_m": 0.07289695739746094,
+  "development_assistance": {
+    "initialized_at_grasp": true,
+    "source_block_gravity_disabled_until_close": true,
+    "target_platform_collision_enabled_after_transfer": true,
+    "release_separation_assist_m": 0.05,
+    "release_downward_speed_assist_m_s": 0.1
+  },
+  "interpretation": "The close-lift-transfer-assisted-release-retreat state machine passed at three base rotation angles. Dynamic approach, natural release, and pi0.5 control remain unvalidated."
+}
