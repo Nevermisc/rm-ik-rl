@@ -93,6 +93,22 @@ uv run ../004-rm65-4c2-isaaclab/scripts/convert_expert_episodes_to_lerobot.py \
 
 全任务回归通过后，下一步是收集带起点、目标位置和视觉扰动的多条成功示教，转换成 OpenPI 当前使用的数据格式，并计算 RM65 自己的归一化统计量。
 
+## OpenPI 数据配置预检
+
+`openpi_extension/rm65_training_config.py` 已准备 RM65 专用数据映射和 π0.5 LoRA 配置。它把数据集字段映射回推理时使用的观测名称，并把前六个绝对关节目标转换成相对当前状态的 delta；夹爪维度保持绝对值。这样模型训练输出经过逆变换后仍是安全层需要的六轴绝对目标与夹爪目标。
+
+在 OpenPI 环境中、生成 LeRobot 数据集之后，先只检查一个 batch，不下载或开始训练：
+
+```bash
+cd ~/robot-learning/openpi
+PYTHONPATH=../004-rm65-4c2-isaaclab \
+  uv run ../004-rm65-4c2-isaaclab/scripts/validate_rm65_openpi_data.py \
+  --repo-id local/rm65_sim \
+  --output ../004-rm65-4c2-isaaclab/outputs/rm65_openpi_data_contract.json
+```
+
+这一步通过后才运行 OpenPI 的归一化统计脚本。训练配置使用 `pi05_base`、10 步动作块和 LoRA，默认 batch size 为 1，以便先测试 16 GB 显存是否足够。显存是否足够仍必须实测，不能依据配置文件推断。
+
 ## 与最终目标的关系
 
 完整链路是：
