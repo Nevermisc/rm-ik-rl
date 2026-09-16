@@ -5,8 +5,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import traceback
 from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from isaaclab.app import AppLauncher
 
@@ -105,6 +110,27 @@ parser.add_argument(
     action="store_true",
     help="After opening the gripper, let gravity place the block without pose or velocity injection.",
 )
+parser.add_argument(
+    "--record-episode-dir",
+    type=Path,
+    help="Write a synchronized scripted-expert episode to this directory.",
+)
+parser.add_argument(
+    "--record-stride-steps",
+    type=int,
+    default=12,
+    help="Record one policy frame every N physics steps (12 gives 20 Hz at 240 Hz physics).",
+)
+parser.add_argument(
+    "--episode-prompt",
+    default="pick up the block and place it on the target",
+    help="Language instruction stored with the expert episode.",
+)
+parser.add_argument(
+    "--record-images",
+    action="store_true",
+    help="Record synchronized external and wrist RGB; requires --record-episode-dir and --enable_cameras.",
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -120,6 +146,12 @@ enable_extension("isaacsim.robot_motion.motion_generation")
 from isaaclab.actuators import ImplicitActuatorCfg  # noqa: E402
 from isaaclab.assets import Articulation, ArticulationCfg, RigidObject, RigidObjectCfg  # noqa: E402
 from isaaclab.sensors import ContactSensor, ContactSensorCfg  # noqa: E402
+from isaaclab.sensors.camera import Camera, CameraCfg  # noqa: E402
+from openpi_extension.expert_episode import (  # noqa: E402
+    EpisodeRecorder,
+    normalize_gripper,
+    validate_episode,
+)
 from grasp_geometry import compute_top_down_link_pose  # noqa: E402
 from isaaclab.sim import SimulationContext  # noqa: E402
 from isaaclab.utils import math as math_utils  # noqa: E402
@@ -159,6 +191,7 @@ PAD_LOCAL_CENTERS = {
     "tool_l_2": (0.027286683, 0.013343694, -0.072958842),
 }
 CONTACT_SENSORS: dict[str, ContactSensor] = {}
+GRIPPER_MASTER_JOINT = "tool_gripper_joint"
 
 
 def rotate_about_z(position: np.ndarray, angle: float) -> np.ndarray:
@@ -218,6 +251,115 @@ def local_point_world_position(
     )[0]
 
 
+class ExpertEpisodeCapture:
+    """Sample observations and the action targets applied on the next physics step."""
+
+    def __init__(
+        self,
+        recorder: EpisodeRecorder,
+        arm_ids: list[int],
+        gripper_master_id: int,
+        stride_steps: int,
+        physics_dt: float,
+        sim: SimulationContext,
+        external_camera: Camera | None = None,
+        wrist_camera: Camera | None = None,
+        wrist_tool_body_id: int | None = None,
+    ) -> None:
+        self.recorder = recorder
+        self.arm_ids = arm_ids
+        self.gripper_master_id = gripper_master_id
+        self.stride_steps = stride_steps
+        self.physics_dt = physics_dt
+        self.sim = sim
+        self.external_camera = external_camera
+        self.wrist_camera = wrist_camera
+        self.wrist_tool_body_id = wrist_tool_body_id
+        self.wrist_local_offset: torch.Tensor | None = None
+        self.wrist_local_forward: torch.Tensor | None = None
+        self.sim_step = 0
+
+    @staticmethod
+    def _rgb(camera: Camera) -> np.ndarray:
+        image = camera.data.output["rgb"][0, ..., :3].detach().cpu().numpy()
+        if image.dtype != np.uint8:
+            image = np.clip(image, 0, 255).astype(np.uint8)
+        return image
+
+    def _render_images(self, robot: Articulation, cube: RigidObject) -> tuple[np.ndarray, np.ndarray]:
+        if self.external_camera is None or self.wrist_camera is None:
+            raise RuntimeError("both cameras are required for image recording")
+        if self.wrist_tool_body_id is None:
+            raise RuntimeError("wrist tool body id is required for image recording")
+        tool_position = robot.data.body_pos_w[0, self.wrist_tool_body_id]
+        tool_quaternion = robot.data.body_quat_w[0, self.wrist_tool_body_id]
+        if self.wrist_local_offset is None:
+            world_offset = torch.tensor([0.0, 0.15, 0.10], device=robot.device)
+            eye = tool_position + world_offset
+            world_forward = torch.nn.functional.normalize(cube.data.root_pos_w[0] - eye, dim=0)
+            inverse_tool_quaternion = math_utils.quat_conjugate(tool_quaternion.unsqueeze(0))[0]
+            self.wrist_local_offset = math_utils.quat_apply(
+                inverse_tool_quaternion.unsqueeze(0), world_offset.unsqueeze(0)
+            )[0]
+            self.wrist_local_forward = math_utils.quat_apply(
+                inverse_tool_quaternion.unsqueeze(0), world_forward.unsqueeze(0)
+            )[0]
+        assert self.wrist_local_forward is not None
+        eye = tool_position + math_utils.quat_apply(
+            tool_quaternion.unsqueeze(0), self.wrist_local_offset.unsqueeze(0)
+        )[0]
+        forward = math_utils.quat_apply(
+            tool_quaternion.unsqueeze(0), self.wrist_local_forward.unsqueeze(0)
+        )[0]
+        self.wrist_camera.set_world_poses_from_view(
+            eye.unsqueeze(0), (eye + forward).unsqueeze(0)
+        )
+        self.sim.render()
+        self.external_camera.update(self.physics_dt)
+        self.wrist_camera.update(self.physics_dt)
+        return self._rgb(self.external_camera), self._rgb(self.wrist_camera)
+
+    def before_step(
+        self,
+        robot: Articulation,
+        cube: RigidObject,
+        target_state: torch.Tensor,
+        phase: str,
+    ) -> None:
+        # The simulator data buffers are stale immediately after the initial
+        # direct state write, so the first valid sample is taken after one
+        # complete stride of physics updates.
+        if self.sim_step > 0 and self.sim_step % self.stride_steps == 0:
+            observed_arm = robot.data.joint_pos[0, self.arm_ids].detach().cpu().numpy()
+            observed_gripper = normalize_gripper(
+                float(robot.data.joint_pos[0, self.gripper_master_id].item())
+            )
+            target_arm = target_state[0, self.arm_ids].detach().cpu().numpy()
+            target_gripper = normalize_gripper(
+                float(target_state[0, self.gripper_master_id].item())
+            )
+            action = np.concatenate([target_arm, [target_gripper]])
+            cube_pose = torch.cat(
+                [cube.data.root_pos_w[0], cube.data.root_quat_w[0]], dim=0
+            ).detach().cpu().numpy()
+            external_rgb = None
+            wrist_rgb = None
+            if self.external_camera is not None:
+                external_rgb, wrist_rgb = self._render_images(robot, cube)
+            self.recorder.add_frame(
+                timestamp_s=self.sim_step * self.physics_dt,
+                sim_step=self.sim_step,
+                phase=phase,
+                joint_position_rad=observed_arm,
+                gripper_position=observed_gripper,
+                action=action,
+                cube_pose_wxyz=cube_pose,
+                external_rgb=external_rgb,
+                wrist_rgb=wrist_rgb,
+            )
+        self.sim_step += 1
+
+
 def smooth_move(
     sim: SimulationContext,
     robot: Articulation,
@@ -228,6 +370,7 @@ def smooth_move(
     target: np.ndarray,
     steps: int,
     phase: str,
+    capture: ExpertEpisodeCapture | None = None,
 ) -> None:
     print(f"PICK_PLACE_STAGE={phase}_START", flush=True)
     for step in range(steps):
@@ -236,6 +379,8 @@ def smooth_move(
         command = start + smooth * (target - start)
         state[:, joint_ids] = torch.as_tensor(command, device=sim.device, dtype=state.dtype)
         robot.set_joint_position_target(state)
+        if capture is not None:
+            capture.before_step(robot, cube, state, phase)
         robot.write_data_to_sim()
         cube.write_data_to_sim()
         sim.step(render=False)
@@ -252,9 +397,13 @@ def hold(
     cube: RigidObject,
     state: torch.Tensor,
     steps: int,
+    phase: str,
+    capture: ExpertEpisodeCapture | None = None,
 ) -> None:
     for _ in range(steps):
         robot.set_joint_position_target(state)
+        if capture is not None:
+            capture.before_step(robot, cube, state, phase)
         robot.write_data_to_sim()
         cube.write_data_to_sim()
         sim.step(render=False)
@@ -347,6 +496,18 @@ def main() -> int:
         raise ValueError("--place-descent-distance-m must be between 0.03 and 0.13")
     if not 30 <= args.place_waypoint_steps <= 240:
         raise ValueError("--place-waypoint-steps must be between 30 and 240")
+    if not 1 <= args.record_stride_steps <= 240:
+        raise ValueError("--record-stride-steps must be between 1 and 240")
+    if not args.episode_prompt.strip():
+        raise ValueError("--episode-prompt must not be empty")
+    if args.record_episode_dir is not None and (
+        args.diagnose_approach_only or args.diagnose_kinematics_only
+    ):
+        raise ValueError("episode recording is available only for a complete pick-and-place run")
+    if args.record_images and args.record_episode_dir is None:
+        raise ValueError("--record-images requires --record-episode-dir")
+    if args.record_images and not getattr(args, "enable_cameras", False):
+        raise ValueError("--record-images requires the AppLauncher flag --enable_cameras")
 
     grasp_arm = np.array([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], dtype=np.float64)
     lift_arm = np.array([0.0, -0.73, 0.87, 0.0, 0.65, 0.0], dtype=np.float64)
@@ -644,6 +805,39 @@ def main() -> int:
             ),
         )
     )
+    external_camera = None
+    wrist_camera = None
+    if args.record_images:
+        external_camera = Camera(
+            CameraCfg(
+                prim_path="/World/ExternalCamera",
+                update_period=0.0,
+                height=480,
+                width=640,
+                data_types=["rgb"],
+                spawn=sim_utils.PinholeCameraCfg(
+                    focal_length=24.0,
+                    focus_distance=2.0,
+                    horizontal_aperture=20.955,
+                    clipping_range=(0.01, 10.0),
+                ),
+            )
+        )
+        wrist_camera = Camera(
+            CameraCfg(
+                prim_path="/World/WristCamera",
+                update_period=0.0,
+                height=480,
+                width=640,
+                data_types=["rgb"],
+                spawn=sim_utils.PinholeCameraCfg(
+                    focal_length=18.0,
+                    focus_distance=1.0,
+                    horizontal_aperture=20.955,
+                    clipping_range=(0.01, 10.0),
+                ),
+            )
+        )
     PhysxSchema.PhysxContactReportAPI.Apply(get_current_stage().GetPrimAtPath("/World/Cube"))
     CONTACT_SENSORS.update(
         {
@@ -694,9 +888,57 @@ def main() -> int:
     sim.reset()
     robot.reset()
     cube.reset()
+    if external_camera is not None:
+        scene_center = 0.5 * (source_block_position + target_block_position)
+        external_eye = torch.as_tensor(
+            scene_center + np.array([0.70, 0.70, 0.45]),
+            device=sim.device,
+            dtype=torch.float32,
+        ).unsqueeze(0)
+        external_target = torch.as_tensor(
+            scene_center,
+            device=sim.device,
+            dtype=torch.float32,
+        ).unsqueeze(0)
+        external_camera.set_world_poses_from_view(external_eye, external_target)
     joint_names = list(robot.data.joint_names)
     arm_ids = [joint_names.index(name) for name in ARM_JOINTS]
     gripper_ids = [index for index, name in enumerate(joint_names) if name.startswith("tool_")]
+    if GRIPPER_MASTER_JOINT not in joint_names:
+        raise RuntimeError(f"missing gripper master joint {GRIPPER_MASTER_JOINT}")
+    episode_recorder = None
+    episode_capture = None
+    if args.record_episode_dir is not None:
+        episode_recorder = EpisodeRecorder(
+            output_dir=args.record_episode_dir.expanduser().resolve(),
+            prompt=args.episode_prompt,
+            control_hz=1.0 / (sim.get_physics_dt() * args.record_stride_steps),
+            metadata={
+                "simulation_only": True,
+                "expert": "scripted_rm65_pick_place",
+                "images_recorded": args.record_images,
+                "robot_base_position_m": robot_base_position.tolist(),
+                "source_block_position_m": source_block_position.tolist(),
+                "target_block_position_m": target_block_position.tolist(),
+                "transfer_joint_1_rad": args.transfer_joint_1_rad,
+                "record_stride_steps": args.record_stride_steps,
+            },
+        )
+        episode_capture = ExpertEpisodeCapture(
+            recorder=episode_recorder,
+            arm_ids=arm_ids,
+            gripper_master_id=joint_names.index(GRIPPER_MASTER_JOINT),
+            stride_steps=args.record_stride_steps,
+            physics_dt=sim.get_physics_dt(),
+            sim=sim,
+            external_camera=external_camera,
+            wrist_camera=wrist_camera,
+            wrist_tool_body_id=(
+                list(robot.data.body_names).index("tool_base_link")
+                if args.record_images
+                else None
+            ),
+        )
 
     grasp_link_quaternion = rot_matrix_to_quat(grasp_link_rotation)
     outward_direction = (
@@ -737,7 +979,15 @@ def main() -> int:
     )
     cube.write_root_pose_to_sim(cube_pose)
     cube.write_root_velocity_to_sim(torch.zeros_like(cube.data.root_vel_w))
-    hold(sim, robot, cube, state, 60 if args.initialize_at_grasp else 240)
+    hold(
+        sim,
+        robot,
+        cube,
+        state,
+        60 if args.initialize_at_grasp else 240,
+        "SOURCE_SETTLE",
+        episode_capture,
+    )
     settled_source_position = cube.data.root_pos_w[0].clone()
     settled_source_quaternion = cube.data.root_quat_w[0].clone()
     print("PICK_PLACE_STAGE=SOURCE_SETTLED", flush=True)
@@ -755,10 +1005,11 @@ def main() -> int:
             waypoint,
             120,
             f"APPROACH_{index}",
+            episode_capture,
         )
         previous_waypoint = waypoint
     if args.collision_bypass_during_approach:
-        hold(sim, robot, cube, state, 240)
+        hold(sim, robot, cube, state, 240, "PRE_COLLISION_RESTORE_HOLD", episode_capture)
         pre_restore_arm_error = float(
             np.max(np.abs(robot.data.joint_pos[0, arm_ids].detach().cpu().numpy() - grasp_arm))
         )
@@ -768,7 +1019,7 @@ def main() -> int:
             collision_api.CreateCollisionEnabledAttr().Set(True)
         print("PICK_PLACE_STAGE=CUBE_COLLISION_RESTORED", flush=True)
     if not args.initialize_at_grasp:
-        hold(sim, robot, cube, state, 240)
+        hold(sim, robot, cube, state, 240, "GRASP_HOLD", episode_capture)
     actual_approach_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy()
     open_l2_midpoint = 0.5 * (
         tip_world_position(robot, "tool_l_2") + tip_world_position(robot, "tool_r_2")
@@ -802,8 +1053,19 @@ def main() -> int:
     )
     close_start = np.zeros(len(gripper_ids), dtype=np.float64)
     close_target = np.full(len(gripper_ids), args.gripper_close_target_rad, dtype=np.float64)
-    smooth_move(sim, robot, cube, state, gripper_ids, close_start, close_target, 180, "CLOSE")
-    hold(sim, robot, cube, state, 120)
+    smooth_move(
+        sim,
+        robot,
+        cube,
+        state,
+        gripper_ids,
+        close_start,
+        close_target,
+        180,
+        "CLOSE",
+        episode_capture,
+    )
+    hold(sim, robot, cube, state, 120, "CLOSE_HOLD", episode_capture)
     closed_position = cube.data.root_pos_w[0].clone()
     closed_link_6_position = body_world_position(robot, "link_6").clone()
     closed_pad_center_world_by_body = {
@@ -932,8 +1194,10 @@ def main() -> int:
     if approach_arm_gravity_apis and not args.disable_arm_gravity_through_transport:
         print("PICK_PLACE_STAGE=ARM_GRAVITY_RESTORED", flush=True)
     cube_rigid_body_api.CreateDisableGravityAttr().Set(False)
-    smooth_move(sim, robot, cube, state, arm_ids, grasp_arm, lift_arm, 240, "LIFT")
-    hold(sim, robot, cube, state, 120)
+    smooth_move(
+        sim, robot, cube, state, arm_ids, grasp_arm, lift_arm, 240, "LIFT", episode_capture
+    )
+    hold(sim, robot, cube, state, 120, "LIFT_HOLD", episode_capture)
     lifted_position = cube.data.root_pos_w[0].clone()
     lifted_link_6_position = body_world_position(robot, "link_6").clone()
     actual_lift_link_translation = lifted_link_6_position - closed_link_6_position
@@ -981,19 +1245,43 @@ def main() -> int:
             "closed_pad_center_minus_block_by_body_m": closed_pad_center_minus_block_by_body,
             "reason": "The block did not clear the source support after the commanded lift.",
         }
+        if episode_recorder is not None:
+            episode_recorder.metadata["task_success"] = False
+            episode_recorder.metadata["failure_stage"] = "lift"
+            episode_manifest = episode_recorder.save()
+            episode_validation = validate_episode(
+                episode_recorder.output_dir, require_images=args.record_images
+            )
+            failed_lift_report["expert_episode"] = {
+                "directory": str(episode_recorder.output_dir),
+                "frame_count": episode_manifest["frame_count"],
+                "validation": episode_validation,
+                "training_ready": False,
+            }
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(json.dumps(failed_lift_report, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(failed_lift_report, indent=2), flush=True)
         print("RM65_PICK_PLACE_BASELINE=FAIL_AT_LIFT", flush=True)
         return 1
 
-    smooth_move(sim, robot, cube, state, arm_ids, lift_arm, target_lift_arm, 360, "TRANSFER")
+    smooth_move(
+        sim,
+        robot,
+        cube,
+        state,
+        arm_ids,
+        lift_arm,
+        target_lift_arm,
+        360,
+        "TRANSFER",
+        episode_capture,
+    )
     if args.target_collision_enable_stage == "after_transfer":
         for collision_api in target_platform_collision_apis:
             collision_api.CreateCollisionEnabledAttr().Set(True)
         if target_platform_collision_apis:
             print("PICK_PLACE_STAGE=TARGET_PLATFORM_COLLISION_ENABLED", flush=True)
-            hold(sim, robot, cube, state, 120)
+            hold(sim, robot, cube, state, 120, "TARGET_COLLISION_HOLD", episode_capture)
     pre_place_position = cube.data.root_pos_w[0].clone()
     pre_place_link_6_position = body_world_position(robot, "link_6").clone()
     place_actual_arm = None
@@ -1013,9 +1301,10 @@ def main() -> int:
                 waypoint,
                 args.place_waypoint_steps,
                 f"PLACE_DESCENT_{index}",
+                episode_capture,
             )
             previous_place_waypoint = waypoint
-        hold(sim, robot, cube, state, 120)
+        hold(sim, robot, cube, state, 120, "PLACE_HOLD", episode_capture)
         release_start_arm = place_waypoints[-1]
         place_actual_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy()
         place_actual_link_6_position = body_world_position(robot, "link_6").clone()
@@ -1028,13 +1317,32 @@ def main() -> int:
                 collision_api.CreateCollisionEnabledAttr().Set(True)
             if target_platform_collision_apis:
                 print("PICK_PLACE_STAGE=TARGET_PLATFORM_COLLISION_ENABLED_AFTER_PLACE", flush=True)
-                hold(sim, robot, cube, state, 120)
+                hold(
+                    sim,
+                    robot,
+                    cube,
+                    state,
+                    120,
+                    "TARGET_COLLISION_AFTER_PLACE_HOLD",
+                    episode_capture,
+                )
     pre_release_position = cube.data.root_pos_w[0].clone()
 
-    smooth_move(sim, robot, cube, state, gripper_ids, close_target, close_start, 180, "OPEN")
+    smooth_move(
+        sim,
+        robot,
+        cube,
+        state,
+        gripper_ids,
+        close_target,
+        close_start,
+        180,
+        "OPEN",
+        episode_capture,
+    )
     if args.unassisted_release:
         print("PICK_PLACE_STAGE=UNASSISTED_RELEASE", flush=True)
-        hold(sim, robot, cube, state, 240)
+        hold(sim, robot, cube, state, 240, "RELEASE_SETTLE", episode_capture)
         released_position = cube.data.root_pos_w[0].clone()
         if args.place_descent:
             retreat_place_waypoints = list(reversed(place_waypoints[:-1])) + [target_lift_arm]
@@ -1050,12 +1358,24 @@ def main() -> int:
                     waypoint,
                     60,
                     f"RETREAT_{index}",
+                    episode_capture,
                 )
                 previous_place_waypoint = waypoint
         else:
             assert release_clear_arm is not None
-            smooth_move(sim, robot, cube, state, arm_ids, release_start_arm, release_clear_arm, 240, "RETREAT")
-        hold(sim, robot, cube, state, 480)
+            smooth_move(
+                sim,
+                robot,
+                cube,
+                state,
+                arm_ids,
+                release_start_arm,
+                release_clear_arm,
+                240,
+                "RETREAT",
+                episode_capture,
+            )
+        hold(sim, robot, cube, state, 480, "FINAL_SETTLE", episode_capture)
         final_position = cube.data.root_pos_w[0].clone()
     else:
         target_clear_arm = target_lift_arm.copy()
@@ -1068,10 +1388,21 @@ def main() -> int:
         release_velocity[:, 2] = -RELEASE_DOWNWARD_SPEED_M_S
         cube.write_root_velocity_to_sim(release_velocity)
         print("PICK_PLACE_STAGE=RELEASE_ASSIST_APPLIED", flush=True)
-        hold(sim, robot, cube, state, 480)
+        hold(sim, robot, cube, state, 480, "ASSISTED_RELEASE_SETTLE", episode_capture)
         released_position = cube.data.root_pos_w[0].clone()
-        smooth_move(sim, robot, cube, state, arm_ids, target_lift_arm, target_clear_arm, 240, "RETREAT")
-        hold(sim, robot, cube, state, 120)
+        smooth_move(
+            sim,
+            robot,
+            cube,
+            state,
+            arm_ids,
+            target_lift_arm,
+            target_clear_arm,
+            240,
+            "RETREAT",
+            episode_capture,
+        )
+        hold(sim, robot, cube, state, 120, "FINAL_SETTLE", episode_capture)
         final_position = cube.data.root_pos_w[0].clone()
 
     settled_source_np = settled_source_position.detach().cpu().numpy()
@@ -1115,6 +1446,31 @@ def main() -> int:
         and not args.disable_arm_gravity_during_approach
         and not args.disable_arm_gravity_through_transport
     )
+    expert_episode_report = None
+    if episode_recorder is not None:
+        episode_recorder.metadata["task_success"] = passed
+        episode_recorder.metadata[
+            "unassisted_full_task_complete"
+        ] = unassisted_full_task_complete
+        episode_manifest = episode_recorder.save()
+        episode_validation = validate_episode(
+            episode_recorder.output_dir, require_images=args.record_images
+        )
+        if episode_validation["status"] != "pass":
+            raise RuntimeError(f"recorded episode failed validation: {episode_validation}")
+        expert_episode_report = {
+            "directory": str(episode_recorder.output_dir),
+            "format": episode_manifest["format"],
+            "frame_count": episode_manifest["frame_count"],
+            "control_hz": episode_manifest["control_hz"],
+            "validation": episode_validation,
+            "training_ready": bool(passed and args.record_images),
+            "training_blocker": (
+                None
+                if args.record_images
+                else "external and wrist RGB streams were not recorded"
+            ),
+        }
     report = {
         "status": "pass" if passed else "fail",
         "simulation_only": True,
@@ -1134,6 +1490,7 @@ def main() -> int:
             else "approach, close, lift, transfer, assisted release onto a platform, and retreat"
         ),
         "real_robot_command_sent": False,
+        "expert_episode": expert_episode_report,
         "unassisted_full_task_complete": unassisted_full_task_complete,
         "transfer_joint_1_rad": args.transfer_joint_1_rad,
         "collision_bypass_during_approach": args.collision_bypass_during_approach,
@@ -1200,10 +1557,10 @@ def main() -> int:
         "target_collision_enable_stage": args.target_collision_enable_stage,
         "release_unassisted": args.unassisted_release,
         "place_descent": args.place_descent,
-            "place_descent_distance_m": args.place_descent_distance_m if args.place_descent else None,
-            "place_waypoint_steps": args.place_waypoint_steps if args.place_descent else None,
-            "place_max_command_step_rad": place_max_command_step_rad,
-            "place_ik_uses_base_rotation_symmetry": True,
+        "place_descent_distance_m": args.place_descent_distance_m if args.place_descent else None,
+        "place_waypoint_steps": args.place_waypoint_steps if args.place_descent else None,
+        "place_max_command_step_rad": place_max_command_step_rad,
+        "place_ik_uses_base_rotation_symmetry": True,
         "pre_place_block_position_m": pre_place_position.detach().cpu().tolist(),
         "pre_place_link_6_position_m": pre_place_link_6_position.detach().cpu().tolist(),
         "place_actual_block_translation_m": (
