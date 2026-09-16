@@ -6,11 +6,56 @@ from __future__ import annotations
 import numpy as np
 
 
+def interpolate_rotation_matrix(
+    start_rotation: np.ndarray,
+    target_rotation: np.ndarray,
+    fraction: float,
+) -> np.ndarray:
+    """Interpolate two rotation matrices along their relative axis-angle."""
+
+    if not 0.0 <= fraction <= 1.0:
+        raise ValueError("rotation interpolation fraction must be between 0 and 1")
+    start = np.asarray(start_rotation, dtype=np.float64)
+    target = np.asarray(target_rotation, dtype=np.float64)
+    relative = target @ start.T
+    cosine = np.clip((np.trace(relative) - 1.0) / 2.0, -1.0, 1.0)
+    angle = float(np.arccos(cosine))
+    if angle < 1e-10:
+        return start.copy()
+    if abs(np.sin(angle)) < 1e-8:
+        raise ValueError("rotation interpolation is ambiguous at 180 degrees")
+    axis = np.array(
+        [
+            relative[2, 1] - relative[1, 2],
+            relative[0, 2] - relative[2, 0],
+            relative[1, 0] - relative[0, 1],
+        ],
+        dtype=np.float64,
+    ) / (2.0 * np.sin(angle))
+    skew = np.array(
+        [
+            [0.0, -axis[2], axis[1]],
+            [axis[2], 0.0, -axis[0]],
+            [-axis[1], axis[0], 0.0],
+        ],
+        dtype=np.float64,
+    )
+    partial_angle = fraction * angle
+    partial = (
+        np.eye(3)
+        + np.sin(partial_angle) * skew
+        + (1.0 - np.cos(partial_angle)) * (skew @ skew)
+    )
+    return partial @ start
+
+
 def compute_top_down_link_pose(
     reference_link_position: np.ndarray,
     reference_link_rotation: np.ndarray,
     block_position: np.ndarray,
     yaw_rad: float,
+    tilt_rad: float = 0.0,
+    blend_fraction: float = 1.0,
     reference_closing_axis_world: np.ndarray | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Rotate a calibrated link-to-block transform into an above-table grasp.
@@ -43,11 +88,18 @@ def compute_top_down_link_pose(
     local_closing /= local_closing_norm
     local_tangent = np.cross(local_forward, local_closing)
 
-    world_forward = np.array([0.0, 0.0, -1.0], dtype=np.float64)
     world_closing = np.array([-np.sin(yaw_rad), np.cos(yaw_rad), 0.0], dtype=np.float64)
+    horizontal_forward = np.array([-np.cos(yaw_rad), -np.sin(yaw_rad), 0.0], dtype=np.float64)
+    world_forward = (
+        np.cos(tilt_rad) * np.array([0.0, 0.0, -1.0], dtype=np.float64)
+        + np.sin(tilt_rad) * horizontal_forward
+    )
     world_tangent = np.cross(world_forward, world_closing)
     local_basis = np.column_stack((local_closing, local_tangent, local_forward))
     world_basis = np.column_stack((world_closing, world_tangent, world_forward))
-    top_down_rotation = world_basis @ local_basis.T
-    top_down_link_position = block - top_down_rotation @ block_from_link_local
-    return top_down_link_position, top_down_rotation, block_from_link_local
+    target_rotation = world_basis @ local_basis.T
+    blended_rotation = interpolate_rotation_matrix(
+        link_rotation, target_rotation, blend_fraction
+    )
+    blended_link_position = block - blended_rotation @ block_from_link_local
+    return blended_link_position, blended_rotation, block_from_link_local

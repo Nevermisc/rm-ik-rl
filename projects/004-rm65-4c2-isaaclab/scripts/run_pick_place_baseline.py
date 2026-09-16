@@ -17,6 +17,12 @@ parser.add_argument("--urdf", type=Path, required=True)
 parser.add_argument("--description", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--transfer-joint-1-rad", type=float, default=0.8)
+parser.add_argument(
+    "--robot-base-z-m",
+    type=float,
+    default=0.0,
+    help="World height of the robot mounting plane; Lula targets remain in the robot base frame.",
+)
 parser.add_argument("--arm-effort-limit-sim", type=float, default=300.0)
 parser.add_argument("--arm-stiffness", type=float, default=1000.0)
 parser.add_argument("--arm-damping", type=float, default=100.0)
@@ -34,6 +40,24 @@ parser.add_argument(
 )
 parser.add_argument("--top-down-yaw-rad", type=float, default=0.0)
 parser.add_argument(
+    "--top-down-tilt-rad",
+    type=float,
+    default=0.0,
+    help="Tilt the link-to-block direction away from vertical while keeping the closing axis horizontal.",
+)
+parser.add_argument(
+    "--top-down-ik-multistart",
+    type=int,
+    default=1,
+    help="Number of deterministic joint-space seeds used to solve the top-down pose.",
+)
+parser.add_argument(
+    "--top-down-blend",
+    type=float,
+    default=1.0,
+    help="Interpolate from the calibrated side grasp (0) to the requested above-table pose (1).",
+)
+parser.add_argument(
     "--lift-mode",
     choices=("joint_reference", "cartesian_vertical"),
     default="joint_reference",
@@ -45,6 +69,12 @@ parser.add_argument("--release-separation-assist-m", type=float, default=0.05)
 parser.add_argument("--place-descent", action="store_true")
 parser.add_argument("--place-descent-distance-m", type=float, default=0.10)
 parser.add_argument(
+    "--place-waypoint-steps",
+    type=int,
+    default=60,
+    help="Simulation steps used for each approximately 1 cm place-descent segment.",
+)
+parser.add_argument(
     "--target-support-mode",
     choices=("wide_platform", "rotated_strip"),
     default="wide_platform",
@@ -55,6 +85,7 @@ parser.add_argument(
     default="after_transfer",
 )
 parser.add_argument("--diagnose-approach-only", action="store_true")
+parser.add_argument("--diagnose-kinematics-only", action="store_true")
 parser.add_argument("--collision-bypass-during-approach", action="store_true")
 parser.add_argument("--initialize-at-grasp", action="store_true")
 parser.add_argument("--disable-arm-gravity-during-approach", action="store_true")
@@ -64,6 +95,11 @@ parser.add_argument(
     help="Keep arm-link gravity disabled after approach to isolate object grasp/transport physics.",
 )
 parser.add_argument("--natural-source-gravity", action="store_true")
+parser.add_argument(
+    "--enable-moving-gripper-gravity",
+    action="store_true",
+    help="Keep gravity enabled on all six moving 4C2 finger links.",
+)
 parser.add_argument(
     "--unassisted-release",
     action="store_true",
@@ -279,6 +315,8 @@ def main() -> int:
         raise FileNotFoundError(f"missing required files: {missing}")
     if abs(args.transfer_joint_1_rad) < 0.5 or abs(args.transfer_joint_1_rad) > 1.2:
         raise ValueError("--transfer-joint-1-rad must have magnitude between 0.5 and 1.2")
+    if not 0.0 <= args.robot_base_z_m <= 0.8:
+        raise ValueError("--robot-base-z-m must be between 0 and 0.8")
     if min(args.arm_effort_limit_sim, args.arm_stiffness, args.arm_damping) <= 0.0:
         raise ValueError("arm actuator effort, stiffness, and damping must be positive")
     if min(args.gripper_effort_limit_sim, args.gripper_stiffness, args.gripper_damping) <= 0.0:
@@ -293,6 +331,12 @@ def main() -> int:
         raise ValueError("--grasp-world-offset-z-m must be between -0.08 and 0.08")
     if abs(args.top_down_yaw_rad) > np.pi:
         raise ValueError("--top-down-yaw-rad must be between -pi and pi")
+    if not 0.0 <= args.top_down_tilt_rad <= np.deg2rad(70.0):
+        raise ValueError("--top-down-tilt-rad must be between 0 and 70 degrees")
+    if not 1 <= args.top_down_ik_multistart <= 512:
+        raise ValueError("--top-down-ik-multistart must be between 1 and 512")
+    if not 0.0 <= args.top_down_blend <= 1.0:
+        raise ValueError("--top-down-blend must be between 0 and 1")
     if not 0.02 <= args.cartesian_lift_height_m <= 0.15:
         raise ValueError("--cartesian-lift-height-m must be between 0.02 and 0.15")
     if not 0.03 <= args.release_clearance_m <= 0.20:
@@ -301,6 +345,8 @@ def main() -> int:
         raise ValueError("--release-separation-assist-m must be between 0.0 and 0.20")
     if not 0.03 <= args.place_descent_distance_m <= 0.13:
         raise ValueError("--place-descent-distance-m must be between 0.03 and 0.13")
+    if not 30 <= args.place_waypoint_steps <= 240:
+        raise ValueError("--place-waypoint-steps must be between 30 and 240")
 
     grasp_arm = np.array([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], dtype=np.float64)
     lift_arm = np.array([0.0, -0.73, 0.87, 0.0, 0.65, 0.0], dtype=np.float64)
@@ -309,6 +355,8 @@ def main() -> int:
     if args.natural_source_gravity:
         source_block_position[2] = SOURCE_PLATFORM_TOP_Z + BLOCK_SIZE[2] / 2.0
         source_block_quaternion = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+    robot_base_position = np.array([0.0, 0.0, args.robot_base_z_m], dtype=np.float64)
+    source_block_position_base = source_block_position - robot_base_position
     lula = LulaKinematicsSolver(robot_description_path=str(description), urdf_path=str(urdf))
     grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
     if args.grasp_world_offset_x_m != 0.0 or args.grasp_world_offset_z_m != 0.0:
@@ -327,24 +375,57 @@ def main() -> int:
         grasp_arm = np.asarray(offset_grasp_arm, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
     reference_block_from_link_local = grasp_link_rotation.T @ (source_block_position - grasp_link_position)
+    top_down_ik_seed_index = None
     if args.grasp_orientation_mode == "top_down":
+        calibrated_reference_link_position = (
+            source_block_position_base
+            - grasp_link_rotation @ reference_block_from_link_local
+        )
         top_down_link_position, top_down_rotation, reference_block_from_link_local = (
             compute_top_down_link_pose(
-                grasp_link_position,
+                calibrated_reference_link_position,
                 grasp_link_rotation,
-                source_block_position,
+                source_block_position_base,
                 args.top_down_yaw_rad,
+                args.top_down_tilt_rad,
+                args.top_down_blend,
             )
         )
-        top_down_solution, success = lula.compute_inverse_kinematics(
-            "link_6",
-            top_down_link_position,
-            rot_matrix_to_quat(top_down_rotation),
-            warm_start=grasp_arm,
-            position_tolerance=1e-4,
-            orientation_tolerance=1e-3,
-        )
+        joint_lower = np.array([-3.106, -2.2689, -2.356, -3.106, -2.234, -6.28])
+        joint_upper = np.array([3.106, 2.2689, 2.356, 3.106, 2.234, 6.28])
+        ik_seeds = [grasp_arm]
+        if args.top_down_ik_multistart > 1:
+            rng = np.random.default_rng(20260916)
+            random_seeds = rng.uniform(
+                joint_lower,
+                joint_upper,
+                size=(args.top_down_ik_multistart - 1, len(ARM_JOINTS)),
+            )
+            ik_seeds.extend(random_seeds)
+        top_down_solution = None
+        success = False
+        for seed_index, ik_seed in enumerate(ik_seeds):
+            candidate_solution, candidate_success = lula.compute_inverse_kinematics(
+                "link_6",
+                top_down_link_position,
+                rot_matrix_to_quat(top_down_rotation),
+                warm_start=np.asarray(ik_seed, dtype=np.float64),
+                position_tolerance=1e-4,
+                orientation_tolerance=1e-3,
+            )
+            if candidate_success:
+                top_down_solution = candidate_solution
+                top_down_ik_seed_index = seed_index
+                success = True
+                break
         if not success:
+            print(
+                "TOP_DOWN_IK_TARGET="
+                f"position={top_down_link_position.tolist()} "
+                f"yaw={args.top_down_yaw_rad:.6f} tilt={args.top_down_tilt_rad:.6f} "
+                f"blend={args.top_down_blend:.6f} seeds={args.top_down_ik_multistart}",
+                flush=True,
+            )
             raise RuntimeError("Lula failed to solve the top-down grasp pose")
         grasp_arm = np.asarray(top_down_solution, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
@@ -363,7 +444,7 @@ def main() -> int:
         if not success:
             raise RuntimeError("Lula failed to solve the local Cartesian vertical lift")
         lift_arm = np.asarray(lift_arm_solution, dtype=np.float64)
-    lift_link_position, _ = lula.compute_forward_kinematics("link_6", lift_arm)
+    lift_link_position, lift_link_rotation = lula.compute_forward_kinematics("link_6", lift_arm)
     expected_lift_translation = lift_link_position - grasp_link_position
     expected_source_lift_block_position = source_block_position + expected_lift_translation
     target_lift_arm = lift_arm.copy()
@@ -413,15 +494,15 @@ def main() -> int:
     if args.place_descent:
         place_waypoint_count = max(1, int(round(args.place_descent_distance_m / 0.01)))
         place_distances = np.linspace(0.01, args.place_descent_distance_m, place_waypoint_count)
-        place_warm_start = target_lift_arm.copy()
+        place_warm_start = lift_arm.copy()
         for distance in place_distances:
-            place_link_target = transferred_link_position - np.array(
+            place_link_target = lift_link_position - np.array(
                 [0.0, 0.0, distance], dtype=np.float64
             )
             place_solution, success = lula.compute_inverse_kinematics(
                 "link_6",
                 place_link_target,
-                rot_matrix_to_quat(transferred_link_rotation),
+                rot_matrix_to_quat(lift_link_rotation),
                 warm_start=place_warm_start,
                 position_tolerance=1e-4,
                 orientation_tolerance=1e-3,
@@ -429,7 +510,36 @@ def main() -> int:
             if not success:
                 raise RuntimeError(f"Lula failed to solve place waypoint at {distance:.3f} m")
             place_warm_start = np.asarray(place_solution, dtype=np.float64)
-            place_waypoints.append(place_warm_start.copy())
+            rotated_place_solution = place_warm_start.copy()
+            rotated_place_solution[0] += args.transfer_joint_1_rad - lift_arm[0]
+            place_waypoints.append(rotated_place_solution)
+
+    place_max_command_step_rad = None
+    if place_waypoints:
+        place_joint_sequence = np.vstack([target_lift_arm, *place_waypoints])
+        place_max_command_step_rad = float(
+            np.max(np.abs(np.diff(place_joint_sequence, axis=0)))
+        )
+    if args.diagnose_kinematics_only:
+        diagnostic = {
+            "status": "diagnostic",
+            "simulation_only": True,
+            "robot_base_position_m": robot_base_position.tolist(),
+            "transfer_joint_1_rad": args.transfer_joint_1_rad,
+            "grasp_orientation_mode": args.grasp_orientation_mode,
+            "top_down_ik_seed_index": top_down_ik_seed_index,
+            "grasp_arm_joint_position_rad": grasp_arm.tolist(),
+            "lift_arm_joint_position_rad": lift_arm.tolist(),
+            "target_lift_arm_joint_position_rad": target_lift_arm.tolist(),
+            "place_waypoint_count": len(place_waypoints),
+            "place_max_command_step_rad": place_max_command_step_rad,
+            "place_ik_uses_base_rotation_symmetry": True,
+            "place_waypoint_joint_position_rad": [item.tolist() for item in place_waypoints],
+        }
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(diagnostic, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps(diagnostic, indent=2), flush=True)
+        return 0
 
     sim = SimulationContext(
         sim_utils.SimulationCfg(
@@ -485,7 +595,10 @@ def main() -> int:
                     solver_velocity_iteration_count=4,
                 ),
             ),
-            init_state=ArticulationCfg.InitialStateCfg(joint_pos={"joint_.*": 0.0, "tool_.*": 0.0}),
+            init_state=ArticulationCfg.InitialStateCfg(
+                pos=tuple(robot_base_position),
+                joint_pos={"joint_.*": 0.0, "tool_.*": 0.0},
+            ),
             actuators={
                 "arm": ImplicitActuatorCfg(
                     joint_names_expr=["joint_[1-6]"],
@@ -558,7 +671,11 @@ def main() -> int:
             rigid_body_api = PhysxSchema.PhysxRigidBodyAPI.Apply(prim)
             rigid_body_api.CreateDisableGravityAttr().Set(True)
             approach_arm_gravity_apis.append(rigid_body_api)
-        if path in MOVING_GRIPPER_BODY_PATHS and prim.HasAPI(UsdPhysics.RigidBodyAPI):
+        if (
+            not args.enable_moving_gripper_gravity
+            and path in MOVING_GRIPPER_BODY_PATHS
+            and prim.HasAPI(UsdPhysics.RigidBodyAPI)
+        ):
             PhysxSchema.PhysxRigidBodyAPI.Apply(prim).CreateDisableGravityAttr().Set(True)
             isolated_paths.append(path)
     cube_prim = get_current_stage().GetPrimAtPath("/World/Cube")
@@ -755,6 +872,7 @@ def main() -> int:
             "arm_gravity_disabled_during_approach": args.disable_arm_gravity_during_approach,
             "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
             "natural_source_gravity": args.natural_source_gravity,
+            "moving_gripper_gravity_disabled": not args.enable_moving_gripper_gravity,
             "arm_actuator": {
                 "effort_limit_sim": args.arm_effort_limit_sim,
                 "stiffness": args.arm_stiffness,
@@ -769,8 +887,13 @@ def main() -> int:
             "pregrasp_distance_m": args.pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
             "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+            "robot_base_position_m": robot_base_position.tolist(),
             "grasp_orientation_mode": args.grasp_orientation_mode,
             "top_down_yaw_rad": args.top_down_yaw_rad,
+            "top_down_tilt_rad": args.top_down_tilt_rad,
+            "top_down_ik_multistart": args.top_down_ik_multistart,
+            "top_down_ik_seed_index": top_down_ik_seed_index,
+            "top_down_blend": args.top_down_blend,
             "reference_block_from_link_local_m": reference_block_from_link_local.tolist(),
             "lift_mode": args.lift_mode,
             "cartesian_lift_height_m": args.cartesian_lift_height_m,
@@ -888,7 +1011,7 @@ def main() -> int:
                 arm_ids,
                 previous_place_waypoint,
                 waypoint,
-                60,
+                args.place_waypoint_steps,
                 f"PLACE_DESCENT_{index}",
             )
             previous_place_waypoint = waypoint
@@ -899,6 +1022,7 @@ def main() -> int:
         place_commanded_link_6_position, _ = lula.compute_forward_kinematics(
             "link_6", place_waypoints[-1]
         )
+        place_commanded_link_6_position += robot_base_position
         if args.target_collision_enable_stage == "after_place_descent":
             for collision_api in target_platform_collision_apis:
                 collision_api.CreateCollisionEnabledAttr().Set(True)
@@ -980,6 +1104,17 @@ def main() -> int:
         and float(robot.data.joint_pos[0, gripper_ids].max()) < 0.12
         and final_l2_tip_gap > 0.06
     )
+    unassisted_full_task_complete = bool(
+        passed
+        and args.unassisted_release
+        and args.place_descent
+        and args.natural_source_gravity
+        and args.enable_moving_gripper_gravity
+        and not args.collision_bypass_during_approach
+        and not args.initialize_at_grasp
+        and not args.disable_arm_gravity_during_approach
+        and not args.disable_arm_gravity_through_transport
+    )
     report = {
         "status": "pass" if passed else "fail",
         "simulation_only": True,
@@ -999,7 +1134,7 @@ def main() -> int:
             else "approach, close, lift, transfer, assisted release onto a platform, and retreat"
         ),
         "real_robot_command_sent": False,
-        "unassisted_full_task_complete": False,
+        "unassisted_full_task_complete": unassisted_full_task_complete,
         "transfer_joint_1_rad": args.transfer_joint_1_rad,
         "collision_bypass_during_approach": args.collision_bypass_during_approach,
         "initialized_at_grasp": args.initialize_at_grasp,
@@ -1020,8 +1155,13 @@ def main() -> int:
         "pregrasp_distance_m": args.pregrasp_distance_m,
         "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
         "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
+        "robot_base_position_m": robot_base_position.tolist(),
         "grasp_orientation_mode": args.grasp_orientation_mode,
         "top_down_yaw_rad": args.top_down_yaw_rad,
+        "top_down_tilt_rad": args.top_down_tilt_rad,
+        "top_down_ik_multistart": args.top_down_ik_multistart,
+        "top_down_ik_seed_index": top_down_ik_seed_index,
+        "top_down_blend": args.top_down_blend,
         "reference_block_from_link_local_m": reference_block_from_link_local.tolist(),
         "lift_mode": args.lift_mode,
         "cartesian_lift_height_m": args.cartesian_lift_height_m,
@@ -1036,7 +1176,7 @@ def main() -> int:
         },
         "block_mass_kg": BLOCK_MASS_KG,
         "block_size_m": list(BLOCK_SIZE),
-        "moving_gripper_gravity_disabled": True,
+        "moving_gripper_gravity_disabled": not args.enable_moving_gripper_gravity,
         "gravity_disabled_body_paths": isolated_paths,
         "source_block_position_m": source_block_position.tolist(),
         "target_block_position_m": target_block_position.tolist(),
@@ -1060,7 +1200,10 @@ def main() -> int:
         "target_collision_enable_stage": args.target_collision_enable_stage,
         "release_unassisted": args.unassisted_release,
         "place_descent": args.place_descent,
-        "place_descent_distance_m": args.place_descent_distance_m if args.place_descent else None,
+            "place_descent_distance_m": args.place_descent_distance_m if args.place_descent else None,
+            "place_waypoint_steps": args.place_waypoint_steps if args.place_descent else None,
+            "place_max_command_step_rad": place_max_command_step_rad,
+            "place_ik_uses_base_rotation_symmetry": True,
         "pre_place_block_position_m": pre_place_position.detach().cpu().tolist(),
         "pre_place_link_6_position_m": pre_place_link_6_position.detach().cpu().tolist(),
         "place_actual_block_translation_m": (

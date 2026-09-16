@@ -64,6 +64,7 @@ def main() -> None:
     natural_robustness = load_json(result_dir / "natural_pick_place_robustness.json")
     natural_unassisted_release = load_json(result_dir / "natural_unassisted_release_failure.json")
     natural_place_descent = load_json(result_dir / "natural_place_descent_robustness.json")
+    top_down_full_gravity = load_json(result_dir / "top_down_full_gravity_robustness.json")
 
     require(combined["link_count"] == 16, "combined URDF must contain 16 links")
     require(combined["joint_count"] == 15, "combined URDF must contain 15 joints")
@@ -218,10 +219,20 @@ def main() -> None:
     require(natural_place_descent["passed_trials"] == 3, "place-descent pass count changed")
     require(natural_place_descent["unassisted_release"] is True, "place descent lost natural release")
     require(natural_place_descent["pi05_used"] is False, "place descent must not claim pi0.5 control")
+    require(
+        top_down_full_gravity["status"] == "pass_in_simulation",
+        "top-down full-gravity suite did not pass",
+    )
+    require(top_down_full_gravity["passed_trials"] == 3, "top-down trial count changed")
+    require(
+        top_down_full_gravity["unassisted_full_task_complete"] is True,
+        "top-down suite lost its unassisted full-task result",
+    )
+    require(top_down_full_gravity["pi05_used"] is False, "scripted expert must not claim pi0.5")
 
     summary = {
         "status": "pass_with_known_limitations",
-        "stage": "RM65-B + 4C2 asset, observation, and pi0.5 interface baseline",
+        "stage": "RM65-B + 4C2 asset, full-gravity scripted expert, observation, and pi0.5 interface baseline",
         "real_robot_command_sent": False,
         "closed_loop_task_complete": False,
         "checks": {
@@ -372,6 +383,7 @@ def main() -> None:
                 "development_assistance": natural_robustness["development_assistance"],
             },
             "natural_gravity_place_descent": natural_place_descent,
+            "top_down_full_gravity_scripted_expert": top_down_full_gravity,
             "observation": {
                 "status": "pass",
                 "external_red_pixels": observation["images"]["external"]["red_target_pixel_count"],
@@ -403,15 +415,16 @@ def main() -> None:
             },
         },
         "known_limitations": [
-            "The unmodified 4C2 moving links are unstable under PhysX gravity; the validated baseline disables gravity for the six moving finger bodies while retaining gravity on the gripper base and two fixed supports.",
+            "Historical generic articulation tests found unstable 4C2 moving-link gravity, while the task-specific high-gain software-coupled controller now completes the top-down task with all moving-link gravity enabled; physical mass, inertia, and transmission parameters still need calibration.",
             "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
             "Empirically derived 4C2 contact pads provide sustained bilateral contact and natural-gravity transport, but they still require calibration against the physical gripper.",
             "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
             "High-level release without a place descent is a historical 1/3 result; a 100 mm Cartesian descent followed by release passes three transfer angles without block pose or velocity injection.",
             "The natural-gravity place baseline disables arm gravity through transport, isolates gravity on six moving finger bodies, uses empirical wide pads and a rotated narrow support, and enables target collision only after descent.",
-            "The current side/below grasp places link_6 below the support top plane, so a new above-table end-effector orientation is required before collecting expert data for ordinary tabletop tasks.",
+            "The new top-down grasp keeps link_6 above the support plane, but assumes a 0.65 m robot mounting height that must be measured on the physical setup.",
             "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
-            "A fully collision-active and gravity-consistent expert controller, RM65 dataset, fine-tuned checkpoint, and closed-loop evaluation are still required.",
+            "The top-down scripted expert is collision-active and gravity-consistent but still uses empirical wide contact pads and reaches about 0.105 rad place tracking error.",
+            "An RM65 dataset, fine-tuned checkpoint, and pi0.5 closed-loop evaluation are still required.",
         ],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

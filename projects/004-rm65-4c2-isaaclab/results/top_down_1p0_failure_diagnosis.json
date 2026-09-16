@@ -1,0 +1,60 @@
+{
+  "status": "resolved_ik_branch_discontinuity",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "transfer_joint_1_rad": 1.0,
+  "fast_descent": {
+    "place_waypoint_steps": 60,
+    "block_lift_height_m": 0.039568185806274414,
+    "place_max_arm_joint_error_rad": 0.11245113122867756,
+    "commanded_place_link_position_m": [
+      -0.119561823618727,
+      -0.186207341051392,
+      0.79287536204728
+    ],
+    "actual_place_link_position_m": [
+      -0.144941434264183,
+      -0.212842240929604,
+      0.813948512077332
+    ],
+    "released_position_m": [
+      -0.189826175570488,
+      -0.199698209762573,
+      0.662499964237213
+    ],
+    "final_position_m": [
+      -2.65804839134216,
+      -2.10768914222717,
+      -83.595344543457
+    ],
+    "interpretation": "The block was initially released on the platform, was disturbed during retreat, left the finite platform, and then fell because the diagnostic scene has no ground."
+  },
+  "slow_descent": {
+    "place_waypoint_steps": 120,
+    "block_lift_height_m": 0.039568185806274414,
+    "place_max_arm_joint_error_rad": 0.335748,
+    "final_target_position_error_m": 396.37318,
+    "post_release_drift_m": 318.42447,
+    "interpretation": "Doubling segment duration worsened the near-singular tracking error, so the failure was not simple dynamic lag."
+  },
+  "root_cause": {
+    "joint": 5,
+    "place_segment": 4,
+    "joint_before_rad": 1.774418853924218,
+    "joint_after_rad": -1.7355350265201546,
+    "discontinuous_step_rad": 3.509953880444373
+  },
+  "fix": {
+    "method": "Solve the vertical descent in the unrotated base frame, then add the transfer rotation only to joint 1 for every waypoint.",
+    "maximum_waypoint_step_after_fix_rad": 0.0403079953359189,
+    "full_task_status": "pass",
+    "final_target_position_error_m": 0.00926066931740435,
+    "post_release_drift_m": 0.0020615558605641127
+  },
+  "validated_transfer_angles_rad": [
+    0.6,
+    0.8,
+    1.0
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "status": "resolved_by_mounting_frame_correction",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "original_scene": {
+    "robot_base_z_m": 0.0,
+    "source_support_top_z_m": 0.733,
+    "strict_top_down_link_target_m": [
+      -0.22128649,
+      -0.00000383,
+      0.8728733876060393
+    ],
+    "strict_top_down_ik_seed_count": 256,
+    "strict_top_down_ik_success": false,
+    "tested_yaw_rad": [
+      -1.570796,
+      0.0,
+      1.570796
+    ],
+    "tested_tilt_deg": [
+      0,
+      15,
+      30,
+      45,
+      60,
+      70
+    ],
+    "tested_tilt_ik_success": false,
+    "continuous_blend_boundary": {
+      "blend_0p10_grasp_pose_ik_success": true,
+      "blend_0p10_vertical_retreat_failure_m": 0.02,
+      "blend_0p15_grasp_pose_ik_success": false,
+      "blend_0p15_link_target_z_m": 0.6848233427926779
+    }
+  },
+  "corrected_scene": {
+    "robot_base_z_m": 0.65,
+    "source_support_height_above_mount_m": 0.08299999999999996,
+    "strict_top_down_ik_success": true,
+    "top_down_ik_seed_index": 0,
+    "cartesian_approach_waypoint_count": 10,
+    "cartesian_approach_success": true,
+    "left_peak_contact_force_n": 3.2454111576080322,
+    "right_peak_contact_force_n": 3.187377452850342,
+    "left_recent_mean_contact_force_n": 0.9842543601989746,
+    "right_recent_mean_contact_force_n": 0.9988215565681458
+  },
+  "conclusion": "The old scene mixed a floor-level robot base with a 0.733 m support. Converting world targets into a 0.65 m robot mounting frame made the strict above-table grasp reachable."
+}
