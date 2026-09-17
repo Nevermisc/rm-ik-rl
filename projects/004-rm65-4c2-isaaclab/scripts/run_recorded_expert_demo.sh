@@ -6,6 +6,8 @@ isaaclab_root="${ISAACLAB_ROOT:-$HOME/robot-learning/IsaacLab}"
 rm65_root="${RM65_ROOT:-$HOME/robot-learning/rm-ik-rl}"
 episode_dir="${1:-datasets/rm65_scripted_v1/episode_000000}"
 transfer_angle="${2:-0.8}"
+source_offset_x="${3:-0.0}"
+source_offset_y="${4:-0.0}"
 
 cd "$project_root"
 mkdir -p outputs "$(dirname "$episode_dir")"
@@ -14,13 +16,15 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --usd generated/rm65_4c2_wide_pads.usd \
   --urdf "$rm65_root/assets/RM65-B/urdf/RM65-B.urdf" \
   --description "$rm65_root/rm65_robot_description.yaml" \
-  --output outputs/recorded_expert_demo.json \
+  --output "$episode_dir/task_report.json" \
   --record-episode-dir "$episode_dir" \
   --record-stride-steps 12 \
   --record-images \
   --episode-prompt "pick up the block and place it on the target" \
   --robot-base-z-m 0.65 \
   --transfer-joint-1-rad "$transfer_angle" \
+  --source-offset-x-m "$source_offset_x" \
+  --source-offset-y-m "$source_offset_y" \
   --pregrasp-distance-m 0.10 \
   --grasp-world-offset-x-m -0.04 \
   --grasp-world-offset-z-m -0.053 \

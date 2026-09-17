@@ -27,6 +27,15 @@ def main() -> int:
     top_link, top_rotation, local_offset = compute_top_down_link_pose(
         reference_link, reference_rotation, block, yaw, tilt, 1.0
     )
+    translation = np.array([0.02, -0.015, 0.0], dtype=np.float64)
+    translated_link, translated_rotation, translated_local_offset = compute_top_down_link_pose(
+        reference_link + translation,
+        reference_rotation,
+        block + translation,
+        yaw,
+        tilt,
+        1.0,
+    )
 
     mapped_offset = top_rotation @ local_offset
     expected_closing = np.array([-np.sin(yaw), np.cos(yaw), 0.0], dtype=np.float64)
@@ -55,6 +64,11 @@ def main() -> int:
         "link_is_above_block": bool(top_link[2] > block[2]),
         "calibrated_offset_preserved": bool(
             np.allclose(top_link + mapped_offset, block, atol=1e-10)
+        ),
+        "source_xy_translation_preserves_grasp": bool(
+            np.allclose(translated_link, top_link + translation, atol=1e-10)
+            and np.allclose(translated_rotation, top_rotation, atol=1e-10)
+            and np.allclose(translated_local_offset, local_offset, atol=1e-10)
         ),
         "blend_zero_is_reference": bool(
             np.allclose(

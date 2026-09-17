@@ -93,6 +93,16 @@ uv run ../004-rm65-4c2-isaaclab/scripts/convert_expert_episodes_to_lerobot.py \
 
 全任务回归通过后，下一步是收集带起点、目标位置和视觉扰动的多条成功示教，转换成 OpenPI 当前使用的数据格式，并计算 RM65 自己的归一化统计量。
 
+第一批多扰动采集使用三种转运角和九个源位置组合：
+
+```bash
+bash scripts/run_recorded_expert_suite.sh
+```
+
+源位置偏移限制在世界 x/y 各 ±40 mm；首批套件只使用 ±15 mm。顶部抓取会保留已校准的夹爪到方块局部变换，再把完整抓取位姿平移到新源位置。纯 NumPy 测试验证了这种平移不会改变闭合轴、顶部方向或夹爪到方块的相对几何。
+
+套件会生成 `results/rm65_scripted_dataset_summary.json`，并对每条 episode 检查完整任务成功、双图像配对、图像尺寸、非黑帧、红色目标可见性及抽样帧是否发生变化。该汇总通过仍只代表脚本专家数据合格，不代表 π0.5 已经学会任务。
+
 ## OpenPI 数据配置预检
 
 `openpi_extension/rm65_training_config.py` 已准备 RM65 专用数据映射和 π0.5 LoRA 配置。它把数据集字段映射回推理时使用的观测名称，并把前六个绝对关节目标转换成相对当前状态的 delta；夹爪维度保持绝对值。这样模型训练输出经过逆变换后仍是安全层需要的六轴绝对目标与夹爪目标。

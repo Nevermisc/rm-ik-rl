@@ -39,6 +39,18 @@ parser.add_argument("--pregrasp-distance-m", type=float, default=0.10)
 parser.add_argument("--grasp-world-offset-x-m", type=float, default=0.0)
 parser.add_argument("--grasp-world-offset-z-m", type=float, default=0.0)
 parser.add_argument(
+    "--source-offset-x-m",
+    type=float,
+    default=0.0,
+    help="Move the source block and support in world x for demonstration diversity.",
+)
+parser.add_argument(
+    "--source-offset-y-m",
+    type=float,
+    default=0.0,
+    help="Move the source block and support in world y for demonstration diversity.",
+)
+parser.add_argument(
     "--grasp-orientation-mode",
     choices=("reference", "top_down"),
     default="reference",
@@ -478,6 +490,8 @@ def main() -> int:
         raise ValueError("--grasp-world-offset-x-m must be between -0.08 and 0.08")
     if abs(args.grasp_world_offset_z_m) > 0.08:
         raise ValueError("--grasp-world-offset-z-m must be between -0.08 and 0.08")
+    if abs(args.source_offset_x_m) > 0.04 or abs(args.source_offset_y_m) > 0.04:
+        raise ValueError("source x/y offsets must each be between -0.04 and 0.04 m")
     if abs(args.top_down_yaw_rad) > np.pi:
         raise ValueError("--top-down-yaw-rad must be between -pi and pi")
     if not 0.0 <= args.top_down_tilt_rad <= np.deg2rad(70.0):
@@ -516,6 +530,10 @@ def main() -> int:
     if args.natural_source_gravity:
         source_block_position[2] = SOURCE_PLATFORM_TOP_Z + BLOCK_SIZE[2] / 2.0
         source_block_quaternion = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+    nominal_source_block_position = source_block_position.copy()
+    source_block_position[:2] += np.array(
+        [args.source_offset_x_m, args.source_offset_y_m], dtype=np.float64
+    )
     robot_base_position = np.array([0.0, 0.0, args.robot_base_z_m], dtype=np.float64)
     source_block_position_base = source_block_position - robot_base_position
     lula = LulaKinematicsSolver(robot_description_path=str(description), urdf_path=str(urdf))
@@ -535,7 +553,9 @@ def main() -> int:
             raise RuntimeError("Lula failed to solve the requested grasp world offset")
         grasp_arm = np.asarray(offset_grasp_arm, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
-    reference_block_from_link_local = grasp_link_rotation.T @ (source_block_position - grasp_link_position)
+    reference_block_from_link_local = grasp_link_rotation.T @ (
+        nominal_source_block_position - grasp_link_position
+    )
     top_down_ik_seed_index = None
     if args.grasp_orientation_mode == "top_down":
         calibrated_reference_link_position = (
@@ -919,6 +939,7 @@ def main() -> int:
                 "images_recorded": args.record_images,
                 "robot_base_position_m": robot_base_position.tolist(),
                 "source_block_position_m": source_block_position.tolist(),
+                "source_offset_xy_m": [args.source_offset_x_m, args.source_offset_y_m],
                 "target_block_position_m": target_block_position.tolist(),
                 "transfer_joint_1_rad": args.transfer_joint_1_rad,
                 "record_stride_steps": args.record_stride_steps,
@@ -1536,6 +1557,7 @@ def main() -> int:
         "moving_gripper_gravity_disabled": not args.enable_moving_gripper_gravity,
         "gravity_disabled_body_paths": isolated_paths,
         "source_block_position_m": source_block_position.tolist(),
+        "source_offset_xy_m": [args.source_offset_x_m, args.source_offset_y_m],
         "target_block_position_m": target_block_position.tolist(),
         "expected_lift_translation_from_fk_m": expected_lift_translation.tolist(),
         "expected_source_lift_block_position_m": expected_source_lift_block_position.tolist(),
