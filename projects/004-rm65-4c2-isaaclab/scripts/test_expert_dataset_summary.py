@@ -30,6 +30,8 @@ def main() -> int:
                 "task_success": True,
                 "transfer_joint_1_rad": 0.8,
                 "source_offset_xy_m": [0.0, 0.0],
+                "collection_case_id": "case_000000",
+                "collection_split": "train",
             },
         )
         for index in range(4):
@@ -58,6 +60,25 @@ def main() -> int:
             encoding="utf-8",
         )
         output = root / "summary.json"
+        plan = root / "plan.json"
+        plan.write_text(
+            json.dumps(
+                {
+                    "format": "rm65_expert_collection_plan_v1",
+                    "cases": [
+                        {
+                            "case_id": "case_000000",
+                            "split": "train",
+                            "transfer_joint_1_rad": 0.8,
+                            "source_offset_x_m": 0.0,
+                            "source_offset_y_m": 0.0,
+                            "prompt": "pick up the block",
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
         completed = subprocess.run(
             [
                 sys.executable,
@@ -65,6 +86,8 @@ def main() -> int:
                 str(root),
                 "--output",
                 str(output),
+                "--plan",
+                str(plan),
             ],
             check=False,
             capture_output=True,
@@ -76,6 +99,9 @@ def main() -> int:
             and report["status"] == "pass"
             and report["episode_count"] == 1
             and report["passed_episode_count"] == 1
+            and report["train_episode_count"] == 1
+            and report["collection_plan_complete"] is True
+            and report["collection_plan_coverage"]["status"] == "pass"
             and report["episodes"][0]["external_image_metrics"]["passed"] is True
             and report["episodes"][0]["wrist_image_metrics"]["passed"] is True
         )

@@ -19,6 +19,13 @@ if str(PROJECT_ROOT) not in sys.path:
 from openpi_extension.expert_episode import validate_episode
 
 
+def numeric_values_match(actual, expected) -> bool:
+    try:
+        return bool(np.allclose(actual, expected))
+    except (TypeError, ValueError):
+        return False
+
+
 def image_metrics(directory: Path, paths: list[str]) -> dict:
     sample_indices = np.linspace(0, len(paths) - 1, min(12, len(paths)), dtype=int)
     hashes = []
@@ -58,6 +65,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset_root", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--plan", type=Path)
     args = parser.parse_args()
 
     directories = sorted(path.parent for path in args.dataset_root.glob("episode_*/metadata.json"))
@@ -98,6 +106,13 @@ def main() -> int:
                 "source_offset_xy_m": metadata.get("metadata", {}).get(
                     "source_offset_xy_m"
                 ),
+                "collection_case_id": metadata.get("metadata", {}).get(
+                    "collection_case_id"
+                ),
+                "collection_split": metadata.get("metadata", {}).get(
+                    "collection_split"
+                ),
+                "prompt": metadata.get("prompt"),
                 "episode_validation": validation,
                 "task_status": task.get("status", "missing"),
                 "unassisted_full_task_complete": task.get(
@@ -109,8 +124,72 @@ def main() -> int:
         )
 
     passed_count = sum(item["status"] == "pass" for item in episodes)
+    case_ids = [item["collection_case_id"] for item in episodes if item["collection_case_id"]]
+    duplicate_case_ids = sorted(
+        {case_id for case_id in case_ids if case_ids.count(case_id) > 1}
+    )
+    coverage = {
+        "requested": args.plan is not None,
+        "status": "not_checked",
+        "missing_case_ids": [],
+        "unexpected_case_ids": [],
+        "duplicate_case_ids": duplicate_case_ids,
+        "condition_mismatches": [],
+    }
+    if args.plan is not None:
+        plan = json.loads(args.plan.read_text(encoding="utf-8"))
+        if plan.get("format") != "rm65_expert_collection_plan_v1":
+            raise ValueError("unsupported collection plan")
+        expected = {item["case_id"]: item for item in plan["cases"]}
+        observed = {
+            item["collection_case_id"]: item
+            for item in episodes
+            if item["collection_case_id"] is not None
+        }
+        coverage["missing_case_ids"] = sorted(expected.keys() - observed.keys())
+        coverage["unexpected_case_ids"] = sorted(observed.keys() - expected.keys())
+        for case_id in sorted(expected.keys() & observed.keys()):
+            expected_case = expected[case_id]
+            episode = observed[case_id]
+            expected_offset = [
+                expected_case["source_offset_x_m"],
+                expected_case["source_offset_y_m"],
+            ]
+            matches = bool(
+                episode["collection_split"] == expected_case["split"]
+                and episode["prompt"] == expected_case["prompt"]
+                and numeric_values_match(
+                    episode["transfer_joint_1_rad"],
+                    expected_case["transfer_joint_1_rad"],
+                )
+                and numeric_values_match(episode["source_offset_xy_m"], expected_offset)
+            )
+            if not matches:
+                coverage["condition_mismatches"].append(case_id)
+        coverage["status"] = (
+            "pass"
+            if not any(
+                coverage[key]
+                for key in (
+                    "missing_case_ids",
+                    "unexpected_case_ids",
+                    "duplicate_case_ids",
+                    "condition_mismatches",
+                )
+            )
+            else "fail"
+        )
+    episode_health_passed = bool(episodes and passed_count == len(episodes))
+    collection_plan_complete = bool(
+        args.plan is not None and coverage["status"] == "pass"
+    )
     report = {
-        "status": "pass" if episodes and passed_count == len(episodes) else "fail",
+        "status": (
+            "pass"
+            if episode_health_passed
+            and (args.plan is None or collection_plan_complete)
+            else "fail"
+        ),
         "simulation_only": True,
         "expert": "scripted",
         "pi05_used": False,
@@ -119,6 +198,15 @@ def main() -> int:
         "episode_count": len(episodes),
         "passed_episode_count": passed_count,
         "success_rate": passed_count / len(episodes) if episodes else 0.0,
+        "train_episode_count": sum(
+            item["collection_split"] == "train" for item in episodes
+        ),
+        "validation_episode_count": sum(
+            item["collection_split"] == "validation" for item in episodes
+        ),
+        "episode_health_passed": episode_health_passed,
+        "collection_plan_complete": collection_plan_complete,
+        "collection_plan_coverage": coverage,
         "total_frames": sum(item.get("frame_count") or 0 for item in episodes),
         "episodes": episodes,
     }

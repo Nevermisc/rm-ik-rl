@@ -110,9 +110,14 @@ bash scripts/run_recorded_expert_suite.sh
 python3 scripts/run_expert_collection_plan.py \
   --plan config/rm65_expert_collection_plan_v1.json \
   --dataset-root datasets/rm65_scripted_v1
+
+python3 scripts/summarize_expert_dataset.py \
+  datasets/rm65_scripted_v1 \
+  --plan config/rm65_expert_collection_plan_v1.json \
+  --output results/rm65_scripted_dataset_summary.json
 ```
 
-计划包含 5 个转运角 × 3×3 个源位置，共 45 条条件，其中 36 条标记为 `train`，9 条标记为 `validation`，并轮换五种同义指令。运行器会识别已经完整通过的同一 case 并跳过，从中断位置继续；遇到同名但不完整或属于其他 case 的 episode 会停止，避免静默覆盖证据。这里的 validation 只检查示教分布，不能代替 π0.5 闭环评测。
+计划包含 5 个转运角 × 3×3 个源位置，共 45 条条件，其中 36 条标记为 `train`，9 条标记为 `validation`，并轮换五种同义指令。运行器会识别已经完整通过的同一 case 并跳过，从中断位置继续；遇到同名但不完整或属于其他 case 的 episode 会停止，避免静默覆盖证据。汇总器逐项核对 case ID、split、角度、源位置和指令，只有 45 条条件全部一致才给出 `collection_plan_complete=true`。这里的 validation 只检查示教分布，不能代替 π0.5 闭环评测。
 
 ## OpenPI 数据配置预检
 
