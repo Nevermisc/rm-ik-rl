@@ -8,6 +8,7 @@ episode_dir="${1:-datasets/rm65_scripted_v1/episode_000000}"
 transfer_angle="${2:-0.8}"
 source_offset_x="${3:-0.0}"
 source_offset_y="${4:-0.0}"
+episode_prompt="${5:-pick up the block and place it on the target}"
 
 cd "$project_root"
 mkdir -p outputs "$(dirname "$episode_dir")"
@@ -20,7 +21,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --record-episode-dir "$episode_dir" \
   --record-stride-steps 12 \
   --record-images \
-  --episode-prompt "pick up the block and place it on the target" \
+  --episode-prompt "$episode_prompt" \
   --robot-base-z-m 0.65 \
   --transfer-joint-1-rad "$transfer_angle" \
   --source-offset-x-m "$source_offset_x" \

@@ -26,7 +26,7 @@ def main() -> int:
             root / "episode_000000",
             "pick up the block",
             20.0,
-            metadata={"task_success": True},
+            metadata={"task_success": True, "collection_split": "train"},
         )
         for index in range(3):
             image = np.full((10, 14, 3), index * 40, dtype=np.uint8)
@@ -42,12 +42,19 @@ def main() -> int:
                 wrist_rgb=image,
             )
         recorder.save()
-        episodes = discover_episodes(root)
+        episodes = discover_episodes(root, collection_split="train")
+        no_validation = False
+        try:
+            discover_episodes(root, collection_split="validation")
+        except ValueError:
+            no_validation = True
         passed = (
             len(episodes) == 1
             and episodes[0]["states"].shape == (3, 7)
             and episodes[0]["actions"].shape == (3, 7)
             and episodes[0]["fps"] == 20.0
+            and episodes[0]["collection_split"] == "train"
+            and no_validation
         )
         print(f"LEROBOT_CONVERSION_INPUT={'PASS' if passed else 'FAIL'}")
         return 0 if passed else 1

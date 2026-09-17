@@ -40,6 +40,7 @@ def load_episode(directory: Path) -> dict[str, Any]:
         "actions": actions,
         "external_paths": manifest["image_paths"]["external"],
         "wrist_paths": manifest["image_paths"]["wrist"],
+        "collection_split": manifest.get("metadata", {}).get("collection_split"),
     }
 
 
@@ -48,13 +49,25 @@ def read_rgb(path: Path) -> np.ndarray:
         return np.asarray(image.convert("RGB"), dtype=np.uint8)
 
 
-def discover_episodes(dataset_root: Path) -> list[dict[str, Any]]:
+def discover_episodes(
+    dataset_root: Path, *, collection_split: str | None = None
+) -> list[dict[str, Any]]:
     directories = sorted(
         path.parent for path in dataset_root.glob("episode_*/metadata.json")
     )
     if not directories:
         raise FileNotFoundError(f"no episode_*/metadata.json found below {dataset_root}")
     episodes = [load_episode(directory) for directory in directories]
+    if collection_split is not None:
+        episodes = [
+            episode
+            for episode in episodes
+            if episode["collection_split"] == collection_split
+        ]
+        if not episodes:
+            raise ValueError(
+                f"no episodes use collection split {collection_split!r}"
+            )
     fps_values = {round(item["fps"], 9) for item in episodes}
     if len(fps_values) != 1:
         raise ValueError(f"episodes use different control frequencies: {sorted(fps_values)}")
@@ -80,9 +93,16 @@ def main() -> int:
     parser.add_argument("dataset_root", type=Path)
     parser.add_argument("--repo-id", required=True, help="LeRobot repository id, e.g. local/rm65_sim")
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument(
+        "--split",
+        choices=("train", "validation"),
+        help="Convert only the declared collection split.",
+    )
     args = parser.parse_args()
 
-    episodes = discover_episodes(args.dataset_root.expanduser().resolve())
+    episodes = discover_episodes(
+        args.dataset_root.expanduser().resolve(), collection_split=args.split
+    )
     fps = episodes[0]["fps"]
     rounded_fps = round(fps)
     if not np.isclose(fps, rounded_fps):
@@ -154,6 +174,7 @@ def main() -> int:
                 "episode_count": len(episodes),
                 "frame_count": total_frames,
                 "fps": int(rounded_fps),
+                "collection_split": args.split,
             },
             indent=2,
         )
