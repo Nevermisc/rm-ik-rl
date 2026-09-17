@@ -87,7 +87,7 @@ root = pathlib.Path(sys.argv[1])
 files = sorted(path.name for path in root.iterdir() if path.is_file())
 report = {
     "status": "complete",
-    "sensitive_values_collected": False,
+    "credential_values_collected": False,
     "report_file_count": len(files),
     "report_files": files,
 }

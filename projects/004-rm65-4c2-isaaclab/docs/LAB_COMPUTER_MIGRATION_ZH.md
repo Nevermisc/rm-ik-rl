@@ -44,6 +44,18 @@ Windows 电脑上的 `D:\\d\\4C2` 是原始夹爪模型的额外副本。仓库�
 `results/4c2_original_source_manifest.json` 记录了它的文件数量、总字节数和
 逐文件 SHA-256；恢复到新实验室电脑后可用同一脚本重新生成清单并比较。
 
+```bash
+python3 scripts/hash_asset_tree.py external/4C2 \
+  --output outputs/4c2_restored_manifest.json \
+  --label 4C2_restored_on_new_lab_pc
+python3 scripts/compare_asset_manifests.py \
+  results/4c2_original_source_manifest.json \
+  outputs/4c2_restored_manifest.json \
+  --output outputs/4c2_migration_comparison.json
+```
+
+比较报告只有在文件路径、大小和 SHA-256 全部一致时才返回 `status=pass`。
+
 ## 旧电脑第一步：只读清点
 
 进入当前项目后运行：
