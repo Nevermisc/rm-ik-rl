@@ -15,7 +15,7 @@ docker compose \
   up -d --no-build --force-recreate openpi_server
 
 echo "等待 π0.5 DROID 服务监听 8000 端口……"
-for _ in $(seq 1 36); do
+for _ in $(seq 1 60); do
   if docker logs --tail 60 "${CONTAINER_NAME}" 2>&1 | grep -q "server listening"; then
     echo "PI05_SERVER_READY=PASS"
     exit 0
@@ -23,6 +23,6 @@ for _ in $(seq 1 36); do
   sleep 5
 done
 
-echo "π0.5 服务未在 180 秒内启动。" >&2
+echo "π0.5 服务未在 300 秒内启动。" >&2
 docker logs --tail 120 "${CONTAINER_NAME}" >&2
 exit 1

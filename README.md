@@ -160,6 +160,7 @@ projects/004-rm65-4c2-isaaclab/
 
 - [004 小项目 README](projects/004-rm65-4c2-isaaclab/README.md)
 - [RM65 + 4C2 阶段报告与复现手册](projects/004-rm65-4c2-isaaclab/docs/RM65_4C2_STAGE_REPORT_ZH.md)
+- [新实验室电脑迁移、验收与日常使用](projects/004-rm65-4c2-isaaclab/docs/NEW_LAB_PC_MIGRATION_20260918_ZH.md)
 - [自然重力抓取与放置学习日志](learning-log/2026-09-15-rm65-natural-grasp-place.md)
 - [验证结果](projects/004-rm65-4c2-isaaclab/results/)
 

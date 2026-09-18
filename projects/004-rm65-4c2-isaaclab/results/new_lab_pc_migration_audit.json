@@ -1,0 +1,325 @@
+{
+  "status": "pass",
+  "generated_at": "2026-09-18T20:02:46.427563+08:00",
+  "safety": {
+    "physical_robot_commanded": false,
+    "physical_robot_network_required_for_this_audit": false
+  },
+  "host": {
+    "hostname": "chengyu-Z790-AORUS-ELITE-AX",
+    "os_id": "ubuntu",
+    "os_version": "24.04",
+    "python": "3.12.3",
+    "home": "/home/chengyu"
+  },
+  "paths": {
+    "project_repository": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/rm-ik-rl",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl"
+    },
+    "openpi_repository": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/openpi",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/robot-learning/openpi"
+    },
+    "isaaclab_repository": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/IsaacLab",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/robot-learning/IsaacLab"
+    },
+    "isaac_sim": {
+      "ok": true,
+      "path": "/home/chengyu/isaac-sim-5.1.0",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/isaac-sim-5.1.0"
+    },
+    "openpi_assets": {
+      "ok": true,
+      "path": "/home/chengyu/.cache/openpi",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/.cache/openpi"
+    },
+    "openpi_virtualenv": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/openpi/.venv/bin/python",
+      "kind": "file",
+      "is_symlink": true,
+      "resolved_path": "/home/chengyu/.local/share/uv/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11"
+    },
+    "huggingface_cache": {
+      "ok": true,
+      "path": "/home/chengyu/.cache/huggingface",
+      "kind": "dir",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/.cache/huggingface"
+    },
+    "ros_workspace": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/rm65_project_jazzy_ws/install/setup.bash",
+      "kind": "file",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/robot-learning/rm65_project_jazzy_ws/install/setup.bash"
+    },
+    "combined_rm65_4c2_usd": {
+      "ok": true,
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+      "kind": "file",
+      "is_symlink": false,
+      "resolved_path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd"
+    }
+  },
+  "commands": {
+    "ubuntu_24_04": {
+      "name": "ubuntu_24_04",
+      "ok": true,
+      "observed": {
+        "id": "ubuntu",
+        "version_id": "24.04"
+      }
+    },
+    "ssh_active": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "active",
+      "stderr": "",
+      "name": "ssh_active",
+      "command": [
+        "systemctl",
+        "is-active",
+        "ssh"
+      ]
+    },
+    "ssh_enabled": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "enabled",
+      "stderr": "",
+      "name": "ssh_enabled",
+      "command": [
+        "systemctl",
+        "is-enabled",
+        "ssh"
+      ]
+    },
+    "nomachine_port": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "name": "nomachine_port",
+      "command": [
+        "bash",
+        "-lc",
+        "ss -ltn | grep -q ':4000 '"
+      ]
+    },
+    "nvidia_gpu": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 4080 SUPER, 16376 MiB, 580.126.09",
+      "stderr": "",
+      "name": "nvidia_gpu",
+      "command": [
+        "nvidia-smi",
+        "--query-gpu=name,memory.total,driver_version",
+        "--format=csv,noheader"
+      ]
+    },
+    "docker_engine": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "29.8.1",
+      "stderr": "",
+      "name": "docker_engine",
+      "command": [
+        "docker",
+        "info",
+        "--format",
+        "{{.ServerVersion}}"
+      ]
+    },
+    "vscode": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "1.138.0\n7debcd0e2acdea1c52de81bf9ee1620444407dda\nx64",
+      "stderr": "",
+      "name": "vscode",
+      "command": [
+        "code",
+        "--version"
+      ]
+    },
+    "cpu_stability_mitigation": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "active",
+      "stderr": "",
+      "name": "cpu_stability_mitigation",
+      "command": [
+        "systemctl",
+        "is-active",
+        "disable-suspected-pcore.service"
+      ]
+    },
+    "robot_network_profile": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "name": "robot_network_profile",
+      "command": [
+        "bash",
+        "-lc",
+        "nmcli -t -f NAME connection show | grep -qx rm65-robot"
+      ]
+    },
+    "docker_gpu": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "==========\n== CUDA ==\n==========\n\nCUDA Version 12.2.2\n\nContainer image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.\n\nThis container image and its contents are governed by the NVIDIA Deep Learning Container License.\nBy pulling and using the container, you accept the terms and conditions of this license:\nhttps://developer.nvidia.com/ngc/nvidia-deep-learning-container-license\n\nA copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.\n\nNVIDIA GeForce RTX 4080 SUPER",
+      "stderr": "",
+      "name": "docker_gpu",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "--gpus",
+        "all",
+        "openpi_server:latest",
+        "nvidia-smi",
+        "--query-gpu=name",
+        "--format=csv,noheader"
+      ]
+    },
+    "ros_jazzy": {
+      "ok": true,
+      "returncode": 0,
+      "stdout": "/home/chengyu/robot-learning/rm65_project_jazzy_ws/install/rm_description",
+      "stderr": "",
+      "name": "ros_jazzy",
+      "command": [
+        "bash",
+        "-lc",
+        "source /opt/ros/jazzy/setup.bash && source ~/robot-learning/rm65_project_jazzy_ws/install/setup.bash && ros2 pkg prefix rm_description"
+      ]
+    }
+  },
+  "evidence": {
+    "windows_remote_access": {
+      "path": "/home/chengyu/migration_logs/windows_remote_access_test.json",
+      "ok": true,
+      "reported_status": "pass"
+    },
+    "robot_learning_files_present": {
+      "path": "/home/chengyu/migration_logs/robot_learning_file_presence.json",
+      "ok": true,
+      "reported_status": "pass"
+    },
+    "large_file_transfers": {
+      "path": "/home/chengyu/migration_logs/large_file_transfer_evidence.json",
+      "ok": true,
+      "reported_status": "pass"
+    },
+    "ros_jazzy_full_build": {
+      "ok": true,
+      "path": "/home/chengyu/migration_logs/canonical_jazzy_build.log",
+      "marker": "Summary: 25 packages finished"
+    },
+    "ros_jazzy_changed_packages_build": {
+      "ok": true,
+      "path": "/home/chengyu/migration_logs/jazzy_changed_packages_rebuild.log",
+      "marker": "Summary: 3 packages finished"
+    },
+    "isaaclab_headless": {
+      "ok": true,
+      "path": "/home/chengyu/migration_logs/isaaclab_headless_check.log",
+      "marker": "ISAAC_LAB_HEADLESS_CHECK=PASS"
+    },
+    "rm65_4c2_articulation": {
+      "path": "/home/chengyu/migration_logs/rm65_4c2_articulation_smoke.json",
+      "ok": true,
+      "reported_status": "pass",
+      "dof_count": 12,
+      "all_joint_positions_finite": true
+    },
+    "gripper_aperture": {
+      "path": "/home/chengyu/migration_logs/gripper_aperture_test.json",
+      "ok": true,
+      "reported_status": "pass",
+      "simulation_only": true,
+      "all_values_finite": true
+    },
+    "combined_ik": {
+      "path": "/home/chengyu/migration_logs/combined_ik_test.json",
+      "ok": true,
+      "reported_status": "pass",
+      "dof_count": 12
+    },
+    "gripper_close_contact": {
+      "path": "/home/chengyu/migration_logs/gripper_close_stability.json",
+      "ok": true,
+      "reported_status": "pass",
+      "simulation_only": true,
+      "bilateral_fingertip_contact_confirmed": true
+    },
+    "rm65_policy_transform": {
+      "path": "/home/chengyu/migration_logs/rm65_policy_transform_test.json",
+      "ok": true,
+      "reported_status": "pass"
+    },
+    "openpi_inference": {
+      "path": "/home/chengyu/migration_logs/openpi_inference_test.json",
+      "ok": true,
+      "reported_status": "pass",
+      "simulation_only": true,
+      "actions_shape": [
+        10,
+        7
+      ],
+      "all_actions_finite": true
+    },
+    "openpi_droid_inference": {
+      "path": "/home/chengyu/migration_logs/openpi_droid_inference_test.json",
+      "ok": true,
+      "reported_status": "pass",
+      "simulation_only": true,
+      "actions_shape": [
+        15,
+        8
+      ],
+      "all_actions_finite": true
+    },
+    "libero_container_runtime": {
+      "path": "/home/chengyu/migration_logs/libero_image_smoke.json",
+      "ok": true,
+      "reported_status": "pass"
+    },
+    "franka_pi05_isaaclab_closed_loop": {
+      "path": "/home/chengyu/migration_logs/new_pc_franka_closed_loop.json",
+      "ok": true,
+      "reported_status": "pass",
+      "simulation_only": true,
+      "all_actions_finite": true
+    },
+    "file_transfer_queue": {
+      "ok": true,
+      "path": "/home/chengyu/migration_logs/file_queue.log",
+      "marker": "ALL_FILE_TRANSFERS_DONE"
+    },
+    "docker_image_queue": {
+      "ok": true,
+      "path": "/home/chengyu/migration_logs/docker_image_migration.log",
+      "marker": "ALL_DOCKER_IMAGES_DONE"
+    }
+  },
+  "failed_checks": []
+}

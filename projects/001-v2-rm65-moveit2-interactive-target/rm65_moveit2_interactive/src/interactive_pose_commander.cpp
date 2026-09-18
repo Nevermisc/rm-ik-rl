@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <condition_variable>
 #include <map>
 #include <memory>
@@ -50,6 +52,39 @@ void logTrajectoryPoint(
   RCLCPP_INFO(logger, "%s", title.c_str());
   for (size_t i = 0; i < joint_names.size() && i < point.positions.size(); ++i) {
     RCLCPP_INFO(logger, "  %s = %.4f rad", joint_names[i].c_str(), point.positions[i]);
+  }
+}
+
+
+double unwrapNear(double reference, double value)
+{
+  constexpr double two_pi = 2.0 * M_PI;
+  while (value - reference > M_PI) {
+    value -= two_pi;
+  }
+  while (value - reference < -M_PI) {
+    value += two_pi;
+  }
+  return value;
+}
+
+void unwrapTrajectoryNearPreviousPoint(trajectory_msgs::msg::JointTrajectory & trajectory)
+{
+  if (trajectory.points.size() < 2) {
+    return;
+  }
+
+  for (size_t point_index = 1; point_index < trajectory.points.size(); ++point_index) {
+    auto & previous_positions = trajectory.points[point_index - 1].positions;
+    auto & current_positions = trajectory.points[point_index].positions;
+
+    const size_t joint_count = std::min(previous_positions.size(), current_positions.size());
+    for (size_t joint_index = 0; joint_index < joint_count; ++joint_index) {
+      current_positions[joint_index] = unwrapNear(
+        previous_positions[joint_index],
+        current_positions[joint_index]
+      );
+    }
   }
 }
 
@@ -165,6 +200,11 @@ int main(int argc, char * argv[])
   move_group.setMaxVelocityScalingFactor(0.1);
   move_group.setMaxAccelerationScalingFactor(0.1);
 
+  if (!node->has_parameter("execute_trajectory")) {
+    node->declare_parameter<bool>("execute_trajectory", false);
+  }
+  const bool execute_trajectory = node->get_parameter("execute_trajectory").as_bool();
+
   const std::string end_effector_link = move_group.getEndEffectorLink().empty()
     ? "Link6"
     : move_group.getEndEffectorLink();
@@ -177,6 +217,11 @@ int main(int argc, char * argv[])
   RCLCPP_INFO(node->get_logger(), "MoveIt2 connected.");
   RCLCPP_INFO(node->get_logger(), "Planning frame: %s", move_group.getPlanningFrame().c_str());
   RCLCPP_INFO(node->get_logger(), "End effector link: %s", end_effector_link.c_str());
+  RCLCPP_INFO(
+    node->get_logger(),
+    "Trajectory execution: %s",
+    execute_trajectory ? "ENABLED" : "DISABLED, planning only"
+  );
   RCLCPP_INFO(node->get_logger(), "Waiting for target points on topic: /rm65_target_point");
   RCLCPP_INFO(node->get_logger(), "Example command:");
   RCLCPP_INFO(
@@ -188,7 +233,7 @@ int main(int argc, char * argv[])
     geometry_msgs::msg::Point target_point;
     {
       std::unique_lock<std::mutex> lock(target_mutex);
-      target_cv.wait(lock, [&]() {
+      target_cv.wait_for(lock, std::chrono::milliseconds(200), [&]() {
         return !target_queue.empty() || !rclcpp::ok();
       });
 
@@ -196,12 +241,15 @@ int main(int argc, char * argv[])
         break;
       }
 
+      if (target_queue.empty()) {
+        continue;
+      }
+
       target_point = target_queue.front();
       target_queue.pop();
     }
 
-    geometry_msgs::msg::Pose target_pose;
-    target_pose.orientation.w = 1.0;
+    geometry_msgs::msg::Pose target_pose = move_group.getCurrentPose(end_effector_link).pose;
     target_pose.position.x = target_point.x;
     target_pose.position.y = target_point.y;
     target_pose.position.z = target_point.z;
@@ -237,7 +285,8 @@ int main(int argc, char * argv[])
       continue;
     }
 
-    const auto & trajectory = plan.trajectory_.joint_trajectory;
+    auto & trajectory = plan.trajectory.joint_trajectory;
+    unwrapTrajectoryNearPreviousPoint(trajectory);
     RCLCPP_INFO(node->get_logger(), "Planning succeeded in %ld ms.", elapsed_ms);
     RCLCPP_INFO(node->get_logger(), "Trajectory point count: %zu", trajectory.points.size());
 
@@ -254,6 +303,12 @@ int main(int argc, char * argv[])
         trajectory.joint_names,
         trajectory.points.back()
       );
+    }
+
+    if (!execute_trajectory) {
+      RCLCPP_WARN(node->get_logger(), "Dry run: trajectory execution is disabled. Plan was not sent to the robot.");
+      move_group.clearPoseTargets();
+      continue;
     }
 
     RCLCPP_INFO(node->get_logger(), "Executing trajectory...");

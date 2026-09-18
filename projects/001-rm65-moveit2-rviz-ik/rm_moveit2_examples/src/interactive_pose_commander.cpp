@@ -237,7 +237,7 @@ int main(int argc, char * argv[])
       continue;
     }
 
-    const auto & trajectory = plan.trajectory_.joint_trajectory;
+    const auto & trajectory = plan.trajectory.joint_trajectory;
     RCLCPP_INFO(node->get_logger(), "Planning succeeded in %ld ms.", elapsed_ms);
     RCLCPP_INFO(node->get_logger(), "Trajectory point count: %zu", trajectory.points.size());
 

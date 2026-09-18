@@ -14,7 +14,7 @@ docker compose \
   up -d --no-build --force-recreate openpi_server
 
 echo "等待 π0.5 服务监听 8000 端口……"
-for _ in $(seq 1 24); do
+for _ in $(seq 1 60); do
   if docker logs --tail 40 "${CONTAINER_NAME}" 2>&1 | grep -q "server listening"; then
     break
   fi
@@ -27,6 +27,6 @@ if ! docker logs --tail 40 "${CONTAINER_NAME}" 2>&1 | grep -q "server listening"
   exit 1
 fi
 
-echo "开始首次推理预热；RTX 4060 Ti 上约需 2～3 分钟……"
+echo "开始首次推理预热；冷启动时模型加载和 JAX 编译可能需要数分钟……"
 docker exec -i "${CONTAINER_NAME}" /.venv/bin/python3 -u - \
   < "${PROJECT_DIR}/scripts/warmup_pi05_droid.py"

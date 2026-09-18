@@ -202,7 +202,7 @@ int main(int argc, char * argv[])
   }
 
   moveit::planning_interface::MoveGroupInterface::Plan circle_plan;
-  circle_plan.trajectory_ = circle_trajectory;
+  circle_plan.trajectory = circle_trajectory;
 
   RCLCPP_INFO(node->get_logger(), "Executing circle trajectory...");
   const auto circle_execute_result = move_group.execute(circle_plan);
