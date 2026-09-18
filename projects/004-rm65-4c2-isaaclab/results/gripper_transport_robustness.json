@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "gravity_enabled_during_transport": true,
+  "trial_count": 3,
+  "passed_trials": 3,
+  "success_rate": 1.0,
+  "minimum_tool_lift_m": 0.06079554557800293,
+  "minimum_block_lift_m": 0.03760260343551636,
+  "maximum_block_to_tool_relative_position_change_m": 0.029831232503056526,
+  "criteria": {
+    "tool_lift_m_gt": 0.03,
+    "block_lift_m_gt": 0.02,
+    "block_to_tool_relative_position_change_m_lt": 0.04,
+    "all_states_finite": true
+  },
+  "trials": [
+    {
+      "name": "width_axis_minus_2mm",
+      "passed": true,
+      "block_width_axis_offset_m": -0.002,
+      "tool_lift_m": 0.06079554557800293,
+      "block_lift_m": 0.03784757852554321,
+      "block_to_tool_relative_position_change_m": 0.029831232503056526,
+      "transport_duration_s": 1.0
+    },
+    {
+      "name": "center",
+      "passed": true,
+      "block_width_axis_offset_m": 0.0,
+      "tool_lift_m": 0.06079709529876709,
+      "block_lift_m": 0.03760260343551636,
+      "block_to_tool_relative_position_change_m": 0.029492776840925217,
+      "transport_duration_s": 1.0
+    },
+    {
+      "name": "width_axis_plus_2mm",
+      "passed": true,
+      "block_width_axis_offset_m": 0.002,
+      "tool_lift_m": 0.06079632043838501,
+      "block_lift_m": 0.03799307346343994,
+      "block_to_tool_relative_position_change_m": 0.02944411337375641,
+      "transport_duration_s": 1.0
+    }
+  ],
+  "limitation": "The 30 g block starts suspended between empirically placed collision pads; the benchmark does not yet include table pickup, release, or pi0.5 closed-loop control."
+}

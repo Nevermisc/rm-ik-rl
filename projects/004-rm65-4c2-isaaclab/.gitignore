@@ -1,0 +1,6 @@
+generated/
+outputs/
+external/
+__pycache__/
+*.pyc
+*.log

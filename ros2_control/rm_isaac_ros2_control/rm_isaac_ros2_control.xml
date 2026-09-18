@@ -1,0 +1,10 @@
+<library path="rm_isaac_ros2_control">
+  <class
+    name="rm_isaac_ros2_control/RMIsaacSystem"
+    type="rm_isaac_ros2_control::RMIsaacSystem"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Minimal ros2_control hardware interface skeleton for connecting RM65 to Isaac Sim.
+    </description>
+  </class>
+</library>

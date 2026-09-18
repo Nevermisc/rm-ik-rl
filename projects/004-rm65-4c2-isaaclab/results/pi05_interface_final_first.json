@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "executed": false,
+  "execution_blocked_reason": [
+    "pi05_droid_jointpos outputs seven Franka joint targets, while RM65 has six joints",
+    "joint semantics, kinematics, normalization statistics, and gripper calibration do not match",
+    "this adapter only validates transport and tensor contracts"
+  ],
+  "prompt": "pick up the red cube",
+  "latency_seconds": 152.09623708599975,
+  "policy_input": {
+    "joint_position_shape": [
+      7
+    ],
+    "joint_position_source": "RM65 six joints plus one zero-valued virtual joint for dry-run only",
+    "gripper_position": [
+      0.4046242833137512
+    ],
+    "external_image_shape": [
+      224,
+      224,
+      3
+    ],
+    "wrist_image_shape": [
+      224,
+      224,
+      3
+    ]
+  },
+  "policy_output": {
+    "shape": [
+      15,
+      8
+    ],
+    "min": -0.5429212597890049,
+    "max": 1.0053924048082228,
+    "first_action": [
+      -0.019149020664498972,
+      -0.5376747885607004,
+      1.0052602399528079,
+      0.0017135644618083146,
+      0.6104270166703218,
+      0.016231670865715364,
+      -0.020756555493883555,
+      0.3762911820039153
+    ]
+  }
+}

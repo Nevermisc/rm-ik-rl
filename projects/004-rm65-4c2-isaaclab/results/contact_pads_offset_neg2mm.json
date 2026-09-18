@@ -1,0 +1,164 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "task": "stability check while closing the software-coupled 4C2 around a floating contact block",
+  "contact_block_size_m": [
+    0.06,
+    0.04,
+    0.025
+  ],
+  "contact_block_gravity_disabled": true,
+  "contact_block_mass_kg": 0.03,
+  "support_surface_present": false,
+  "lift_attempted": false,
+  "contact_confirmed": true,
+  "contact_confirmed_definition": "any contact reported on the block or a 4C2 link above 0.05 N",
+  "bilateral_fingertip_contact_confirmed": true,
+  "maximum_cube_contact_force_n": 0.11399718374013901,
+  "maximum_gripper_filtered_contact_force_n": 0.11399718374013901,
+  "left_finger_contact_force_n": 0.11399718374013901,
+  "right_finger_contact_force_n": 0.08387119323015213,
+  "cube_contact_force_by_gripper_body_n": {
+    "tool_base_link": 0.0,
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.11399718374013901,
+    "tool_l_2_base": 0.0,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.08387119323015213,
+    "tool_r_2_base": 0.0,
+    "tool_r_3": 0.0,
+    "cube_any_contact": 0.0
+  },
+  "net_contact_force_by_gripper_body_n": {
+    "tool_base_link": 0.0,
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.11399718374013901,
+    "tool_l_2_base": 0.0,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.08387119323015213,
+    "tool_r_2_base": 0.0,
+    "tool_r_3": 0.0,
+    "cube_any_contact": 0.030125994235277176
+  },
+  "contact_processing_disabled": false,
+  "contact_sensor_binding": {
+    "tool_base_link": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_l_1": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_l_2": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_l_2_base": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_l_3": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_r_1": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_r_2": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_r_2_base": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "tool_r_3": {
+      "body_count": 1,
+      "filter_count": 1
+    },
+    "cube_any_contact": {
+      "body_count": 1,
+      "filter_count": 0
+    }
+  },
+  "moving_gripper_gravity_disabled": true,
+  "gravity_disabled_body_paths": [
+    "/World/Robot/tool_r_1",
+    "/World/Robot/tool_r_3",
+    "/World/Robot/tool_l_1",
+    "/World/Robot/tool_l_3",
+    "/World/Robot/tool_l_2",
+    "/World/Robot/tool_r_2"
+  ],
+  "gripper_close_target_rad": 0.65,
+  "gripper_close_steps": 180,
+  "gripper_close_duration_s": 0.75,
+  "open_fingertip_midpoint_m": [
+    -0.21215778589248657,
+    -3.688037395477295e-06,
+    0.752622127532959
+  ],
+  "contact_block_center_m": [
+    -0.22128650546073914,
+    -0.0020038310904055834,
+    0.7567045092582703
+  ],
+  "contact_block_quaternion_wxyz": [
+    -0.20872162282466888,
+    -2.108201670125709e-06,
+    0.977975070476532,
+    2.4372020561713725e-05
+  ],
+  "contact_block_width_axis_world": [
+    6.050397132639773e-06,
+    1.0,
+    4.8550507926847786e-05
+  ],
+  "contact_block_pose_in_finger_frames": {
+    "tool_l_2": {
+      "position_m": [
+        0.04075390845537186,
+        -0.010494081303477287,
+        -0.07293504476547241
+      ],
+      "quaternion_wxyz": [
+        0.9602540731430054,
+        -0.022259186953306198,
+        0.13517776131629944,
+        0.24319419264793396
+      ]
+    },
+    "tool_r_2": {
+      "position_m": [
+        0.041108399629592896,
+        0.011621581390500069,
+        -0.07300947606563568
+      ],
+      "quaternion_wxyz": [
+        0.9535806775093079,
+        0.048131026327610016,
+        0.12826494872570038,
+        -0.26817023754119873
+      ]
+    }
+  },
+  "contact_block_inward_offset_m": -0.01,
+  "contact_block_width_axis_offset_m": -0.002,
+  "closed_gripper_joint_position_rad": [
+    0.6573116779327393,
+    0.6558980941772461,
+    0.6254766583442688,
+    0.6298542618751526,
+    0.5264413952827454,
+    0.5179367065429688
+  ],
+  "closed_l2_tip_gap_m": 0.02760816365480423,
+  "closed_l3_tip_gap_m": 0.03559436276555061,
+  "cube_displacement_during_close_m": 0.00130312773399055,
+  "all_states_finite": true,
+  "warning": "Finite closing is verified; any contact and bilateral finger contact are reported separately. Use --attempt-lift to run the gravity-enabled transport check."
+}

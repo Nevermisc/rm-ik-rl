@@ -1,0 +1,98 @@
+{
+  "status": "diagnostic",
+  "simulation_only": true,
+  "collision_bypass_during_approach": false,
+  "initialized_at_grasp": false,
+  "arm_gravity_disabled_during_approach": false,
+  "natural_source_gravity": true,
+  "arm_actuator": {
+    "effort_limit_sim": 300.0,
+    "stiffness": 1000.0,
+    "damping": 100.0
+  },
+  "pregrasp_distance_m": 0.1,
+  "grasp_world_offset_x_m": -0.04,
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.831066351267509e-06,
+    0.7454999685287476
+  ],
+  "settled_source_quaternion_wxyz": [
+    1.0,
+    4.230034562624496e-07,
+    9.174375463771867e-07,
+    1.1775314057160813e-08
+  ],
+  "closed_position_m": [
+    -0.22128649055957794,
+    -3.831284629995935e-06,
+    0.7454999685287476
+  ],
+  "close_left_finger_contact_force_n": 0.05346052348613739,
+  "close_right_finger_contact_force_n": 0.05834924057126045,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.05346052348613739,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.05834924057126045,
+    "tool_r_3": 0.0
+  },
+  "approach_actual_arm_joint_position_rad": [
+    -1.4422769709199201e-05,
+    -0.4656183421611786,
+    1.2182880640029907,
+    0.008632712997496128,
+    0.6556854844093323,
+    -0.005507030989974737
+  ],
+  "approach_target_arm_joint_position_rad": [
+    -2.881880800393607e-07,
+    -0.4640693562222981,
+    1.090112061953264,
+    -1.4621203179857728e-06,
+    0.49763327819495906,
+    0.0
+  ],
+  "cartesian_retreat_distances_m": [
+    0.01,
+    0.020000000000000004,
+    0.030000000000000006,
+    0.04000000000000001,
+    0.05000000000000001,
+    0.06000000000000001,
+    0.07,
+    0.08,
+    0.09000000000000001,
+    0.1
+  ],
+  "cartesian_pregrasp_joint_position_rad": [
+    -0.0007410947406291675,
+    -0.8149599387171219,
+    1.32995260655063,
+    0.0004079868110244767,
+    0.6092893916120169,
+    -0.00015543087129835277
+  ],
+  "approach_max_arm_joint_error_rad": 0.15805220621437321,
+  "approach_l2_midpoint_to_block_center_m": 0.10760100930929184,
+  "approach_l2_midpoint_world_m": [
+    -0.2937566637992859,
+    -0.0014106985181570053,
+    0.6659759283065796
+  ],
+  "approach_l2_midpoint_minus_block_center_m": [
+    -0.07247017323970795,
+    -0.0014068679884076118,
+    -0.07952404022216797
+  ],
+  "closed_l2_tip_gap_m": 0.020013511180877686,
+  "closed_gripper_joint_position_rad": [
+    0.6622166037559509,
+    0.6620190739631653,
+    0.6102073788642883,
+    0.6109228730201721,
+    0.6168469786643982,
+    0.6161948442459106
+  ]
+}

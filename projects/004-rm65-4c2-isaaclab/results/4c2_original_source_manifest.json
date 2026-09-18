@@ -1,0 +1,128 @@
+{
+  "format": "asset_tree_sha256_v1",
+  "label": "4C2_original_windows_source",
+  "file_count": 24,
+  "total_bytes": 34485935,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 536,
+      "sha256": "e847bc400c2c5a2f21a40733669539563e475b2cf81a0998f9e491a653d292bf"
+    },
+    {
+      "path": "config/joint_names_4C.yaml",
+      "bytes": 110,
+      "sha256": "133fc22d9e3740b0c22eff40089f6b39f3c56dc44703d6a7235f4ef6548a5974"
+    },
+    {
+      "path": "export.log",
+      "bytes": 838703,
+      "sha256": "5a6adfd754c143cbb0a265ccd014bd8873c568bbedbacca0a8e4792f2ae963d0"
+    },
+    {
+      "path": "launch/display.launch",
+      "bytes": 467,
+      "sha256": "e92c37abcd500a070bf2cea531b1fa3922d601f22e4efb1618b46cc803b44f4c"
+    },
+    {
+      "path": "launch/display.launch.py",
+      "bytes": 1806,
+      "sha256": "f2c5a5cab17eedb9adaedf209864da6aa2d3cd200286ac0c2e700e358b975650"
+    },
+    {
+      "path": "launch/gazebo.launch",
+      "bytes": 534,
+      "sha256": "f95dcab525548e098a4038d5ac735908374fbb019e433f10520a81cbb9bd128c"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1485,
+      "sha256": "cf46536ce5e5a77238acf2b3214b12fbc0dfd7cffa24bd59be5cbe3c7028187a"
+    },
+    {
+      "path": "meshes/base_link.STL",
+      "bytes": 1639584,
+      "sha256": "6c4d85dd17e6993b27ab59f871ba73bb23547e743364c12c60e20b035ebdfdc0"
+    },
+    {
+      "path": "meshes/l_1.STL",
+      "bytes": 51384,
+      "sha256": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab"
+    },
+    {
+      "path": "meshes/l_2.STL",
+      "bytes": 65584,
+      "sha256": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a"
+    },
+    {
+      "path": "meshes/l_2_base.STL",
+      "bytes": 26784,
+      "sha256": "7fc0ce1aedde6f1e42714e5dee603902ffd3830366ab3716bdfd1b6262fa87e8"
+    },
+    {
+      "path": "meshes/l_3.STL",
+      "bytes": 57884,
+      "sha256": "26d5e19179bc98cea1a3acb92fd55b2319a7dcc188299e4fe512bf5ff5d31db6"
+    },
+    {
+      "path": "meshes/r_1.STL",
+      "bytes": 51584,
+      "sha256": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde"
+    },
+    {
+      "path": "meshes/r_2.STL",
+      "bytes": 65384,
+      "sha256": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5"
+    },
+    {
+      "path": "meshes/r_2_base.STL",
+      "bytes": 26784,
+      "sha256": "b06196ca6cb9a7ede603d2016ec22720386f7c8dfde645a8c84867076c681b80"
+    },
+    {
+      "path": "meshes/r_3.STL",
+      "bytes": 57784,
+      "sha256": "58b8d1110a5ac739c1d4df9db06d55d3b9c47c9fa3cd226527c59b6dd2444656"
+    },
+    {
+      "path": "package.xml",
+      "bytes": 804,
+      "sha256": "729639877df38323511bbe3dbba98ccffeeb875e5d8317563711b56e92a45f89"
+    },
+    {
+      "path": "rviz/4C2.rviz",
+      "bytes": 7386,
+      "sha256": "389b3b4833f4b5e5e721ec8f01ecf66195a3be75903c380ee7cb5202caaf3753"
+    },
+    {
+      "path": "urdf/4C2.csv",
+      "bytes": 4022,
+      "sha256": "3379f03155190a442318f44ad8df9325fbc908b0b940f753db7ac44372089364"
+    },
+    {
+      "path": "urdf/4C2.urdf",
+      "bytes": 11600,
+      "sha256": "0292314231d6346efe9b2f906dad1c793bcd364e29083ea52ba982180d626107"
+    },
+    {
+      "path": "urdf/4C2.xacro",
+      "bytes": 11640,
+      "sha256": "869c0ca06934ee4fb266a327b6b13f3a96777b28db3144b81d84658d53fa25a9"
+    },
+    {
+      "path": "参数资料/4B4C夹爪测量统计.docx",
+      "bytes": 1626666,
+      "sha256": "b06ec3d50e095cb3e56c14849f0df1d38b8574754f3d4398fc47f40f64d7df9f"
+    },
+    {
+      "path": "参数资料/extract_inertial_gui",
+      "bytes": 29932832,
+      "sha256": "a119d4ed5bd55089e290a995b11aa4776228755a032ec1fe55567c1065832cb7"
+    },
+    {
+      "path": "参数资料/extract_inertial_gui.py",
+      "bytes": 4588,
+      "sha256": "361c7f65d95b913affc8380611aee7b3ebb6278b1314733e1b03f2b4d16d6d26"
+    }
+  ]
+}

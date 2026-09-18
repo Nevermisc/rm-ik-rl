@@ -1,0 +1,347 @@
+{
+  "status": "pass_with_known_limitations",
+  "stage": "RM65-B + 4C2 asset, full-gravity scripted expert, observation, and pi0.5 interface baseline",
+  "real_robot_command_sent": false,
+  "closed_loop_task_complete": false,
+  "checks": {
+    "combined_urdf": {
+      "status": "pass",
+      "links": 16,
+      "joints": 15,
+      "movable_joints": 12
+    },
+    "usd_import": {
+      "status": "pass",
+      "usd_joints": 16
+    },
+    "usd_physics_inventory": {
+      "status": "pass",
+      "rigid_bodies": 16,
+      "enabled_collision_prims": 16,
+      "tool_links_with_enabled_collision": 9,
+      "tool_collision_approximation": "convexHull"
+    },
+    "articulation_no_gravity": {
+      "status": "pass"
+    },
+    "articulation_arm_gravity": {
+      "status": "pass",
+      "gravity_isolated_moving_gripper_bodies": 6,
+      "max_arm_return_error_rad": 0.008226921781897545,
+      "max_gripper_return_error_rad": 0.001344512915238738
+    },
+    "combined_usd_lula_ik": {
+      "status": "pass",
+      "position_error_m": 1.0294073266941676e-06,
+      "rotation_error_rad": 0.0009184560334303311
+    },
+    "deterministic_pregrasp_reach": {
+      "status": "pass",
+      "initial_position_error_m": 0.10747760006019065,
+      "final_position_error_m": 9.685636514480149e-07,
+      "maximum_command_step_rad": 0.002180857416038434
+    },
+    "multi_target_reach_robustness": {
+      "status": "pass",
+      "trials": 12,
+      "passed_trials": 12,
+      "success_rate": 1.0,
+      "worst_position_error_m": 2.091028333757352e-05,
+      "worst_rotation_error_rad": 0.0009962783158521775,
+      "maximum_command_step_rad": 0.03909123398359493
+    },
+    "gripper_aperture_geometry": {
+      "status": "pass",
+      "zero_rad_semantics": "open",
+      "positive_direction_semantics": "closing",
+      "l2_pair_total_distance_change_m": -0.07001804397441447,
+      "l3_pair_total_distance_change_m": -0.06882977113127708
+    },
+    "gripper_static_close_stability": {
+      "status": "pass",
+      "all_states_finite": true,
+      "contact_confirmed": false,
+      "lift_attempted": false,
+      "floating_block_displacement_m": 0.0,
+      "contact_processing_enabled": true,
+      "sensor_bindings_valid": true
+    },
+    "gripper_base_contact_diagnostic": {
+      "status": "known_failure",
+      "base_contact_force_n": 0.1362907886505127,
+      "block_displacement_m": 0.04796954244375229,
+      "bilateral_fingertip_contact_confirmed": false
+    },
+    "gripper_contact_pad_static_grasp": {
+      "status": "pass",
+      "collision_prims": 18,
+      "perturbation_trials": 5,
+      "passed_trials": 5,
+      "success_rate": 1.0,
+      "minimum_left_contact_force_n": 0.07785709202289581,
+      "minimum_right_contact_force_n": 0.06647354364395142,
+      "maximum_base_contact_force_n": 0.0,
+      "maximum_block_displacement_m": 0.0013698573457077146,
+      "arm_reach_regression": {
+        "passed_trials": 12,
+        "trial_count": 12
+      }
+    },
+    "gripper_contact_pad_transport": {
+      "status": "pass",
+      "gravity_enabled_during_transport": true,
+      "perturbation_trials": 3,
+      "passed_trials": 3,
+      "success_rate": 1.0,
+      "minimum_tool_lift_m": 0.06079554557800293,
+      "minimum_block_lift_m": 0.03760260343551636,
+      "maximum_block_to_tool_relative_position_change_m": 0.029831232503056526
+    },
+    "assisted_pick_place_state_machine": {
+      "status": "pass_with_simulation_assistance",
+      "trials": 3,
+      "passed_trials": 3,
+      "transfer_joint_1_rad": [
+        0.6,
+        0.8,
+        1.0
+      ],
+      "minimum_block_lift_m": 0.03782552480697632,
+      "minimum_transfer_distance_m": 0.15928047587734404,
+      "maximum_final_target_error_m": 0.00519735919940024,
+      "maximum_post_release_drift_m": 3.725290298461914e-09,
+      "pi05_used": false,
+      "unassisted_full_task_complete": false,
+      "development_assistance": {
+        "initialized_at_grasp": true,
+        "source_block_gravity_disabled_until_close": true,
+        "target_platform_collision_enabled_after_transfer": true,
+        "release_separation_assist_m": 0.05,
+        "release_downward_speed_assist_m_s": 0.1
+      }
+    },
+    "dynamic_approach_pick_place": {
+      "status": "pass_with_simulation_assistance",
+      "trials": 4,
+      "passed_trials": 4,
+      "tested_pregrasp_distances_m": [
+        0.02,
+        0.04,
+        0.06,
+        0.1
+      ],
+      "minimum_block_lift_m": 0.037296950817108154,
+      "maximum_final_target_error_m": 0.008627605444111357,
+      "pi05_used": false,
+      "unassisted_full_task_complete": false
+    },
+    "natural_gravity_contact_bridge_historical": {
+      "status": "bilateral_contact_pass_lift_fail",
+      "simulation_only": true,
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "natural_source_gravity": true,
+      "source_support": {
+        "type": "narrow_strip_development_support",
+        "size_m": [
+          0.12,
+          0.018,
+          0.02
+        ]
+      },
+      "contact_reference": {
+        "left_force_n": 0.09163780510425568,
+        "right_force_n": 0.07518220692873001
+      },
+      "natural_gravity_contact": {
+        "grasp_world_offset_x_m": -0.04,
+        "left_force_n": 0.05346052348613739,
+        "right_force_n": 0.05834924057126045,
+        "contact_bodies": [
+          "tool_l_2",
+          "tool_r_2"
+        ]
+      },
+      "stronger_grip_lift_attempt": {
+        "left_force_n": 0.07181492447853088,
+        "right_force_n": 0.07274841517210007,
+        "block_cleared_source_support": false,
+        "failure_stage": "lift"
+      },
+      "next_engineering_step": "Calibrate the 4C2 collision pads and grasp geometry against measured hardware dimensions, then retest sustained contact before any pi0.5 action execution."
+    },
+    "natural_gravity_scripted_pick_place": {
+      "status": "historical_partial_with_simulation_assistance",
+      "reference_transfer_joint_1_rad": 0.8,
+      "reference_block_lift_m": 0.03907138109207153,
+      "reference_final_target_error_m": 0.002918221039252657,
+      "robustness_trials": 3,
+      "robustness_passed_trials": 1,
+      "minimum_block_lift_m": 0.03907138109207153,
+      "maximum_final_target_error_m": 0.05202496253511925,
+      "unassisted_release_status": "fail",
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "development_assistance": {
+        "arm_gravity_disabled_through_transport": true,
+        "enlarged_empirical_contact_pads": true,
+        "target_platform_collision_enabled_after_transfer": true,
+        "release_separation_assist_m": 0.08,
+        "release_downward_speed_assist_m_s": 0.1
+      }
+    },
+    "natural_gravity_place_descent": {
+      "status": "pass_with_simulation_assistance",
+      "simulation_only": true,
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "trial_count": 3,
+      "passed_trials": 3,
+      "success_rate": 1.0,
+      "minimum_block_lift_height_m": 0.03907138109207153,
+      "maximum_final_target_position_error_m": 0.009479173717708941,
+      "maximum_place_arm_joint_error_rad": 0.011934251605210444,
+      "unassisted_release": true,
+      "unassisted_full_task_complete": false,
+      "development_assistance": {
+        "arm_gravity_disabled_through_transport": true,
+        "moving_finger_gravity_disabled": true,
+        "enlarged_empirical_contact_pads": true,
+        "rotated_narrow_target_support": true,
+        "target_collision_enable_stage": "after_place_descent"
+      },
+      "trials": {
+        "transfer_0p6_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.6,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0009004846215248108,
+            -3.759562969207764e-05,
+            -0.10006392002105713
+          ],
+          "place_max_arm_joint_error_rad": 0.011932225068560287,
+          "final_target_position_error_m": 0.009479173717708941,
+          "post_release_drift_m": 1.4901161193847656e-08
+        },
+        "transfer_0p8_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.8,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0010188296437263489,
+            2.136826515197754e-05,
+            -0.10006201267242432
+          ],
+          "place_max_arm_joint_error_rad": 0.011929840876503728,
+          "final_target_position_error_m": 0.00929397594382738,
+          "post_release_drift_m": 0.0
+        },
+        "transfer_1p0_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 1.0,
+          "block_lift_height_m": 0.03907138109207153,
+          "place_actual_link_translation_m": [
+            0.0011406391859054565,
+            0.00013376027345657349,
+            -0.10005950927734375
+          ],
+          "place_max_arm_joint_error_rad": 0.011934251605210444,
+          "final_target_position_error_m": 0.009299697179641105,
+          "post_release_drift_m": 7.450580596923828e-09
+        }
+      }
+    },
+    "top_down_full_gravity_scripted_expert": {
+      "status": "pass_in_simulation",
+      "simulation_only": true,
+      "pi05_used": false,
+      "real_robot_command_sent": false,
+      "expert": "scripted Cartesian approach and joint-space transfer",
+      "trial_count": 3,
+      "passed_trials": 3,
+      "success_rate": 1.0,
+      "minimum_block_lift_height_m": 0.039568185806274414,
+      "maximum_final_target_position_error_m": 0.017557256103898803,
+      "maximum_place_arm_joint_error_rad": 0.10688455145960685,
+      "maximum_post_release_drift_m": 0.0023539888206869364,
+      "unassisted_full_task_complete": true,
+      "development_assistance": {
+        "enlarged_empirical_contact_pads": true,
+        "scripted_expert_waypoints": true,
+        "robot_base_height_assumed_m": 0.65
+      },
+      "trials": {
+        "transfer_0p6_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.6,
+          "block_lift_height_m": 0.039568185806274414,
+          "place_max_arm_joint_error_rad": 0.10688455145960685,
+          "final_target_position_error_m": 0.015788675684132166,
+          "post_release_drift_m": 0.0023539888206869364,
+          "unassisted_full_task_complete": true
+        },
+        "transfer_0p8_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 0.8,
+          "block_lift_height_m": 0.039568185806274414,
+          "place_max_arm_joint_error_rad": 0.10518884683655516,
+          "final_target_position_error_m": 0.017557256103898803,
+          "post_release_drift_m": 0.001241785124875605,
+          "unassisted_full_task_complete": true
+        },
+        "transfer_1p0_rad": {
+          "status": "pass",
+          "transfer_joint_1_rad": 1.0,
+          "block_lift_height_m": 0.039568185806274414,
+          "place_max_arm_joint_error_rad": 0.10605343696785319,
+          "final_target_position_error_m": 0.00926066931740435,
+          "post_release_drift_m": 0.0020615558605641127,
+          "unassisted_full_task_complete": true
+        }
+      }
+    },
+    "observation": {
+      "status": "pass",
+      "external_red_pixels": 966,
+      "wrist_red_pixels": 1256
+    },
+    "wrist_camera_follow": {
+      "status": "pass",
+      "camera_motion_m": 0.018181614577770233,
+      "camera_to_tool_distance_change_m": 5.960464477539063e-08,
+      "maximum_pose_command_error_m": 0.0
+    },
+    "pi05_transport_dry_run": {
+      "status": "pass",
+      "output_shape": [
+        15,
+        8
+      ],
+      "first_latency_seconds": 152.09623708599975,
+      "steady_latency_seconds": 0.3164716370010865,
+      "executed": false
+    },
+    "rm65_policy_transform": {
+      "status": "pass",
+      "output_width": 7
+    },
+    "action_guard": {
+      "status": "pass",
+      "nan_rejected": true,
+      "maximum_output_step_rad": 0.05000000074505806
+    }
+  },
+  "known_limitations": [
+    "Historical generic articulation tests found unstable 4C2 moving-link gravity, while the task-specific high-gain software-coupled controller now completes the top-down task with all moving-link gravity enabled; physical mass, inertia, and transmission parameters still need calibration.",
+    "The wrist camera is updated from the tool-frame pose in software; its physical mounting transform still needs calibration.",
+    "Empirically derived 4C2 contact pads provide sustained bilateral contact and natural-gravity transport, but they still require calibration against the physical gripper.",
+    "Dynamic Cartesian approach passes from 2, 4, 6, and 10 cm, but the block gravity remains disabled until gripper closure and release still uses a 50 mm separation assist.",
+    "High-level release without a place descent is a historical 1/3 result; a 100 mm Cartesian descent followed by release passes three transfer angles without block pose or velocity injection.",
+    "The natural-gravity place baseline disables arm gravity through transport, isolates gravity on six moving finger bodies, uses empirical wide pads and a rotated narrow support, and enables target collision only after descent.",
+    "The new top-down grasp keeps link_6 above the support plane, but assumes a 0.65 m robot mounting height that must be measured on the physical setup.",
+    "The tested pi0.5 DROID checkpoint produces Franka actions and is never executed on RM65.",
+    "The top-down scripted expert is collision-active and gravity-consistent but still uses empirical wide contact pads and reaches about 0.105 rad place tracking error.",
+    "An RM65 dataset, fine-tuned checkpoint, and pi0.5 closed-loop evaluation are still required."
+  ]
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rm_65_description">
+  <xacro:arg name="initial_positions_file" default="$(find rm_65_config)/config/initial_positions.yaml" />
+
+  <!-- Import RM65 robot model -->
+  <xacro:include filename="$(find rm_description)/urdf/rm_65.urdf" />
+
+  <!-- Import custom ros2_control hardware plugin -->
+  <xacro:include filename="$(find rm_moveit2_examples)/config/rm_65_isaac.ros2_control.xacro" />
+
+  <xacro:rm_65_isaac_ros2_control
+    name="RMIsaacSystem"
+    initial_positions_file="$(arg initial_positions_file)" />
+</robot>

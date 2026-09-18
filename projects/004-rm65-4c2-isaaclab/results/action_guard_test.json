@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "input_shape": [
+    2,
+    7
+  ],
+  "all_finite": true,
+  "joint_limit_margin_rad": 0.02,
+  "max_joint_step_rad": 0.05,
+  "joint_limit_clamp_count": 4,
+  "joint_step_clamp_count": 6,
+  "gripper_clamp_count": 2,
+  "maximum_output_step_rad": 0.05000000074505806,
+  "nan_rejected": true
+}

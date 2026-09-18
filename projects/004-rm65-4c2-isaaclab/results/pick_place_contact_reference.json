@@ -1,0 +1,97 @@
+{
+  "status": "diagnostic",
+  "simulation_only": true,
+  "collision_bypass_during_approach": false,
+  "initialized_at_grasp": false,
+  "arm_gravity_disabled_during_approach": false,
+  "natural_source_gravity": false,
+  "arm_actuator": {
+    "effort_limit_sim": 300.0,
+    "stiffness": 1000.0,
+    "damping": 100.0
+  },
+  "pregrasp_distance_m": 0.1,
+  "settled_source_position_m": [
+    -0.22128649055957794,
+    -3.82999996872968e-06,
+    0.7567046284675598
+  ],
+  "settled_source_quaternion_wxyz": [
+    -0.20872162282466888,
+    -2.1099999685247894e-06,
+    0.977975070476532,
+    2.4369999664486386e-05
+  ],
+  "closed_position_m": [
+    -0.22135934233665466,
+    -3.367275348864496e-05,
+    0.7569065690040588
+  ],
+  "close_left_finger_contact_force_n": 0.09163780510425568,
+  "close_right_finger_contact_force_n": 0.07518220692873001,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.09163780510425568,
+    "tool_l_3": 0.0,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.07518220692873001,
+    "tool_r_3": 0.0
+  },
+  "approach_actual_arm_joint_position_rad": [
+    -1.0686686437111348e-05,
+    -0.5582974553108215,
+    1.164191484451294,
+    0.00413920683786273,
+    0.7978471517562866,
+    -0.0053999959491193295
+  ],
+  "approach_target_arm_joint_position_rad": [
+    0.0,
+    -0.55,
+    1.05,
+    0.0,
+    0.65,
+    0.0
+  ],
+  "cartesian_retreat_distances_m": [
+    0.01,
+    0.020000000000000004,
+    0.030000000000000006,
+    0.04000000000000001,
+    0.05000000000000001,
+    0.06000000000000001,
+    0.07,
+    0.08,
+    0.09000000000000001,
+    0.1
+  ],
+  "cartesian_pregrasp_joint_position_rad": [
+    -6.805975261933367e-05,
+    0.2108746586218499,
+    -1.2224650091137694,
+    -9.668906397998523e-06,
+    2.1617867924117644,
+    6.434940985846394e-05
+  ],
+  "approach_max_arm_joint_error_rad": 0.1478471517562866,
+  "approach_l2_midpoint_to_block_center_m": 0.08632729202508926,
+  "approach_l2_midpoint_world_m": [
+    -0.24892070889472961,
+    -0.0007940772920846939,
+    0.6749236583709717
+  ],
+  "approach_l2_midpoint_minus_block_center_m": [
+    -0.027634218335151672,
+    -0.0007902472862042487,
+    -0.08178097009658813
+  ],
+  "closed_l2_tip_gap_m": 0.027493035420775414,
+  "closed_gripper_joint_position_rad": [
+    0.6620110869407654,
+    0.6621938347816467,
+    0.6110664010047913,
+    0.6106509566307068,
+    0.5265722274780273,
+    0.5206024050712585
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "status": "pass_with_simulation_assistance",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "unassisted_full_task_complete": false,
+  "trial_count": 4,
+  "passed_trials": 4,
+  "tested_pregrasp_distances_m": [
+    0.02,
+    0.04,
+    0.06,
+    0.1
+  ],
+  "minimum_block_lift_height_m": 0.037296950817108154,
+  "maximum_final_target_position_error_m": 0.008627605444111357,
+  "maximum_approach_arm_joint_error_rad": 0.1478471517562866,
+  "development_assistance": {
+    "source_block_gravity_disabled_until_close": true,
+    "target_platform_collision_enabled_after_transfer": true,
+    "release_separation_assist_m": 0.05,
+    "release_downward_speed_assist_m_s": 0.1
+  },
+  "trials": [
+    {
+      "pregrasp_distance_m": 0.02,
+      "block_lift_height_m": 0.0378422737121582,
+      "final_target_position_error_m": 0.004561854976447681,
+      "approach_max_arm_joint_error_rad": 0.14783731698989866
+    },
+    {
+      "pregrasp_distance_m": 0.04,
+      "block_lift_height_m": 0.03768181800842285,
+      "final_target_position_error_m": 0.004797838788621301,
+      "approach_max_arm_joint_error_rad": 0.1478379130363464
+    },
+    {
+      "pregrasp_distance_m": 0.06,
+      "block_lift_height_m": 0.037296950817108154,
+      "final_target_position_error_m": 0.008627605444111357,
+      "approach_max_arm_joint_error_rad": 0.1478364825248718
+    },
+    {
+      "pregrasp_distance_m": 0.1,
+      "block_lift_height_m": 0.03779870271682739,
+      "final_target_position_error_m": 0.004409283103349272,
+      "approach_max_arm_joint_error_rad": 0.1478471517562866
+    }
+  ]
+}

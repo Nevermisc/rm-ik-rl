@@ -1,0 +1,40 @@
+{
+  "format": "rm65_pi05_policy_artifact_v1",
+  "model_family": "pi0.5",
+  "robot_model": "RM65-B",
+  "gripper_model": "4C2",
+  "action_horizon": 10,
+  "action_dimension": 7,
+  "action_semantics": [
+    "joint_1_absolute_target_rad",
+    "joint_2_absolute_target_rad",
+    "joint_3_absolute_target_rad",
+    "joint_4_absolute_target_rad",
+    "joint_5_absolute_target_rad",
+    "joint_6_absolute_target_rad",
+    "gripper_normalized_target"
+  ],
+  "training": {
+    "status": "not_started",
+    "dataset_repo_id": ""
+  },
+  "checkpoint": {
+    "path": "",
+    "sha256": ""
+  },
+  "norm_stats": {
+    "path": "",
+    "sha256": ""
+  },
+  "simulation_evaluation": {
+    "status": "not_started",
+    "episode_count": 0,
+    "success_rate": 0.0
+  },
+  "hardware_readiness": {
+    "emergency_stop_verified": false,
+    "low_speed_limit_configured": false,
+    "empty_workspace_test_passed": false,
+    "human_supervisor_required": true
+  }
+}

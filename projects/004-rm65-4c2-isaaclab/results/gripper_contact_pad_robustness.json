@@ -1,0 +1,71 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "static_contact_only": true,
+  "trial_count": 5,
+  "passed_trials": 5,
+  "success_rate": 1.0,
+  "minimum_left_finger_contact_force_n": 0.07785709202289581,
+  "minimum_right_finger_contact_force_n": 0.06647354364395142,
+  "maximum_base_contact_force_n": 0.0,
+  "maximum_block_displacement_m": 0.0013698573457077146,
+  "criteria": {
+    "bilateral_fingertip_contact_confirmed": true,
+    "each_finger_contact_force_n_gt": 0.05,
+    "base_contact_force_n_lt": 0.01,
+    "block_displacement_m_lt": 0.002
+  },
+  "trials": [
+    {
+      "name": "center",
+      "passed": true,
+      "block_inward_offset_m": -0.01,
+      "block_width_axis_offset_m": 0.0,
+      "left_finger_contact_force_n": 0.0846153125166893,
+      "right_finger_contact_force_n": 0.0680786669254303,
+      "base_contact_force_n": 0.0,
+      "block_displacement_m": 0.00040788613841868937
+    },
+    {
+      "name": "width_axis_minus_2mm",
+      "passed": true,
+      "block_inward_offset_m": -0.01,
+      "block_width_axis_offset_m": -0.002,
+      "left_finger_contact_force_n": 0.11399718374013901,
+      "right_finger_contact_force_n": 0.08387119323015213,
+      "base_contact_force_n": 0.0,
+      "block_displacement_m": 0.00130312773399055
+    },
+    {
+      "name": "width_axis_plus_2mm",
+      "passed": true,
+      "block_inward_offset_m": -0.01,
+      "block_width_axis_offset_m": 0.002,
+      "left_finger_contact_force_n": 0.07785709202289581,
+      "right_finger_contact_force_n": 0.10549391061067581,
+      "base_contact_force_n": 0.0,
+      "block_displacement_m": 0.0013698573457077146
+    },
+    {
+      "name": "outward_8mm",
+      "passed": true,
+      "block_inward_offset_m": -0.008,
+      "block_width_axis_offset_m": 0.0,
+      "left_finger_contact_force_n": 0.08490137755870819,
+      "right_finger_contact_force_n": 0.06776464730501175,
+      "base_contact_force_n": 0.0,
+      "block_displacement_m": 0.00027522945310920477
+    },
+    {
+      "name": "outward_12mm",
+      "passed": true,
+      "block_inward_offset_m": -0.012,
+      "block_width_axis_offset_m": 0.0,
+      "left_finger_contact_force_n": 0.08163876086473465,
+      "right_finger_contact_force_n": 0.06647354364395142,
+      "base_contact_force_n": 0.0,
+      "block_displacement_m": 0.0004029334522783756
+    }
+  ],
+  "limitation": "The block is gravity-disabled and the result covers static closing only."
+}

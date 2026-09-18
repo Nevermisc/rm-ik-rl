@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+  "articulation_prim": "/World/RM65_4C2/root_joint",
+  "dof_count": 12,
+  "dof_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "arm_joint_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "lula_joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6"
+  ],
+  "gripper_dof_count": 6,
+  "end_effector_frame": "link_6",
+  "target_joint_position_rad": [
+    0.35,
+    -0.8,
+    1.15,
+    0.25,
+    0.65,
+    -0.3
+  ],
+  "solved_joint_position_rad": [
+    0.3489452640028141,
+    -0.7999375548158396,
+    1.1496657086242752,
+    0.2499213867879258,
+    0.6505248878005375,
+    -0.2995487644564024
+  ],
+  "numerical_position_error_m": 1.0315047438401713e-06,
+  "numerical_rotation_error_rad": 0.0009184363473008426,
+  "combined_usd_position_error_m": 1.0294073266941676e-06,
+  "combined_usd_rotation_error_rad": 0.0009184560334303311
+}

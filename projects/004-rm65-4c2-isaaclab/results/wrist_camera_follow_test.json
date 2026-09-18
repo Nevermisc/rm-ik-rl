@@ -1,0 +1,96 @@
+{
+  "status": "pass",
+  "view": "wrist",
+  "usd": "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "body_names": [
+    "base_link",
+    "link_1",
+    "link_2",
+    "link_3",
+    "link_4",
+    "link_5",
+    "link_6",
+    "tool_base_link",
+    "tool_r_1",
+    "tool_l_1",
+    "tool_l_2_base",
+    "tool_r_2_base",
+    "tool_r_3",
+    "tool_l_3",
+    "tool_l_2",
+    "tool_r_2"
+  ],
+  "rm65_joint_position_rad": [
+    0.0,
+    -0.550000011920929,
+    1.0499999523162842,
+    0.0,
+    0.6499999761581421,
+    0.0
+  ],
+  "gripper_joint_position_rad": [
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355,
+    0.3499999940395355
+  ],
+  "tool_position_world_m": [
+    -0.09831204265356064,
+    -3.31259798258543e-07,
+    0.7018594741821289
+  ],
+  "camera_eye_world_m": [
+    -0.09831204265356064,
+    0.1499996781349182,
+    0.8018594980239868
+  ],
+  "camera_target_world_m": [
+    0.48095396161079407,
+    -0.00846797227859497,
+    0.0022728443145751953
+  ],
+  "camera_parented_to_tool": false,
+  "camera_follows_tool_pose": true,
+  "camera_follow_check": {
+    "camera_prim_path": "/World/CaptureCamera",
+    "follow_mode": "tool-frame pose updated every simulation step",
+    "camera_motion_m": 0.018181614577770233,
+    "first_camera_to_tool_distance_m": 0.18027758598327637,
+    "second_camera_to_tool_distance_m": 0.1802775263786316,
+    "camera_to_tool_distance_change_m": 5.960464477539063e-08,
+    "first_pose_command_error_m": 0.0,
+    "second_pose_command_error_m": 0.0,
+    "moved_view_red_target_pixel_count": 0,
+    "passed": true
+  },
+  "image": {
+    "path": "wrist_rgb.png",
+    "shape": [
+      480,
+      640,
+      3
+    ],
+    "dtype": "uint8",
+    "min": 4,
+    "max": 249,
+    "mean": 168.48092122395835,
+    "std": 64.63143711340523,
+    "red_target_pixel_count": 1256
+  }
+}
