@@ -14,6 +14,8 @@ checkpoint_report="$project_root/results/${result_prefix}_checkpoint_inference.j
 offline_report="$project_root/results/${result_prefix}_offline_validation.json"
 artifact_report="$project_root/results/${result_prefix}_policy_artifact.json"
 taxonomy_report="$project_root/results/${result_prefix}_failure_taxonomy.json"
+baseline_summary="${RM65_BASELINE_SUMMARY:-$project_root/results/rm65_pi05_eval_v1_summary.json}"
+comparison_report="${RM65_COMPARISON_REPORT:-$project_root/results/${result_prefix}_comparison_to_v1.json}"
 sentinel="${RM65_PIPELINE_STATUS:-$project_root/outputs/rm65_post_training_pipeline.status}"
 policy_window="${RM65_POLICY_WINDOW:-false}"
 first_case_timeout_seconds="${RM65_FIRST_CASE_TIMEOUT_SECONDS:-1200}"
@@ -123,6 +125,15 @@ python3 scripts/analyze_rm65_closed_loop_failures.py \
   --plan config/rm65_pi05_evaluation_plan_v1.json \
   --episode-root "$evaluation_root" \
   --output "$taxonomy_report"
+if [[ -f "$baseline_summary" ]]; then
+  current_stage="compare_to_v1"
+  echo "stage=$current_stage" | tee "$sentinel"
+  python3 scripts/compare_rm65_closed_loop_runs.py \
+    --baseline "$baseline_summary" \
+    --candidate "$evaluation_summary" \
+    --plan config/rm65_pi05_evaluation_plan_v1.json \
+    --output "$comparison_report"
+fi
 if [[ "$suite_exit_code" -ne 0 ]]; then
   trap - ERR
   echo "failed: stage=$current_stage exit_code=$suite_exit_code" | tee "$sentinel"
