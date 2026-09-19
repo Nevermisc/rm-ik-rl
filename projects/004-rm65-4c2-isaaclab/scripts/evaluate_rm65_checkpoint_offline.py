@@ -24,6 +24,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from openpi.policies import policy_config
 from openpi_extension.action_guard import guard_action_chunk
 from openpi_extension.rm65_training_config import make_pi05_rm65_lora_config
+from convert_expert_episodes_to_lerobot import select_policy_window_indices
 
 
 def read_rgb(path: Path) -> np.ndarray:
@@ -49,6 +50,11 @@ def main() -> int:
     parser.add_argument("--split", default="validation")
     parser.add_argument("--repo-id", default="local/rm65_sim_train")
     parser.add_argument("--frames-per-episode", type=int, default=5)
+    parser.add_argument(
+        "--policy-window",
+        action="store_true",
+        help="Evaluate horizons over the same filtered frame sequence used by v2 training.",
+    )
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if args.frames_per_episode < 1:
@@ -88,7 +94,25 @@ def main() -> int:
             expert_actions = arrays["action"].astype(np.float32, copy=True)
             phase_ids = arrays["phase_id"].astype(np.int64, copy=True)
         phase_names = metadata["phase_names"]
-        for index in select_frames(len(states), config.model.action_horizon, args.frames_per_episode):
+        selected_indices = (
+            select_policy_window_indices(
+                {
+                    "directory": episode,
+                    "phase_ids": phase_ids,
+                    "phase_names": phase_names,
+                }
+            )
+            if args.policy_window
+            else np.arange(len(states), dtype=np.int64)
+        )
+        selected_positions = select_frames(
+            len(selected_indices), config.model.action_horizon, args.frames_per_episode
+        )
+        for selected_position in selected_positions:
+            index = int(selected_indices[selected_position])
+            action_indices = selected_indices[
+                selected_position : selected_position + config.model.action_horizon
+            ]
             observation = {
                 "observation/joint_position": states[index, :6],
                 "observation/gripper_position": states[index, 6:7],
@@ -109,7 +133,7 @@ def main() -> int:
             if not np.isfinite(predicted).all():
                 raise ValueError(f"non-finite action at {episode.name} frame {index}")
 
-            expert = expert_actions[index : index + config.model.action_horizon]
+            expert = expert_actions[action_indices]
             guarded, guard = guard_action_chunk(predicted, states[index, :6])
             arm_abs = np.abs(predicted[:, :6] - expert[:, :6])
             gripper_abs = np.abs(predicted[:, 6] - expert[:, 6])
@@ -128,6 +152,8 @@ def main() -> int:
                     "episode": episode.name,
                     "case_id": metadata.get("metadata", {}).get("collection_case_id"),
                     "frame_index": index,
+                    "policy_window_position": selected_position if args.policy_window else None,
+                    "expert_action_frame_indices": action_indices.tolist(),
                     "phase": phase_names[int(phase_ids[index])],
                     "inference_seconds": elapsed,
                     "first_arm_l2_error_rad": first_arm_l2,
@@ -153,6 +179,7 @@ def main() -> int:
         "episode_count": len(episodes),
         "sample_count": len(samples),
         "frames_per_episode": args.frames_per_episode,
+        "policy_window": args.policy_window,
         "load_seconds": load_seconds,
         "inference_seconds": {
             "first": inference_seconds[0],
