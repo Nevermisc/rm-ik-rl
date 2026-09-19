@@ -1,0 +1,2963 @@
+{
+  "status": "pass",
+  "evaluation_kind": "offline_held_out_imitation",
+  "simulation_action_executed": false,
+  "real_robot_command_sent": false,
+  "task_success_claimed": false,
+  "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+  "dataset_root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_scripted_v1",
+  "split": "validation",
+  "episode_count": 9,
+  "sample_count": 45,
+  "frames_per_episode": 5,
+  "policy_window": true,
+  "load_seconds": 3.3773629770003026,
+  "inference_seconds": {
+    "first": 10.185326206999889,
+    "mean": 0.3233369179332739,
+    "p95": 0.1000532503989234,
+    "maximum": 10.185326206999889
+  },
+  "action_error": {
+    "horizon_arm_mae_rad": 0.005340175652860058,
+    "horizon_arm_p95_abs_error_rad": 0.01983741475269198,
+    "horizon_gripper_mae": 0.005501969640434368,
+    "horizon_gripper_p95_abs_error": 0.00859851520508525,
+    "first_action_arm_mean_l2_error_rad": 0.012011448247358203,
+    "first_action_arm_max_l2_error_rad": 0.07934536784887314,
+    "first_action_gripper_mae": 0.012833744566887618
+  },
+  "guard_totals": {
+    "joint_limit_clamp_count": 0,
+    "joint_step_clamp_count": 54,
+    "gripper_clamp_count": 121
+  },
+  "interpretation": "PASS means all held-out observations produced finite, shape-correct actions. Offline action error does not prove closed-loop task success.",
+  "samples": [
+    {
+      "episode": "episode_000000",
+      "case_id": "case_000000",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 10.185326206999889,
+      "first_arm_l2_error_rad": 0.006946544162929058,
+      "first_gripper_abs_error": 0.0008375232573598623,
+      "horizon_arm_mae_rad": 0.004646336659789085,
+      "horizon_gripper_mae": 0.002705126767978072,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 4,
+        "maximum_output_step_rad": 0.009082198143005371
+      },
+      "first_predicted_action": [
+        0.04287310317158699,
+        0.5396116971969604,
+        1.2069790363311768,
+        0.03736213594675064,
+        2.180209159851074,
+        0.05267973989248276,
+        -0.0008375232573598623
+      ],
+      "first_guarded_action": [
+        0.04287310317158699,
+        0.5396116971969604,
+        1.2069790363311768,
+        0.03736213594675064,
+        2.180209159851074,
+        0.05267973989248276,
+        0.0
+      ],
+      "first_expert_action": [
+        0.04406766965985298,
+        0.5384189486503601,
+        1.2018033266067505,
+        0.03890673443675041,
+        2.184194564819336,
+        0.053269337862730026,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000000",
+      "case_id": "case_000000",
+      "frame_index": 81,
+      "policy_window_position": 64,
+      "expert_action_frame_indices": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.10427981400061981,
+      "first_arm_l2_error_rad": 0.0054248664528131485,
+      "first_gripper_abs_error": 0.0008968267356976867,
+      "horizon_arm_mae_rad": 0.001885825302451849,
+      "horizon_gripper_mae": 0.00101200002245605,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 3,
+        "maximum_output_step_rad": 0.0071680545806884766
+      },
+      "first_predicted_action": [
+        0.04749845340847969,
+        0.6129076480865479,
+        1.3859723806381226,
+        0.033423032611608505,
+        1.92769193649292,
+        0.04470164701342583,
+        -0.0008968267356976867
+      ],
+      "first_guarded_action": [
+        0.04749845340847969,
+        0.6129076480865479,
+        1.3859723806381226,
+        0.033423032611608505,
+        1.92769193649292,
+        0.04470164701342583,
+        0.0
+      ],
+      "first_expert_action": [
+        0.04383029043674469,
+        0.611183226108551,
+        1.3837636709213257,
+        0.03439595177769661,
+        1.9297624826431274,
+        0.043002236634492874,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000000",
+      "case_id": "case_000000",
+      "frame_index": 171,
+      "policy_window_position": 128,
+      "expert_action_frame_indices": [
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09936231399842654,
+      "first_arm_l2_error_rad": 0.014322361908853054,
+      "first_gripper_abs_error": 0.001470029354095459,
+      "horizon_arm_mae_rad": 0.004877621307969093,
+      "horizon_gripper_mae": 0.0048551857471466064,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.016926288604736328
+      },
+      "first_predicted_action": [
+        0.04729890823364258,
+        0.6694140434265137,
+        1.4454028606414795,
+        0.031028281897306442,
+        1.8159675598144531,
+        0.04318087920546532,
+        0.9263255596160889
+      ],
+      "first_guarded_action": [
+        0.04729890823364258,
+        0.6694140434265137,
+        1.4454028606414795,
+        0.031028281897306442,
+        1.8159675598144531,
+        0.04318087920546532,
+        0.9263255596160889
+      ],
+      "first_expert_action": [
+        0.04427095130085945,
+        0.6627857685089111,
+        1.4373188018798828,
+        0.03260435536503792,
+        1.824339747428894,
+        0.039426155388355255,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000000",
+      "case_id": "case_000000",
+      "frame_index": 251,
+      "policy_window_position": 192,
+      "expert_action_frame_indices": [
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260
+      ],
+      "phase": "PLACE_DESCENT_4",
+      "inference_seconds": 0.09911472100066021,
+      "first_arm_l2_error_rad": 0.010523851029574871,
+      "first_gripper_abs_error": 0.0001748204231262207,
+      "horizon_arm_mae_rad": 0.006574353668838739,
+      "horizon_gripper_mae": 0.003002804471179843,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008867979049682617
+      },
+      "first_predicted_action": [
+        0.608714759349823,
+        0.6699641346931458,
+        1.4476639032363892,
+        0.03063141740858555,
+        1.8075205087661743,
+        0.04041622206568718,
+        0.9246807098388672
+      ],
+      "first_guarded_action": [
+        0.608714759349823,
+        0.6699641346931458,
+        1.4476639032363892,
+        0.03063141740858555,
+        1.8075205087661743,
+        0.04041622206568718,
+        0.9246807098388672
+      ],
+      "first_expert_action": [
+        0.59986412525177,
+        0.6711771488189697,
+        1.4497548341751099,
+        0.032484814524650574,
+        1.8029354810714722,
+        0.03896130993962288,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000000",
+      "case_id": "case_000000",
+      "frame_index": 324,
+      "policy_window_position": 257,
+      "expert_action_frame_indices": [
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.09901409700250952,
+      "first_arm_l2_error_rad": 0.01606937311589718,
+      "first_gripper_abs_error": 0.0005373685271479189,
+      "horizon_arm_mae_rad": 0.005744583439081907,
+      "horizon_gripper_mae": 0.0009160920744761825,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 8,
+        "gripper_clamp_count": 2,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.6048006415367126,
+        0.8941180109977722,
+        1.5323591232299805,
+        0.03067593462765217,
+        1.4979417324066162,
+        0.02280133031308651,
+        0.0005373685271479189
+      ],
+      "first_guarded_action": [
+        0.6048006415367126,
+        0.8941180109977722,
+        1.5323591232299805,
+        0.036174092441797256,
+        1.5547523498535156,
+        -0.18184404075145721,
+        0.0005373685271479189
+      ],
+      "first_expert_action": [
+        0.600238025188446,
+        0.8887437582015991,
+        1.526285171508789,
+        0.031049493700265884,
+        1.5093847513198853,
+        0.02916918508708477,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000005",
+      "case_id": "case_000005",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09965897099755239,
+      "first_arm_l2_error_rad": 0.006581573281437159,
+      "first_gripper_abs_error": 0.004530429840087891,
+      "horizon_arm_mae_rad": 0.00571812130510807,
+      "horizon_gripper_mae": 0.0029675087425857782,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.008989095687866211
+      },
+      "first_predicted_action": [
+        -0.04451636224985123,
+        0.4784497320652008,
+        1.3044135570526123,
+        -0.039336755871772766,
+        2.143686532974243,
+        -0.0528559535741806,
+        -0.004530429840087891
+      ],
+      "first_guarded_action": [
+        -0.04451636224985123,
+        0.4784497320652008,
+        1.3044135570526123,
+        -0.039336755871772766,
+        2.143686532974243,
+        -0.0528559535741806,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.046695128083229065,
+        0.47714823484420776,
+        1.2993321418762207,
+        -0.03852090612053871,
+        2.1464972496032715,
+        -0.05443382263183594,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000005",
+      "case_id": "case_000005",
+      "frame_index": 81,
+      "policy_window_position": 64,
+      "expert_action_frame_indices": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.09903816999940318,
+      "first_arm_l2_error_rad": 0.004077805671840906,
+      "first_gripper_abs_error": 0.0006618175539188087,
+      "horizon_arm_mae_rad": 0.0016370124649256468,
+      "horizon_gripper_mae": 0.001022198935970664,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.007669329643249512
+      },
+      "first_predicted_action": [
+        -0.043926384299993515,
+        0.5579808354377747,
+        1.4780339002609253,
+        -0.034658145159482956,
+        1.887403130531311,
+        -0.040262822061777115,
+        -0.0006618175539188087
+      ],
+      "first_guarded_action": [
+        -0.043926384299993515,
+        0.5579808354377747,
+        1.4780339002609253,
+        -0.034658145159482956,
+        1.887403130531311,
+        -0.040262822061777115,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.04657021537423134,
+        0.5570023655891418,
+        1.4774521589279175,
+        -0.03423132747411728,
+        1.888733983039856,
+        -0.04279056563973427,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000005",
+      "case_id": "case_000005",
+      "frame_index": 171,
+      "policy_window_position": 128,
+      "expert_action_frame_indices": [
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09908002299926011,
+      "first_arm_l2_error_rad": 0.007774995174258947,
+      "first_gripper_abs_error": 0.007262468338012695,
+      "horizon_arm_mae_rad": 0.00480946758762002,
+      "horizon_gripper_mae": 0.0019397616852074862,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.0222398042678833
+      },
+      "first_predicted_action": [
+        -0.04314282536506653,
+        0.6150079965591431,
+        1.5336183309555054,
+        -0.03409862890839577,
+        1.7775592803955078,
+        -0.035134561359882355,
+        0.9321179986000061
+      ],
+      "first_guarded_action": [
+        -0.04314282536506653,
+        0.6150079965591431,
+        1.5336183309555054,
+        -0.03409862890839577,
+        1.7775592803955078,
+        -0.035134561359882355,
+        0.9321179986000061
+      ],
+      "first_expert_action": [
+        -0.04654684290289879,
+        0.6122941970825195,
+        1.530348539352417,
+        -0.03336828202009201,
+        1.7808583974838257,
+        -0.03953789919614792,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000005",
+      "case_id": "case_000005",
+      "frame_index": 251,
+      "policy_window_position": 192,
+      "expert_action_frame_indices": [
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260
+      ],
+      "phase": "PLACE_DESCENT_4",
+      "inference_seconds": 0.0986390809994191,
+      "first_arm_l2_error_rad": 0.0055564697831869125,
+      "first_gripper_abs_error": 0.0009348392486572266,
+      "horizon_arm_mae_rad": 0.002600966254249215,
+      "horizon_gripper_mae": 0.0015271961456164718,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.009724259376525879
+      },
+      "first_predicted_action": [
+        0.6031558513641357,
+        0.6214548945426941,
+        1.5427327156066895,
+        -0.03407401964068413,
+        1.7581301927566528,
+        -0.034078896045684814,
+        0.9257903695106506
+      ],
+      "first_guarded_action": [
+        0.6031558513641357,
+        0.6214548945426941,
+        1.5427327156066895,
+        -0.03407401964068413,
+        1.7581301927566528,
+        -0.034078896045684814,
+        0.9257903695106506
+      ],
+      "first_expert_action": [
+        0.600074291229248,
+        0.6215112805366516,
+        1.54245924949646,
+        -0.033217236399650574,
+        1.7593202590942383,
+        -0.038454972207546234,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000005",
+      "case_id": "case_000005",
+      "frame_index": 324,
+      "policy_window_position": 257,
+      "expert_action_frame_indices": [
+        324,
+        325,
+        326,
+        327,
+        328,
+        329,
+        330,
+        331,
+        332,
+        333
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.09870687099828501,
+      "first_arm_l2_error_rad": 0.01037556491792202,
+      "first_gripper_abs_error": 0.0032299153972417116,
+      "horizon_arm_mae_rad": 0.0036726801190525293,
+      "horizon_gripper_mae": 0.0032664593309164047,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 2,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.04999995231628418
+      },
+      "first_predicted_action": [
+        0.6065297722816467,
+        0.8488724827766418,
+        1.619723916053772,
+        -0.034769076853990555,
+        1.446804165840149,
+        -0.02425980009138584,
+        0.0032299153972417116
+      ],
+      "first_guarded_action": [
+        0.6065297722816467,
+        0.8488724827766418,
+        1.619723916053772,
+        -0.034769076853990555,
+        1.5102375745773315,
+        -0.02425980009138584,
+        0.0032299153972417116
+      ],
+      "first_expert_action": [
+        0.6000335812568665,
+        0.8505302667617798,
+        1.6190910339355469,
+        -0.03278269246220589,
+        1.453844666481018,
+        -0.02722437120974064,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000013",
+      "case_id": "case_000013",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09890868000002229,
+      "first_arm_l2_error_rad": 0.005613975692540407,
+      "first_gripper_abs_error": 0.0010760047007352114,
+      "horizon_arm_mae_rad": 0.0036754244938492775,
+      "horizon_gripper_mae": 0.0009117904119193554,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 4,
+        "maximum_output_step_rad": 0.009024739265441895
+      },
+      "first_predicted_action": [
+        0.000565623224247247,
+        0.4863835275173187,
+        1.338926076889038,
+        -7.160628592828289e-05,
+        2.099656820297241,
+        -2.3170854547061026e-05,
+        0.0010760047007352114
+      ],
+      "first_guarded_action": [
+        0.000565623224247247,
+        0.4863835275173187,
+        1.338926076889038,
+        -7.160628592828289e-05,
+        2.099656820297241,
+        -2.3170854547061026e-05,
+        0.0010760047007352114
+      ],
+      "first_expert_action": [
+        1.5532630641246215e-05,
+        0.48557212948799133,
+        1.3355919122695923,
+        -3.236396196371061e-06,
+        2.10406494140625,
+        3.065029886784032e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000013",
+      "case_id": "case_000013",
+      "frame_index": 78,
+      "policy_window_position": 61,
+      "expert_action_frame_indices": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "phase": "APPROACH_6",
+      "inference_seconds": 0.09911682700112578,
+      "first_arm_l2_error_rad": 0.002310119802132249,
+      "first_gripper_abs_error": 0.0017700091702863574,
+      "horizon_arm_mae_rad": 0.0024560941383242607,
+      "horizon_gripper_mae": 0.0025760894641280174,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 9,
+        "maximum_output_step_rad": 0.008322596549987793
+      },
+      "first_predicted_action": [
+        0.0018273351015523076,
+        0.5715073347091675,
+        1.498008370399475,
+        -0.0007114699692465365,
+        1.8543107509613037,
+        -0.0008558499976061285,
+        -0.0017700091702863574
+      ],
+      "first_guarded_action": [
+        0.0018273351015523076,
+        0.5715073347091675,
+        1.498008370399475,
+        -0.0007114699692465365,
+        1.8543107509613037,
+        -0.0008558499976061285,
+        0.0
+      ],
+      "first_expert_action": [
+        1.6487680113641545e-05,
+        0.5715523958206177,
+        1.49874746799469,
+        -3.0538999453710858e-06,
+        1.853842854499817,
+        3.207370900781825e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000013",
+      "case_id": "case_000013",
+      "frame_index": 166,
+      "policy_window_position": 123,
+      "expert_action_frame_indices": [
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        182,
+        183
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09927146499830997,
+      "first_arm_l2_error_rad": 0.008410422131419182,
+      "first_gripper_abs_error": 0.0019202232360839844,
+      "horizon_arm_mae_rad": 0.003567188512533903,
+      "horizon_gripper_mae": 0.0014467596774920821,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.02018606662750244
+      },
+      "first_predicted_action": [
+        0.00020498328376561403,
+        0.5834948420524597,
+        1.5058308839797974,
+        -0.0007462980574928224,
+        1.830964207649231,
+        0.0027900810819119215,
+        0.9229353070259094
+      ],
+      "first_guarded_action": [
+        0.00020498328376561403,
+        0.5834948420524597,
+        1.5058308839797974,
+        -0.0007462980574928224,
+        1.830964207649231,
+        0.0027900810819119215,
+        0.9229353070259094
+      ],
+      "first_expert_action": [
+        1.5243233974615578e-05,
+        0.5816016793251038,
+        1.5039751529693604,
+        -2.4353430490009487e-06,
+        1.8384145498275757,
+        3.137489693472162e-05,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000013",
+      "case_id": "case_000013",
+      "frame_index": 244,
+      "policy_window_position": 185,
+      "expert_action_frame_indices": [
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253
+      ],
+      "phase": "PLACE_DESCENT_5",
+      "inference_seconds": 0.09877460899951984,
+      "first_arm_l2_error_rad": 0.003927615471184254,
+      "first_gripper_abs_error": 0.0031238794326782227,
+      "horizon_arm_mae_rad": 0.0021408458705991507,
+      "horizon_gripper_mae": 0.0034608603455126286,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.009268760681152344
+      },
+      "first_predicted_action": [
+        0.6994847059249878,
+        0.6357973217964172,
+        1.554370641708374,
+        -0.0010470508132129908,
+        1.7314190864562988,
+        4.944825923303142e-05,
+        0.9217316508293152
+      ],
+      "first_guarded_action": [
+        0.6994847059249878,
+        0.6357973217964172,
+        1.554370641708374,
+        -0.0010470508132129908,
+        1.7314190864562988,
+        4.944825923303142e-05,
+        0.9217316508293152
+      ],
+      "first_expert_action": [
+        0.7002299427986145,
+        0.6340720653533936,
+        1.5550037622451782,
+        -0.00035984654095955193,
+        1.7347228527069092,
+        -0.0002766083925962448,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000013",
+      "case_id": "case_000013",
+      "frame_index": 314,
+      "policy_window_position": 247,
+      "expert_action_frame_indices": [
+        314,
+        315,
+        316,
+        317,
+        318,
+        319,
+        320,
+        321,
+        322,
+        323
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.0989396469994972,
+      "first_arm_l2_error_rad": 0.06678423285484314,
+      "first_gripper_abs_error": 0.1387547254562378,
+      "horizon_arm_mae_rad": 0.024709999561309814,
+      "horizon_gripper_mae": 0.04305223375558853,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 7,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.7080385088920593,
+        0.8650921583175659,
+        1.6472570896148682,
+        -0.026312723755836487,
+        1.4232325553894043,
+        -0.04250597953796387,
+        0.1387547254562378
+      ],
+      "first_guarded_action": [
+        0.7080385088920593,
+        0.8650921583175659,
+        1.6472570896148682,
+        0.0002658739686012268,
+        1.5015052556991577,
+        -0.22325541079044342,
+        0.1387547254562378
+      ],
+      "first_expert_action": [
+        0.7000580430030823,
+        0.85028076171875,
+        1.6205329895019531,
+        -9.14571646717377e-05,
+        1.4541994333267212,
+        0.00011312957212794572,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000021",
+      "case_id": "case_000021",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09877317299833521,
+      "first_arm_l2_error_rad": 0.005319096148014069,
+      "first_gripper_abs_error": 0.00029563537100329995,
+      "horizon_arm_mae_rad": 0.0026316025760024786,
+      "horizon_gripper_mae": 0.002835550345480442,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 2,
+        "maximum_output_step_rad": 0.00899350643157959
+      },
+      "first_predicted_action": [
+        0.04871467873454094,
+        0.4984298050403595,
+        1.3686267137527466,
+        0.03467253968119621,
+        2.057723045349121,
+        0.04963180795311928,
+        0.00029563537100329995
+      ],
+      "first_guarded_action": [
+        0.04871467873454094,
+        0.4984298050403595,
+        1.3686267137527466,
+        0.03467253968119621,
+        2.057723045349121,
+        0.04963180795311928,
+        0.00029563537100329995
+      ],
+      "first_expert_action": [
+        0.04674273729324341,
+        0.4975791275501251,
+        1.3657668828964233,
+        0.0365876629948616,
+        2.060912609100342,
+        0.050920579582452774,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000021",
+      "case_id": "case_000021",
+      "frame_index": 77,
+      "policy_window_position": 60,
+      "expert_action_frame_indices": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "phase": "APPROACH_6",
+      "inference_seconds": 0.09910288399987621,
+      "first_arm_l2_error_rad": 0.004437010735273361,
+      "first_gripper_abs_error": 0.006960272789001465,
+      "horizon_arm_mae_rad": 0.0017211295198649168,
+      "horizon_gripper_mae": 0.005288246087729931,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008875608444213867
+      },
+      "first_predicted_action": [
+        0.04889945685863495,
+        0.5900679230690002,
+        1.513092041015625,
+        0.03227038308978081,
+        1.8195792436599731,
+        0.041973765939474106,
+        0.006960272789001465
+      ],
+      "first_guarded_action": [
+        0.04889945685863495,
+        0.5900679230690002,
+        1.513092041015625,
+        0.03227038308978081,
+        1.8195792436599731,
+        0.041973765939474106,
+        0.006960272789001465
+      ],
+      "first_expert_action": [
+        0.04646694287657738,
+        0.5909318327903748,
+        1.5154739618301392,
+        0.03371564298868179,
+        1.8174011707305908,
+        0.041254546493291855,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000021",
+      "case_id": "case_000021",
+      "frame_index": 172,
+      "policy_window_position": 121,
+      "expert_action_frame_indices": [
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181
+      ],
+      "phase": "LIFT_HOLD",
+      "inference_seconds": 0.098854351999762,
+      "first_arm_l2_error_rad": 0.016708271577954292,
+      "first_gripper_abs_error": 0.0016412138938903809,
+      "horizon_arm_mae_rad": 0.014149089343845844,
+      "horizon_gripper_mae": 0.0013989448780193925,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.034612029790878296
+      },
+      "first_predicted_action": [
+        0.0629216805100441,
+        0.5526256561279297,
+        1.4742244482040405,
+        0.03286448121070862,
+        1.8923053741455078,
+        0.045790109783411026,
+        0.923214316368103
+      ],
+      "first_guarded_action": [
+        0.0629216805100441,
+        0.5526256561279297,
+        1.4742244482040405,
+        0.03286448121070862,
+        1.8923053741455078,
+        0.045790109783411026,
+        0.923214316368103
+      ],
+      "first_expert_action": [
+        0.04654943570494652,
+        0.5548580288887024,
+        1.4750341176986694,
+        0.03434452414512634,
+        1.8930758237838745,
+        0.04414914920926094,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000021",
+      "case_id": "case_000021",
+      "frame_index": 240,
+      "policy_window_position": 181,
+      "expert_action_frame_indices": [
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249
+      ],
+      "phase": "PLACE_DESCENT_6",
+      "inference_seconds": 0.0990997230001085,
+      "first_arm_l2_error_rad": 0.005689824465662241,
+      "first_gripper_abs_error": 0.002057015895843506,
+      "horizon_arm_mae_rad": 0.002379816258326173,
+      "horizon_gripper_mae": 0.0020474016200751066,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.00858604907989502
+      },
+      "first_predicted_action": [
+        0.8049545884132385,
+        0.6631399989128113,
+        1.5699726343154907,
+        0.031473517417907715,
+        1.6908689737319946,
+        0.03954954445362091,
+        0.9269125461578369
+      ],
+      "first_guarded_action": [
+        0.8049545884132385,
+        0.6631399989128113,
+        1.5699726343154907,
+        0.031473517417907715,
+        1.6908689737319946,
+        0.03954954445362091,
+        0.9269125461578369
+      ],
+      "first_expert_action": [
+        0.8003938794136047,
+        0.6612359285354614,
+        1.569300889968872,
+        0.032215993851423264,
+        1.6925078630447388,
+        0.03748554736375809,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000021",
+      "case_id": "case_000021",
+      "frame_index": 309,
+      "policy_window_position": 242,
+      "expert_action_frame_indices": [
+        309,
+        310,
+        311,
+        312,
+        313,
+        314,
+        315,
+        316,
+        317,
+        318
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.0984513710027386,
+      "first_arm_l2_error_rad": 0.014352899976074696,
+      "first_gripper_abs_error": 0.0002903443528339267,
+      "horizon_arm_mae_rad": 0.005555715877562761,
+      "horizon_gripper_mae": 0.002342579420655966,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 7,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.7997229695320129,
+        0.8857072591781616,
+        1.621336579322815,
+        0.02475699968636036,
+        1.4144822359085083,
+        0.02212570793926716,
+        0.0002903443528339267
+      ],
+      "first_guarded_action": [
+        0.7997229695320129,
+        0.8857072591781616,
+        1.621336579322815,
+        0.06669595837593079,
+        1.5181249380111694,
+        -0.10322797298431396,
+        0.0002903443528339267
+      ],
+      "first_expert_action": [
+        0.8002660274505615,
+        0.8817245960235596,
+        1.61874520778656,
+        0.03251324221491814,
+        1.423391580581665,
+        0.028728608042001724,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000026",
+      "case_id": "case_000026",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09908529400127009,
+      "first_arm_l2_error_rad": 0.005857318174093962,
+      "first_gripper_abs_error": 0.001304785837419331,
+      "horizon_arm_mae_rad": 0.004662325605750084,
+      "horizon_gripper_mae": 0.0015208080876618624,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.009015321731567383
+      },
+      "first_predicted_action": [
+        -0.04521592706441879,
+        0.4294118583202362,
+        1.425699234008789,
+        -0.03986014053225517,
+        2.0679585933685303,
+        -0.050357043743133545,
+        -0.001304785837419331
+      ],
+      "first_guarded_action": [
+        -0.04521592706441879,
+        0.4294118583202362,
+        1.425699234008789,
+        -0.03986014053225517,
+        2.0679585933685303,
+        -0.050357043743133545,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.048307809978723526,
+        0.4291432201862335,
+        1.4232850074768066,
+        -0.03973347321152687,
+        2.071418523788452,
+        -0.052976321429014206,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000026",
+      "case_id": "case_000026",
+      "frame_index": 80,
+      "policy_window_position": 63,
+      "expert_action_frame_indices": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.09908720100065693,
+      "first_arm_l2_error_rad": 0.004741478245705366,
+      "first_gripper_abs_error": 0.002377208089455962,
+      "horizon_arm_mae_rad": 0.001880686730146408,
+      "horizon_gripper_mae": 0.002171122934669256,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 9,
+        "maximum_output_step_rad": 0.007614612579345703
+      },
+      "first_predicted_action": [
+        -0.046060025691986084,
+        0.5241899490356445,
+        1.5859036445617676,
+        -0.03573033958673477,
+        1.811185598373413,
+        -0.04160251468420029,
+        -0.002377208089455962
+      ],
+      "first_guarded_action": [
+        -0.046060025691986084,
+        0.5241899490356445,
+        1.5859036445617676,
+        -0.03573033958673477,
+        1.811185598373413,
+        -0.04160251468420029,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.04853452742099762,
+        0.5232920050621033,
+        1.5856906175613403,
+        -0.035583604127168655,
+        1.814984917640686,
+        -0.04262741282582283,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000026",
+      "case_id": "case_000026",
+      "frame_index": 169,
+      "policy_window_position": 126,
+      "expert_action_frame_indices": [
+        169,
+        170,
+        171,
+        172,
+        173,
+        182,
+        183,
+        184,
+        185,
+        186
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09856963600032032,
+      "first_arm_l2_error_rad": 0.006958772893995047,
+      "first_gripper_abs_error": 0.0013030171394348145,
+      "horizon_arm_mae_rad": 0.003593205939978361,
+      "horizon_gripper_mae": 0.0008309542899951339,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.020161151885986328
+      },
+      "first_predicted_action": [
+        -0.04902556538581848,
+        0.5175663232803345,
+        1.575573205947876,
+        -0.03688688576221466,
+        1.8275291919708252,
+        -0.03853939473628998,
+        0.9261585474014282
+      ],
+      "first_guarded_action": [
+        -0.04902556538581848,
+        0.5175663232803345,
+        1.575573205947876,
+        -0.03688688576221466,
+        1.8275291919708252,
+        -0.03853939473628998,
+        0.9261585474014282
+      ],
+      "first_expert_action": [
+        -0.048484694212675095,
+        0.5161301493644714,
+        1.574687123298645,
+        -0.035892583429813385,
+        1.8328841924667358,
+        -0.04249155521392822,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000026",
+      "case_id": "case_000026",
+      "frame_index": 248,
+      "policy_window_position": 189,
+      "expert_action_frame_indices": [
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ],
+      "phase": "PLACE_DESCENT_5",
+      "inference_seconds": 0.0989957689998846,
+      "first_arm_l2_error_rad": 0.010655298829078674,
+      "first_gripper_abs_error": 0.0020880699157714844,
+      "horizon_arm_mae_rad": 0.0032678069546818733,
+      "horizon_gripper_mae": 0.0010017633903771639,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.00898730754852295
+      },
+      "first_predicted_action": [
+        0.8026329278945923,
+        0.6069055199623108,
+        1.6489670276641846,
+        -0.03430643305182457,
+        1.6664320230484009,
+        -0.03388223797082901,
+        0.9269436001777649
+      ],
+      "first_guarded_action": [
+        0.8026329278945923,
+        0.6069055199623108,
+        1.6489670276641846,
+        -0.03430643305182457,
+        1.6664320230484009,
+        -0.03388223797082901,
+        0.9269436001777649
+      ],
+      "first_expert_action": [
+        0.7996318936347961,
+        0.6110286712646484,
+        1.6540471315383911,
+        -0.034189820289611816,
+        1.6589748859405518,
+        -0.036351826041936874,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000026",
+      "case_id": "case_000026",
+      "frame_index": 319,
+      "policy_window_position": 252,
+      "expert_action_frame_indices": [
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.09797359100048197,
+      "first_arm_l2_error_rad": 0.04609561339020729,
+      "first_gripper_abs_error": 0.28432655334472656,
+      "horizon_arm_mae_rad": 0.017622625455260277,
+      "horizon_gripper_mae": 0.111027792096138,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 6,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.8164282441139221,
+        0.8365227580070496,
+        1.690041184425354,
+        -0.06209124997258186,
+        1.3826022148132324,
+        -0.0024497059639543295,
+        0.28432655334472656
+      ],
+      "first_guarded_action": [
+        0.8164282441139221,
+        0.8365227580070496,
+        1.690041184425354,
+        -0.018126890063285828,
+        1.4820359945297241,
+        -0.06549760699272156,
+        0.28432655334472656
+      ],
+      "first_expert_action": [
+        0.7999013066291809,
+        0.8482919335365295,
+        1.7066882848739624,
+        -0.0351482518017292,
+        1.369635820388794,
+        -0.025730039924383163,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000029",
+      "case_id": "case_000029",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09961644999930286,
+      "first_arm_l2_error_rad": 0.005238261539489031,
+      "first_gripper_abs_error": 0.001310738269239664,
+      "horizon_arm_mae_rad": 0.003368284786120057,
+      "horizon_gripper_mae": 0.0023359216284006834,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 2,
+        "maximum_output_step_rad": 0.009402036666870117
+      },
+      "first_predicted_action": [
+        -0.043539825826883316,
+        0.5464661121368408,
+        1.241720199584961,
+        -0.03715378791093826,
+        2.1375553607940674,
+        -0.051051437854766846,
+        -0.001310738269239664
+      ],
+      "first_guarded_action": [
+        -0.043539825826883316,
+        0.5464661121368408,
+        1.241720199584961,
+        -0.03715378791093826,
+        2.1375553607940674,
+        -0.051051437854766846,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.04426006227731705,
+        0.5461351871490479,
+        1.2374557256698608,
+        -0.037341926246881485,
+        2.1404855251312256,
+        -0.051115743815898895,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000029",
+      "case_id": "case_000029",
+      "frame_index": 80,
+      "policy_window_position": 63,
+      "expert_action_frame_indices": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.09890317399913329,
+      "first_arm_l2_error_rad": 0.008786882273852825,
+      "first_gripper_abs_error": 0.0026800082996487617,
+      "horizon_arm_mae_rad": 0.0019492191495373845,
+      "horizon_gripper_mae": 0.001235583913512528,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 7,
+        "maximum_output_step_rad": 0.005665779113769531
+      },
+      "first_predicted_action": [
+        -0.042494043707847595,
+        0.6297814846038818,
+        1.408757209777832,
+        -0.03435346484184265,
+        1.8860269784927368,
+        -0.04116479307413101,
+        -0.0026800082996487617
+      ],
+      "first_guarded_action": [
+        -0.042494043707847595,
+        0.6297814846038818,
+        1.408757209777832,
+        -0.03435346484184265,
+        1.8860269784927368,
+        -0.04116479307413101,
+        0.0
+      ],
+      "first_expert_action": [
+        -0.04395010322332382,
+        0.6263887882232666,
+        1.4047662019729614,
+        -0.033688053488731384,
+        1.8928781747817993,
+        -0.041683439165353775,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000029",
+      "case_id": "case_000029",
+      "frame_index": 169,
+      "policy_window_position": 126,
+      "expert_action_frame_indices": [
+        169,
+        170,
+        171,
+        172,
+        173,
+        182,
+        183,
+        184,
+        185,
+        186
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09892881799896713,
+      "first_arm_l2_error_rad": 0.00692295515909791,
+      "first_gripper_abs_error": 0.0009703636169433594,
+      "horizon_arm_mae_rad": 0.0036643999628722668,
+      "horizon_gripper_mae": 0.0011941433185711503,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.02113509178161621
+      },
+      "first_predicted_action": [
+        -0.047370027750730515,
+        0.6224709749221802,
+        1.3936861753463745,
+        -0.03449442982673645,
+        1.9071602821350098,
+        -0.03767862915992737,
+        0.9258258938789368
+      ],
+      "first_guarded_action": [
+        -0.047370027750730515,
+        0.6224709749221802,
+        1.3936861753463745,
+        -0.03449442982673645,
+        1.9071602821350098,
+        -0.03767862915992737,
+        0.9258258938789368
+      ],
+      "first_expert_action": [
+        -0.04408394917845726,
+        0.620849072933197,
+        1.3930190801620483,
+        -0.03373795375227928,
+        1.9111226797103882,
+        -0.04189532995223999,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000029",
+      "case_id": "case_000029",
+      "frame_index": 248,
+      "policy_window_position": 189,
+      "expert_action_frame_indices": [
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ],
+      "phase": "PLACE_DESCENT_5",
+      "inference_seconds": 0.09944298800110118,
+      "first_arm_l2_error_rad": 0.00873023085296154,
+      "first_gripper_abs_error": 0.004290878772735596,
+      "horizon_arm_mae_rad": 0.0047354381531476974,
+      "horizon_gripper_mae": 0.0016347169876098633,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008145689964294434
+      },
+      "first_predicted_action": [
+        0.9046151041984558,
+        0.7025055289268494,
+        1.4702757596969604,
+        -0.03345653414726257,
+        1.7532349824905396,
+        -0.03358202055096626,
+        0.929146409034729
+      ],
+      "first_guarded_action": [
+        0.9046151041984558,
+        0.7025055289268494,
+        1.4702757596969604,
+        -0.03345653414726257,
+        1.7532349824905396,
+        -0.03358202055096626,
+        0.929146409034729
+      ],
+      "first_expert_action": [
+        0.9001015424728394,
+        0.7048417925834656,
+        1.4730767011642456,
+        -0.032468121498823166,
+        1.7473646402359009,
+        -0.036247242242097855,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000029",
+      "case_id": "case_000029",
+      "frame_index": 319,
+      "policy_window_position": 252,
+      "expert_action_frame_indices": [
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.0990094640001189,
+      "first_arm_l2_error_rad": 0.07934536784887314,
+      "first_gripper_abs_error": 0.056132469326257706,
+      "horizon_arm_mae_rad": 0.0232816431671381,
+      "horizon_gripper_mae": 0.009388050995767117,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 4,
+        "gripper_clamp_count": 5,
+        "maximum_output_step_rad": 0.04999995231628418
+      },
+      "first_predicted_action": [
+        0.9038355350494385,
+        0.9196499586105347,
+        1.5367319583892822,
+        -0.1042119562625885,
+        1.4649239778518677,
+        -0.05260391905903816,
+        0.056132469326257706
+      ],
+      "first_guarded_action": [
+        0.9038355350494385,
+        0.9196499586105347,
+        1.5167769193649292,
+        -0.1042119562625885,
+        1.5700651407241821,
+        -0.05260391905903816,
+        0.056132469326257706
+      ],
+      "first_expert_action": [
+        0.8997691869735718,
+        0.9187774658203125,
+        1.5256909132003784,
+        -0.03153379261493683,
+        1.4807442426681519,
+        -0.02762213721871376,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000034",
+      "case_id": "case_000034",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09983598799954052,
+      "first_arm_l2_error_rad": 0.00323638622649014,
+      "first_gripper_abs_error": 0.0004947097040712833,
+      "horizon_arm_mae_rad": 0.004342840053141117,
+      "horizon_gripper_mae": 0.0011595089454203844,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.009716510772705078
+      },
+      "first_predicted_action": [
+        0.0004986041458323598,
+        0.4277331829071045,
+        1.4275037050247192,
+        -0.00043518663733266294,
+        2.0696661472320557,
+        -0.001276859431527555,
+        -0.0004947097040712833
+      ],
+      "first_guarded_action": [
+        0.0004986041458323598,
+        0.4277331829071045,
+        1.4275037050247192,
+        -0.00043518663733266294,
+        2.0696661472320557,
+        -0.001276859431527555,
+        0.0
+      ],
+      "first_expert_action": [
+        1.6447538655484095e-05,
+        0.427764356136322,
+        1.4253768920898438,
+        -2.4279415811179206e-06,
+        2.071619987487793,
+        3.18209822580684e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000034",
+      "case_id": "case_000034",
+      "frame_index": 80,
+      "policy_window_position": 63,
+      "expert_action_frame_indices": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.09984758399878046,
+      "first_arm_l2_error_rad": 0.0052153561264276505,
+      "first_gripper_abs_error": 0.0009000233840197325,
+      "horizon_arm_mae_rad": 0.0012624686351045966,
+      "horizon_gripper_mae": 0.0009817061945796013,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 5,
+        "maximum_output_step_rad": 0.006399393081665039
+      },
+      "first_predicted_action": [
+        0.0008167792111635208,
+        0.5231446623802185,
+        1.5894404649734497,
+        -0.00046331691555678844,
+        1.8095155954360962,
+        9.131267142947763e-05,
+        -0.0009000233840197325
+      ],
+      "first_guarded_action": [
+        0.0008167792111635208,
+        0.5231446623802185,
+        1.5894404649734497,
+        -0.00046331691555678844,
+        1.8095155954360962,
+        9.131267142947763e-05,
+        0.0
+      ],
+      "first_expert_action": [
+        1.6482221326441504e-05,
+        0.5216450691223145,
+        1.5880557298660278,
+        -1.7399147509422619e-06,
+        1.8142249584197998,
+        4.6132456191116944e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000034",
+      "case_id": "case_000034",
+      "frame_index": 169,
+      "policy_window_position": 126,
+      "expert_action_frame_indices": [
+        169,
+        170,
+        171,
+        172,
+        173,
+        182,
+        183,
+        184,
+        185,
+        186
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09883732000162126,
+      "first_arm_l2_error_rad": 0.005059659946709871,
+      "first_gripper_abs_error": 0.0018203258514404297,
+      "horizon_arm_mae_rad": 0.005176103673875332,
+      "horizon_gripper_mae": 0.0014634430408477783,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.027666330337524414
+      },
+      "first_predicted_action": [
+        -0.0009812477510422468,
+        0.5116055011749268,
+        1.5739773511886597,
+        -0.0013702305732294917,
+        1.8340250253677368,
+        0.0007052594446577132,
+        0.9266758561134338
+      ],
+      "first_guarded_action": [
+        -0.0009812477510422468,
+        0.5116055011749268,
+        1.5739773511886597,
+        -0.0013702305732294917,
+        1.8340250253677368,
+        0.0007052594446577132,
+        0.9266758561134338
+      ],
+      "first_expert_action": [
+        1.6091104043880478e-05,
+        0.5142331123352051,
+        1.5772030353546143,
+        -1.8263519905303838e-06,
+        1.8317954540252686,
+        3.2522926630917937e-05,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000034",
+      "case_id": "case_000034",
+      "frame_index": 248,
+      "policy_window_position": 189,
+      "expert_action_frame_indices": [
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ],
+      "phase": "PLACE_DESCENT_5",
+      "inference_seconds": 0.09919509400060633,
+      "first_arm_l2_error_rad": 0.005420513451099396,
+      "first_gripper_abs_error": 0.0022126436233520508,
+      "horizon_arm_mae_rad": 0.0018541674362495542,
+      "horizon_gripper_mae": 0.0012321710819378495,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008610725402832031
+      },
+      "first_predicted_action": [
+        0.8978607654571533,
+        0.6068938970565796,
+        1.654238224029541,
+        -5.2178686019033194e-05,
+        1.6606948375701904,
+        0.0022349171340465546,
+        0.9270681738853455
+      ],
+      "first_guarded_action": [
+        0.8978607654571533,
+        0.6068938970565796,
+        1.654238224029541,
+        -5.2178686019033194e-05,
+        1.6606948375701904,
+        0.0022349171340465546,
+        0.9270681738853455
+      ],
+      "first_expert_action": [
+        0.9000241756439209,
+        0.6094263195991516,
+        1.656556248664856,
+        -4.801549584954046e-05,
+        1.6578258275985718,
+        7.066532998578623e-05,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000034",
+      "case_id": "case_000034",
+      "frame_index": 319,
+      "policy_window_position": 252,
+      "expert_action_frame_indices": [
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.09942397800114122,
+      "first_arm_l2_error_rad": 0.011994075030088425,
+      "first_gripper_abs_error": 0.005584884900599718,
+      "horizon_arm_mae_rad": 0.0039048141334205866,
+      "horizon_gripper_mae": 0.0025640830863267183,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 6,
+        "gripper_clamp_count": 8,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.8972485661506653,
+        0.8447008728981018,
+        1.7037562131881714,
+        -0.0006507214275188744,
+        1.3687398433685303,
+        0.009893921203911304,
+        0.005584884900599718
+      ],
+      "first_guarded_action": [
+        0.8972485661506653,
+        0.8447008728981018,
+        1.7037562131881714,
+        0.0375676266849041,
+        1.4670050144195557,
+        -0.11678270995616913,
+        0.005584884900599718
+      ],
+      "first_expert_action": [
+        0.9000037908554077,
+        0.8468775153160095,
+        1.709473967552185,
+        -1.8479078107702662e-06,
+        1.3676377534866333,
+        3.4893386327894405e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000037",
+      "case_id": "case_000037",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09937459799766657,
+      "first_arm_l2_error_rad": 0.003692805068567395,
+      "first_gripper_abs_error": 0.005111339036375284,
+      "horizon_arm_mae_rad": 0.0037031027022749186,
+      "horizon_gripper_mae": 0.0023377486504614353,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 4,
+        "maximum_output_step_rad": 0.012581825256347656
+      },
+      "first_predicted_action": [
+        0.002357559511438012,
+        0.5442407131195068,
+        1.242175579071045,
+        -0.0008613796671852469,
+        2.1406242847442627,
+        0.0011946664890274405,
+        -0.005111339036375284
+      ],
+      "first_guarded_action": [
+        0.002357559511438012,
+        0.5442407131195068,
+        1.242175579071045,
+        -0.0008613796671852469,
+        2.1406242847442627,
+        0.0011946664890274405,
+        0.0
+      ],
+      "first_expert_action": [
+        1.3174927516956814e-05,
+        0.5445795059204102,
+        1.2398017644882202,
+        -4.837216238229303e-06,
+        2.1400768756866455,
+        2.951727219624445e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000037",
+      "case_id": "case_000037",
+      "frame_index": 80,
+      "policy_window_position": 63,
+      "expert_action_frame_indices": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "phase": "APPROACH_7",
+      "inference_seconds": 0.09898098399935407,
+      "first_arm_l2_error_rad": 0.001943726558238268,
+      "first_gripper_abs_error": 0.0007652127533219755,
+      "horizon_arm_mae_rad": 0.0020374534651637077,
+      "horizon_gripper_mae": 0.0013869812246412039,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 2,
+        "maximum_output_step_rad": 0.009804248809814453
+      },
+      "first_predicted_action": [
+        -0.0001896531757665798,
+        0.626527726650238,
+        1.406748652458191,
+        -0.0007089825812727213,
+        1.8922090530395508,
+        0.001232291222549975,
+        0.0007652127533219755
+      ],
+      "first_guarded_action": [
+        -0.0001896531757665798,
+        0.626527726650238,
+        1.406748652458191,
+        -0.0007089825812727213,
+        1.8922090530395508,
+        0.001232291222549975,
+        0.0007652127533219755
+      ],
+      "first_expert_action": [
+        1.441880885977298e-05,
+        0.6254609823226929,
+        1.4066600799560547,
+        -3.741320142580662e-06,
+        1.8930147886276245,
+        3.0599043384427205e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000037",
+      "case_id": "case_000037",
+      "frame_index": 169,
+      "policy_window_position": 126,
+      "expert_action_frame_indices": [
+        169,
+        170,
+        171,
+        172,
+        173,
+        182,
+        183,
+        184,
+        185,
+        186
+      ],
+      "phase": "LIFT",
+      "inference_seconds": 0.09913812000013422,
+      "first_arm_l2_error_rad": 0.0037521393969655037,
+      "first_gripper_abs_error": 0.005614101886749268,
+      "horizon_arm_mae_rad": 0.009949025698006153,
+      "horizon_gripper_mae": 0.0034474253188818693,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.02659773826599121
+      },
+      "first_predicted_action": [
+        0.00017667058273218572,
+        0.6192334294319153,
+        1.39216148853302,
+        -0.0015951477689668536,
+        1.9126150608062744,
+        0.001012543449178338,
+        0.9304696321487427
+      ],
+      "first_guarded_action": [
+        0.00017667058273218572,
+        0.6192334294319153,
+        1.39216148853302,
+        -0.0015951477689668536,
+        1.9126150608062744,
+        0.001012543449178338,
+        0.9304696321487427
+      ],
+      "first_expert_action": [
+        1.4660265151178464e-05,
+        0.6198320984840393,
+        1.3949962854385376,
+        -3.286447281425353e-06,
+        1.911145567893982,
+        3.050823215744458e-05,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000037",
+      "case_id": "case_000037",
+      "frame_index": 248,
+      "policy_window_position": 189,
+      "expert_action_frame_indices": [
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257
+      ],
+      "phase": "PLACE_DESCENT_5",
+      "inference_seconds": 0.0991198390001955,
+      "first_arm_l2_error_rad": 0.007199478801339865,
+      "first_gripper_abs_error": 0.0027655363082885742,
+      "horizon_arm_mae_rad": 0.0022877855226397514,
+      "horizon_gripper_mae": 0.0013283609878271818,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008969783782958984
+      },
+      "first_predicted_action": [
+        0.9997580647468567,
+        0.7017489671707153,
+        1.4726574420928955,
+        -0.0006056452984921634,
+        1.7534310817718506,
+        8.528292710252572e-06,
+        0.927621066570282
+      ],
+      "first_guarded_action": [
+        0.9997580647468567,
+        0.7017489671707153,
+        1.4726574420928955,
+        -0.0006056452984921634,
+        1.7534310817718506,
+        8.528292710252572e-06,
+        0.927621066570282
+      ],
+      "first_expert_action": [
+        1.000143051147461,
+        0.7038353085517883,
+        1.4750943183898926,
+        -0.00024294579634442925,
+        1.7470390796661377,
+        0.000644021260086447,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000037",
+      "case_id": "case_000037",
+      "frame_index": 319,
+      "policy_window_position": 252,
+      "expert_action_frame_indices": [
+        319,
+        320,
+        321,
+        322,
+        323,
+        324,
+        325,
+        326,
+        327,
+        328
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.09930085499945562,
+      "first_arm_l2_error_rad": 0.0223807692527771,
+      "first_gripper_abs_error": 0.004703655373305082,
+      "horizon_arm_mae_rad": 0.005701681133359671,
+      "horizon_gripper_mae": 0.0019096808973699808,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 6,
+        "gripper_clamp_count": 5,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        1.0064315795898438,
+        0.9169811606407166,
+        1.526469349861145,
+        0.004178762435913086,
+        1.4774174690246582,
+        0.020747389644384384,
+        0.004703655373305082
+      ],
+      "first_guarded_action": [
+        1.0064315795898438,
+        0.9169811606407166,
+        1.526469349861145,
+        0.04108389839529991,
+        1.5746902227401733,
+        -0.09834997355937958,
+        0.004703655373305082
+      ],
+      "first_expert_action": [
+        1.0000064373016357,
+        0.9183147549629211,
+        1.5273494720458984,
+        -1.1206600902369246e-05,
+        1.480654001235962,
+        3.429316348046996e-05,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000042",
+      "case_id": "case_000042",
+      "frame_index": 17,
+      "policy_window_position": 0,
+      "expert_action_frame_indices": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "phase": "SOURCE_SETTLE",
+      "inference_seconds": 0.09912317099951906,
+      "first_arm_l2_error_rad": 0.003596305148676038,
+      "first_gripper_abs_error": 0.0012835116358473897,
+      "horizon_arm_mae_rad": 0.003243690589442849,
+      "horizon_gripper_mae": 0.0012568195816129446,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 5,
+        "maximum_output_step_rad": 0.011617898941040039
+      },
+      "first_predicted_action": [
+        0.050621386617422104,
+        0.4280063509941101,
+        1.424826741218567,
+        0.03727729246020317,
+        2.071320056915283,
+        0.054903559386730194,
+        -0.0012835116358473897
+      ],
+      "first_guarded_action": [
+        0.050621386617422104,
+        0.4280063509941101,
+        1.424826741218567,
+        0.03727729246020317,
+        2.071320056915283,
+        0.054903559386730194,
+        0.0
+      ],
+      "first_expert_action": [
+        0.04869319871068001,
+        0.42911338806152344,
+        1.4232865571975708,
+        0.039147522300481796,
+        2.0713720321655273,
+        0.053448449820280075,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000042",
+      "case_id": "case_000042",
+      "frame_index": 96,
+      "policy_window_position": 79,
+      "expert_action_frame_indices": [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105
+      ],
+      "phase": "APPROACH_8",
+      "inference_seconds": 0.09846680800183094,
+      "first_arm_l2_error_rad": 0.0021755641791969538,
+      "first_gripper_abs_error": 0.0038294533733278513,
+      "horizon_arm_mae_rad": 0.0016488363035023212,
+      "horizon_gripper_mae": 0.003036145819351077,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.005716562271118164
+      },
+      "first_predicted_action": [
+        0.0489138700067997,
+        0.5600510835647583,
+        1.6195366382598877,
+        0.0330275297164917,
+        1.7429544925689697,
+        0.041725218296051025,
+        0.0038294533733278513
+      ],
+      "first_guarded_action": [
+        0.0489138700067997,
+        0.5600510835647583,
+        1.6195366382598877,
+        0.0330275297164917,
+        1.7429544925689697,
+        0.041725218296051025,
+        0.0038294533733278513
+      ],
+      "first_expert_action": [
+        0.04877307265996933,
+        0.5607142448425293,
+        1.620118498802185,
+        0.034743450582027435,
+        1.743053674697876,
+        0.040734920650720596,
+        0.0
+      ]
+    },
+    {
+      "episode": "episode_000042",
+      "case_id": "case_000042",
+      "frame_index": 209,
+      "policy_window_position": 158,
+      "expert_action_frame_indices": [
+        209,
+        210,
+        211,
+        212,
+        213,
+        222,
+        223,
+        224,
+        225,
+        226
+      ],
+      "phase": "TRANSFER",
+      "inference_seconds": 0.09906985199995688,
+      "first_arm_l2_error_rad": 0.025317780673503876,
+      "first_gripper_abs_error": 0.0002592802047729492,
+      "horizon_arm_mae_rad": 0.008275365456938744,
+      "horizon_gripper_mae": 0.0014863908290863037,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 1,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.050000011920928955
+      },
+      "first_predicted_action": [
+        0.9560898542404175,
+        0.5003232359886169,
+        1.559800148010254,
+        0.03495310619473457,
+        1.8617491722106934,
+        0.043864067643880844,
+        0.9245962500572205
+      ],
+      "first_guarded_action": [
+        0.9439851641654968,
+        0.5003232359886169,
+        1.559800148010254,
+        0.03495310619473457,
+        1.8617491722106934,
+        0.043864067643880844,
+        0.9245962500572205
+      ],
+      "first_expert_action": [
+        0.9316768050193787,
+        0.5026974678039551,
+        1.5632447004318237,
+        0.03670760616660118,
+        1.8568190336227417,
+        0.043537482619285583,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000042",
+      "case_id": "case_000042",
+      "frame_index": 296,
+      "policy_window_position": 237,
+      "expert_action_frame_indices": [
+        296,
+        297,
+        298,
+        299,
+        300,
+        301,
+        302,
+        303,
+        304,
+        305
+      ],
+      "phase": "PLACE_DESCENT_8",
+      "inference_seconds": 0.09921706400200492,
+      "first_arm_l2_error_rad": 0.006485030986368656,
+      "first_gripper_abs_error": 0.00577855110168457,
+      "horizon_arm_mae_rad": 0.003888278966769576,
+      "horizon_gripper_mae": 0.0016572177410125732,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 0,
+        "gripper_clamp_count": 0,
+        "maximum_output_step_rad": 0.008195638656616211
+      },
+      "first_predicted_action": [
+        1.0032178163528442,
+        0.6711241602897644,
+        1.6812286376953125,
+        0.033789973706007004,
+        1.5704717636108398,
+        0.03753069415688515,
+        0.930634081363678
+      ],
+      "first_guarded_action": [
+        1.0032178163528442,
+        0.6711241602897644,
+        1.6812286376953125,
+        0.033789973706007004,
+        1.5704717636108398,
+        0.03753069415688515,
+        0.930634081363678
+      ],
+      "first_expert_action": [
+        0.9999210238456726,
+        0.6682419180870056,
+        1.6812222003936768,
+        0.035331662744283676,
+        1.5732194185256958,
+        0.033931665122509,
+        0.9248555302619934
+      ]
+    },
+    {
+      "episode": "episode_000042",
+      "case_id": "case_000042",
+      "frame_index": 384,
+      "policy_window_position": 317,
+      "expert_action_frame_indices": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390,
+        391,
+        392,
+        393
+      ],
+      "phase": "RELEASE_SETTLE",
+      "inference_seconds": 0.10010466699895915,
+      "first_arm_l2_error_rad": 0.028506526723504066,
+      "first_gripper_abs_error": 0.0011858207872137427,
+      "horizon_arm_mae_rad": 0.009852778166532516,
+      "horizon_gripper_mae": 0.0014253051485866308,
+      "guard": {
+        "status": "pass",
+        "input_shape": [
+          10,
+          7
+        ],
+        "all_finite": true,
+        "joint_limit_margin_rad": 0.02,
+        "max_joint_step_rad": 0.05,
+        "joint_limit_clamp_count": 0,
+        "joint_step_clamp_count": 7,
+        "gripper_clamp_count": 5,
+        "maximum_output_step_rad": 0.05000000074505806
+      },
+      "first_predicted_action": [
+        0.9983260035514832,
+        0.8541637659072876,
+        1.7193572521209717,
+        0.023014862090349197,
+        1.3637596368789673,
+        0.005078180693089962,
+        0.0011858207872137427
+      ],
+      "first_guarded_action": [
+        0.9983260035514832,
+        0.8541637659072876,
+        1.7193572521209717,
+        0.059382203966379166,
+        1.4612400531768799,
+        -0.15878796577453613,
+        0.0011858207872137427
+      ],
+      "first_expert_action": [
+        1.0003031492233276,
+        0.8475109934806824,
+        1.7075529098510742,
+        0.035508185625076294,
+        1.3681503534317017,
+        0.026285478845238686,
+        0.0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_closed_loop_failure_taxonomy",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "simulation_bounds_m": {
+    "maximum_absolute_xy": 2.0,
+    "minimum_z": -1.0,
+    "maximum_z": 2.0
+  },
+  "planned_case_count": 20,
+  "valid_report_count": 20,
+  "success_count": 11,
+  "success_rate_over_valid_reports": 0.55,
+  "status_counts": {
+    "fail": 9,
+    "pass": 11
+  },
+  "failure_counts": {
+    "gripper_not_open": 9,
+    "post_release_drift": 2,
+    "simulation_out_of_bounds": 2,
+    "target_position_error": 4,
+    "target_xy_error": 4
+  },
+  "by_prompt": {
+    "grasp the block and set it on the target": {
+      "total": 4,
+      "passes": 1,
+      "success_rate": 0.25
+    },
+    "move the block onto the target": {
+      "total": 4,
+      "passes": 2,
+      "success_rate": 0.5
+    },
+    "pick the block and put it at the target": {
+      "total": 4,
+      "passes": 3,
+      "success_rate": 0.75
+    },
+    "pick up the block and place it on the target": {
+      "total": 4,
+      "passes": 3,
+      "success_rate": 0.75
+    },
+    "place the block on the target platform": {
+      "total": 4,
+      "passes": 2,
+      "success_rate": 0.5
+    }
+  },
+  "by_transfer_joint_1_rad": {
+    "0.65": {
+      "total": 5,
+      "passes": 3,
+      "success_rate": 0.6
+    },
+    "0.75": {
+      "total": 5,
+      "passes": 2,
+      "success_rate": 0.4
+    },
+    "0.85": {
+      "total": 5,
+      "passes": 2,
+      "success_rate": 0.4
+    },
+    "0.95": {
+      "total": 5,
+      "passes": 4,
+      "success_rate": 0.8
+    }
+  },
+  "cases": [
+    {
+      "case_id": "eval_000",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.19045056402683258,
+        "block_lift_height_m": 0.04632610082626343,
+        "final_target_position_error_m": 0.046436140527513076,
+        "post_release_drift_m": 0.00010722650040406734,
+        "final_gripper_normalized": 0.08485771155770803
+      }
+    },
+    {
+      "case_id": "eval_001",
+      "status": "fail",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.17335203289985657,
+        "block_lift_height_m": 0.04539865255355835,
+        "final_target_position_error_m": 0.03053834425345866,
+        "post_release_drift_m": 3.223614157832344e-07,
+        "final_gripper_normalized": 0.13761597906233947
+      }
+    },
+    {
+      "case_id": "eval_002",
+      "status": "fail",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.17357245087623596,
+        "block_lift_height_m": 0.059535443782806396,
+        "final_target_position_error_m": 0.03754591037497815,
+        "post_release_drift_m": 0.0,
+        "final_gripper_normalized": 0.12458497389203552
+      }
+    },
+    {
+      "case_id": "eval_003",
+      "status": "pass",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.18283319473266602,
+        "block_lift_height_m": 0.04964202642440796,
+        "final_target_position_error_m": 0.04767501366797667,
+        "post_release_drift_m": 3.539541648933664e-05,
+        "final_gripper_normalized": 0.08159821605406745
+      }
+    },
+    {
+      "case_id": "eval_004",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.18779639899730682,
+        "block_lift_height_m": 0.054245948791503906,
+        "final_target_position_error_m": 0.04916043900559931,
+        "post_release_drift_m": 7.639637624379247e-05,
+        "final_gripper_normalized": 0.08740689540874062
+      }
+    },
+    {
+      "case_id": "eval_005",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.18011486530303955,
+        "block_lift_height_m": 0.039338767528533936,
+        "final_target_position_error_m": 0.014465013998308698,
+        "post_release_drift_m": 1.9824705077553517e-07,
+        "final_gripper_normalized": 0.0735159468099561
+      }
+    },
+    {
+      "case_id": "eval_006",
+      "status": "fail",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1971464306116104,
+        "block_lift_height_m": 0.045659422874450684,
+        "final_target_position_error_m": 0.03187043169394697,
+        "post_release_drift_m": 3.332000986233652e-08,
+        "final_gripper_normalized": 0.12660716482669632
+      }
+    },
+    {
+      "case_id": "eval_007",
+      "status": "fail",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1887843906879425,
+        "block_lift_height_m": 0.032332003116607666,
+        "final_target_position_error_m": 0.03226975493983512,
+        "post_release_drift_m": 0.00012011526268906891,
+        "final_gripper_normalized": 0.19951888247032387
+      }
+    },
+    {
+      "case_id": "eval_008",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1690753847360611,
+        "block_lift_height_m": 0.04369151592254639,
+        "final_target_position_error_m": 0.01287366648211104,
+        "post_release_drift_m": 1.4600097131278744e-07,
+        "final_gripper_normalized": 0.08938794018905287
+      }
+    },
+    {
+      "case_id": "eval_009",
+      "status": "fail",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "failures": [
+        "target_xy_error",
+        "target_position_error",
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.22840063273906708,
+        "block_lift_height_m": 0.041970252990722656,
+        "final_target_position_error_m": 0.07319714563620924,
+        "post_release_drift_m": 0.0,
+        "final_gripper_normalized": 0.9598437761295737
+      }
+    },
+    {
+      "case_id": "eval_010",
+      "status": "fail",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.22703564167022705,
+        "block_lift_height_m": 0.0560416579246521,
+        "final_target_position_error_m": 0.04300315031213238,
+        "post_release_drift_m": 2.0171681569536304e-07,
+        "final_gripper_normalized": 0.15398319056957444
+      }
+    },
+    {
+      "case_id": "eval_011",
+      "status": "fail",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [
+        "target_xy_error",
+        "target_position_error",
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.2380037158727646,
+        "block_lift_height_m": 0.042894721031188965,
+        "final_target_position_error_m": 0.05657109194855384,
+        "post_release_drift_m": 3.441006981574901e-07,
+        "final_gripper_normalized": 0.14551621296502262
+      }
+    },
+    {
+      "case_id": "eval_012",
+      "status": "fail",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [
+        "simulation_out_of_bounds",
+        "target_xy_error",
+        "target_position_error",
+        "post_release_drift",
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 6.044888973236084,
+        "block_lift_height_m": 0.04274994134902954,
+        "final_target_position_error_m": 305.5226715144449,
+        "post_release_drift_m": 37.485355377197266,
+        "final_gripper_normalized": 0.9208579972989297
+      }
+    },
+    {
+      "case_id": "eval_013",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.2159070521593094,
+        "block_lift_height_m": 0.034654438495635986,
+        "final_target_position_error_m": 0.039514447396042165,
+        "post_release_drift_m": 1.4901161193847656e-08,
+        "final_gripper_normalized": 0.09327416302840834
+      }
+    },
+    {
+      "case_id": "eval_014",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1887165904045105,
+        "block_lift_height_m": 0.036920249462127686,
+        "final_target_position_error_m": 0.00702768624657005,
+        "post_release_drift_m": 4.1424875234952196e-05,
+        "final_gripper_normalized": 0.09262940787166529
+      }
+    },
+    {
+      "case_id": "eval_015",
+      "status": "pass",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.2457132339477539,
+        "block_lift_height_m": 0.033469974994659424,
+        "final_target_position_error_m": 0.04087267722403342,
+        "post_release_drift_m": 3.0719530030864917e-08,
+        "final_gripper_normalized": 0.09824860130431336
+      }
+    },
+    {
+      "case_id": "eval_016",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.23269560933113098,
+        "block_lift_height_m": 0.03987914323806763,
+        "final_target_position_error_m": 0.0263087381111048,
+        "post_release_drift_m": 7.450580596923828e-09,
+        "final_gripper_normalized": 0.08055175832241257
+      }
+    },
+    {
+      "case_id": "eval_017",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.21370290219783783,
+        "block_lift_height_m": 0.038957834243774414,
+        "final_target_position_error_m": 0.01804967614474997,
+        "post_release_drift_m": 0.0,
+        "final_gripper_normalized": 0.08837099192459459
+      }
+    },
+    {
+      "case_id": "eval_018",
+      "status": "fail",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "failures": [
+        "simulation_out_of_bounds",
+        "target_xy_error",
+        "target_position_error",
+        "post_release_drift",
+        "gripper_not_open"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 24.470075607299805,
+        "block_lift_height_m": 0.046910762786865234,
+        "final_target_position_error_m": 189.4094407248177,
+        "post_release_drift_m": 29.194683074951172,
+        "final_gripper_normalized": 0.9123419061561541
+      }
+    },
+    {
+      "case_id": "eval_019",
+      "status": "pass",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.23961926996707916,
+        "block_lift_height_m": 0.04578125476837158,
+        "final_target_position_error_m": 0.04260949164325589,
+        "post_release_drift_m": 0.0,
+        "final_gripper_normalized": 0.07741190277772143
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "config_name": "pi05_rm65_lora",
+  "repo_id": "local/rm65_sim_policy_train",
+  "exp_name": "rm65_policy_window_v2_lora_30k",
+  "batch_size": 1,
+  "num_train_steps": 30000,
+  "checkpoint_dir": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k",
+  "latest_checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999"
+}

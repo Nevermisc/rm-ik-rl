@@ -1,0 +1,340 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_closed_loop_comparison",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "baseline": {
+    "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_scripted_v1_lora_30k/29999",
+    "repo_id": null,
+    "episode_count": 20,
+    "success_count": 12,
+    "success_rate": 0.6
+  },
+  "candidate": {
+    "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+    "repo_id": "local/rm65_sim_policy_train",
+    "episode_count": 20,
+    "success_count": 11,
+    "success_rate": 0.55
+  },
+  "overall_from_case_reports": {
+    "case_count": 20,
+    "baseline_valid_count": 20,
+    "baseline_success_count": 12,
+    "baseline_success_rate": 0.6,
+    "candidate_valid_count": 20,
+    "candidate_success_count": 11,
+    "candidate_success_rate": 0.55,
+    "success_rate_delta": -0.04999999999999993
+  },
+  "transitions": {
+    "improved": 4,
+    "regressed": 5,
+    "stable_pass": 7,
+    "stable_fail": 4,
+    "missing_in_baseline": 0,
+    "missing_in_candidate": 0
+  },
+  "candidate_gate": {
+    "minimum_episode_count": 20,
+    "minimum_success_rate": 0.8,
+    "passed": false
+  },
+  "by_prompt": {
+    "grasp the block and set it on the target": {
+      "case_count": 4,
+      "baseline_valid_count": 4,
+      "baseline_success_count": 2,
+      "baseline_success_rate": 0.5,
+      "candidate_valid_count": 4,
+      "candidate_success_count": 1,
+      "candidate_success_rate": 0.25,
+      "success_rate_delta": -0.25
+    },
+    "move the block onto the target": {
+      "case_count": 4,
+      "baseline_valid_count": 4,
+      "baseline_success_count": 3,
+      "baseline_success_rate": 0.75,
+      "candidate_valid_count": 4,
+      "candidate_success_count": 2,
+      "candidate_success_rate": 0.5,
+      "success_rate_delta": -0.25
+    },
+    "pick the block and put it at the target": {
+      "case_count": 4,
+      "baseline_valid_count": 4,
+      "baseline_success_count": 2,
+      "baseline_success_rate": 0.5,
+      "candidate_valid_count": 4,
+      "candidate_success_count": 3,
+      "candidate_success_rate": 0.75,
+      "success_rate_delta": 0.25
+    },
+    "pick up the block and place it on the target": {
+      "case_count": 4,
+      "baseline_valid_count": 4,
+      "baseline_success_count": 4,
+      "baseline_success_rate": 1.0,
+      "candidate_valid_count": 4,
+      "candidate_success_count": 3,
+      "candidate_success_rate": 0.75,
+      "success_rate_delta": -0.25
+    },
+    "place the block on the target platform": {
+      "case_count": 4,
+      "baseline_valid_count": 4,
+      "baseline_success_count": 1,
+      "baseline_success_rate": 0.25,
+      "candidate_valid_count": 4,
+      "candidate_success_count": 2,
+      "candidate_success_rate": 0.5,
+      "success_rate_delta": 0.25
+    }
+  },
+  "by_transfer_joint_1_rad": {
+    "0.650000": {
+      "case_count": 5,
+      "baseline_valid_count": 5,
+      "baseline_success_count": 2,
+      "baseline_success_rate": 0.4,
+      "candidate_valid_count": 5,
+      "candidate_success_count": 3,
+      "candidate_success_rate": 0.6,
+      "success_rate_delta": 0.19999999999999996
+    },
+    "0.750000": {
+      "case_count": 5,
+      "baseline_valid_count": 5,
+      "baseline_success_count": 4,
+      "baseline_success_rate": 0.8,
+      "candidate_valid_count": 5,
+      "candidate_success_count": 2,
+      "candidate_success_rate": 0.4,
+      "success_rate_delta": -0.4
+    },
+    "0.850000": {
+      "case_count": 5,
+      "baseline_valid_count": 5,
+      "baseline_success_count": 3,
+      "baseline_success_rate": 0.6,
+      "candidate_valid_count": 5,
+      "candidate_success_count": 2,
+      "candidate_success_rate": 0.4,
+      "success_rate_delta": -0.19999999999999996
+    },
+    "0.950000": {
+      "case_count": 5,
+      "baseline_valid_count": 5,
+      "baseline_success_count": 3,
+      "baseline_success_rate": 0.6,
+      "candidate_valid_count": 5,
+      "candidate_success_count": 4,
+      "candidate_success_rate": 0.8,
+      "success_rate_delta": 0.20000000000000007
+    }
+  },
+  "cases": [
+    {
+      "case_id": "eval_000",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_001",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "fail",
+      "transition": "stable_fail"
+    },
+    {
+      "case_id": "eval_002",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "fail",
+      "transition": "stable_fail"
+    },
+    {
+      "case_id": "eval_003",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "pass",
+      "transition": "improved"
+    },
+    {
+      "case_id": "eval_004",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_005",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_006",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "fail",
+      "transition": "regressed"
+    },
+    {
+      "case_id": "eval_007",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "fail",
+      "transition": "regressed"
+    },
+    {
+      "case_id": "eval_008",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "pass",
+      "transition": "improved"
+    },
+    {
+      "case_id": "eval_009",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "baseline_status": "pass",
+      "candidate_status": "fail",
+      "transition": "regressed"
+    },
+    {
+      "case_id": "eval_010",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "fail",
+      "transition": "stable_fail"
+    },
+    {
+      "case_id": "eval_011",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "fail",
+      "transition": "stable_fail"
+    },
+    {
+      "case_id": "eval_012",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "fail",
+      "transition": "regressed"
+    },
+    {
+      "case_id": "eval_013",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_014",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_015",
+      "prompt": "place the block on the target platform",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "pass",
+      "transition": "improved"
+    },
+    {
+      "case_id": "eval_016",
+      "prompt": "pick the block and put it at the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "fail",
+      "candidate_status": "pass",
+      "transition": "improved"
+    },
+    {
+      "case_id": "eval_017",
+      "prompt": "pick up the block and place it on the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": -0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    },
+    {
+      "case_id": "eval_018",
+      "prompt": "move the block onto the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "baseline_status": "pass",
+      "candidate_status": "fail",
+      "transition": "regressed"
+    },
+    {
+      "case_id": "eval_019",
+      "prompt": "grasp the block and set it on the target",
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "baseline_status": "pass",
+      "candidate_status": "pass",
+      "transition": "stable_pass"
+    }
+  ],
+  "interpretation": "This report compares pi0.5 execution in IsaacLab only. Its pass status means the comparison was computed; candidate_gate.passed is the closed-loop acceptance result."
+}
