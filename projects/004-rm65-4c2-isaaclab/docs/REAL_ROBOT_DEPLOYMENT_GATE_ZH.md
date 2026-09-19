@@ -32,6 +32,41 @@ rm_ros_interfaces/msg/Jointpos
 
 其中 `Gripperset.position` 的驱动定义是 1～1000，对应开口 0～70 mm。这个接口能否直接控制当前实物 4C2，尚未由模型文件证明。
 
+## 先做只读审计与反馈验证
+
+项目提供了两项不会发布控制命令的检查。第一项不启动 ROS2 驱动，只检查电脑当前准备情况：
+
+```bash
+cd ~/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab
+python3 scripts/audit_real_robot_readiness.py \
+  --output results/rm65_real_robot_readiness.json
+```
+
+没有接线、标定时它会以退出码 `2` 和 `status=blocked` 结束，这是安全门正常工作。报告同时固定写入 `read_only=true` 与 `real_robot_command_sent=false`。
+
+机械臂网线、电脑静态地址、控制器地址和急停都由现场人员确认后，才能在一个终端启动驱动：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/robot-learning/rm_moveit2_jazzy_ws/install/setup.bash
+ros2 launch rm_driver rm_65_driver.launch.py
+```
+
+另开终端运行只读反馈探针：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/robot-learning/rm_moveit2_jazzy_ws/install/setup.bash
+cd ~/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab
+python3 scripts/probe_rm65_joint_feedback.py \
+  --timeout-seconds 10 \
+  --minimum-samples 20 \
+  --minimum-rate-hz 20 \
+  --output results/rm65_joint_feedback_probe.json
+```
+
+探针只订阅 `/joint_states`，不会创建任何发布器。它检查关节名称严格为 `joint1` 到 `joint6`、位置为弧度有限值、没有超出 RM65 关节范围、到达时间单调且反馈频率至少 20 Hz。通过这一步仍然不等于允许运动，只满足真机门禁中的“只读反馈已验证”。
+
 ## 模型文件不能回答的内容
 
 用户提供的 4C2 包包含 URDF、STL 网格、关节范围和惯性参数。它说明仿真几何中主关节范围是 `0～0.865 rad`，不能说明实物通过什么总线、寄存器或 ROS2 话题控制，也不能证明 1～1000 与实际开口宽度之间是线性关系。
@@ -98,7 +133,7 @@ expert=null
 ROS2 相机 + 关节反馈 + 夹爪反馈
   → 观测时间戳与完整性检查
   → π0.5 WebSocket 推理
-  → 关节限位 / 单步 0.05 rad 上限 / 夹爪限幅
+  → 关节限位 / 初次真机单步 0.01 rad 上限 / 夹爪限幅
   → 更严格的真机速度、加速度和工作空间检查
   → 20 Hz 关节跟随命令
   → watchdog：超时、丢帧、反馈异常立即 move_stop
