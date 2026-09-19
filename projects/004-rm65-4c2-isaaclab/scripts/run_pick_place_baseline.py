@@ -777,6 +777,16 @@ def run_pi05_closed_loop(
         "action_chunks": action_chunks,
         "executed_actions": executed_actions,
         "policy_action_horizon": int(len(raw_actions)) if action_chunks else None,
+        "controller_config": {
+            "policy_max_action_chunks": args.policy_max_action_chunks,
+            "policy_execute_actions_per_chunk": args.policy_execute_actions_per_chunk,
+            "record_stride_steps": args.record_stride_steps,
+            "physics_dt_s": sim.get_physics_dt(),
+            "executed_action_hold_seconds": (
+                args.record_stride_steps * sim.get_physics_dt()
+            ),
+            "success_candidate_required_consecutive_chunks": 3,
+        },
         "inference_latency_s": {
             "first": inference_latencies[0] if inference_latencies else None,
             "mean": float(np.mean(inference_latencies)) if inference_latencies else None,
