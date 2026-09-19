@@ -50,7 +50,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --target-collision-enable-stage after_transfer \
   --place-descent \
   --place-descent-distance-m 0.13 \
-  --place-waypoint-steps 60 \
+  --place-waypoint-steps 120 \
   --unassisted-release \
   --headless \
   --enable_cameras
