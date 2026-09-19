@@ -1,0 +1,29 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_v1",
+  "description": "Twenty novel-angle RM65 pick-place conditions for the pi0.5 simulation gate.",
+  "cases": [
+    {"case_id": "eval_000", "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_001", "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_002", "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_003", "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_004", "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick the block and put it at the target"},
+
+    {"case_id": "eval_005", "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_006", "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_007", "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_008", "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_009", "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick up the block and place it on the target"},
+
+    {"case_id": "eval_010", "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_011", "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_012", "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_013", "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_014", "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "move the block onto the target"},
+
+    {"case_id": "eval_015", "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_016", "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_017", "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_018", "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_019", "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "grasp the block and set it on the target"}
+  ]
+}

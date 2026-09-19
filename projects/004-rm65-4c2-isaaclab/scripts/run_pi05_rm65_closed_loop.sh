@@ -12,6 +12,7 @@ source_offset_x="${4:-0.0}"
 source_offset_y="${5:-0.0}"
 episode_prompt="${6:-pick up the block and place it on the target}"
 policy_port="${POLICY_PORT:-8000}"
+policy_server_mode="${POLICY_SERVER_MODE:-managed}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 cd "$project_root"
@@ -21,41 +22,49 @@ if ! command -v ss >/dev/null 2>&1; then
   echo "ERROR: ss is required to check the policy port" >&2
   exit 2
 fi
-if ss -ltn "sport = :$policy_port" | grep -q LISTEN; then
-  echo "ERROR: policy port $policy_port is already in use" >&2
-  exit 2
-fi
-
 export PYTHONPATH="$project_root:$openpi_root/packages/openpi-client/src${PYTHONPATH:+:$PYTHONPATH}"
 # Reserve half of the 16 GB GPU for Isaac Sim. This is the same split that
 # passed the earlier Franka + pi0.5 closed-loop evaluation on this workstation.
 export XLA_PYTHON_CLIENT_MEM_FRACTION="${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.50}"
 
-"$openpi_root/.venv/bin/python" -u scripts/serve_rm65_policy.py \
-  --checkpoint "$checkpoint" \
-  --port "$policy_port" \
-  >"$server_log" 2>&1 &
-server_pid=$!
-cleanup() {
-  kill "$server_pid" 2>/dev/null || true
-  wait "$server_pid" 2>/dev/null || true
-}
-trap cleanup EXIT INT TERM
-
-for _ in $(seq 1 180); do
-  if ! kill -0 "$server_pid" 2>/dev/null; then
-    echo "ERROR: policy server stopped during startup" >&2
-    tail -n 80 "$server_log" >&2
-    exit 1
-  fi
+if [[ "$policy_server_mode" == "managed" ]]; then
   if ss -ltn "sport = :$policy_port" | grep -q LISTEN; then
-    break
+    echo "ERROR: policy port $policy_port is already in use" >&2
+    exit 2
   fi
-  sleep 1
-done
+  "$openpi_root/.venv/bin/python" -u scripts/serve_rm65_policy.py \
+    --checkpoint "$checkpoint" \
+    --port "$policy_port" \
+    >"$server_log" 2>&1 &
+  server_pid=$!
+  cleanup() {
+    kill "$server_pid" 2>/dev/null || true
+    wait "$server_pid" 2>/dev/null || true
+  }
+  trap cleanup EXIT INT TERM
+  for _ in $(seq 1 180); do
+    if ! kill -0 "$server_pid" 2>/dev/null; then
+      echo "ERROR: policy server stopped during startup" >&2
+      tail -n 80 "$server_log" >&2
+      exit 1
+    fi
+    if ss -ltn "sport = :$policy_port" | grep -q LISTEN; then
+      break
+    fi
+    sleep 1
+  done
+elif [[ "$policy_server_mode" != "external" ]]; then
+  echo "ERROR: POLICY_SERVER_MODE must be managed or external" >&2
+  exit 2
+fi
+
 if ! ss -ltn "sport = :$policy_port" | grep -q LISTEN; then
-  echo "ERROR: policy server did not listen within 180 seconds" >&2
-  tail -n 80 "$server_log" >&2
+  if [[ "$policy_server_mode" == "managed" ]]; then
+    echo "ERROR: policy server did not listen within 180 seconds" >&2
+    tail -n 80 "$server_log" >&2
+  else
+    echo "ERROR: no external policy server is listening on port $policy_port" >&2
+  fi
   exit 1
 fi
 
