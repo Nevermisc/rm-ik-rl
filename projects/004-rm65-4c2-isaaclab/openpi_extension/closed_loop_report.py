@@ -22,6 +22,20 @@ def validate_closed_loop_task_report(
     position_error = _number(report.get("final_target_position_error_m"))
     drift = _number(report.get("post_release_drift_m"))
     final_gripper = _number(report.get("final_gripper_normalized"))
+    postcondition = report.get("low_level_release_postcondition", {})
+    postcondition_applied = postcondition.get("applied")
+    postcondition_valid = isinstance(postcondition_applied, bool)
+    if postcondition_applied is True:
+        arm_target = postcondition.get("arm_target_latched_to_actual_rad")
+        postcondition_valid = bool(
+            postcondition.get("model_selected_release") is True
+            and postcondition.get("gripper_target_normalized") == 0.0
+            and isinstance(arm_target, list)
+            and len(arm_target) == 6
+            and all(_number(value) is not None for value in arm_target)
+            and isinstance(postcondition.get("verification_settle_steps"), int)
+            and postcondition["verification_settle_steps"] >= 240
+        )
     checks = {
         "status_pass": report.get("status") == "pass",
         "simulation_only": report.get("simulation_only") is True,
@@ -42,6 +56,7 @@ def validate_closed_loop_task_report(
         "episode_validation": report.get("episode", {}).get("validation", {}).get("status")
         == "pass",
         "evaluation_only": report.get("episode", {}).get("evaluation_only") is True,
+        "release_postcondition_transparent": postcondition_valid,
     }
     failed = [name for name, passed in checks.items() if not passed]
     return {

@@ -33,6 +33,13 @@ def main() -> int:
         "final_gripper_normalized": 0.0,
         "all_states_finite": True,
         "episode": {"validation": {"status": "pass"}, "evaluation_only": True},
+        "low_level_release_postcondition": {
+            "applied": True,
+            "arm_target_latched_to_actual_rad": [0.0] * 6,
+            "gripper_target_normalized": 0.0,
+            "verification_settle_steps": 240,
+            "model_selected_release": True,
+        },
     }
     assert validate_closed_loop_task_report(
         report, expected_checkpoint_id=checkpoint_id

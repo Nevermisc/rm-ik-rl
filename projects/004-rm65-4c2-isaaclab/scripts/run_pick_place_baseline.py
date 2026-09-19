@@ -609,6 +609,9 @@ def run_pi05_closed_loop(
     executed_actions = 0
     max_cube_z = float(cube.data.root_pos_w[0, 2].item())
     consecutive_candidate_chunks = 0
+    last_executed_gripper_target = None
+    release_postcondition_applied = False
+    release_postcondition_arm_target = None
     try:
         for chunk_index in range(args.policy_max_action_chunks):
             external_rgb, wrist_rgb = episode_capture._render_images(robot, cube)
@@ -640,6 +643,7 @@ def run_pi05_closed_loop(
                 )
                 gripper_target_rad = float(action[6]) * 0.865
                 state[:, gripper_ids] = gripper_target_rad
+                last_executed_gripper_target = float(action[6])
                 for _ in range(args.record_stride_steps):
                     robot.set_joint_position_target(state)
                     episode_capture.before_step(
@@ -663,8 +667,12 @@ def run_pi05_closed_loop(
             gripper_open = normalize_gripper(
                 float(robot.data.joint_pos[0, gripper_master_id].item())
             ) < 0.12
+            gripper_command_open = (
+                last_executed_gripper_target is not None
+                and last_executed_gripper_target < 0.12
+            )
             lifted = max_cube_z - float(settled_source_position[2].item()) > 0.02
-            if lifted and target_error < 0.05 and gripper_open:
+            if lifted and target_error < 0.05 and gripper_open and gripper_command_open:
                 consecutive_candidate_chunks += 1
             else:
                 consecutive_candidate_chunks = 0
@@ -677,6 +685,8 @@ def run_pi05_closed_loop(
                         "target_error_m": target_error,
                         "lifted": lifted,
                         "gripper_open": gripper_open,
+                        "gripper_command_open": gripper_command_open,
+                        "last_executed_gripper_target": last_executed_gripper_target,
                         "guard": guard,
                     }
                 ),
@@ -684,6 +694,13 @@ def run_pi05_closed_loop(
             )
             if consecutive_candidate_chunks >= 3:
                 print("PI05_STAGE=SUCCESS_CANDIDATE", flush=True)
+                release_postcondition_arm_target = (
+                    robot.data.joint_pos[0, arm_ids].detach().cpu().tolist()
+                )
+                state[:, arm_ids] = robot.data.joint_pos[:, arm_ids].detach()
+                state[:, gripper_ids] = 0.0
+                release_postcondition_applied = True
+                print("PI05_STAGE=RELEASE_POSTCONDITION_LATCHED", flush=True)
                 break
     finally:
         client._ws.close()
@@ -745,6 +762,17 @@ def run_pi05_closed_loop(
             "joint_limit_clamp_count": total_joint_limit_clamps,
             "joint_step_clamp_count": total_joint_step_clamps,
             "gripper_clamp_count": total_gripper_clamps,
+        },
+        "low_level_release_postcondition": {
+            "applied": release_postcondition_applied,
+            "trigger": (
+                "three consecutive chunks with lift, target error below 0.05 m, "
+                "actual gripper below 0.12, and executed gripper target below 0.12"
+            ),
+            "arm_target_latched_to_actual_rad": release_postcondition_arm_target,
+            "gripper_target_normalized": 0.0 if release_postcondition_applied else None,
+            "verification_settle_steps": 240,
+            "model_selected_release": release_postcondition_applied,
         },
         "source_position_m": source_np.tolist(),
         "target_position_m": target_block_position.tolist(),
