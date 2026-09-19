@@ -5,14 +5,39 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from collections import Counter
 from pathlib import Path
+
+
+SIMULATION_BOUNDS_M = {
+    "maximum_absolute_xy": 2.0,
+    "minimum_z": -1.0,
+    "maximum_z": 2.0,
+}
+
+
+def simulation_out_of_bounds(report: dict) -> bool:
+    position = report.get("final_position_m")
+    if not isinstance(position, list) or len(position) != 3:
+        return False
+    if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in position):
+        return False
+    x, y, z = (float(value) for value in position)
+    return bool(
+        abs(x) > SIMULATION_BOUNDS_M["maximum_absolute_xy"]
+        or abs(y) > SIMULATION_BOUNDS_M["maximum_absolute_xy"]
+        or z < SIMULATION_BOUNDS_M["minimum_z"]
+        or z > SIMULATION_BOUNDS_M["maximum_z"]
+    )
 
 
 def failed_criteria(report: dict) -> list[str]:
     failures: list[str] = []
     if not report.get("all_states_finite", False):
         failures.append("nonfinite_state")
+    if simulation_out_of_bounds(report):
+        failures.append("simulation_out_of_bounds")
     if report.get("source_to_target_xy_distance_m", 0.0) <= 0.12:
         failures.append("insufficient_displacement")
     if report.get("block_lift_height_m", 0.0) <= 0.02:
@@ -101,6 +126,9 @@ def main() -> int:
     result = {
         "status": "pass" if valid_count == len(cases) else "fail",
         "analysis_kind": "rm65_pi05_closed_loop_failure_taxonomy",
+        "simulation_only": True,
+        "real_robot_command_sent": False,
+        "simulation_bounds_m": SIMULATION_BOUNDS_M,
         "planned_case_count": len(cases),
         "valid_report_count": valid_count,
         "success_count": pass_count,

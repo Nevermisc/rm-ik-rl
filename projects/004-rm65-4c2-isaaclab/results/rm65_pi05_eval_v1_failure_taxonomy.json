@@ -1,6 +1,13 @@
 {
   "status": "pass",
   "analysis_kind": "rm65_pi05_closed_loop_failure_taxonomy",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "simulation_bounds_m": {
+    "maximum_absolute_xy": 2.0,
+    "minimum_z": -1.0,
+    "maximum_z": 2.0
+  },
   "planned_case_count": 20,
   "valid_report_count": 20,
   "success_count": 12,
@@ -14,6 +21,7 @@
     "insufficient_displacement": 4,
     "insufficient_lift": 2,
     "post_release_drift": 1,
+    "simulation_out_of_bounds": 1,
     "target_position_error": 5,
     "target_xy_error": 4
   },
@@ -247,6 +255,7 @@
       "source_offset_x_m": -0.0075,
       "source_offset_y_m": -0.0075,
       "failures": [
+        "simulation_out_of_bounds",
         "target_xy_error",
         "target_position_error",
         "post_release_drift",
