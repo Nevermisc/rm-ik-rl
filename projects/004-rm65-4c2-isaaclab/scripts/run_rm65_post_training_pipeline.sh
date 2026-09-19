@@ -100,6 +100,7 @@ python3 scripts/validate_rm65_evaluation_plan.py \
 current_stage="first_closed_loop"
 echo "stage=$current_stage timeout_seconds=$first_case_timeout_seconds" | tee "$sentinel"
 set +e
+trap - ERR
 timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \
   env RM65_REPO_ID="$repo_id" bash scripts/run_pi05_rm65_closed_loop.sh \
   "$checkpoint" \
@@ -107,12 +108,14 @@ timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \
   0.65 -0.0075 -0.0075 \
   "pick up the block and place it on the target"
 first_case_exit_code=$?
+trap on_error ERR
 set -e
 echo "stage=$current_stage exit_code=$first_case_exit_code continuing_to_full_suite" | tee "$sentinel"
 
 current_stage="twenty_case_closed_loop_suite"
 echo "stage=$current_stage" | tee "$sentinel"
 set +e
+trap - ERR
 python3 scripts/run_pi05_rm65_closed_loop_suite.py \
   --checkpoint "$checkpoint" \
   --repo-id "$repo_id" \
@@ -120,6 +123,7 @@ python3 scripts/run_pi05_rm65_closed_loop_suite.py \
   --output-root "$evaluation_root" \
   --summary "$evaluation_summary"
 suite_exit_code=$?
+trap on_error ERR
 set -e
 python3 scripts/analyze_rm65_closed_loop_failures.py \
   --plan config/rm65_pi05_evaluation_plan_v1.json \
