@@ -113,4 +113,8 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --headless \
   --enable_cameras
 
+python3 scripts/check_closed_loop_task_report.py \
+  "$episode_dir/task_report.json" \
+  --checkpoint-id "$checkpoint_id"
+
 echo "RM65_PI05_EVALUATION_EPISODE=$episode_dir"

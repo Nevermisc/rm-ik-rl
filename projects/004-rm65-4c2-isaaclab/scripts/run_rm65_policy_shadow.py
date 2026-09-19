@@ -30,6 +30,7 @@ from openpi_extension.shadow_runtime import (  # noqa: E402
     build_shadow_observation,
     decode_ros_rgb_image,
 )
+from openpi_extension.websocket_compat import call_connect_without_keepalive  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -79,8 +80,9 @@ def main() -> int:
     original_connect = ws.connect
 
     def connect_without_keepalive(*connect_args, **connect_kwargs):
-        connect_kwargs["ping_interval"] = None
-        return original_connect(*connect_args, **connect_kwargs)
+        return call_connect_without_keepalive(
+            original_connect, *connect_args, **connect_kwargs
+        )
 
     ws.connect = connect_without_keepalive
     from openpi_client.websocket_client_policy import WebsocketClientPolicy

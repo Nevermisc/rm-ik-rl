@@ -584,11 +584,14 @@ def run_pi05_closed_loop(
     import time
     import websockets.sync.client as ws
 
+    from openpi_extension.websocket_compat import call_connect_without_keepalive
+
     original_connect = ws.connect
 
     def connect_without_keepalive(*connect_args, **connect_kwargs):
-        connect_kwargs["ping_interval"] = None
-        return original_connect(*connect_args, **connect_kwargs)
+        return call_connect_without_keepalive(
+            original_connect, *connect_args, **connect_kwargs
+        )
 
     ws.connect = connect_without_keepalive
     from openpi_client.websocket_client_policy import WebsocketClientPolicy
