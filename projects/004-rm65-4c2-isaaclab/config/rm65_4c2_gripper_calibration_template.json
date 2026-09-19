@@ -1,0 +1,12 @@
+{
+  "format": "rm65_4c2_gripper_calibration_v1",
+  "verified": false,
+  "command_open": null,
+  "command_closed": null,
+  "measured_open_width_mm": null,
+  "measured_closed_width_mm": null,
+  "controller_or_interface": "",
+  "measured_by": "",
+  "measured_at": "",
+  "notes": "Do not set verified=true until the physical 4C2 has been tested at low speed under human supervision."
+}
