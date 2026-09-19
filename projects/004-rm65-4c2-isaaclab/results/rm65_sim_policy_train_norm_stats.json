@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "repo_id": "local/rm65_sim_policy_train",
+  "dataset_frames": 9862,
+  "processed_frames": 9856,
+  "batch_size": 16,
+  "output_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/assets/pi05_rm65_lora/local/rm65_sim_policy_train/norm_stats.json",
+  "sha256": "5e8098ec12c2d672d7546ca4bdf090b78157ed91873bd583ed0c9aa8cdc6839d",
+  "keys": [
+    "actions",
+    "state"
+  ]
+}
