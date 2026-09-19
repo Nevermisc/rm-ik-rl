@@ -1,0 +1,108 @@
+{
+  "format": "rm65_real_robot_readiness_audit_v1",
+  "timestamp_utc": "2026-09-19T07:49:24.820497+00:00",
+  "status": "blocked",
+  "read_only": true,
+  "real_robot_command_sent": false,
+  "checks": {
+    "driver_config_exists": true,
+    "driver_arm_type_rm65": true,
+    "driver_six_dof": true,
+    "joint_order_exact": true,
+    "ros2_rm_driver_installed": true,
+    "wired_interface_exists": true,
+    "wired_interface_up": true,
+    "wired_ipv4_configured": false,
+    "wired_ipv4_matches_udp_subnet": false,
+    "controller_ping_reachable": false,
+    "realsense_usb_detected": false,
+    "video_devices_present": false,
+    "gripper_calibration_verified": false,
+    "external_camera_calibrated": false,
+    "wrist_camera_calibrated": false,
+    "physical_emergency_stop_verified": false,
+    "human_supervisor_ready": false
+  },
+  "blockers": [
+    "wired_ipv4_configured",
+    "wired_ipv4_matches_udp_subnet",
+    "controller_ping_reachable",
+    "realsense_usb_detected",
+    "video_devices_present",
+    "gripper_calibration_verified",
+    "external_camera_calibrated",
+    "wrist_camera_calibrated",
+    "physical_emergency_stop_verified",
+    "human_supervisor_ready"
+  ],
+  "driver": {
+    "config": "/home/chengyu/robot-learning/third_party/ros2_rm_robot_jazzy/rm_driver/config/rm_65_config.yaml",
+    "arm_ip": "192.168.1.19",
+    "udp_ip": "192.168.1.10",
+    "arm_joints": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "ros2_prefix": "/home/chengyu/robot-learning/rm_moveit2_jazzy_ws/install/rm_driver"
+  },
+  "network": {
+    "interface": "enp4s0",
+    "flags": [
+      "BROADCAST",
+      "MULTICAST",
+      "UP",
+      "LOWER_UP"
+    ],
+    "ipv4_addresses": [],
+    "expected_subnet": "192.168.1.0/24",
+    "ping": null
+  },
+  "vision": {
+    "video_devices": [],
+    "lsusb": {
+      "command": [
+        "lsusb"
+      ],
+      "returncode": 0,
+      "stdout": "Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub\nBus 001 Device 002: ID 046d:c077 Logitech, Inc. Mouse\nBus 001 Device 003: ID 413c:2113 Dell Computer Corp. KB216 Wired Keyboard\nBus 001 Device 004: ID 05e3:0608 Genesys Logic, Inc. Hub\nBus 001 Device 005: ID 05e3:0608 Genesys Logic, Inc. Hub\nBus 001 Device 006: ID 048d:5702 Integrated Technology Express, Inc. RGB LED Controller\nBus 001 Device 007: ID 8087:0033 Intel Corp. AX211 Bluetooth\nBus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub",
+      "stderr": ""
+    },
+    "note": "Two calibrated RGB streams are required by the current policy contract."
+  },
+  "gripper": {
+    "calibration_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/config/rm65_4c2_gripper_calibration_template.json",
+    "validation": {
+      "status": "blocked",
+      "mapping_allowed": false,
+      "checks": {
+        "format": true,
+        "verified": false,
+        "command_open_in_range": false,
+        "command_closed_in_range": false,
+        "commands_distinct": false,
+        "open_width_positive": false,
+        "closed_width_nonnegative": false,
+        "open_wider_than_closed": false
+      },
+      "failed_checks": [
+        "verified",
+        "command_open_in_range",
+        "command_closed_in_range",
+        "commands_distinct",
+        "open_width_positive",
+        "closed_width_nonnegative",
+        "open_wider_than_closed"
+      ]
+    }
+  },
+  "manual_checks": {
+    "external_camera_calibrated": "Must be measured on the physical installation.",
+    "wrist_camera_calibrated": "Must be measured on the physical installation.",
+    "physical_emergency_stop_verified": "Must be demonstrated before motion.",
+    "human_supervisor_ready": "Must be confirmed immediately before first motion."
+  }
+}
