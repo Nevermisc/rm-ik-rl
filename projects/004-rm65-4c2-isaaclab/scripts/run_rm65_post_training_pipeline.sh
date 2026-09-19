@@ -135,6 +135,7 @@ if [[ -f "$baseline_summary" ]]; then
     --output "$comparison_report"
 fi
 if [[ "$suite_exit_code" -ne 0 ]]; then
+  current_stage="twenty_case_closed_loop_suite"
   trap - ERR
   echo "failed: stage=$current_stage exit_code=$suite_exit_code" | tee "$sentinel"
   exit "$suite_exit_code"
