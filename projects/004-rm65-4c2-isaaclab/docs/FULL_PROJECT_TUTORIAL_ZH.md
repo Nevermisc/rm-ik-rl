@@ -281,6 +281,21 @@ batch size             1
 
 v1 的正式报告是 `results/rm65_pi05_eval_v1_summary.json`：20 条有效 episode，12 条成功，成功率 `60%`，状态为 `fail`。失败分类位于 `results/rm65_pi05_eval_v1_failure_taxonomy.json`。它证明 π0.5 已经能在部分留出条件中闭环完成 RM65-B + 4C2 抓放，也证明当前 checkpoint 还不能进入真机动作阶段。
 
+### 10.4 为什么要做 policy-window v2
+
+v1 的完整轨迹保留了大量静止等待帧。统计显示，训练起点中只有 `31.58%` 的 10 步 horizon 含有明显运动；模型很容易学到“继续保持当前姿态”这个低损失答案。v2 没有修改任务成功定义，而是改变训练视图：保留 APPROACH、CLOSE、LIFT、TRANSFER、PLACE_DESCENT 和 OPEN，缩短纯等待段，并保留释放后的前 15 帧。筛选后的 90/90 个 episode horizon 都含有运动。
+
+`results/rm65_policy_window_transitions.json` 还检查了被筛选帧之间的动作连续性。筛选本身引入的超阈值关节跳变为 0；原始轨迹中已有的快速变化会如实保留。训练集与验证集分别使用：
+
+```text
+local/rm65_sim_policy_train
+local/rm65_sim_policy_validation
+```
+
+这两个 repo id 不是标签而已。OpenPI 会按 repo id 查找归一化统计，所以训练、单帧推理、离线验证、WebSocket 策略服务器和 20 条闭环套件必须传递同一个训练 repo id。若策略服务器静默退回 v1 的 `local/rm65_sim_train`，模型仍能运行，却会用错反归一化参数，得到失真的动作。流水线现在显式传递 repo id，并把它写进策略服务元数据和最终评测汇总。
+
+v2 结束后，`scripts/compare_rm65_closed_loop_runs.py` 会逐 case 对比 v1 和 v2，分别标记 `improved`、`regressed`、`stable_pass` 和 `stable_fail`，并按 prompt 与转移角度汇总。比较报告自身的 `status=pass` 只说明分析完成；是否达到闭环门槛要看 `candidate_gate.passed`。
+
 ## 11. 策略清单和 fail-closed 安全门
 
 `build_rm65_policy_artifact.py` 对整个 checkpoint 目录做确定性树哈希，对 norm stats 做文件哈希，并把训练、仿真评测和硬件准备证据写入 manifest。

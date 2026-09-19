@@ -100,6 +100,10 @@ rg -n "pi05_closed_loop|run_pi05|phase|task_report|return 0 if passed" scripts/r
 
 它只用训练集计算归一化统计。验证集不能参与，否则会产生数据泄漏。统计文件必须放在与 repo id 对应的 OpenPI assets 路径，训练和推理必须使用同一份统计。
 
+### policy-window 训练视图
+
+v1 完整轨迹的大多数 10 步窗口是静止等待。`select_policy_window_indices()` 保留有控制意义的阶段、少量阶段边界和释放初期，把相同原始 episode 变成更密集的策略学习序列。它不修改原始数据，也不把验证 episode 混入训练集。`results/rm65_policy_window_transitions.json` 独立证明过滤没有制造新的大关节跳变。
+
 ## 5. 模型层：告诉 OpenPI 什么是 RM65
 
 ### `openpi_extension/rm65_policy.py`
@@ -129,6 +133,8 @@ rg -n "pi05_closed_loop|run_pi05|phase|task_report|return 0 if passed" scripts/r
 
 它加载 RM65 专用训练配置、checkpoint 和 norm stats，启动 WebSocket 策略服务。服务元数据明确声明 robot、gripper、模型和动作语义。
 
+`repo_id` 必须从训练报告一路传到这个进程。OpenPI 用它定位 norm stats；repo id 错误通常不会让服务崩溃，却会让动作的归一化与反归一化尺度错误。`run_rm65_post_training_pipeline.sh`、单用例脚本和套件都显式传递它，最终 summary 也记录它，便于审计。
+
 ### `openpi_extension/action_guard.py`
 
 它对每个动作块执行 fail-closed 检查：
@@ -154,6 +160,10 @@ rg -n "pi05_closed_loop|run_pi05|phase|task_report|return 0 if passed" scripts/r
 ### `scripts/analyze_rm65_closed_loop_failures.py`
 
 它读取评测计划和每个 `task_report.json`，统计搬运距离、抬升、目标误差、释放漂移、夹爪张开和有限值失败，并按 prompt 与目标角度分组。训练迭代应根据这个报告改变数据或策略，不能只看总成功率猜原因。
+
+### `scripts/compare_rm65_closed_loop_runs.py`
+
+它把两个正式闭环 summary 按 case id 对齐，统计失败变成功、成功变失败、持续成功和持续失败，并按 prompt 与转移角度计算成功率变化。这样可以区分“总成功率碰巧升高”和“某一类条件稳定改善”。比较报告只讨论 IsaacLab，固定写入 `real_robot_command_sent=false`。
 
 `config/rm65_pi05_evaluation_plan_v1.json` 的角度与位置组合没有出现在训练示范中，但仍位于训练范围内，因此它证明留出插值鲁棒性，不证明任意场景泛化。
 
