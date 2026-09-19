@@ -144,6 +144,20 @@ parser.add_argument(
     action="store_true",
     help="Record synchronized external and wrist RGB; requires --record-episode-dir and --enable_cameras.",
 )
+parser.add_argument(
+    "--pi05-closed-loop",
+    action="store_true",
+    help="Use an RM65-specific pi0.5 WebSocket policy instead of the scripted expert.",
+)
+parser.add_argument("--policy-host", default="127.0.0.1")
+parser.add_argument("--policy-port", type=int, default=8000)
+parser.add_argument("--policy-max-action-chunks", type=int, default=80)
+parser.add_argument("--policy-execute-actions-per-chunk", type=int, default=5)
+parser.add_argument(
+    "--policy-checkpoint-id",
+    default="unknown",
+    help="Checkpoint identifier stored in the machine-readable evaluation report.",
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -165,6 +179,7 @@ from openpi_extension.expert_episode import (  # noqa: E402
     normalize_gripper,
     validate_episode,
 )
+from openpi_extension.action_guard import guard_action_chunk  # noqa: E402
 from grasp_geometry import compute_top_down_link_pose  # noqa: E402
 from isaaclab.sim import SimulationContext  # noqa: E402
 from isaaclab.utils import math as math_utils  # noqa: E402
@@ -549,6 +564,217 @@ def hold(
             contact_sensor.update(sim.get_physics_dt())
 
 
+def run_pi05_closed_loop(
+    sim: SimulationContext,
+    robot: Articulation,
+    cube: RigidObject,
+    state: torch.Tensor,
+    arm_ids: list[int],
+    gripper_ids: list[int],
+    gripper_master_id: int,
+    target_block_position: np.ndarray,
+    settled_source_position: torch.Tensor,
+    target_platform_collision_apis: list,
+    episode_capture: ExpertEpisodeCapture,
+    episode_recorder: EpisodeRecorder,
+    output: Path,
+) -> int:
+    """Run receding-horizon π0.5 control and write task-level evidence."""
+
+    import time
+    import websockets.sync.client as ws
+
+    original_connect = ws.connect
+
+    def connect_without_keepalive(*connect_args, **connect_kwargs):
+        connect_kwargs["ping_interval"] = None
+        return original_connect(*connect_args, **connect_kwargs)
+
+    ws.connect = connect_without_keepalive
+    from openpi_client.websocket_client_policy import WebsocketClientPolicy
+
+    for collision_api in target_platform_collision_apis:
+        collision_api.CreateCollisionEnabledAttr().Set(True)
+    print("PI05_STAGE=TARGET_PLATFORM_COLLISION_ENABLED", flush=True)
+
+    client = WebsocketClientPolicy(args.policy_host, args.policy_port)
+    inference_latencies = []
+    total_joint_limit_clamps = 0
+    total_joint_step_clamps = 0
+    total_gripper_clamps = 0
+    action_chunks = 0
+    executed_actions = 0
+    max_cube_z = float(cube.data.root_pos_w[0, 2].item())
+    consecutive_candidate_chunks = 0
+    try:
+        for chunk_index in range(args.policy_max_action_chunks):
+            external_rgb, wrist_rgb = episode_capture._render_images(robot, cube)
+            current_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy().astype(np.float32)
+            current_gripper = np.array(
+                [normalize_gripper(float(robot.data.joint_pos[0, gripper_master_id].item()))],
+                dtype=np.float32,
+            )
+            observation = {
+                "observation/joint_position": current_arm,
+                "observation/gripper_position": current_gripper,
+                "observation/external_image": external_rgb,
+                "observation/wrist_image": wrist_rgb,
+                "prompt": args.episode_prompt,
+            }
+            started = time.perf_counter()
+            raw_actions = np.asarray(client.infer(observation)["actions"], dtype=np.float32)
+            inference_latencies.append(time.perf_counter() - started)
+            safe_actions, guard = guard_action_chunk(raw_actions, current_arm)
+            total_joint_limit_clamps += guard["joint_limit_clamp_count"]
+            total_joint_step_clamps += guard["joint_step_clamp_count"]
+            total_gripper_clamps += guard["gripper_clamp_count"]
+            action_chunks += 1
+
+            execute_count = min(args.policy_execute_actions_per_chunk, len(safe_actions))
+            for action_index, action in enumerate(safe_actions[:execute_count]):
+                state[:, arm_ids] = torch.as_tensor(
+                    action[:6], device=sim.device, dtype=state.dtype
+                )
+                gripper_target_rad = float(action[6]) * 0.865
+                state[:, gripper_ids] = gripper_target_rad
+                for _ in range(args.record_stride_steps):
+                    robot.set_joint_position_target(state)
+                    episode_capture.before_step(
+                        robot,
+                        cube,
+                        state,
+                        f"PI05_CHUNK_{chunk_index:03d}_ACTION_{action_index:02d}",
+                    )
+                    robot.write_data_to_sim()
+                    cube.write_data_to_sim()
+                    sim.step(render=False)
+                    robot.update(sim.get_physics_dt())
+                    cube.update(sim.get_physics_dt())
+                    for contact_sensor in CONTACT_SENSORS.values():
+                        contact_sensor.update(sim.get_physics_dt())
+                    max_cube_z = max(max_cube_z, float(cube.data.root_pos_w[0, 2].item()))
+                executed_actions += 1
+
+            current_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
+            target_error = float(np.linalg.norm(current_cube - target_block_position))
+            gripper_open = normalize_gripper(
+                float(robot.data.joint_pos[0, gripper_master_id].item())
+            ) < 0.12
+            lifted = max_cube_z - float(settled_source_position[2].item()) > 0.02
+            if lifted and target_error < 0.05 and gripper_open:
+                consecutive_candidate_chunks += 1
+            else:
+                consecutive_candidate_chunks = 0
+            print(
+                "PI05_CHUNK="
+                + json.dumps(
+                    {
+                        "index": chunk_index,
+                        "latency_s": inference_latencies[-1],
+                        "target_error_m": target_error,
+                        "lifted": lifted,
+                        "gripper_open": gripper_open,
+                        "guard": guard,
+                    }
+                ),
+                flush=True,
+            )
+            if consecutive_candidate_chunks >= 3:
+                print("PI05_STAGE=SUCCESS_CANDIDATE", flush=True)
+                break
+    finally:
+        client._ws.close()
+
+    hold(sim, robot, cube, state, 120, "PI05_SETTLE_A", episode_capture)
+    settle_a = cube.data.root_pos_w[0].clone()
+    hold(sim, robot, cube, state, 120, "PI05_SETTLE_B", episode_capture)
+    final_position = cube.data.root_pos_w[0].clone()
+    source_np = settled_source_position.detach().cpu().numpy()
+    final_np = final_position.detach().cpu().numpy()
+    final_target_xy_error = float(np.linalg.norm(final_np[:2] - target_block_position[:2]))
+    final_target_position_error = float(np.linalg.norm(final_np - target_block_position))
+    source_to_target_distance = float(np.linalg.norm(final_np[:2] - source_np[:2]))
+    lift_height = max_cube_z - float(source_np[2])
+    post_release_drift = float(torch.linalg.vector_norm(final_position - settle_a).item())
+    final_gripper = normalize_gripper(
+        float(robot.data.joint_pos[0, gripper_master_id].item())
+    )
+    all_states_finite = bool(
+        torch.isfinite(robot.data.joint_pos).all()
+        and torch.isfinite(cube.data.root_state_w).all()
+    )
+    passed = bool(
+        action_chunks > 0
+        and source_to_target_distance > 0.12
+        and lift_height > 0.02
+        and final_target_xy_error < 0.05
+        and final_target_position_error < 0.05
+        and post_release_drift < 0.02
+        and final_gripper < 0.12
+        and all_states_finite
+    )
+
+    episode_recorder.metadata["task_success"] = passed
+    episode_recorder.metadata["pi05_used"] = True
+    episode_recorder.metadata["training_ready"] = False
+    episode_recorder.metadata["evaluation_only"] = True
+    manifest = episode_recorder.save()
+    validation = validate_episode(episode_recorder.output_dir, require_images=True)
+    if validation["status"] != "pass":
+        raise RuntimeError(f"pi0.5 evaluation episode failed validation: {validation}")
+    report = {
+        "status": "pass" if passed else "fail",
+        "simulation_only": True,
+        "pi05_used": True,
+        "expert": None,
+        "real_robot_command_sent": False,
+        "policy_checkpoint_id": args.policy_checkpoint_id,
+        "prompt": args.episode_prompt,
+        "action_chunks": action_chunks,
+        "executed_actions": executed_actions,
+        "policy_action_horizon": int(len(raw_actions)) if action_chunks else None,
+        "inference_latency_s": {
+            "first": inference_latencies[0] if inference_latencies else None,
+            "mean": float(np.mean(inference_latencies)) if inference_latencies else None,
+            "maximum": float(np.max(inference_latencies)) if inference_latencies else None,
+        },
+        "guard_totals": {
+            "joint_limit_clamp_count": total_joint_limit_clamps,
+            "joint_step_clamp_count": total_joint_step_clamps,
+            "gripper_clamp_count": total_gripper_clamps,
+        },
+        "source_position_m": source_np.tolist(),
+        "target_position_m": target_block_position.tolist(),
+        "final_position_m": final_np.tolist(),
+        "source_to_target_xy_distance_m": source_to_target_distance,
+        "block_lift_height_m": lift_height,
+        "final_target_xy_error_m": final_target_xy_error,
+        "final_target_position_error_m": final_target_position_error,
+        "post_release_drift_m": post_release_drift,
+        "final_gripper_normalized": final_gripper,
+        "all_states_finite": all_states_finite,
+        "criteria": {
+            "source_to_target_xy_distance_m_gt": 0.12,
+            "block_lift_height_m_gt": 0.02,
+            "final_target_xy_error_m_lt": 0.05,
+            "final_target_position_error_m_lt": 0.05,
+            "post_release_drift_m_lt": 0.02,
+            "final_gripper_normalized_lt": 0.12,
+        },
+        "episode": {
+            "directory": str(episode_recorder.output_dir),
+            "frame_count": manifest["frame_count"],
+            "validation": validation,
+            "evaluation_only": True,
+        },
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report, indent=2), flush=True)
+    print(f"RM65_PI05_CLOSED_LOOP={'PASS' if passed else 'FAIL'}", flush=True)
+    return 0 if passed else 1
+
+
 def contact_force_statistics(contact_sensor: ContactSensor, recent_steps: int = 60) -> dict[str, float]:
     """Return peak, current, and recent sustained cube-contact force magnitudes."""
 
@@ -646,6 +872,12 @@ def main() -> int:
         raise ValueError("--record-images requires --record-episode-dir")
     if args.record_images and not getattr(args, "enable_cameras", False):
         raise ValueError("--record-images requires the AppLauncher flag --enable_cameras")
+    if args.pi05_closed_loop and (not args.record_images or args.record_episode_dir is None):
+        raise ValueError("--pi05-closed-loop requires --record-images and --record-episode-dir")
+    if args.pi05_closed_loop and (args.diagnose_approach_only or args.diagnose_kinematics_only):
+        raise ValueError("--pi05-closed-loop cannot be combined with diagnostic-only modes")
+    if args.policy_max_action_chunks < 1 or args.policy_execute_actions_per_chunk < 1:
+        raise ValueError("policy chunk counts must be positive")
 
     requested_pregrasp_distance_m = args.pregrasp_distance_m
     effective_pregrasp_distance_m = requested_pregrasp_distance_m
@@ -1164,7 +1396,11 @@ def main() -> int:
             control_hz=1.0 / (sim.get_physics_dt() * args.record_stride_steps),
             metadata={
                 "simulation_only": True,
-                "expert": "scripted_rm65_pick_place",
+                "expert": None if args.pi05_closed_loop else "scripted_rm65_pick_place",
+                "pi05_used": args.pi05_closed_loop,
+                "policy_checkpoint_id": (
+                    args.policy_checkpoint_id if args.pi05_closed_loop else None
+                ),
                 "images_recorded": args.record_images,
                 "robot_base_position_m": robot_base_position.tolist(),
                 "source_block_position_m": source_block_position.tolist(),
@@ -1213,6 +1449,25 @@ def main() -> int:
     settled_source_position = cube.data.root_pos_w[0].clone()
     settled_source_quaternion = cube.data.root_quat_w[0].clone()
     print("PICK_PLACE_STAGE=SOURCE_SETTLED", flush=True)
+
+    if args.pi05_closed_loop:
+        assert episode_capture is not None
+        assert episode_recorder is not None
+        return run_pi05_closed_loop(
+            sim=sim,
+            robot=robot,
+            cube=cube,
+            state=state,
+            arm_ids=arm_ids,
+            gripper_ids=gripper_ids,
+            gripper_master_id=joint_names.index(GRIPPER_MASTER_JOINT),
+            target_block_position=target_block_position,
+            settled_source_position=settled_source_position,
+            target_platform_collision_apis=target_platform_collision_apis,
+            episode_capture=episode_capture,
+            episode_recorder=episode_recorder,
+            output=output,
+        )
 
     approach_waypoints = [] if args.initialize_at_grasp else list(reversed(retreat_waypoints[:-1])) + [grasp_arm]
     previous_waypoint = pregrasp_arm
