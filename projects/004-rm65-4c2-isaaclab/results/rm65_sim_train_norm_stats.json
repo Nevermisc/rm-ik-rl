@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "repo_id": "local/rm65_sim_train",
+  "dataset_frames": 16179,
+  "processed_frames": 16128,
+  "batch_size": 64,
+  "output_path": "/home/chengyu/robot-learning/openpi/assets/pi05_rm65_lora/local/rm65_sim_train/norm_stats.json",
+  "sha256": "a57c29ae16939321e15f44de1c38ac4b679680bd9b5a1e3af5746a64a6102fc3",
+  "keys": [
+    "actions",
+    "state"
+  ]
+}

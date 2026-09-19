@@ -1,0 +1,44 @@
+{
+  "status": "pass_after_configuration_change",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+    "vram_mib": 16622
+  },
+  "baseline_attempt": {
+    "exp_name": "smoke_2step",
+    "batch_size": 1,
+    "num_train_steps": 2,
+    "status": "fail",
+    "completed_train_steps": 0,
+    "failure": "jaxlib.xla_extension.XlaRuntimeError: RESOURCE_EXHAUSTED",
+    "failed_allocation_bytes": 5759249776,
+    "xla_rematerialized_graph_estimate_gib": 15.98,
+    "configuration": {
+      "vision_encoder_trainable": true,
+      "max_token_len": 200,
+      "camera_slots": 3
+    }
+  },
+  "low_memory_attempt": {
+    "exp_name": "smoke_lowmem_2step",
+    "batch_size": 1,
+    "num_train_steps": 2,
+    "status": "pass",
+    "completed_train_steps": 2,
+    "losses": [0.1524, 0.2036],
+    "gradient_norms": [1.1243, 0.7172],
+    "xla_train_state_estimate_gib": 6.82,
+    "xla_rematerialized_train_step_estimate_gib": 7.35,
+    "configuration": {
+      "vision_encoder_trainable": false,
+      "max_token_len": 64,
+      "camera_slots": 3,
+      "paligemma_lora_rank": 16,
+      "action_expert_lora_rank": 32
+    },
+    "latest_checkpoint": "outputs/openpi_checkpoints/pi05_rm65_lora/smoke_lowmem_2step/1"
+  },
+  "reasoning": "The RM65 prompts are short and the simulated dataset is small, so retaining the pretrained vision encoder and training the language/action LoRA adapters plus task projections is the appropriate transfer-learning configuration for a 16 GB GPU. The third camera remains a masked placeholder for checkpoint compatibility."
+}

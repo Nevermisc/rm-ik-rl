@@ -5,10 +5,12 @@ from __future__ import annotations
 import dataclasses
 import pathlib
 
+import flax.nnx as nnx
 from typing_extensions import override
 
 from openpi.models import model as _model
 from openpi.models import pi0_config
+from openpi.shared import nnx_utils
 from openpi.training import config as training_config
 from openpi.training import weight_loaders
 import openpi.transforms as transforms
@@ -71,9 +73,19 @@ def make_pi05_rm65_lora_config(
     model = pi0_config.Pi0Config(
         pi05=True,
         action_horizon=10,
+        # The RM65 task prompts are short. A 64-token ceiling retains ample
+        # margin while avoiding 136 unused language positions per sample.
+        max_token_len=64,
         discrete_state_input=False,
         paligemma_variant="gemma_2b_lora",
         action_expert_variant="gemma_300m_lora",
+    )
+    # The 16 GB lab GPU cannot train the SigLIP image tower together with both
+    # LoRA adapters. Keeping the pretrained visual encoder fixed is also the
+    # intended transfer-learning regime for this small simulated dataset.
+    freeze_filter = nnx.Any(
+        model.get_freeze_filter(),
+        nnx_utils.PathRegex(".*img.*"),
     )
     return training_config.TrainConfig(
         name="pi05_rm65_lora",
@@ -85,7 +97,7 @@ def make_pi05_rm65_lora_config(
         weight_loader=weight_loaders.CheckpointWeightLoader(
             "gs://openpi-assets/checkpoints/pi05_base/params"
         ),
-        freeze_filter=model.get_freeze_filter(),
+        freeze_filter=freeze_filter,
         ema_decay=None,
         batch_size=batch_size,
         num_workers=0,

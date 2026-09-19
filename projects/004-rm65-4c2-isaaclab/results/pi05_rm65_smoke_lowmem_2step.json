@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "config_name": "pi05_rm65_lora",
+  "repo_id": "local/rm65_sim_train",
+  "exp_name": "smoke_lowmem_2step",
+  "batch_size": 1,
+  "num_train_steps": 2,
+  "checkpoint_dir": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/smoke_lowmem_2step",
+  "latest_checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/smoke_lowmem_2step/1"
+}
