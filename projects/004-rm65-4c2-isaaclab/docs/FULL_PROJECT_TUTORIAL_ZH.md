@@ -292,7 +292,7 @@ UDP cycle: 5 ms
 
 通用 C++ 默认地址是 `192.168.1.18`，但当前 YAML 覆盖为 `.19`，最终要与示教器核对。
 
-实时关节接口 `rm_ros_interfaces/msg/Jointpos` 使用弧度，驱动内部再转换为控制器角度。`openpi_extension/real_robot_adapter.py` 会按 `joint1...joint6` 重排反馈，并把真机初期单步限制收紧为 `0.01 rad`。
+实时关节接口 `rm_ros_interfaces/msg/Jointpos` 使用弧度，驱动内部再转换为控制器角度。`openpi_extension/real_robot_adapter.py` 会按 `joint1...joint6` 重排反馈，把真机初期单步限制收紧为 `0.01 rad`，再把 20 Hz 策略目标插值成 50 Hz 驱动目标。这样 0.5 秒、10 个策略点会成为 25 个均匀控制点；测试轨迹的相邻驱动点最大约为 `0.004 rad`。这个函数没有 ROS 副作用，真正发送前仍必须核对最新反馈并运行 watchdog。
 
 RealMan gripper 消息把 1～1000 描述为 0～70 mm 开口，但还不知道当前 4C2 是否接入这个原生接口。`config/rm65_4c2_gripper_calibration_template.json` 默认 `verified=false`；没有实际开闭命令和宽度测量，代码拒绝做映射。
 

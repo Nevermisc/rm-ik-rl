@@ -135,9 +135,12 @@ ROS2 相机 + 关节反馈 + 夹爪反馈
   → π0.5 WebSocket 推理
   → 关节限位 / 初次真机单步 0.01 rad 上限 / 夹爪限幅
   → 更严格的真机速度、加速度和工作空间检查
-  → 20 Hz 关节跟随命令
+  → 把 20 Hz 策略目标线性插值为 50 Hz 驱动目标
+  → 50 Hz 关节跟随命令，并在每次发送前核对最新反馈
   → watchdog：超时、丢帧、反馈异常立即 move_stop
 ```
+
+`openpi_extension/real_robot_adapter.py` 中的 `interpolate_arm_targets()` 只处理已经通过限位的六轴目标，不会创建 ROS 发布器。以 10 个策略点为例，测试会把 0.5 秒轨迹转换为 25 个驱动点，并验证终点不变；对于策略层每步 `0.01 rad` 的测试轨迹，50 Hz 相邻点最大约为 `0.004 rad`。可运行 `python3 scripts/test_real_robot_adapter.py` 复查这项纯数学证据。真正的 ROS 桥仍必须加入新鲜反馈检查和 watchdog，不能因为插值测试通过就解锁真机。
 
 真机初次验证不会直接运行完整抓放。正确顺序是：
 

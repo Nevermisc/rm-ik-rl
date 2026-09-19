@@ -17,6 +17,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from openpi_extension.real_robot_adapter import (
     extract_ordered_joint_positions,
     guard_real_robot_action_chunk,
+    interpolate_arm_targets,
     normalized_gripper_to_driver_position,
     validate_gripper_calibration,
 )
@@ -60,6 +61,31 @@ def main() -> int:
     assert guard["joint_step_clamp_count"] == 6
     assert guard["gripper_clamp_count"] == 1
 
+    policy_targets = np.zeros((10, 6), dtype=np.float32)
+    policy_targets[:, 0] = np.linspace(0.01, 0.10, 10, dtype=np.float32)
+    stream_times, stream_targets = interpolate_arm_targets(
+        policy_targets,
+        current,
+        policy_rate_hz=20.0,
+        stream_rate_hz=50.0,
+    )
+    assert stream_targets.shape == (25, 6)
+    assert stream_times.shape == (25,)
+    assert np.isfinite(stream_targets).all()
+    np.testing.assert_allclose(stream_times[-1], 0.5)
+    np.testing.assert_allclose(stream_targets[-1], policy_targets[-1], atol=1e-7)
+    streamed_steps = np.diff(np.vstack([current, stream_targets]), axis=0)
+    maximum_stream_step = float(np.max(np.abs(streamed_steps)))
+    assert maximum_stream_step <= 0.004001
+    must_raise(
+        lambda: interpolate_arm_targets(
+            policy_targets,
+            current,
+            policy_rate_hz=20.0,
+            stream_rate_hz=10.0,
+        )
+    )
+
     print(
         json.dumps(
             {
@@ -69,6 +95,9 @@ def main() -> int:
                 "open_command": normalized_gripper_to_driver_position(0.0, calibration),
                 "closed_command": normalized_gripper_to_driver_position(1.0, calibration),
                 "maximum_real_robot_step_rad": guard["maximum_output_step_rad"],
+                "stream_points": len(stream_times),
+                "stream_duration_seconds": float(stream_times[-1]),
+                "maximum_stream_step_rad": maximum_stream_step,
             },
             indent=2,
         )

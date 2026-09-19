@@ -94,3 +94,46 @@ def guard_real_robot_action_chunk(
         current_joint_position,
         GuardConfig(joint_limit_margin_rad=0.05, max_joint_step_rad=0.01),
     )
+
+
+def interpolate_arm_targets(
+    arm_targets: np.ndarray,
+    current_joint_position: np.ndarray,
+    *,
+    policy_rate_hz: float = 20.0,
+    stream_rate_hz: float = 50.0,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Resample guarded 20 Hz arm targets onto a uniform driver stream.
+
+    The returned timestamps are relative to the current feedback sample.  The
+    function has no ROS side effects; a future publisher must still enforce a
+    watchdog and compare every command with fresh feedback.
+    """
+
+    targets = np.asarray(arm_targets, dtype=np.float32)
+    current = np.asarray(current_joint_position, dtype=np.float32)
+    if targets.ndim != 2 or targets.shape[1] != 6 or len(targets) == 0:
+        raise ValueError(f"expected non-empty arm targets with shape (T, 6), got {targets.shape}")
+    if current.shape != (6,):
+        raise ValueError(f"expected six current joints, got {current.shape}")
+    if not np.isfinite(targets).all() or not np.isfinite(current).all():
+        raise ValueError("arm targets and current joints must contain only finite values")
+    if not np.isfinite(policy_rate_hz) or not np.isfinite(stream_rate_hz):
+        raise ValueError("policy and stream rates must be finite")
+    if policy_rate_hz <= 0 or stream_rate_hz < policy_rate_hz:
+        raise ValueError("stream rate must be at least the positive policy rate")
+
+    source_times = np.arange(len(targets) + 1, dtype=np.float64) / policy_rate_hz
+    source_values = np.vstack([current, targets]).astype(np.float64)
+    duration = len(targets) / policy_rate_hz
+    stream_count = int(np.floor(duration * stream_rate_hz + 1e-9))
+    if stream_count < 1:
+        raise ValueError("target horizon is shorter than one stream period")
+    stream_times = np.arange(1, stream_count + 1, dtype=np.float64) / stream_rate_hz
+    streamed = np.column_stack(
+        [
+            np.interp(stream_times, source_times, source_values[:, joint_index])
+            for joint_index in range(6)
+        ]
+    ).astype(np.float32)
+    return stream_times, streamed
