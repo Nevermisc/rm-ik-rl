@@ -57,9 +57,22 @@ def validate_policy_artifact(manifest: dict[str, Any], *, target: str) -> dict[s
                 "simulation_success_rate": _at_least(
                     evaluation.get("success_rate"), 0.8
                 ),
+                "controller_address_verified": hardware.get("controller_address_verified") is True,
+                "joint_order_verified": hardware.get("joint_order_verified") is True,
+                "joint_feedback_read_only_passed": hardware.get(
+                    "joint_feedback_read_only_passed"
+                ) is True,
                 "emergency_stop_verified": hardware.get("emergency_stop_verified") is True,
+                "software_stop_verified": hardware.get("software_stop_verified") is True,
                 "low_speed_limit_configured": hardware.get("low_speed_limit_configured") is True,
+                "workspace_bounds_configured": hardware.get("workspace_bounds_configured") is True,
                 "empty_workspace_test_passed": hardware.get("empty_workspace_test_passed") is True,
+                "gripper_command_mapping_verified": hardware.get(
+                    "gripper_command_mapping_verified"
+                ) is True,
+                "external_camera_calibrated": hardware.get("external_camera_calibrated") is True,
+                "wrist_camera_calibrated": hardware.get("wrist_camera_calibrated") is True,
+                "watchdog_stop_verified": hardware.get("watchdog_stop_verified") is True,
                 "human_supervisor_required": hardware.get("human_supervisor_required") is True,
             }
         )

@@ -34,9 +34,18 @@ def main() -> int:
         "success_rate": 0.84,
     }
     trained["hardware_readiness"] = {
+        "controller_address_verified": True,
+        "joint_order_verified": True,
+        "joint_feedback_read_only_passed": True,
         "emergency_stop_verified": True,
+        "software_stop_verified": True,
         "low_speed_limit_configured": True,
+        "workspace_bounds_configured": True,
         "empty_workspace_test_passed": True,
+        "gripper_command_mapping_verified": True,
+        "external_camera_calibrated": True,
+        "wrist_camera_calibrated": True,
+        "watchdog_stop_verified": True,
         "human_supervisor_required": True,
     }
     real_ready = validate_policy_artifact(trained, target="real_robot")

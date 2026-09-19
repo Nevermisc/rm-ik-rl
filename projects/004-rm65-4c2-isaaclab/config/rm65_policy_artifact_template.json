@@ -32,9 +32,18 @@
     "success_rate": 0.0
   },
   "hardware_readiness": {
+    "controller_address_verified": false,
+    "joint_order_verified": false,
+    "joint_feedback_read_only_passed": false,
     "emergency_stop_verified": false,
+    "software_stop_verified": false,
     "low_speed_limit_configured": false,
+    "workspace_bounds_configured": false,
     "empty_workspace_test_passed": false,
+    "gripper_command_mapping_verified": false,
+    "external_camera_calibrated": false,
+    "wrist_camera_calibrated": false,
+    "watchdog_stop_verified": false,
     "human_supervisor_required": true
   }
 }

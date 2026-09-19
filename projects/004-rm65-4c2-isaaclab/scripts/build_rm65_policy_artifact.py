@@ -80,9 +80,18 @@ def main() -> int:
             "source": str(summary_path),
         }
     hardware_readiness = {
+        "controller_address_verified": False,
+        "joint_order_verified": False,
+        "joint_feedback_read_only_passed": False,
         "emergency_stop_verified": False,
+        "software_stop_verified": False,
         "low_speed_limit_configured": False,
+        "workspace_bounds_configured": False,
         "empty_workspace_test_passed": False,
+        "gripper_command_mapping_verified": False,
+        "external_camera_calibrated": False,
+        "wrist_camera_calibrated": False,
+        "watchdog_stop_verified": False,
         "human_supervisor_required": True,
     }
     if args.hardware_readiness is not None:
