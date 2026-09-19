@@ -37,6 +37,7 @@ def main() -> int:
         "controller_address_verified": True,
         "joint_order_verified": True,
         "joint_feedback_read_only_passed": True,
+        "policy_shadow_passed": True,
         "emergency_stop_verified": True,
         "software_stop_verified": True,
         "low_speed_limit_configured": True,
@@ -47,6 +48,7 @@ def main() -> int:
         "wrist_camera_calibrated": True,
         "watchdog_stop_verified": True,
         "human_supervisor_required": True,
+        "human_supervisor_present": True,
     }
     real_ready = validate_policy_artifact(trained, target="real_robot")
     droid = copy.deepcopy(trained)

@@ -62,6 +62,7 @@ def validate_policy_artifact(manifest: dict[str, Any], *, target: str) -> dict[s
                 "joint_feedback_read_only_passed": hardware.get(
                     "joint_feedback_read_only_passed"
                 ) is True,
+                "policy_shadow_passed": hardware.get("policy_shadow_passed") is True,
                 "emergency_stop_verified": hardware.get("emergency_stop_verified") is True,
                 "software_stop_verified": hardware.get("software_stop_verified") is True,
                 "low_speed_limit_configured": hardware.get("low_speed_limit_configured") is True,
@@ -74,6 +75,7 @@ def validate_policy_artifact(manifest: dict[str, Any], *, target: str) -> dict[s
                 "wrist_camera_calibrated": hardware.get("wrist_camera_calibrated") is True,
                 "watchdog_stop_verified": hardware.get("watchdog_stop_verified") is True,
                 "human_supervisor_required": hardware.get("human_supervisor_required") is True,
+                "human_supervisor_present": hardware.get("human_supervisor_present") is True,
             }
         )
     failed = [name for name, passed in checks.items() if not passed]

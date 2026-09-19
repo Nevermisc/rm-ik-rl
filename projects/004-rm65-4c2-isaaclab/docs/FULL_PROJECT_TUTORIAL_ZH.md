@@ -302,6 +302,8 @@ ROS2 已安装 RealSense 包，但当前 USB 没有检测到 D435i。旧的 `Lin
 
 接好机械臂并启动驱动后，先运行 `scripts/probe_rm65_joint_feedback.py`。它只订阅 `/joint_states`，不创建发布器；检查 `joint1...joint6` 名称、六轴弧度有限值、关节范围、消息时间单调和至少 20 Hz 的反馈。只有探针通过，才能把“只读反馈已验证”写入真机门禁。
 
+下一步运行 `scripts/run_rm65_policy_shadow.py`：它读取关节与双相机、调用 RM65 专用 π0.5、执行真机限幅和 50 Hz 插值，只把建议写入 JSONL。它没有 RealMan 控制消息和 ROS 发布器，所以这是验证“真实传感器 → 模型 → 安全层”的只读阶段。RealMan 驱动当前没有连续夹爪位置 topic，夹爪状态必须作为现场确认的静态值输入并记录来源。连续传感器错误会在达到上限后退出，不能无限产生重复拒绝记录。真机门禁额外要求 `policy_shadow_passed=true`；`human_supervisor_required=true` 只表示制度要求，实际运动前还必须单独确认 `human_supervisor_present=true`。
+
 ## 13. 真机应按什么顺序推进
 
 ```text

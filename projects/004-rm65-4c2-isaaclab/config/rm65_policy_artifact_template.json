@@ -35,6 +35,7 @@
     "controller_address_verified": false,
     "joint_order_verified": false,
     "joint_feedback_read_only_passed": false,
+    "policy_shadow_passed": false,
     "emergency_stop_verified": false,
     "software_stop_verified": false,
     "low_speed_limit_configured": false,
@@ -44,6 +45,7 @@
     "external_camera_calibrated": false,
     "wrist_camera_calibrated": false,
     "watchdog_stop_verified": false,
-    "human_supervisor_required": true
+    "human_supervisor_required": true,
+    "human_supervisor_present": false
   }
 }

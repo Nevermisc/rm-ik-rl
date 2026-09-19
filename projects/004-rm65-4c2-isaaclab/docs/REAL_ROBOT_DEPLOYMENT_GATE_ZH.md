@@ -142,6 +142,22 @@ ROS2 相机 + 关节反馈 + 夹爪反馈
 
 `openpi_extension/real_robot_adapter.py` 中的 `interpolate_arm_targets()` 只处理已经通过限位的六轴目标，不会创建 ROS 发布器。以 10 个策略点为例，测试会把 0.5 秒轨迹转换为 25 个驱动点，并验证终点不变；对于策略层每步 `0.01 rad` 的测试轨迹，50 Hz 相邻点最大约为 `0.004 rad`。可运行 `python3 scripts/test_real_robot_adapter.py` 复查这项纯数学证据。真正的 ROS 桥仍必须加入新鲜反馈检查和 watchdog，不能因为插值测试通过就解锁真机。
 
+### 只读策略影子模式
+
+机械臂反馈、两个相机和 RM65 专用策略服务都可用以后，先运行 `scripts/run_rm65_policy_shadow.py`。这个节点只订阅 `/joint_states` 和两个用户指定的 RGB topic；源代码不导入 RealMan 控制消息，也没有 ROS 发布器。它检查三路时间戳、关节顺序和图像格式，运行 π0.5，再把建议动作经过真机限幅和 50 Hz 插值后写入 JSONL，但不发送这些动作。
+
+```bash
+python3 scripts/run_rm65_policy_shadow.py \
+  --external-image-topic <外部相机的RGB话题> \
+  --wrist-image-topic <腕部相机的RGB话题> \
+  --gripper-normalized <现场确认的当前开度，0开1闭> \
+  --prompt "pick up the block and place it on the target" \
+  --max-samples 20 \
+  --output results/rm65_policy_shadow.jsonl
+```
+
+当前 RealMan ROS2 驱动没有连续发布夹爪位置，因此参数中的夹爪状态必须由现场确认，并会被记录为 `operator_confirmed_static_value`；不能把命令返回值误当作位置反馈。连续传感器拒绝达到上限时节点自动退出。只有检查 JSONL 中 20 个新鲜同步样本均为有限值、限幅统计合理，而且确认 `real_robot_command_sent=false` 和 `ros_publishers_created=0` 后，才能把门禁字段 `policy_shadow_passed` 设为 `true`。`human_supervisor_present` 只能在每次准备实际运动时由现场人员确认。
+
 真机初次验证不会直接运行完整抓放。正确顺序是：
 
 1. 只读机械臂状态和相机；

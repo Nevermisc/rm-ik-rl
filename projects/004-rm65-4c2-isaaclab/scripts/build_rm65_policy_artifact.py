@@ -83,6 +83,7 @@ def main() -> int:
         "controller_address_verified": False,
         "joint_order_verified": False,
         "joint_feedback_read_only_passed": False,
+        "policy_shadow_passed": False,
         "emergency_stop_verified": False,
         "software_stop_verified": False,
         "low_speed_limit_configured": False,
@@ -93,6 +94,7 @@ def main() -> int:
         "wrist_camera_calibrated": False,
         "watchdog_stop_verified": False,
         "human_supervisor_required": True,
+        "human_supervisor_present": False,
     }
     if args.hardware_readiness is not None:
         readiness_path = args.hardware_readiness.expanduser().resolve()
