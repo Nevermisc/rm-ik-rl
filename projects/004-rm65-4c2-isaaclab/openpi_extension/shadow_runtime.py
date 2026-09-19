@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 from typing import Any, Sequence
 
 import numpy as np
@@ -15,6 +16,9 @@ class ShadowFreshnessConfig:
     max_age_seconds: float = 0.25
     max_skew_seconds: float = 0.10
     max_future_seconds: float = 0.05
+
+
+_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def decode_ros_rgb_image(message: Any) -> np.ndarray:
@@ -108,3 +112,100 @@ def build_shadow_observation(
         "gripper_state_source": "operator_confirmed_static_value",
     }
     return observation, report
+
+
+def validate_shadow_records(
+    records: Sequence[dict[str, Any]], *, minimum_samples: int = 20
+) -> dict[str, Any]:
+    """Fail closed unless a complete read-only policy shadow run is valid."""
+
+    if minimum_samples < 1:
+        raise ValueError("minimum_samples must be positive")
+    accepted = [record for record in records if record.get("status") == "pass"]
+    rejected = [record for record in records if record.get("status") != "pass"]
+    expected_indexes = list(range(len(accepted)))
+
+    def finite_vector(value: Any, size: int) -> bool:
+        try:
+            array = np.asarray(value, dtype=np.float64)
+        except (TypeError, ValueError):
+            return False
+        return array.shape == (size,) and bool(np.isfinite(array).all())
+
+    def bounded_number(value: Any, lower: float, upper: float) -> bool:
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            return False
+        return bool(np.isfinite(number) and lower <= number <= upper)
+
+    checks = {
+        "minimum_sample_count": len(accepted) >= minimum_samples,
+        "no_rejected_samples": not rejected,
+        "sample_indexes_contiguous": [record.get("sample_index") for record in accepted]
+        == expected_indexes,
+        "read_only_mode": all(
+            record.get("mode") == "read_only_policy_shadow" for record in accepted
+        ),
+        "no_real_robot_commands": all(
+            record.get("real_robot_command_sent") is False for record in accepted
+        ),
+        "no_ros_publishers": all(
+            record.get("ros_publishers_created") == 0 for record in accepted
+        ),
+        "action_shapes": all(
+            record.get("predicted_action_shape") == [10, 7] for record in accepted
+        ),
+        "finite_first_actions": all(
+            finite_vector(record.get("first_predicted_action"), 7)
+            and finite_vector(record.get("first_guarded_action"), 7)
+            for record in accepted
+        ),
+        "fresh_sensor_ages": all(
+            bounded_number(record.get("sensor", {}).get(field), -0.050001, 0.250001)
+            for record in accepted
+            for field in (
+                "joint_age_seconds",
+                "external_image_age_seconds",
+                "wrist_image_age_seconds",
+            )
+        ),
+        "sensor_skew_bounded": all(
+            bounded_number(
+                record.get("sensor", {}).get("sensor_skew_seconds"), 0.0, 0.100001
+            )
+            for record in accepted
+        ),
+        "image_hashes_valid": all(
+            bool(_SHA256.fullmatch(str(record.get("image_sha256", {}).get(view, ""))))
+            for record in accepted
+            for view in ("external", "wrist")
+        ),
+        "driver_stream_contract": all(
+            record.get("driver_stream", {}).get("point_count") == 25
+            and bounded_number(
+                record.get("driver_stream", {}).get("duration_seconds"),
+                0.5 - 1e-6,
+                0.5 + 1e-6,
+            )
+            and bounded_number(
+                record.get("driver_stream", {}).get("maximum_joint_step_rad"),
+                0.0,
+                0.0041,
+            )
+            for record in accepted
+        ),
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    return {
+        "format": "rm65_policy_shadow_validation_v1",
+        "status": "pass" if not failed else "blocked",
+        "policy_shadow_passed": not failed,
+        "read_only": True,
+        "real_robot_command_sent": False,
+        "minimum_samples": minimum_samples,
+        "accepted_samples": len(accepted),
+        "rejected_samples": len(rejected),
+        "checks": checks,
+        "failed_checks": failed,
+    }

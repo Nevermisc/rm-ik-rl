@@ -19,6 +19,7 @@ from openpi_extension.shadow_runtime import (  # noqa: E402
     ShadowFreshnessConfig,
     build_shadow_observation,
     decode_ros_rgb_image,
+    validate_shadow_records,
 )
 
 
@@ -68,6 +69,37 @@ def main() -> int:
     must_raise(lambda: build_shadow_observation(**dict(kwargs, wrist_timestamp=9.7)))
     must_raise(lambda: build_shadow_observation(**dict(kwargs, gripper_normalized=1.1)))
 
+    good_record = {
+        "status": "pass",
+        "mode": "read_only_policy_shadow",
+        "real_robot_command_sent": False,
+        "ros_publishers_created": 0,
+        "sensor": {
+            "joint_age_seconds": 0.09,
+            "external_image_age_seconds": 0.06,
+            "wrist_image_age_seconds": 0.04,
+            "sensor_skew_seconds": 0.05,
+        },
+        "image_sha256": {"external": "a" * 64, "wrist": "b" * 64},
+        "predicted_action_shape": [10, 7],
+        "first_predicted_action": [0.0] * 7,
+        "first_guarded_action": [0.0] * 7,
+        "driver_stream": {
+            "point_count": 25,
+            "duration_seconds": 0.5,
+            "maximum_joint_step_rad": 0.004,
+        },
+    }
+    good_records = [dict(good_record, sample_index=index) for index in range(20)]
+    validation = validate_shadow_records(good_records)
+    assert validation["policy_shadow_passed"] is True
+    unsafe_records = [dict(record) for record in good_records]
+    unsafe_records[3] = dict(unsafe_records[3], real_robot_command_sent=True)
+    assert validate_shadow_records(unsafe_records)["policy_shadow_passed"] is False
+    malformed_records = [dict(record) for record in good_records]
+    malformed_records[4] = dict(malformed_records[4], driver_stream={"point_count": 25})
+    assert validate_shadow_records(malformed_records)["policy_shadow_passed"] is False
+
     shadow_script = PROJECT_ROOT / "scripts" / "run_rm65_policy_shadow.py"
     source = shadow_script.read_text(encoding="utf-8")
     assert "create_publisher" not in source
@@ -81,6 +113,7 @@ def main() -> int:
                 "decoded_pixel_0_rgb": decoded[0, 0].tolist(),
                 "sensor_skew_seconds": report["sensor_skew_seconds"],
                 "gripper_state_source": report["gripper_state_source"],
+                "twenty_sample_validation": validation["status"],
             },
             indent=2,
         )

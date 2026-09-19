@@ -158,6 +158,16 @@ python3 scripts/run_rm65_policy_shadow.py \
 
 当前 RealMan ROS2 驱动没有连续发布夹爪位置，因此参数中的夹爪状态必须由现场确认，并会被记录为 `operator_confirmed_static_value`；不能把命令返回值误当作位置反馈。连续传感器拒绝达到上限时节点自动退出。只有检查 JSONL 中 20 个新鲜同步样本均为有限值、限幅统计合理，而且确认 `real_robot_command_sent=false` 和 `ros_publishers_created=0` 后，才能把门禁字段 `policy_shadow_passed` 设为 `true`。`human_supervisor_present` 只能在每次准备实际运动时由现场人员确认。
 
+不要手工修改这一结论。让验证器从原始 JSONL 生成机器可读证据：
+
+```bash
+python3 scripts/validate_rm65_policy_shadow.py \
+  --input results/rm65_policy_shadow.jsonl \
+  --output results/rm65_policy_shadow_validation.json
+```
+
+验证器要求至少 20 个连续编号的合格样本、零拒绝、动作形状为 `10×7`、图像哈希完整、时间新鲜且同步、全程零发布和零真机命令，并检查 25 点/0.5 秒的驱动插值约束。任一条件不满足就输出 `policy_shadow_passed=false`。
+
 真机初次验证不会直接运行完整抓放。正确顺序是：
 
 1. 只读机械臂状态和相机；
