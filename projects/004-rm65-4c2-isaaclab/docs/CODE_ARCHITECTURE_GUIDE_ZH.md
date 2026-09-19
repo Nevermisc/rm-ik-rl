@@ -149,6 +149,12 @@ rg -n "pi05_closed_loop|run_pi05|phase|task_report|return 0 if passed" scripts/r
 
 它只启动一次模型服务，再运行 20 个留出条件。每个任务有独立日志和超时，可复用同一 checkpoint 的完整报告。最终门槛是至少 20 条有效 episode 且成功率不低于 80%。
 
+套件把“模型失败”和“基础设施失败”分开处理：只要任务报告存在，`pass` 或 `fail` 都是一次正式模型结果，不会为了提高成功率而重跑；只有相机启动等问题导致完全没有报告时，才允许一次有记录的基础设施重试。`run_pick_place_baseline.py` 同时要求两路相机都返回非空的 `H×W×3` RGB，最多等待 30 个渲染 tick，绝不把空帧替换成假图。
+
+### `scripts/analyze_rm65_closed_loop_failures.py`
+
+它读取评测计划和每个 `task_report.json`，统计搬运距离、抬升、目标误差、释放漂移、夹爪张开和有限值失败，并按 prompt 与目标角度分组。训练迭代应根据这个报告改变数据或策略，不能只看总成功率猜原因。
+
 `config/rm65_pi05_evaluation_plan_v1.json` 的角度与位置组合没有出现在训练示范中，但仍位于训练范围内，因此它证明留出插值鲁棒性，不证明任意场景泛化。
 
 ## 7. 真机安全层
