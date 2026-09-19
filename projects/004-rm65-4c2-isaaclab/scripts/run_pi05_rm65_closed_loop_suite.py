@@ -56,8 +56,17 @@ def main() -> int:
     )
     parser.add_argument("--policy-port", type=int, default=8000)
     parser.add_argument("--case-timeout-seconds", type=int, default=1200)
+    parser.add_argument(
+        "--infrastructure-retries",
+        type=int,
+        default=1,
+        help="Retry only cases that fail to produce a valid task report.",
+    )
     parser.add_argument("--max-cases", type=int)
     args = parser.parse_args()
+
+    if args.infrastructure_retries < 0:
+        raise ValueError("--infrastructure-retries must be non-negative")
 
     checkpoint = args.checkpoint.expanduser().resolve()
     if not checkpoint.is_dir():
@@ -137,7 +146,6 @@ def main() -> int:
                     )
                     continue
                 episode_dir.mkdir(parents=True, exist_ok=True)
-                case_log_path = episode_dir / "runner.log"
                 case_environment = environment.copy()
                 case_environment["POLICY_SERVER_MODE"] = "external"
                 case_environment["POLICY_PORT"] = str(args.policy_port)
@@ -152,23 +160,44 @@ def main() -> int:
                     case["prompt"],
                 ]
                 print(f"[{position}/{len(cases)}] {case_id}: run", flush=True)
-                with case_log_path.open("w", encoding="utf-8") as case_log:
-                    try:
-                        completed = subprocess.run(
-                            command,
-                            cwd=PROJECT_ROOT,
-                            env=case_environment,
-                            stdout=case_log,
-                            stderr=subprocess.STDOUT,
-                            timeout=args.case_timeout_seconds,
-                            check=False,
+                attempt_results = []
+                report = None
+                for attempt in range(args.infrastructure_retries + 1):
+                    log_name = "runner.log" if attempt == 0 else f"runner_retry_{attempt}.log"
+                    case_log_path = episode_dir / log_name
+                    with case_log_path.open("w", encoding="utf-8") as case_log:
+                        try:
+                            completed = subprocess.run(
+                                command,
+                                cwd=PROJECT_ROOT,
+                                env=case_environment,
+                                stdout=case_log,
+                                stderr=subprocess.STDOUT,
+                                timeout=args.case_timeout_seconds,
+                                check=False,
+                            )
+                            returncode = completed.returncode
+                            timed_out = False
+                        except subprocess.TimeoutExpired:
+                            returncode = 124
+                            timed_out = True
+                    attempt_results.append(
+                        {
+                            "attempt": attempt + 1,
+                            "runner_returncode": returncode,
+                            "timed_out": timed_out,
+                            "log": str(case_log_path),
+                        }
+                    )
+                    report = load_existing_report(report_path, checkpoint_id)
+                    if report is not None:
+                        break
+                    if attempt < args.infrastructure_retries:
+                        print(
+                            f"[{position}/{len(cases)}] {case_id}: missing_report; "
+                            f"retry infrastructure attempt {attempt + 2}",
+                            flush=True,
                         )
-                        returncode = completed.returncode
-                        timed_out = False
-                    except subprocess.TimeoutExpired:
-                        returncode = 124
-                        timed_out = True
-                report = load_existing_report(report_path, checkpoint_id)
                 case_results.append(
                     {
                         "case_id": case_id,
@@ -177,6 +206,7 @@ def main() -> int:
                         "report": report,
                         "reused": False,
                         "log": str(case_log_path),
+                        "infrastructure_attempts": attempt_results,
                     }
                 )
                 status = report.get("status") if report else "missing_report"

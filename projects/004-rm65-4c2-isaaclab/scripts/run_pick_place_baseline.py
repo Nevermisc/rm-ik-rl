@@ -437,6 +437,17 @@ class ExpertEpisodeCapture:
             image = np.clip(image, 0, 255).astype(np.uint8)
         return image
 
+    @staticmethod
+    def _image_ready(image: np.ndarray) -> bool:
+        """Return whether an Isaac camera produced a usable RGB frame."""
+
+        return (
+            image.ndim == 3
+            and image.shape[0] > 0
+            and image.shape[1] > 0
+            and image.shape[2] == 3
+        )
+
     def _render_images(self, robot: Articulation, cube: RigidObject) -> tuple[np.ndarray, np.ndarray]:
         if self.external_camera is None or self.wrist_camera is None:
             raise RuntimeError("both cameras are required for image recording")
@@ -465,10 +476,23 @@ class ExpertEpisodeCapture:
         self.wrist_camera.set_world_poses_from_view(
             eye.unsqueeze(0), (eye + forward).unsqueeze(0)
         )
-        self.sim.render()
-        self.external_camera.update(self.physics_dt)
-        self.wrist_camera.update(self.physics_dt)
-        return self._rgb(self.external_camera), self._rgb(self.wrist_camera)
+        # Isaac Sim can expose an empty RGB tensor during the first few render
+        # ticks after a headless camera starts.  Wait for real sensor frames
+        # instead of recording a fabricated image or aborting the episode.
+        last_shapes: tuple[tuple[int, ...], tuple[int, ...]] | None = None
+        for _ in range(30):
+            self.sim.render()
+            self.external_camera.update(self.physics_dt)
+            self.wrist_camera.update(self.physics_dt)
+            external_rgb = self._rgb(self.external_camera)
+            wrist_rgb = self._rgb(self.wrist_camera)
+            last_shapes = (external_rgb.shape, wrist_rgb.shape)
+            if self._image_ready(external_rgb) and self._image_ready(wrist_rgb):
+                return external_rgb, wrist_rgb
+        raise RuntimeError(
+            "Isaac cameras did not produce usable RGB frames after 30 render ticks; "
+            f"last shapes were {last_shapes}"
+        )
 
     def before_step(
         self,
