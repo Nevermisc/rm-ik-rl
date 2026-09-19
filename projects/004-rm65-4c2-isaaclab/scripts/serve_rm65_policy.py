@@ -40,6 +40,7 @@ def main() -> None:
         "gripper": "4C2",
         "model": "pi0.5",
         "checkpoint": str(checkpoint),
+        "repo_id": args.repo_id,
         "action_semantics": "six absolute joint targets plus normalized gripper target",
     }
     hostname = socket.gethostname()

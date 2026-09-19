@@ -55,6 +55,11 @@ def main() -> int:
         default=PROJECT_ROOT / "results" / "rm65_pi05_eval_v1_summary.json",
     )
     parser.add_argument("--policy-port", type=int, default=8000)
+    parser.add_argument(
+        "--repo-id",
+        default=os.environ.get("RM65_REPO_ID", "local/rm65_sim_train"),
+        help="LeRobot repository id whose normalization statistics belong to the checkpoint.",
+    )
     parser.add_argument("--case-timeout-seconds", type=int, default=1200)
     parser.add_argument(
         "--infrastructure-retries",
@@ -103,6 +108,7 @@ def main() -> int:
     environment["XLA_PYTHON_CLIENT_MEM_FRACTION"] = environment.get(
         "XLA_PYTHON_CLIENT_MEM_FRACTION", "0.50"
     )
+    environment["RM65_REPO_ID"] = args.repo_id
     server_log_path = PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"
     server_log_path.parent.mkdir(parents=True, exist_ok=True)
     with server_log_path.open("w", encoding="utf-8") as server_log:
@@ -113,6 +119,8 @@ def main() -> int:
                 str(PROJECT_ROOT / "scripts" / "serve_rm65_policy.py"),
                 "--checkpoint",
                 str(checkpoint),
+                "--repo-id",
+                args.repo_id,
                 "--port",
                 str(args.policy_port),
             ],
@@ -232,6 +240,7 @@ def main() -> int:
         "plan": str(plan_path),
         "checkpoint": str(checkpoint),
         "policy_checkpoint_id": checkpoint_id,
+        "repo_id": args.repo_id,
         "planned_case_count": len(cases),
         "episode_count": episode_count,
         "success_count": successes,

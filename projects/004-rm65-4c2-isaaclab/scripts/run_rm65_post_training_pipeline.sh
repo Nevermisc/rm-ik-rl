@@ -99,7 +99,7 @@ current_stage="first_closed_loop"
 echo "stage=$current_stage timeout_seconds=$first_case_timeout_seconds" | tee "$sentinel"
 set +e
 timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \
-  bash scripts/run_pi05_rm65_closed_loop.sh \
+  env RM65_REPO_ID="$repo_id" bash scripts/run_pi05_rm65_closed_loop.sh \
   "$checkpoint" \
   "$evaluation_root/eval_000" \
   0.65 -0.0075 -0.0075 \
@@ -113,6 +113,7 @@ echo "stage=$current_stage" | tee "$sentinel"
 set +e
 python3 scripts/run_pi05_rm65_closed_loop_suite.py \
   --checkpoint "$checkpoint" \
+  --repo-id "$repo_id" \
   --plan config/rm65_pi05_evaluation_plan_v1.json \
   --output-root "$evaluation_root" \
   --summary "$evaluation_summary"

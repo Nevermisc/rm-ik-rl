@@ -13,6 +13,7 @@ source_offset_y="${5:-0.0}"
 episode_prompt="${6:-pick up the block and place it on the target}"
 policy_port="${POLICY_PORT:-8000}"
 policy_server_mode="${POLICY_SERVER_MODE:-managed}"
+repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 cd "$project_root"
@@ -34,6 +35,7 @@ if [[ "$policy_server_mode" == "managed" ]]; then
   fi
   "$openpi_root/.venv/bin/python" -u scripts/serve_rm65_policy.py \
     --checkpoint "$checkpoint" \
+    --repo-id "$repo_id" \
     --port "$policy_port" \
     >"$server_log" 2>&1 &
   server_pid=$!
