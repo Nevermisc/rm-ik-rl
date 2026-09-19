@@ -1,0 +1,41 @@
+{
+  "format": "rm65_ik_branch_fix_evidence_v1",
+  "status": "pass",
+  "case_id": "case_000008",
+  "collection_split": "train",
+  "simulation_only": true,
+  "expert": "scripted",
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "failure_before_fix": {
+    "stage": "lift",
+    "cause": "mathematically equivalent spherical-wrist IK branches caused multi-radian joint interpolation",
+    "failed_attempt_archive": "datasets/rm65_failed_v1/episode_000008_attempt_002"
+  },
+  "fix": {
+    "pregrasp_distance_m": 0.09,
+    "top_down_ik_seed_index": 0,
+    "retreat_waypoint_count": 9,
+    "retreat_max_command_step_rad": 0.04425627725923453,
+    "place_waypoint_count": 12,
+    "place_max_command_step_rad": 0.0414188920286751,
+    "joint_step_gate_rad": 0.75
+  },
+  "full_simulation_result": {
+    "task_success": true,
+    "training_ready": true,
+    "frame_count": 429,
+    "control_hz": 20.0,
+    "images_recorded": true,
+    "block_lift_height_m": 0.03966468572616577,
+    "final_target_position_error_m": 0.009482153901057715,
+    "approach_max_arm_joint_error_rad": 0.012789768217908781,
+    "lift_max_arm_joint_error_rad": 0.012682183838507388,
+    "all_states_finite": true
+  },
+  "source_artifacts": {
+    "kinematics_diagnostic": "outputs/case_000008_exact_ik_candidate_search.json",
+    "episode_task_report": "datasets/rm65_scripted_v1/episode_000008/task_report.json",
+    "episode_metadata": "datasets/rm65_scripted_v1/episode_000008/metadata.json"
+  }
+}

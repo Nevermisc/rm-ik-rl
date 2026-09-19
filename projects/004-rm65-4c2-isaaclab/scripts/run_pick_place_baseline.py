@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import sys
 import traceback
@@ -204,6 +205,8 @@ PAD_LOCAL_CENTERS = {
 }
 CONTACT_SENSORS: dict[str, ContactSensor] = {}
 GRIPPER_MASTER_JOINT = "tool_gripper_joint"
+RM65_JOINT_LOWER_RAD = np.array([-3.106, -2.2689, -2.356, -3.106, -2.234, -6.28])
+RM65_JOINT_UPPER_RAD = np.array([3.106, 2.2689, 2.356, 3.106, 2.234, 6.28])
 
 
 def rotate_about_z(position: np.ndarray, angle: float) -> np.ndarray:
@@ -238,6 +241,127 @@ def quaternion_to_matrix_wxyz(quaternion: np.ndarray) -> np.ndarray:
         ],
         dtype=np.float64,
     )
+
+
+def rotation_distance_rad(left: np.ndarray, right: np.ndarray) -> float:
+    """Return the geodesic angle between two 3x3 rotation matrices."""
+
+    cosine = 0.5 * (np.trace(left.T @ right) - 1.0)
+    return float(np.arccos(np.clip(cosine, -1.0, 1.0)))
+
+
+def closest_equivalent_rm65_solution(
+    lula: LulaKinematicsSolver,
+    solution: np.ndarray,
+    reference: np.ndarray,
+) -> np.ndarray:
+    """Choose an FK-equivalent RM65 wrist branch nearest to ``reference``.
+
+    Lula may return a spherical-wrist equivalent such as
+    ``(q4 + pi, -q5, q6 + pi)`` or a q6 value shifted by 2*pi.  Interpolating
+    directly between those representations can command a multi-radian jump
+    even though the Cartesian poses are adjacent.  Enumerate only known
+    equivalent representations, verify each with FK, and keep the one with
+    the smallest joint-space jump.
+    """
+
+    solution = np.asarray(solution, dtype=np.float64)
+    reference = np.asarray(reference, dtype=np.float64)
+    target_position, target_rotation = lula.compute_forward_kinematics("link_6", solution)
+
+    bases = [solution.copy()]
+    wrist_flip = solution.copy()
+    wrist_flip[3] += np.pi
+    wrist_flip[4] *= -1.0
+    wrist_flip[5] += np.pi
+    bases.append(wrist_flip)
+
+    valid: list[tuple[float, float, np.ndarray]] = []
+    for base in bases:
+        joint_values = []
+        for index, value in enumerate(base):
+            equivalents = [
+                value + turns * 2.0 * np.pi
+                for turns in (-1, 0, 1)
+                if RM65_JOINT_LOWER_RAD[index] - 1e-9
+                <= value + turns * 2.0 * np.pi
+                <= RM65_JOINT_UPPER_RAD[index] + 1e-9
+            ]
+            joint_values.append(equivalents)
+        for values in itertools.product(*joint_values):
+            candidate = np.asarray(values, dtype=np.float64)
+            position, rotation = lula.compute_forward_kinematics("link_6", candidate)
+            if np.linalg.norm(position - target_position) > 1e-5:
+                continue
+            if rotation_distance_rad(rotation, target_rotation) > 1e-5:
+                continue
+            delta = np.abs(candidate - reference)
+            valid.append((float(np.max(delta)), float(np.linalg.norm(delta)), candidate))
+
+    if not valid:
+        raise RuntimeError("No FK-equivalent RM65 joint representation passed validation")
+    _, _, selected = min(valid, key=lambda item: (item[0], item[1]))
+    return selected.copy()
+
+
+def require_continuous_joint_step(
+    start: np.ndarray,
+    target: np.ndarray,
+    *,
+    label: str,
+    max_step_rad: float = 0.75,
+) -> None:
+    max_step = float(np.max(np.abs(np.asarray(target) - np.asarray(start))))
+    if max_step > max_step_rad:
+        raise RuntimeError(
+            f"unsafe IK branch jump for {label}: {max_step:.6f} rad > {max_step_rad:.6f} rad"
+        )
+
+
+def solve_continuous_cartesian_path(
+    lula: LulaKinematicsSolver,
+    target_positions: list[np.ndarray],
+    target_orientation: np.ndarray,
+    numerical_seed: np.ndarray,
+    command_reference: np.ndarray,
+    *,
+    max_step_rad: float = 0.75,
+) -> tuple[np.ndarray, list[np.ndarray], float] | None:
+    """Solve a path while keeping Lula's seed and the commanded branch separate."""
+    raw_seed = np.asarray(numerical_seed, dtype=np.float64).copy()
+    command = np.asarray(command_reference, dtype=np.float64).copy()
+    commands: list[np.ndarray] = []
+    path_max_step = 0.0
+    for target_position in target_positions:
+        seeds = [raw_seed]
+        if not np.allclose(raw_seed, command, atol=1e-9, rtol=0.0):
+            seeds.append(command)
+        candidates: list[tuple[float, np.ndarray, np.ndarray]] = []
+        for seed in seeds:
+            raw_solution, success = lula.compute_inverse_kinematics(
+                "link_6",
+                target_position,
+                target_orientation,
+                warm_start=seed,
+                position_tolerance=1e-4,
+                orientation_tolerance=1e-3,
+            )
+            if not success:
+                continue
+            raw_solution = np.asarray(raw_solution, dtype=np.float64)
+            command_solution = closest_equivalent_rm65_solution(
+                lula, raw_solution, command
+            )
+            step_rad = float(np.max(np.abs(command_solution - command)))
+            candidates.append((step_rad, raw_solution, command_solution))
+        if not candidates:
+            return None
+        step_rad, raw_seed, command = min(candidates, key=lambda item: item[0])
+        if step_rad > max_step_rad:
+            return None
+        path_max_step = max(path_max_step, step_rad)
+        commands.append(command.copy())
+    return raw_seed.copy(), commands, path_max_step
 
 
 def tip_world_position(robot: Articulation, body_name: str) -> torch.Tensor:
@@ -538,6 +662,7 @@ def main() -> int:
     source_block_position_base = source_block_position - robot_base_position
     lula = LulaKinematicsSolver(robot_description_path=str(description), urdf_path=str(urdf))
     grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
+    grasp_ik_numerical_seed = grasp_arm.copy()
     if args.grasp_world_offset_x_m != 0.0 or args.grasp_world_offset_z_m != 0.0:
         offset_target_position = grasp_link_position + np.array(
             [args.grasp_world_offset_x_m, 0.0, args.grasp_world_offset_z_m], dtype=np.float64
@@ -551,12 +676,16 @@ def main() -> int:
         )
         if not success:
             raise RuntimeError("Lula failed to solve the requested grasp world offset")
-        grasp_arm = np.asarray(offset_grasp_arm, dtype=np.float64)
+        grasp_ik_numerical_seed = np.asarray(offset_grasp_arm, dtype=np.float64)
+        grasp_arm = closest_equivalent_rm65_solution(
+            lula, grasp_ik_numerical_seed, grasp_arm
+        )
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
     reference_block_from_link_local = grasp_link_rotation.T @ (
         nominal_source_block_position - grasp_link_position
     )
     top_down_ik_seed_index = None
+    precomputed_retreat_waypoints: list[np.ndarray] | None = None
     if args.grasp_orientation_mode == "top_down":
         calibrated_reference_link_position = (
             source_block_position_base
@@ -572,30 +701,57 @@ def main() -> int:
                 args.top_down_blend,
             )
         )
-        joint_lower = np.array([-3.106, -2.2689, -2.356, -3.106, -2.234, -6.28])
-        joint_upper = np.array([3.106, 2.2689, 2.356, 3.106, 2.234, 6.28])
-        ik_seeds = [grasp_arm]
+        ik_seeds = [grasp_ik_numerical_seed]
         if args.top_down_ik_multistart > 1:
             rng = np.random.default_rng(20260916)
             random_seeds = rng.uniform(
-                joint_lower,
-                joint_upper,
+                RM65_JOINT_LOWER_RAD,
+                RM65_JOINT_UPPER_RAD,
                 size=(args.top_down_ik_multistart - 1, len(ARM_JOINTS)),
             )
             ik_seeds.extend(random_seeds)
         top_down_solution = None
         success = False
+        retreat_distances_for_selection = np.linspace(
+            0.01,
+            args.pregrasp_distance_m,
+            max(1, int(round(args.pregrasp_distance_m / 0.01))),
+        )
+        retreat_targets_for_selection = [
+            top_down_link_position + np.array([0.0, 0.0, distance], dtype=np.float64)
+            for distance in retreat_distances_for_selection
+        ]
+        top_down_quaternion = rot_matrix_to_quat(top_down_rotation)
         for seed_index, ik_seed in enumerate(ik_seeds):
             candidate_solution, candidate_success = lula.compute_inverse_kinematics(
                 "link_6",
                 top_down_link_position,
-                rot_matrix_to_quat(top_down_rotation),
+                top_down_quaternion,
                 warm_start=np.asarray(ik_seed, dtype=np.float64),
                 position_tolerance=1e-4,
                 orientation_tolerance=1e-3,
             )
             if candidate_success:
-                top_down_solution = candidate_solution
+                candidate_raw = np.asarray(candidate_solution, dtype=np.float64)
+                try:
+                    candidate_command = closest_equivalent_rm65_solution(
+                        lula, candidate_raw, grasp_arm
+                    )
+                    candidate_retreat = solve_continuous_cartesian_path(
+                        lula,
+                        retreat_targets_for_selection,
+                        top_down_quaternion,
+                        candidate_raw,
+                        candidate_command,
+                    )
+                except RuntimeError:
+                    candidate_retreat = None
+                if candidate_retreat is None:
+                    continue
+                _, candidate_retreat_waypoints, _ = candidate_retreat
+                grasp_ik_numerical_seed = candidate_raw
+                top_down_solution = candidate_command
+                precomputed_retreat_waypoints = candidate_retreat_waypoints
                 top_down_ik_seed_index = seed_index
                 success = True
                 break
@@ -607,7 +763,9 @@ def main() -> int:
                 f"blend={args.top_down_blend:.6f} seeds={args.top_down_ik_multistart}",
                 flush=True,
             )
-            raise RuntimeError("Lula failed to solve the top-down grasp pose")
+            raise RuntimeError(
+                "Lula found no top-down grasp pose with a continuous pregrasp path"
+            )
         grasp_arm = np.asarray(top_down_solution, dtype=np.float64)
         grasp_link_position, grasp_link_rotation = lula.compute_forward_kinematics("link_6", grasp_arm)
     if args.lift_mode == "cartesian_vertical":
@@ -624,7 +782,8 @@ def main() -> int:
         )
         if not success:
             raise RuntimeError("Lula failed to solve the local Cartesian vertical lift")
-        lift_arm = np.asarray(lift_arm_solution, dtype=np.float64)
+        lift_arm = closest_equivalent_rm65_solution(lula, lift_arm_solution, grasp_arm)
+        require_continuous_joint_step(grasp_arm, lift_arm, label="vertical lift")
     lift_link_position, lift_link_rotation = lula.compute_forward_kinematics("link_6", lift_arm)
     expected_lift_translation = lift_link_position - grasp_link_position
     expected_source_lift_block_position = source_block_position + expected_lift_translation
@@ -647,7 +806,12 @@ def main() -> int:
         )
         if not success:
             raise RuntimeError("Lula failed to solve the vertical release-clearance motion")
-        release_clear_arm = np.asarray(release_clear_solution, dtype=np.float64)
+        release_clear_arm = closest_equivalent_rm65_solution(
+            lula, release_clear_solution, target_lift_arm
+        )
+        require_continuous_joint_step(
+            target_lift_arm, release_clear_arm, label="release clearance"
+        )
 
     transfer_quaternion = np.array(
         [np.cos(args.transfer_joint_1_rad / 2.0), 0.0, 0.0, np.sin(args.transfer_joint_1_rad / 2.0)],
@@ -690,10 +854,49 @@ def main() -> int:
             )
             if not success:
                 raise RuntimeError(f"Lula failed to solve place waypoint at {distance:.3f} m")
-            place_warm_start = np.asarray(place_solution, dtype=np.float64)
+            place_solution = closest_equivalent_rm65_solution(
+                lula, place_solution, place_warm_start
+            )
+            require_continuous_joint_step(
+                place_warm_start, place_solution, label=f"place waypoint {distance:.3f} m"
+            )
+            place_warm_start = place_solution
             rotated_place_solution = place_warm_start.copy()
             rotated_place_solution[0] += args.transfer_joint_1_rad - lift_arm[0]
             place_waypoints.append(rotated_place_solution)
+
+    grasp_link_quaternion = rot_matrix_to_quat(grasp_link_rotation)
+    outward_direction = (
+        np.array([0.0, 0.0, -1.0], dtype=np.float64)
+        if args.grasp_orientation_mode == "top_down"
+        else quaternion_to_matrix_wxyz(
+            np.asarray(SOURCE_BLOCK_QUATERNION_WXYZ, dtype=np.float64)
+        )[:, 0]
+    )
+    waypoint_count = max(1, int(round(args.pregrasp_distance_m / 0.01)))
+    retreat_distances = np.linspace(0.01, args.pregrasp_distance_m, waypoint_count)
+    retreat_targets = [
+        grasp_link_position - distance * outward_direction
+        for distance in retreat_distances
+    ]
+    if precomputed_retreat_waypoints is not None:
+        retreat_waypoints = [item.copy() for item in precomputed_retreat_waypoints]
+    else:
+        retreat_result = solve_continuous_cartesian_path(
+            lula,
+            retreat_targets,
+            grasp_link_quaternion,
+            grasp_ik_numerical_seed,
+            grasp_arm,
+        )
+        if retreat_result is None:
+            raise RuntimeError("Lula found no continuous Cartesian pregrasp path")
+        _, retreat_waypoints, _ = retreat_result
+    pregrasp_arm = grasp_arm.copy() if args.initialize_at_grasp else retreat_waypoints[-1]
+    retreat_joint_sequence = np.vstack([grasp_arm, *retreat_waypoints])
+    retreat_max_command_step_rad = float(
+        np.max(np.abs(np.diff(retreat_joint_sequence, axis=0)))
+    )
 
     place_max_command_step_rad = None
     if place_waypoints:
@@ -712,6 +915,11 @@ def main() -> int:
             "grasp_arm_joint_position_rad": grasp_arm.tolist(),
             "lift_arm_joint_position_rad": lift_arm.tolist(),
             "target_lift_arm_joint_position_rad": target_lift_arm.tolist(),
+            "retreat_waypoint_count": len(retreat_waypoints),
+            "retreat_max_command_step_rad": retreat_max_command_step_rad,
+            "retreat_waypoint_joint_position_rad": [
+                item.tolist() for item in retreat_waypoints
+            ],
             "place_waypoint_count": len(place_waypoints),
             "place_max_command_step_rad": place_max_command_step_rad,
             "place_ik_uses_base_rotation_symmetry": True,
@@ -960,34 +1168,6 @@ def main() -> int:
                 else None
             ),
         )
-
-    grasp_link_quaternion = rot_matrix_to_quat(grasp_link_rotation)
-    outward_direction = (
-        np.array([0.0, 0.0, -1.0], dtype=np.float64)
-        if args.grasp_orientation_mode == "top_down"
-        else quaternion_to_matrix_wxyz(
-            np.asarray(SOURCE_BLOCK_QUATERNION_WXYZ, dtype=np.float64)
-        )[:, 0]
-    )
-    waypoint_count = max(1, int(round(args.pregrasp_distance_m / 0.01)))
-    retreat_distances = np.linspace(0.01, args.pregrasp_distance_m, waypoint_count)
-    retreat_waypoints = []
-    warm_start = grasp_arm.copy()
-    for distance in retreat_distances:
-        waypoint_position = grasp_link_position - distance * outward_direction
-        waypoint_q, success = lula.compute_inverse_kinematics(
-            "link_6",
-            waypoint_position,
-            grasp_link_quaternion,
-            warm_start=warm_start,
-            position_tolerance=1e-4,
-            orientation_tolerance=1e-3,
-        )
-        if not success:
-            raise RuntimeError(f"Lula failed to solve Cartesian retreat waypoint at {distance:.3f} m")
-        warm_start = np.asarray(waypoint_q, dtype=np.float64)
-        retreat_waypoints.append(warm_start.copy())
-    pregrasp_arm = grasp_arm.copy() if args.initialize_at_grasp else retreat_waypoints[-1]
 
     state = robot.data.default_joint_pos.clone()
     state[:, arm_ids] = torch.as_tensor(pregrasp_arm, device=sim.device, dtype=state.dtype)

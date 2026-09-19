@@ -13,6 +13,7 @@ episode_prompt="${5:-pick up the block and place it on the target}"
 cd "$project_root"
 mkdir -p outputs "$(dirname "$episode_dir")"
 
+# A 0.09 m pregrasp keeps 1 cm of margin from the observed top-down IK boundary.
 "$isaaclab_root/isaaclab.sh" -p scripts/run_pick_place_baseline.py \
   --usd generated/rm65_4c2_wide_pads.usd \
   --urdf "$rm65_root/assets/RM65-B/urdf/RM65-B.urdf" \
@@ -26,7 +27,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --transfer-joint-1-rad "$transfer_angle" \
   --source-offset-x-m "$source_offset_x" \
   --source-offset-y-m "$source_offset_y" \
-  --pregrasp-distance-m 0.10 \
+  --pregrasp-distance-m 0.09 \
   --grasp-world-offset-x-m -0.04 \
   --grasp-world-offset-z-m -0.053 \
   --grasp-orientation-mode top_down \
