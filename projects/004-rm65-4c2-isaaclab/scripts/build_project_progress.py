@@ -60,6 +60,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--execution-scope",
+        choices=("simulation_only", "full"),
+        default="simulation_only",
+    )
     args = parser.parse_args()
     project = args.project_root.expanduser().resolve()
     results = project / "results"
@@ -73,7 +78,11 @@ def main() -> int:
     training_path = results / "pi05_rm65_formal_30k.json"
     training_log_path = outputs / "rm65_scripted_v1_lora_30k.log"
     offline_path = results / "pi05_rm65_formal_offline_validation.json"
-    sim_path = results / "rm65_pi05_eval_v1_summary.json"
+    sim_v1_path = results / "rm65_pi05_eval_v1_summary.json"
+    training_v2_path = results / "pi05_rm65_policy_window_v2_30k.json"
+    offline_v2_path = results / "pi05_rm65_policy_window_v2_offline_validation.json"
+    sim_v2_path = results / "rm65_pi05_eval_v2_summary.json"
+    pipeline_v2_path = outputs / "rm65_v2_post_pipeline.status"
     readiness_path = results / "rm65_real_robot_readiness.json"
     shadow_path = results / "rm65_policy_shadow_validation.json"
     real_path = results / "rm65_pi05_real_robot_evaluation.json"
@@ -85,7 +94,17 @@ def main() -> int:
     norm = load_optional(norm_path)
     training = load_optional(training_path)
     offline = load_optional(offline_path)
-    simulation = load_optional(sim_path)
+    simulation_v1 = load_optional(sim_v1_path)
+    training_v2 = load_optional(training_v2_path)
+    offline_v2 = load_optional(offline_v2_path)
+    simulation_v2 = load_optional(sim_v2_path)
+    simulation = simulation_v2 or simulation_v1
+    sim_path = sim_v2_path if simulation_v2 else sim_v1_path
+    pipeline_v2_status = (
+        pipeline_v2_path.read_text(encoding="utf-8", errors="replace").strip()
+        if pipeline_v2_path.is_file()
+        else ""
+    )
     readiness = load_optional(readiness_path)
     shadow = load_optional(shadow_path)
     real = load_optional(real_path)
@@ -133,6 +152,34 @@ def main() -> int:
         and int(simulation.get("episode_count", 0)) >= 20
         and float(simulation.get("success_rate", 0.0)) >= 0.8
     )
+    v2_training_pass = bool(training_v2 and training_v2.get("status") == "pass")
+    v2_offline_pass = bool(
+        offline_v2
+        and offline_v2.get("status") == "pass"
+        and offline_v2.get("policy_window") is True
+    )
+    v2_simulation_pass = bool(
+        simulation_v2
+        and simulation_v2.get("status") == "pass"
+        and int(simulation_v2.get("episode_count", 0)) >= 20
+        and float(simulation_v2.get("success_rate", 0.0)) >= 0.8
+    )
+    if simulation_v2:
+        v2_status = "pass" if v2_simulation_pass else "fail"
+    elif v2_training_pass:
+        v2_status = "evaluating"
+    elif pipeline_v2_status.startswith("waiting_for_training_pid="):
+        v2_status = "training"
+    else:
+        v2_status = "not_started"
+    if simulation_pass:
+        simulation_status = "pass"
+    elif v2_status in {"training", "evaluating"}:
+        simulation_status = "in_progress_after_v1_failure"
+    elif simulation:
+        simulation_status = "fail"
+    else:
+        simulation_status = "not_started"
     readiness_pass = bool(
         readiness
         and readiness.get("status") == "pass"
@@ -207,7 +254,7 @@ def main() -> int:
             offline_path,
         ),
         "pi05_isaaclab_closed_loop": stage(
-            "pass" if simulation_pass else "waiting_for_training_or_evaluation",
+            simulation_status,
             "π0.5 在 20 个留出条件的 IsaacLab 闭环中达到至少 80% 成功率",
             sim_path,
             {
@@ -215,19 +262,42 @@ def main() -> int:
                 "success_rate": simulation.get("success_rate") if simulation else 0.0,
             },
         ),
+        "pi05_policy_window_v2": stage(
+            v2_status,
+            "用缩短静止段的 policy-window 数据训练并复测第二个 π0.5 候选策略",
+            sim_v2_path if simulation_v2 else training_v2_path,
+            {
+                "training_report_pass": v2_training_pass,
+                "offline_validation_pass": v2_offline_pass,
+                "closed_loop_pass": v2_simulation_pass,
+                "pipeline_status": pipeline_v2_status,
+            },
+        ),
         "real_robot_readiness": stage(
-            "pass" if readiness_pass else "blocked",
+            (
+                "deferred_by_user"
+                if args.execution_scope == "simulation_only"
+                else ("pass" if readiness_pass else "blocked")
+            ),
             "只读硬件、网络、相机、标定和现场安全准备齐全",
             readiness_path,
             {"blockers": readiness.get("blockers", []) if readiness else ["report_missing"]},
         ),
         "real_sensor_policy_shadow": stage(
-            "pass" if shadow_pass else "not_started",
+            (
+                "deferred_by_user"
+                if args.execution_scope == "simulation_only"
+                else ("pass" if shadow_pass else "not_started")
+            ),
             "真实传感器运行 π0.5 影子模式，零发布、零真机命令",
             shadow_path,
         ),
         "pi05_real_robot_task": stage(
-            "pass" if real_pass else "not_started",
+            (
+                "deferred_by_user"
+                if args.execution_scope == "simulation_only"
+                else ("pass" if real_pass else "not_started")
+            ),
             "π0.5 实际控制 RM65-B + 4C2 成功完成任务",
             real_path,
         ),
@@ -235,6 +305,7 @@ def main() -> int:
     report = {
         "format": "rm65_pi05_project_progress_v1",
         "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "active_execution_scope": args.execution_scope,
         "project_goal_complete": project_goal_complete,
         "claims": {
             "scripted_expert_simulation_complete": scripted_pass,

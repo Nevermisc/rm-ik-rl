@@ -18,6 +18,24 @@ def main() -> int:
         fake_project = Path(temporary)
         results = fake_project / "results"
         results.mkdir()
+        outputs = fake_project / "outputs"
+        outputs.mkdir()
+        (results / "rm65_pi05_eval_v1_summary.json").write_text(
+            json.dumps(
+                {
+                    "status": "fail",
+                    "evaluation_kind": "isaaclab_pi0.5_closed_loop",
+                    "simulation_only": True,
+                    "real_robot_command_sent": False,
+                    "episode_count": 20,
+                    "success_rate": 0.6,
+                }
+            ),
+            encoding="utf-8",
+        )
+        (outputs / "rm65_v2_post_pipeline.status").write_text(
+            "waiting_for_training_pid=12345\n", encoding="utf-8"
+        )
         (results / "rm65_pi05_real_robot_evaluation.json").write_text(
             json.dumps(
                 {
@@ -51,8 +69,14 @@ def main() -> int:
         report = json.loads(output.read_text(encoding="utf-8"))
         assert report["claims"]["pi05_real_robot_task_complete"] is True
         assert report["project_goal_complete"] is False
+        assert report["active_execution_scope"] == "simulation_only"
         assert report["stages"]["pi05_fine_tuning"]["status"] == "not_started"
-        assert report["stages"]["pi05_isaaclab_closed_loop"]["status"] != "pass"
+        assert (
+            report["stages"]["pi05_isaaclab_closed_loop"]["status"]
+            == "in_progress_after_v1_failure"
+        )
+        assert report["stages"]["pi05_policy_window_v2"]["status"] == "training"
+        assert report["stages"]["pi05_real_robot_task"]["status"] == "deferred_by_user"
     print(
         json.dumps(
             {

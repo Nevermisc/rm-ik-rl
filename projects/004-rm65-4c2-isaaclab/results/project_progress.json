@@ -1,10 +1,11 @@
 {
   "format": "rm65_pi05_project_progress_v1",
-  "generated_at_utc": "2026-09-19T08:18:18.251127+00:00",
+  "generated_at_utc": "2026-09-19T09:37:15.129402+00:00",
+  "active_execution_scope": "simulation_only",
   "project_goal_complete": false,
   "claims": {
     "scripted_expert_simulation_complete": true,
-    "pi05_fine_tuning_complete": false,
+    "pi05_fine_tuning_complete": true,
     "pi05_isaaclab_closed_loop_complete": false,
     "pi05_real_robot_task_complete": false
   },
@@ -49,43 +50,58 @@
       }
     },
     "pi05_fine_tuning": {
-      "status": "in_progress",
+      "status": "pass",
       "claim": "π0.5 在 RM65 数据上完成参数微调",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_formal_30k.json",
-        "exists": false,
-        "sha256": null
+        "exists": true,
+        "sha256": "a515187c623249ac616efb2a000ef48c62ef9cd0054e64203c666e707d23ba0e"
       },
       "details": {
-        "last_logged_step": 22500,
+        "last_logged_step": 29900,
         "target_steps": 30000,
         "log": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/rm65_scripted_v1_lora_30k.log"
       }
     },
     "offline_checkpoint_validation": {
-      "status": "waiting_for_training",
+      "status": "pass",
       "claim": "checkpoint 在留出观测上输出有限且形状正确的动作；不代表任务成功",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_formal_offline_validation.json",
-        "exists": false,
-        "sha256": null
+        "exists": true,
+        "sha256": "2aefe032c89e2005631b9ececfd8c3db4add1f3fa1c5753191fcac5a91017711"
       }
     },
     "pi05_isaaclab_closed_loop": {
-      "status": "waiting_for_training_or_evaluation",
+      "status": "in_progress_after_v1_failure",
       "claim": "π0.5 在 20 个留出条件的 IsaacLab 闭环中达到至少 80% 成功率",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_eval_v1_summary.json",
+        "exists": true,
+        "sha256": "952db364c8e53178d8eb23ced5e0c15834faf724804c6e98641e2ca6c612b230"
+      },
+      "details": {
+        "episodes": 20,
+        "success_rate": 0.6
+      }
+    },
+    "pi05_policy_window_v2": {
+      "status": "training",
+      "claim": "用缩短静止段的 policy-window 数据训练并复测第二个 π0.5 候选策略",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_policy_window_v2_30k.json",
         "exists": false,
         "sha256": null
       },
       "details": {
-        "episodes": 0,
-        "success_rate": 0.0
+        "training_report_pass": false,
+        "offline_validation_pass": false,
+        "closed_loop_pass": false,
+        "pipeline_status": "waiting_for_training_pid=81283"
       }
     },
     "real_robot_readiness": {
-      "status": "blocked",
+      "status": "deferred_by_user",
       "claim": "只读硬件、网络、相机、标定和现场安全准备齐全",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_real_robot_readiness.json",
@@ -108,7 +124,7 @@
       }
     },
     "real_sensor_policy_shadow": {
-      "status": "not_started",
+      "status": "deferred_by_user",
       "claim": "真实传感器运行 π0.5 影子模式，零发布、零真机命令",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_policy_shadow_validation.json",
@@ -117,7 +133,7 @@
       }
     },
     "pi05_real_robot_task": {
-      "status": "not_started",
+      "status": "deferred_by_user",
       "claim": "π0.5 实际控制 RM65-B + 4C2 成功完成任务",
       "evidence": {
         "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_real_robot_evaluation.json",
