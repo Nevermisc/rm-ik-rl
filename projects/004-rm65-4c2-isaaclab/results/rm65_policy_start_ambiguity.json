@@ -1,0 +1,605 @@
+{
+  "status": "pass",
+  "analysis_kind": "policy_start_action_horizon_ambiguity",
+  "horizon": 10,
+  "motion_threshold_rad": 0.005,
+  "episode_count": 45,
+  "full_dataset": {
+    "source_settle_frame_count": 855,
+    "source_frames_with_motion_in_horizon": 270,
+    "motion_horizon_fraction": 0.3157894736842105
+  },
+  "policy_window": {
+    "source_settle_frame_count": 90,
+    "source_frames_with_motion_in_horizon": 90,
+    "motion_horizon_fraction": 1.0
+  },
+  "interpretation": "A policy has no explicit phase clock. Repeated near-identical SOURCE_SETTLE observations with hold-only horizons compete with labels that begin moving. The policy-window view keeps only transition-adjacent start frames.",
+  "episodes": [
+    {
+      "episode": "episode_000000",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000001",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000002",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000003",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000004",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000005",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000006",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000007",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000008",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000009",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000010",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000011",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000012",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000013",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000014",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000015",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000016",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000017",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000018",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000019",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000020",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000021",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000022",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000023",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000024",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000025",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000026",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000027",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000028",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000029",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000030",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000031",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000032",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000033",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000034",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000035",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000036",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000037",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000038",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000039",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000040",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000041",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000042",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000043",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    },
+    {
+      "episode": "episode_000044",
+      "full_dataset": {
+        "source_settle_frame_count": 19,
+        "source_frames_with_motion_in_horizon": 6,
+        "motion_horizon_fraction": 0.3157894736842105
+      },
+      "policy_window": {
+        "source_settle_frame_count": 2,
+        "source_frames_with_motion_in_horizon": 2,
+        "motion_horizon_fraction": 1.0
+      }
+    }
+  ]
+}
