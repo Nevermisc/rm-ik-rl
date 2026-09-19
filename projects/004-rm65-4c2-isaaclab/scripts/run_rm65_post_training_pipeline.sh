@@ -69,6 +69,13 @@ python3 scripts/build_rm65_policy_artifact.py \
 python3 scripts/check_policy_execution_gate.py \
   results/pi05_rm65_policy_artifact.json --target simulation
 
+current_stage="evaluation_plan_validation"
+echo "stage=$current_stage" | tee "$sentinel"
+python3 scripts/validate_rm65_evaluation_plan.py \
+  --collection-plan config/rm65_expert_collection_plan_v1.json \
+  --evaluation-plan config/rm65_pi05_evaluation_plan_v1.json \
+  --output results/rm65_pi05_evaluation_plan_validation.json
+
 current_stage="first_closed_loop"
 echo "stage=$current_stage timeout_seconds=$first_case_timeout_seconds" | tee "$sentinel"
 timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \
