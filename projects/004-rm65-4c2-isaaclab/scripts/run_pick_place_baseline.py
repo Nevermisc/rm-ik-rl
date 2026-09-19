@@ -647,6 +647,8 @@ def main() -> int:
     if args.record_images and not getattr(args, "enable_cameras", False):
         raise ValueError("--record-images requires the AppLauncher flag --enable_cameras")
 
+    requested_pregrasp_distance_m = args.pregrasp_distance_m
+    effective_pregrasp_distance_m = requested_pregrasp_distance_m
     grasp_arm = np.array([0.0, -0.55, 1.05, 0.0, 0.65, 0.0], dtype=np.float64)
     lift_arm = np.array([0.0, -0.73, 0.87, 0.0, 0.65, 0.0], dtype=np.float64)
     source_block_position = SOURCE_BLOCK_POSITION.copy()
@@ -712,26 +714,40 @@ def main() -> int:
             ik_seeds.extend(random_seeds)
         top_down_solution = None
         success = False
-        retreat_distances_for_selection = np.linspace(
-            0.01,
-            args.pregrasp_distance_m,
-            max(1, int(round(args.pregrasp_distance_m / 0.01))),
-        )
-        retreat_targets_for_selection = [
-            top_down_link_position + np.array([0.0, 0.0, distance], dtype=np.float64)
-            for distance in retreat_distances_for_selection
-        ]
         top_down_quaternion = rot_matrix_to_quat(top_down_rotation)
-        for seed_index, ik_seed in enumerate(ik_seeds):
-            candidate_solution, candidate_success = lula.compute_inverse_kinematics(
-                "link_6",
-                top_down_link_position,
-                top_down_quaternion,
-                warm_start=np.asarray(ik_seed, dtype=np.float64),
-                position_tolerance=1e-4,
-                orientation_tolerance=1e-3,
+        minimum_pregrasp_distance_m = min(requested_pregrasp_distance_m, 0.05)
+        fallback_count = int(
+            np.floor(
+                (requested_pregrasp_distance_m - minimum_pregrasp_distance_m) / 0.01
+                + 1e-9
             )
-            if candidate_success:
+        )
+        pregrasp_distance_candidates = [
+            requested_pregrasp_distance_m - 0.01 * index
+            for index in range(fallback_count + 1)
+        ]
+        for candidate_pregrasp_distance_m in pregrasp_distance_candidates:
+            retreat_distances_for_selection = np.linspace(
+                0.01,
+                candidate_pregrasp_distance_m,
+                max(1, int(round(candidate_pregrasp_distance_m / 0.01))),
+            )
+            retreat_targets_for_selection = [
+                top_down_link_position
+                + np.array([0.0, 0.0, distance], dtype=np.float64)
+                for distance in retreat_distances_for_selection
+            ]
+            for seed_index, ik_seed in enumerate(ik_seeds):
+                candidate_solution, candidate_success = lula.compute_inverse_kinematics(
+                    "link_6",
+                    top_down_link_position,
+                    top_down_quaternion,
+                    warm_start=np.asarray(ik_seed, dtype=np.float64),
+                    position_tolerance=1e-4,
+                    orientation_tolerance=1e-3,
+                )
+                if not candidate_success:
+                    continue
                 candidate_raw = np.asarray(candidate_solution, dtype=np.float64)
                 try:
                     candidate_command = closest_equivalent_rm65_solution(
@@ -753,7 +769,10 @@ def main() -> int:
                 top_down_solution = candidate_command
                 precomputed_retreat_waypoints = candidate_retreat_waypoints
                 top_down_ik_seed_index = seed_index
+                effective_pregrasp_distance_m = candidate_pregrasp_distance_m
                 success = True
+                break
+            if success:
                 break
         if not success:
             print(
@@ -873,8 +892,8 @@ def main() -> int:
             np.asarray(SOURCE_BLOCK_QUATERNION_WXYZ, dtype=np.float64)
         )[:, 0]
     )
-    waypoint_count = max(1, int(round(args.pregrasp_distance_m / 0.01)))
-    retreat_distances = np.linspace(0.01, args.pregrasp_distance_m, waypoint_count)
+    waypoint_count = max(1, int(round(effective_pregrasp_distance_m / 0.01)))
+    retreat_distances = np.linspace(0.01, effective_pregrasp_distance_m, waypoint_count)
     retreat_targets = [
         grasp_link_position - distance * outward_direction
         for distance in retreat_distances
@@ -912,6 +931,8 @@ def main() -> int:
             "transfer_joint_1_rad": args.transfer_joint_1_rad,
             "grasp_orientation_mode": args.grasp_orientation_mode,
             "top_down_ik_seed_index": top_down_ik_seed_index,
+            "requested_pregrasp_distance_m": requested_pregrasp_distance_m,
+            "pregrasp_distance_m": effective_pregrasp_distance_m,
             "grasp_arm_joint_position_rad": grasp_arm.tolist(),
             "lift_arm_joint_position_rad": lift_arm.tolist(),
             "target_lift_arm_joint_position_rad": target_lift_arm.tolist(),
@@ -1347,7 +1368,8 @@ def main() -> int:
                 "damping": args.gripper_damping,
                 "close_target_rad": args.gripper_close_target_rad,
             },
-            "pregrasp_distance_m": args.pregrasp_distance_m,
+            "requested_pregrasp_distance_m": requested_pregrasp_distance_m,
+            "pregrasp_distance_m": effective_pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
             "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
             "robot_base_position_m": robot_base_position.tolist(),
@@ -1413,7 +1435,8 @@ def main() -> int:
             "real_robot_command_sent": False,
             "natural_source_gravity": args.natural_source_gravity,
             "arm_gravity_disabled_through_transport": args.disable_arm_gravity_through_transport,
-            "pregrasp_distance_m": args.pregrasp_distance_m,
+            "requested_pregrasp_distance_m": requested_pregrasp_distance_m,
+            "pregrasp_distance_m": effective_pregrasp_distance_m,
             "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
             "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
             "lift_mode": args.lift_mode,
@@ -1710,7 +1733,8 @@ def main() -> int:
             "damping": args.gripper_damping,
             "close_target_rad": args.gripper_close_target_rad,
         },
-        "pregrasp_distance_m": args.pregrasp_distance_m,
+        "requested_pregrasp_distance_m": requested_pregrasp_distance_m,
+        "pregrasp_distance_m": effective_pregrasp_distance_m,
         "grasp_world_offset_x_m": args.grasp_world_offset_x_m,
         "grasp_world_offset_z_m": args.grasp_world_offset_z_m,
         "robot_base_position_m": robot_base_position.tolist(),

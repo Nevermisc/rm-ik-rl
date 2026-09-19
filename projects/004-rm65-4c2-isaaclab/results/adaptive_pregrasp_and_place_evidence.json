@@ -1,0 +1,43 @@
+{
+  "format": "rm65_adaptive_waypoint_evidence_v1",
+  "status": "pass",
+  "simulation_only": true,
+  "expert": "scripted",
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "adaptive_pregrasp": {
+    "case_id": "case_000012",
+    "requested_distance_m": 0.09,
+    "selected_distance_m": 0.08,
+    "waypoint_count": 8,
+    "max_command_step_rad": 0.04315337385704687,
+    "full_task_success": true,
+    "training_ready": true,
+    "frame_count": 419,
+    "final_target_position_error_m": 0.011711420055393626
+  },
+  "deeper_place_descent": {
+    "case_id": "case_000014",
+    "before": {
+      "place_descent_distance_m": 0.12,
+      "post_release_drift_m": 0.02538376674056053,
+      "full_task_success": false
+    },
+    "after": {
+      "place_descent_distance_m": 0.13,
+      "post_release_drift_m": 0.0,
+      "full_task_success": true,
+      "training_ready": true,
+      "frame_count": 439,
+      "final_target_position_error_m": 0.010774036262740693
+    },
+    "success_threshold_changed": false
+  },
+  "joint_step_gate_rad": 0.75,
+  "source_artifacts": {
+    "case_000012_ik": "outputs/case_000012_adaptive_pregrasp_ik.json",
+    "case_000012_task": "datasets/rm65_scripted_v1/episode_000012/task_report.json",
+    "case_000014_failed_task": "datasets/rm65_failed_v1/episode_000014_attempt_001/task_report.json",
+    "case_000014_task": "datasets/rm65_scripted_v1/episode_000014/task_report.json"
+  }
+}

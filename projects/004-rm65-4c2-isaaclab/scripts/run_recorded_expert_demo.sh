@@ -49,7 +49,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --target-support-mode wide_platform \
   --target-collision-enable-stage after_transfer \
   --place-descent \
-  --place-descent-distance-m 0.12 \
+  --place-descent-distance-m 0.13 \
   --place-waypoint-steps 60 \
   --unassisted-release \
   --headless \
