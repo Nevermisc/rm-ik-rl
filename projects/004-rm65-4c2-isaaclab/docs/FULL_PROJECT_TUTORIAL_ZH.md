@@ -190,6 +190,19 @@ validation 按条件固定划分，不参与训练。它用于离线检查泛化
 ~/.cache/huggingface/lerobot/local/rm65_sim_validation
 ```
 
+完整 episode 中约 31% 是保持或最终静止帧。策略没有显式的“当前阶段计时器”，所以几乎相同的起始画面可能同时对应“继续保持”和“开始靠近”两种标签。机器分析给出的结果是：v1 的 855 个 `SOURCE_SETTLE` 帧中，只有 270 个（31.6%）的 10 步动作窗口包含开始运动。若模型学成保持动作，它可能在闭环起点一直等待。
+
+因此项目同时准备了一个不修改原始数据的 policy-window 视图：
+
+```text
+~/.cache/huggingface/lerobot/local/rm65_sim_policy_train
+~/.cache/huggingface/lerobot/local/rm65_sim_policy_validation
+```
+
+它保留所有实际运动阶段，只缩短保持段，去掉任务成功后才发生的 retreat/final-settle。起始帧从每条 19 帧缩到最后 2 帧，90/90 个保留起始帧的动作窗口都包含开始运动。`analyze_policy_window_transitions.py` 还验证了筛选没有制造大动作断点：跨被删帧的最大关节目标变化约 `0.00307 rad`，低于 `0.05 rad` 仿真门限。
+
+正式 v1 训练已经开始，所以没有在中途更换数据。先完成 v1 并做闭环；若证据显示它停在起点，再使用 `train_rm65_pi05_policy_window.sh` 训练 v2。这是由失败模式触发的受控迭代，不是看到 loss 不够低就随意换方案。
+
 `openpi_extension/rm65_policy.py` 把仓库字段转换为 π0.5 通用字段。RM65 有 7 维状态和 7 维动作，而模型内部使用 32 维槽位；transform 负责补齐和在输出时只取前 7 维。训练时前六轴动作转换为相对当前状态的 delta，夹爪保持绝对值；推理输出再逆变换为六轴绝对目标和夹爪目标。
 
 ## 8. 归一化统计为什么必须重新算
@@ -256,6 +269,8 @@ batch size             1
 
 `run_pi05_rm65_closed_loop_suite.py` 使用 20 条新角度/位置组合做可恢复评测。真机门要求至少 20 条有效仿真 episode 且成功率不低于 80%。
 
+`validate_rm65_evaluation_plan.py` 会在启动 Isaac 前证明这些条件是留出的范围内插值：示范角度为 `0.6/0.7/0.8/0.9/1.0`，评测角度为 `0.65/0.75/0.85/0.95`；20 个完整的角度与位置组合都没有出现在示范中，同时仍位于训练范围内。评测还混合一个见过的指令和四个未见过的同义措辞。它衡量的是训练范围内的插值鲁棒性，不能解释为任意物体或任意场景泛化。
+
 > 本节最终成功率必须读取 `results/rm65_pi05_eval_v1_summary.json`。文件尚未生成时，不得写成已经成功。
 
 ## 11. 策略清单和 fail-closed 安全门
@@ -282,6 +297,10 @@ UDP cycle: 5 ms
 RealMan gripper 消息把 1～1000 描述为 0～70 mm 开口，但还不知道当前 4C2 是否接入这个原生接口。`config/rm65_4c2_gripper_calibration_template.json` 默认 `verified=false`；没有实际开闭命令和宽度测量，代码拒绝做映射。
 
 ROS2 已安装 RealSense 包，但当前 USB 没有检测到 D435i。旧的 `Link6 → camera_link` 只是临时 TF，不是手眼标定结果。
+
+`scripts/audit_real_robot_readiness.py` 可以随时重跑电脑侧准备审计。当前报告是 `blocked`：有线口还没有 `192.168.1.x` 地址、控制器不可达、没有相机设备、4C2 标定未验证，现场急停与人工监护也必须手动确认。报告是只读的，并明确写入 `real_robot_command_sent=false`。
+
+接好机械臂并启动驱动后，先运行 `scripts/probe_rm65_joint_feedback.py`。它只订阅 `/joint_states`，不创建发布器；检查 `joint1...joint6` 名称、六轴弧度有限值、关节范围、消息时间单调和至少 20 Hz 的反馈。只有探针通过，才能把“只读反馈已验证”写入真机门禁。
 
 ## 13. 真机应按什么顺序推进
 
@@ -331,11 +350,23 @@ scripts/serve_rm65_policy.py
 scripts/run_pi05_rm65_closed_loop_suite.py
   多条件闭环评测、续跑和汇总
 
+scripts/analyze_policy_start_ambiguity.py
+  比较完整数据与 policy-window 的起始动作标签歧义
+
+scripts/validate_rm65_evaluation_plan.py
+  证明闭环用例是留出的范围内插值条件
+
 openpi_extension/execution_gate.py
   仿真与真机 fail-closed 门禁
 
 openpi_extension/real_robot_adapter.py
   ROS2 关节顺序、真机小步限制和夹爪标定映射
+
+scripts/audit_real_robot_readiness.py
+  只读检查网口、驱动、相机、夹爪标定和现场门禁
+
+scripts/probe_rm65_joint_feedback.py
+  只订阅 joint_states，验证六轴反馈契约
 ```
 
 读每个文件时回答四个问题：输入是什么、输出是什么、单位是什么、失败时如何停止。能回答这四个问题，才算真正看懂机器人控制代码。
