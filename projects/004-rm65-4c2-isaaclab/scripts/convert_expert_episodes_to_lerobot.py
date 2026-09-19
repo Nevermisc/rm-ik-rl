@@ -32,16 +32,63 @@ def load_episode(directory: Path) -> dict[str, Any]:
     with np.load(directory / "episode.npz") as arrays:
         states = arrays["observation_state"].astype(np.float32, copy=True)
         actions = arrays["action"].astype(np.float32, copy=True)
+        phase_ids = arrays["phase_id"].astype(np.int64, copy=True)
     return {
         "directory": directory,
         "prompt": manifest["prompt"],
         "fps": float(manifest["control_hz"]),
         "states": states,
         "actions": actions,
+        "phase_ids": phase_ids,
+        "phase_names": manifest["phase_names"],
         "external_paths": manifest["image_paths"]["external"],
         "wrist_paths": manifest["image_paths"]["wrist"],
         "collection_split": manifest.get("metadata", {}).get("collection_split"),
     }
+
+
+def select_policy_window_indices(episode: dict[str, Any]) -> np.ndarray:
+    """Keep control-relevant motion while reducing ambiguous stationary labels.
+
+    The full portable episode remains unchanged. This optional view retains the
+    last two frames of pre-transition holds, the first 15 release-settle frames,
+    and every motion frame through release. Retreat and final-settle frames are
+    omitted because the closed-loop success detector stops after stable release.
+    """
+
+    phase_ids = np.asarray(episode["phase_ids"], dtype=np.int64)
+    phase_names = episode["phase_names"]
+    phases = np.asarray([phase_names[int(index)] for index in phase_ids], dtype=object)
+    motion_mask = np.array(
+        [
+            phase.startswith("APPROACH_")
+            or phase.startswith("PLACE_DESCENT_")
+            or phase in {"CLOSE", "LIFT", "TRANSFER", "OPEN"}
+            for phase in phases
+        ],
+        dtype=bool,
+    )
+    selected = set(np.flatnonzero(motion_mask).tolist())
+    for phase in (
+        "SOURCE_SETTLE",
+        "GRASP_HOLD",
+        "CLOSE_HOLD",
+        "LIFT_HOLD",
+        "TARGET_COLLISION_HOLD",
+        "PLACE_HOLD",
+    ):
+        indices = np.flatnonzero(phases == phase)
+        selected.update(indices[-2:].tolist())
+    release_indices = np.flatnonzero(phases == "RELEASE_SETTLE")
+    selected.update(release_indices[:15].tolist())
+    result = np.asarray(sorted(selected), dtype=np.int64)
+    if len(result) == 0:
+        raise ValueError(f"episode contains no recognized policy phases: {episode['directory']}")
+    if phases[result[0]] != "SOURCE_SETTLE":
+        raise ValueError("policy window must begin with a SOURCE_SETTLE transition frame")
+    if "OPEN" not in phases[result] or "RELEASE_SETTLE" not in phases[result]:
+        raise ValueError("policy window must contain OPEN and RELEASE_SETTLE")
+    return result
 
 
 def read_rgb(path: Path) -> np.ndarray:
@@ -98,6 +145,14 @@ def main() -> int:
         choices=("train", "validation"),
         help="Convert only the declared collection split.",
     )
+    parser.add_argument(
+        "--policy-window",
+        action="store_true",
+        help=(
+            "Compress stationary holds and omit post-success retreat/final settle. "
+            "Use a new repo id; the source episodes are never modified."
+        ),
+    )
     args = parser.parse_args()
 
     episodes = discover_episodes(
@@ -150,8 +205,19 @@ def main() -> int:
         image_writer_processes=5,
     )
     total_frames = 0
+    source_frames = 0
+    selected_phase_counts: dict[str, int] = {}
     for episode in episodes:
-        for index in range(len(episode["states"])):
+        source_frames += len(episode["states"])
+        indices = (
+            select_policy_window_indices(episode)
+            if args.policy_window
+            else np.arange(len(episode["states"]), dtype=np.int64)
+        )
+        for index in indices:
+            index = int(index)
+            phase = episode["phase_names"][int(episode["phase_ids"][index])]
+            selected_phase_counts[phase] = selected_phase_counts.get(phase, 0) + 1
             dataset.add_frame(
                 {
                     "image": read_rgb(episode["directory"] / episode["external_paths"][index]),
@@ -173,6 +239,9 @@ def main() -> int:
                 "output_path": str(output_path),
                 "episode_count": len(episodes),
                 "frame_count": total_frames,
+                "source_frame_count": source_frames,
+                "policy_window": args.policy_window,
+                "selected_phase_counts": dict(sorted(selected_phase_counts.items())),
                 "fps": int(rounded_fps),
                 "collection_split": args.split,
             },

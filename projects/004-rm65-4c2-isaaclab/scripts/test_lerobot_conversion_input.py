@@ -15,7 +15,10 @@ for path in (PROJECT_ROOT, SCRIPTS_ROOT):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from convert_expert_episodes_to_lerobot import discover_episodes
+from convert_expert_episodes_to_lerobot import (
+    discover_episodes,
+    select_policy_window_indices,
+)
 from openpi_extension.expert_episode import EpisodeRecorder
 
 
@@ -56,6 +59,55 @@ def main() -> int:
             and episodes[0]["collection_split"] == "train"
             and no_validation
         )
+        synthetic_phases = [
+            "SOURCE_SETTLE",
+            "SOURCE_SETTLE",
+            "SOURCE_SETTLE",
+            "APPROACH_1",
+            "GRASP_HOLD",
+            "GRASP_HOLD",
+            "GRASP_HOLD",
+            "CLOSE",
+            "CLOSE_HOLD",
+            "CLOSE_HOLD",
+            "LIFT",
+            "TRANSFER",
+            "PLACE_HOLD",
+            "PLACE_HOLD",
+            "PLACE_HOLD",
+            "OPEN",
+            "RELEASE_SETTLE",
+            "RELEASE_SETTLE",
+            "RETREAT_1",
+            "FINAL_SETTLE",
+        ]
+        phase_names = list(dict.fromkeys(synthetic_phases))
+        phase_ids = np.array([phase_names.index(phase) for phase in synthetic_phases])
+        policy_indices = select_policy_window_indices(
+            {
+                "directory": root / "synthetic",
+                "phase_ids": phase_ids,
+                "phase_names": phase_names,
+            }
+        )
+        selected_phases = [synthetic_phases[index] for index in policy_indices]
+        passed = passed and selected_phases == [
+            "SOURCE_SETTLE",
+            "SOURCE_SETTLE",
+            "APPROACH_1",
+            "GRASP_HOLD",
+            "GRASP_HOLD",
+            "CLOSE",
+            "CLOSE_HOLD",
+            "CLOSE_HOLD",
+            "LIFT",
+            "TRANSFER",
+            "PLACE_HOLD",
+            "PLACE_HOLD",
+            "OPEN",
+            "RELEASE_SETTLE",
+            "RELEASE_SETTLE",
+        ]
         print(f"LEROBOT_CONVERSION_INPUT={'PASS' if passed else 'FAIL'}")
         return 0 if passed else 1
 
