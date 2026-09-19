@@ -22,7 +22,19 @@ def port_open(port: int) -> bool:
         return client.connect_ex(("127.0.0.1", port)) == 0
 
 
-def load_existing_report(path: Path, checkpoint_id: str) -> dict | None:
+def report_gripper_open_threshold(report: dict) -> float | None:
+    configured = report.get("controller_config", {}).get("policy_gripper_open_threshold")
+    if isinstance(configured, (int, float)):
+        return float(configured)
+    historical = report.get("criteria", {}).get("final_gripper_normalized_lt")
+    if isinstance(historical, (int, float)):
+        return float(historical)
+    return None
+
+
+def load_existing_report(
+    path: Path, checkpoint_id: str, gripper_open_threshold: float
+) -> dict | None:
     if not path.is_file():
         return None
     try:
@@ -32,6 +44,9 @@ def load_existing_report(path: Path, checkpoint_id: str) -> dict | None:
     if report.get("policy_checkpoint_id") != checkpoint_id:
         return None
     if report.get("pi05_used") is not True or report.get("simulation_only") is not True:
+        return None
+    existing_threshold = report_gripper_open_threshold(report)
+    if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
         return None
     return report
 
@@ -56,6 +71,12 @@ def main() -> int:
     )
     parser.add_argument("--policy-port", type=int, default=8000)
     parser.add_argument(
+        "--gripper-open-threshold",
+        type=float,
+        default=0.12,
+        help="Normalized 4C2 threshold used for in-loop release verification.",
+    )
+    parser.add_argument(
         "--repo-id",
         default=os.environ.get("RM65_REPO_ID", "local/rm65_sim_train"),
         help="LeRobot repository id whose normalization statistics belong to the checkpoint.",
@@ -72,6 +93,8 @@ def main() -> int:
 
     if args.infrastructure_retries < 0:
         raise ValueError("--infrastructure-retries must be non-negative")
+    if not 0.0 < args.gripper_open_threshold < 1.0:
+        raise ValueError("--gripper-open-threshold must be between 0 and 1")
 
     checkpoint = args.checkpoint.expanduser().resolve()
     if not checkpoint.is_dir():
@@ -109,6 +132,7 @@ def main() -> int:
         "XLA_PYTHON_CLIENT_MEM_FRACTION", "0.50"
     )
     environment["RM65_REPO_ID"] = args.repo_id
+    environment["POLICY_GRIPPER_OPEN_THRESHOLD"] = str(args.gripper_open_threshold)
     server_log_path = PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"
     server_log_path.parent.mkdir(parents=True, exist_ok=True)
     with server_log_path.open("w", encoding="utf-8") as server_log:
@@ -146,7 +170,9 @@ def main() -> int:
                 case_id = case["case_id"]
                 episode_dir = output_root / case_id
                 report_path = episode_dir / "task_report.json"
-                existing = load_existing_report(report_path, checkpoint_id)
+                existing = load_existing_report(
+                    report_path, checkpoint_id, args.gripper_open_threshold
+                )
                 if existing is not None:
                     print(f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True)
                     case_results.append(
@@ -197,7 +223,9 @@ def main() -> int:
                             "log": str(case_log_path),
                         }
                     )
-                    report = load_existing_report(report_path, checkpoint_id)
+                    report = load_existing_report(
+                        report_path, checkpoint_id, args.gripper_open_threshold
+                    )
                     if report is not None:
                         break
                     if attempt < args.infrastructure_retries:
@@ -241,6 +269,7 @@ def main() -> int:
         "checkpoint": str(checkpoint),
         "policy_checkpoint_id": checkpoint_id,
         "repo_id": args.repo_id,
+        "gripper_open_threshold_normalized": args.gripper_open_threshold,
         "planned_case_count": len(cases),
         "episode_count": episode_count,
         "success_count": successes,

@@ -48,8 +48,16 @@ def failed_criteria(report: dict) -> list[str]:
         failures.append("target_position_error")
     if report.get("post_release_drift_m", float("inf")) >= 0.02:
         failures.append("post_release_drift")
-    if report.get("final_gripper_normalized", float("inf")) >= 0.12:
-        failures.append("gripper_not_open")
+    release_verification = report.get("release_verification")
+    if isinstance(release_verification, dict):
+        if release_verification.get("verified") is not True:
+            failures.append("release_not_verified")
+    else:
+        historical_threshold = report.get("criteria", {}).get(
+            "final_gripper_normalized_lt", 0.12
+        )
+        if report.get("final_gripper_normalized", float("inf")) >= historical_threshold:
+            failures.append("gripper_not_open")
     return failures
 
 
@@ -116,6 +124,7 @@ def main() -> int:
                         "final_target_position_error_m",
                         "post_release_drift_m",
                         "final_gripper_normalized",
+                        "release_verification",
                     )
                 },
             }

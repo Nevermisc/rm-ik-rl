@@ -13,6 +13,15 @@ from isaaclab.app import AppLauncher
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--usd", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument(
+    "--gripper-samples-rad",
+    type=float,
+    nargs="+",
+    default=[0.0, 0.25, 0.55, 0.85],
+    help="Master-joint targets to measure (0 rad is open, 0.865 rad is closed).",
+)
+parser.add_argument("--object-width-m", type=float, default=0.040)
+parser.add_argument("--clearance-margin-m", type=float, default=0.005)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 app_launcher = AppLauncher(args)
@@ -28,7 +37,6 @@ from isaaclab.utils import math as math_utils  # noqa: E402
 
 
 ARM_JOINTS = [f"joint_{index}" for index in range(1, 7)]
-GRIPPER_SAMPLES_RAD = [0.0, 0.25, 0.55, 0.85]
 BODY_PAIRS = [("tool_l_3", "tool_r_3"), ("tool_l_2", "tool_r_2")]
 TIP_LOCAL_POINTS = {
     "tool_r_2": (0.04368, -0.00645, 0.01250),
@@ -36,6 +44,46 @@ TIP_LOCAL_POINTS = {
     "tool_r_3": (0.02850, 0.00720, 0.00900),
     "tool_l_3": (0.02850, -0.00720, 0.00900),
 }
+PAD_LOCAL_GEOMETRY = {
+    "tool_l_2": {
+        "center_m": (0.027286683, 0.013343694, -0.072958842),
+        "rpy_rad": (0.005034454, 0.254940134, 0.652909860),
+        "size_m": (0.025, 0.010, 0.020),
+    },
+    "tool_r_2": {
+        "center_m": (0.028775714, -0.011597111, -0.073257379),
+        "rpy_rad": (0.005034429, 0.254940104, -0.644663208),
+        "size_m": (0.025, 0.010, 0.020),
+    },
+}
+
+
+def pad_world_geometry(
+    body_position: torch.Tensor,
+    body_orientation: torch.Tensor,
+    geometry: dict,
+) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    """Return pad center, world axes, and half extents for an oriented box."""
+    device = body_position.device
+    dtype = body_position.dtype
+    local_center = torch.tensor(geometry["center_m"], device=device, dtype=dtype).unsqueeze(0)
+    center = body_position + math_utils.quat_apply(
+        body_orientation.unsqueeze(0), local_center
+    )[0]
+    roll, pitch, yaw = [
+        torch.tensor([value], device=device, dtype=dtype)
+        for value in geometry["rpy_rad"]
+    ]
+    local_orientation = math_utils.quat_from_euler_xyz(roll, pitch, yaw)
+    world_orientation = math_utils.quat_mul(
+        body_orientation.unsqueeze(0), local_orientation
+    )[0]
+    local_axes = torch.eye(3, device=device, dtype=dtype)
+    world_axes = math_utils.quat_apply(
+        world_orientation.unsqueeze(0).expand(3, -1), local_axes
+    )
+    half_extents = 0.5 * torch.tensor(geometry["size_m"], device=device, dtype=dtype)
+    return center, world_axes, half_extents
 
 
 def main() -> int:
@@ -89,7 +137,9 @@ def main() -> int:
     )
     samples = []
 
-    for gripper_target in GRIPPER_SAMPLES_RAD:
+    for gripper_target in sorted(set(args.gripper_samples_rad)):
+        if not 0.0 <= gripper_target <= 0.865:
+            raise ValueError(f"gripper target outside [0, 0.865] rad: {gripper_target}")
         state = base_state.clone()
         state[:, gripper_ids] = gripper_target
         robot.write_joint_state_to_sim(state, torch.zeros_like(state))
@@ -116,7 +166,40 @@ def main() -> int:
                 "left_tip_world_m": left_tip.detach().cpu().tolist(),
                 "right_tip_world_m": right_tip.detach().cpu().tolist(),
             }
-        samples.append({"joint_target_rad": gripper_target, "pair_distances": distances})
+        left_id = body_names.index("tool_l_2")
+        right_id = body_names.index("tool_r_2")
+        left_center, left_axes, left_half_extents = pad_world_geometry(
+            positions[left_id], orientations[left_id], PAD_LOCAL_GEOMETRY["tool_l_2"]
+        )
+        right_center, right_axes, right_half_extents = pad_world_geometry(
+            positions[right_id], orientations[right_id], PAD_LOCAL_GEOMETRY["tool_r_2"]
+        )
+        center_delta = left_center - right_center
+        center_distance = torch.linalg.vector_norm(center_delta)
+        separation_axis = center_delta / center_distance
+        left_projection = torch.sum(
+            torch.abs(left_axes @ separation_axis) * left_half_extents
+        )
+        right_projection = torch.sum(
+            torch.abs(right_axes @ separation_axis) * right_half_extents
+        )
+        pad_surface_clearance = center_distance - left_projection - right_projection
+        required_clearance = args.object_width_m + args.clearance_margin_m
+        samples.append(
+            {
+                "joint_target_rad": gripper_target,
+                "normalized_gripper_target": gripper_target / 0.865,
+                "pair_distances": distances,
+                "contact_pad_geometry": {
+                    "center_distance_m": float(center_distance),
+                    "left_projected_half_extent_m": float(left_projection),
+                    "right_projected_half_extent_m": float(right_projection),
+                    "surface_clearance_m": float(pad_surface_clearance),
+                    "required_for_object_and_margin_m": required_clearance,
+                    "clears_object_with_margin": bool(pad_surface_clearance >= required_clearance),
+                },
+            }
+        )
 
     pair_trends = {}
     changed_enough = True
@@ -137,7 +220,21 @@ def main() -> int:
 
     all_monotonic = all(item["monotonic"] for item in pair_trends.values())
     finite = all(np.isfinite(item["distance_m"]).all() for item in pair_trends.values())
-    passed = all_monotonic and changed_enough and finite
+    clearance_values = np.array(
+        [sample["contact_pad_geometry"]["surface_clearance_m"] for sample in samples]
+    )
+    clearance_finite = bool(np.isfinite(clearance_values).all())
+    passing_samples = [
+        sample
+        for sample in samples
+        if sample["contact_pad_geometry"]["clears_object_with_margin"]
+    ]
+    maximum_normalized_target_with_clearance = (
+        max(sample["normalized_gripper_target"] for sample in passing_samples)
+        if passing_samples
+        else None
+    )
+    passed = all_monotonic and changed_enough and finite and clearance_finite
     report = {
         "status": "pass" if passed else "fail",
         "simulation_only": True,
@@ -146,12 +243,23 @@ def main() -> int:
         "body_names": body_names,
         "gripper_joint_ids": gripper_ids,
         "tip_local_points_m": TIP_LOCAL_POINTS,
+        "contact_pad_local_geometry": PAD_LOCAL_GEOMETRY,
+        "object_width_m": args.object_width_m,
+        "clearance_margin_m": args.clearance_margin_m,
         "samples": samples,
         "pair_trends": pair_trends,
         "all_pair_distances_monotonic": all_monotonic,
         "all_values_finite": finite,
+        "all_contact_pad_clearances_finite": clearance_finite,
+        "maximum_sampled_normalized_target_clearing_object_with_margin": (
+            maximum_normalized_target_with_clearance
+        ),
         "minimum_required_total_distance_change_m": 0.005,
-        "note": "Body-origin distances verify geometric motion, not calibrated fingertip aperture or grasp contact.",
+        "note": (
+            "Contact-pad surface clearance is the separating-axis projection of the two "
+            "URDF pad boxes. It calibrates geometric opening, but does not by itself prove "
+            "dynamic release under contact."
+        ),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

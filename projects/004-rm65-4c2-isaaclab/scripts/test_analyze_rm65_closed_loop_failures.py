@@ -35,7 +35,28 @@ def main() -> int:
     elevated["final_position_m"] = [0.0, 0.0, 2.01]
     assert simulation_out_of_bounds(elevated) is True
 
-    print(json.dumps({"status": "pass", "checks": 5}, indent=2))
+    verified_release = base_report()
+    verified_release["final_gripper_normalized"] = 0.19
+    verified_release["release_verification"] = {
+        "verified": True,
+        "open_threshold_normalized": 0.20,
+    }
+    assert "gripper_not_open" not in failed_criteria(verified_release)
+    assert "release_not_verified" not in failed_criteria(verified_release)
+
+    unverified_release = base_report()
+    unverified_release["release_verification"] = {
+        "verified": False,
+        "open_threshold_normalized": 0.20,
+    }
+    assert "release_not_verified" in failed_criteria(unverified_release)
+
+    historical = base_report()
+    historical["final_gripper_normalized"] = 0.13
+    historical["criteria"] = {"final_gripper_normalized_lt": 0.12}
+    assert "gripper_not_open" in failed_criteria(historical)
+
+    print(json.dumps({"status": "pass", "checks": 11}, indent=2))
     return 0
 
 

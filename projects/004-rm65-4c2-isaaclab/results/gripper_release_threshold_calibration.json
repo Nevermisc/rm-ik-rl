@@ -1,0 +1,441 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "control_mode": "one scalar copied to all six movable 4C2 joints",
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "body_names": [
+    "base_link",
+    "link_1",
+    "link_2",
+    "link_3",
+    "link_4",
+    "link_5",
+    "link_6",
+    "tool_base_link",
+    "tool_r_1",
+    "tool_l_1",
+    "tool_l_2_base",
+    "tool_r_2_base",
+    "tool_r_3",
+    "tool_l_3",
+    "tool_l_2",
+    "tool_r_2"
+  ],
+  "gripper_joint_ids": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "tip_local_points_m": {
+    "tool_r_2": [
+      0.04368,
+      -0.00645,
+      0.0125
+    ],
+    "tool_l_2": [
+      0.04368,
+      0.00645,
+      0.01257
+    ],
+    "tool_r_3": [
+      0.0285,
+      0.0072,
+      0.009
+    ],
+    "tool_l_3": [
+      0.0285,
+      -0.0072,
+      0.009
+    ]
+  },
+  "contact_pad_local_geometry": {
+    "tool_l_2": {
+      "center_m": [
+        0.027286683,
+        0.013343694,
+        -0.072958842
+      ],
+      "rpy_rad": [
+        0.005034454,
+        0.254940134,
+        0.65290986
+      ],
+      "size_m": [
+        0.025,
+        0.01,
+        0.02
+      ]
+    },
+    "tool_r_2": {
+      "center_m": [
+        0.028775714,
+        -0.011597111,
+        -0.073257379
+      ],
+      "rpy_rad": [
+        0.005034429,
+        0.254940104,
+        -0.644663208
+      ],
+      "size_m": [
+        0.025,
+        0.01,
+        0.02
+      ]
+    }
+  },
+  "object_width_m": 0.04,
+  "clearance_margin_m": 0.005,
+  "samples": [
+    {
+      "joint_target_rad": 0.0,
+      "normalized_gripper_target": 0.0,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.09139995276927948,
+          "absolute_xyz_m": [
+            7.450580596923828e-08,
+            0.09139995276927948,
+            2.384185791015625e-07
+          ],
+          "left_tip_world_m": [
+            -0.23291774094104767,
+            0.0456995889544487,
+            0.7620983123779297
+          ],
+          "right_tip_world_m": [
+            -0.2329176664352417,
+            -0.04570036008954048,
+            0.7620985507965088
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.07289998233318329,
+          "absolute_xyz_m": [
+            1.5497207641601562e-06,
+            0.07289998233318329,
+            3.337860107421875e-06
+          ],
+          "left_tip_world_m": [
+            -0.21211419999599457,
+            0.036449600011110306,
+            0.7527925372123718
+          ],
+          "right_tip_world_m": [
+            -0.21211574971675873,
+            -0.03645038232207298,
+            0.7527891993522644
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.08495413511991501,
+        "left_projected_half_extent_m": 0.012680109590291977,
+        "right_projected_half_extent_m": 0.012949511408805847,
+        "surface_clearance_m": 0.05932451784610748,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": true
+      }
+    },
+    {
+      "joint_target_rad": 0.1038,
+      "normalized_gripper_target": 0.12000000000000001,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.08297823369503021,
+          "absolute_xyz_m": [
+            4.470348358154297e-08,
+            0.08297823369503021,
+            1.1920928955078125e-07
+          ],
+          "left_tip_world_m": [
+            -0.23394137620925903,
+            0.04148873686790466,
+            0.7625564932823181
+          ],
+          "right_tip_world_m": [
+            -0.23394133150577545,
+            -0.04148950055241585,
+            0.7625566124916077
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.06377886235713959,
+          "absolute_xyz_m": [
+            1.564621925354004e-06,
+            0.06377886235713959,
+            3.4570693969726562e-06
+          ],
+          "left_tip_world_m": [
+            -0.21250958740711212,
+            0.031889040023088455,
+            0.7529695630073547
+          ],
+          "right_tip_world_m": [
+            -0.21251115202903748,
+            -0.03188982605934143,
+            0.7529661059379578
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.07900873571634293,
+        "left_projected_half_extent_m": 0.01170889288187027,
+        "right_projected_half_extent_m": 0.011995751410722733,
+        "surface_clearance_m": 0.055304091423749924,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": true
+      }
+    },
+    {
+      "joint_target_rad": 0.173,
+      "normalized_gripper_target": 0.19999999999999998,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.07725412398576736,
+          "absolute_xyz_m": [
+            1.4901161193847656e-08,
+            0.07725412398576736,
+            1.7881393432617188e-07
+          ],
+          "left_tip_world_m": [
+            -0.23439998924732208,
+            0.038626667112112045,
+            0.7627617120742798
+          ],
+          "right_tip_world_m": [
+            -0.2343999743461609,
+            -0.03862745687365532,
+            0.7627618908882141
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.05766943097114563,
+          "absolute_xyz_m": [
+            1.6093254089355469e-06,
+            0.05766943097114563,
+            3.516674041748047e-06
+          ],
+          "left_tip_world_m": [
+            -0.21253247559070587,
+            0.028834322467446327,
+            0.7529798150062561
+          ],
+          "right_tip_world_m": [
+            -0.2125340849161148,
+            -0.028835108503699303,
+            0.7529762983322144
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.0749274268746376,
+        "left_projected_half_extent_m": 0.010994300246238708,
+        "right_projected_half_extent_m": 0.011283881030976772,
+        "surface_clearance_m": 0.05264924466609955,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": true
+      }
+    },
+    {
+      "joint_target_rad": 0.25,
+      "normalized_gripper_target": 0.28901734104046245,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.07082042098045349,
+          "absolute_xyz_m": [
+            2.9802322387695312e-08,
+            0.07082042098045349,
+            5.960464477539063e-08
+          ],
+          "left_tip_world_m": [
+            -0.2346966415643692,
+            0.0354098305106163,
+            0.7628945112228394
+          ],
+          "right_tip_world_m": [
+            -0.23469661176204681,
+            -0.03541058674454689,
+            0.7628945708274841
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.050885751843452454,
+          "absolute_xyz_m": [
+            1.6391277313232422e-06,
+            0.050885751843452454,
+            3.5762786865234375e-06
+          ],
+          "left_tip_world_m": [
+            -0.21233125030994415,
+            0.02544248290359974,
+            0.7528898119926453
+          ],
+          "right_tip_world_m": [
+            -0.21233288943767548,
+            -0.025443267077207565,
+            0.7528862357139587
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.07030300050973892,
+        "left_projected_half_extent_m": 0.010141605511307716,
+        "right_projected_half_extent_m": 0.010424267500638962,
+        "surface_clearance_m": 0.04973712936043739,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": true
+      }
+    },
+    {
+      "joint_target_rad": 0.55,
+      "normalized_gripper_target": 0.6358381502890174,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.045811500400304794,
+          "absolute_xyz_m": [
+            8.940696716308594e-08,
+            0.045811500400304794,
+            1.1920928955078125e-07
+          ],
+          "left_tip_world_m": [
+            -0.2336917370557785,
+            0.022905368357896805,
+            0.7624449133872986
+          ],
+          "right_tip_world_m": [
+            -0.23369182646274567,
+            -0.02290613204240799,
+            0.762444794178009
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.02533560059964657,
+          "absolute_xyz_m": [
+            1.7136335372924805e-06,
+            0.02533560059964657,
+            3.7550926208496094e-06
+          ],
+          "left_tip_world_m": [
+            -0.20931154489517212,
+            0.012667408213019371,
+            0.7515385746955872
+          ],
+          "right_tip_world_m": [
+            -0.2093132585287094,
+            -0.012668192386627197,
+            0.7515348196029663
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.05196124687790871,
+        "left_projected_half_extent_m": 0.006357439793646336,
+        "right_projected_half_extent_m": 0.006477053742855787,
+        "surface_clearance_m": 0.03912675380706787,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": false
+      }
+    },
+    {
+      "joint_target_rad": 0.85,
+      "normalized_gripper_target": 0.9826589595375722,
+      "pair_distances": {
+        "tool_l_3_to_tool_r_3": {
+          "euclidean_m": 0.022570181638002396,
+          "absolute_xyz_m": [
+            1.9371509552001953e-07,
+            0.022570181638002396,
+            2.980232238769531e-07
+          ],
+          "left_tip_world_m": [
+            -0.2293587625026703,
+            0.011284707114100456,
+            0.7605059146881104
+          ],
+          "right_tip_world_m": [
+            -0.2293589562177658,
+            -0.011285475455224514,
+            0.7605056166648865
+          ]
+        },
+        "tool_l_2_to_tool_r_2": {
+          "euclidean_m": 0.0028819383587688208,
+          "absolute_xyz_m": [
+            1.8030405044555664e-06,
+            0.002881934866309166,
+            4.0531158447265625e-06
+          ],
+          "left_tip_world_m": [
+            -0.20298077166080475,
+            0.0014405753463506699,
+            0.7487055659294128
+          ],
+          "right_tip_world_m": [
+            -0.2029825747013092,
+            -0.001441359519958496,
+            0.7487015128135681
+          ]
+        }
+      },
+      "contact_pad_geometry": {
+        "center_distance_m": 0.03434424474835396,
+        "left_projected_half_extent_m": 0.00764277670532465,
+        "right_projected_half_extent_m": 0.007997294887900352,
+        "surface_clearance_m": 0.01870417408645153,
+        "required_for_object_and_margin_m": 0.045,
+        "clears_object_with_margin": false
+      }
+    }
+  ],
+  "pair_trends": {
+    "tool_l_3_to_tool_r_3": {
+      "distance_m": [
+        0.09139995276927948,
+        0.08297823369503021,
+        0.07725412398576736,
+        0.07082042098045349,
+        0.045811500400304794,
+        0.022570181638002396
+      ],
+      "total_change_m": -0.06882977113127708,
+      "monotonic": true,
+      "direction": "decreasing"
+    },
+    "tool_l_2_to_tool_r_2": {
+      "distance_m": [
+        0.07289998233318329,
+        0.06377886235713959,
+        0.05766943097114563,
+        0.050885751843452454,
+        0.02533560059964657,
+        0.0028819383587688208
+      ],
+      "total_change_m": -0.07001804397441447,
+      "monotonic": true,
+      "direction": "decreasing"
+    }
+  },
+  "all_pair_distances_monotonic": true,
+  "all_values_finite": true,
+  "all_contact_pad_clearances_finite": true,
+  "maximum_sampled_normalized_target_clearing_object_with_margin": 0.28901734104046245,
+  "minimum_required_total_distance_change_m": 0.005,
+  "note": "Contact-pad surface clearance is the separating-axis projection of the two URDF pad boxes. It calibrates geometric opening, but does not by itself prove dynamic release under contact."
+}

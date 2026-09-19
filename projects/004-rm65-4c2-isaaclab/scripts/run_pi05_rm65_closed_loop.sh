@@ -14,6 +14,7 @@ episode_prompt="${6:-pick up the block and place it on the target}"
 policy_port="${POLICY_PORT:-8000}"
 policy_server_mode="${POLICY_SERVER_MODE:-managed}"
 repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
+gripper_open_threshold="${POLICY_GRIPPER_OPEN_THRESHOLD:-0.12}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 cd "$project_root"
@@ -110,6 +111,7 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --place-waypoint-steps 180 \
   --unassisted-release \
   --pi05-closed-loop \
+  --policy-gripper-open-threshold "$gripper_open_threshold" \
   --policy-port "$policy_port" \
   --policy-checkpoint-id "$checkpoint_id" \
   --headless \

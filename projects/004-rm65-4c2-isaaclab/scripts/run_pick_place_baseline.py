@@ -154,12 +154,23 @@ parser.add_argument("--policy-port", type=int, default=8000)
 parser.add_argument("--policy-max-action-chunks", type=int, default=80)
 parser.add_argument("--policy-execute-actions-per-chunk", type=int, default=5)
 parser.add_argument(
+    "--policy-gripper-open-threshold",
+    type=float,
+    default=0.12,
+    help=(
+        "Normalized 4C2 target/feedback threshold used to verify a model-selected "
+        "release. Values below the threshold are open; calibrate this in simulation."
+    ),
+)
+parser.add_argument(
     "--policy-checkpoint-id",
     default="unknown",
     help="Checkpoint identifier stored in the machine-readable evaluation report.",
 )
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
+if not 0.0 < args.policy_gripper_open_threshold < 1.0:
+    parser.error("--policy-gripper-open-threshold must be between 0 and 1")
 app_launcher = AppLauncher(args)
 simulation_app = app_launcher.app
 
@@ -636,6 +647,8 @@ def run_pi05_closed_loop(
     last_executed_gripper_target = None
     release_postcondition_applied = False
     release_postcondition_arm_target = None
+    minimum_observed_gripper_normalized = float("inf")
+    minimum_executed_gripper_target = float("inf")
     try:
         for chunk_index in range(args.policy_max_action_chunks):
             external_rgb, wrist_rgb = episode_capture._render_images(robot, cube)
@@ -668,6 +681,9 @@ def run_pi05_closed_loop(
                 gripper_target_rad = float(action[6]) * 0.865
                 state[:, gripper_ids] = gripper_target_rad
                 last_executed_gripper_target = float(action[6])
+                minimum_executed_gripper_target = min(
+                    minimum_executed_gripper_target, last_executed_gripper_target
+                )
                 for _ in range(args.record_stride_steps):
                     robot.set_joint_position_target(state)
                     episode_capture.before_step(
@@ -688,12 +704,18 @@ def run_pi05_closed_loop(
 
             current_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
             target_error = float(np.linalg.norm(current_cube - target_block_position))
-            gripper_open = normalize_gripper(
+            actual_gripper_normalized = normalize_gripper(
                 float(robot.data.joint_pos[0, gripper_master_id].item())
-            ) < 0.12
+            )
+            minimum_observed_gripper_normalized = min(
+                minimum_observed_gripper_normalized, actual_gripper_normalized
+            )
+            gripper_open = (
+                actual_gripper_normalized < args.policy_gripper_open_threshold
+            )
             gripper_command_open = (
                 last_executed_gripper_target is not None
-                and last_executed_gripper_target < 0.12
+                and last_executed_gripper_target < args.policy_gripper_open_threshold
             )
             lifted = max_cube_z - float(settled_source_position[2].item()) > 0.02
             if lifted and target_error < 0.05 and gripper_open and gripper_command_open:
@@ -710,6 +732,7 @@ def run_pi05_closed_loop(
                         "lifted": lifted,
                         "gripper_open": gripper_open,
                         "gripper_command_open": gripper_command_open,
+                        "actual_gripper_normalized": actual_gripper_normalized,
                         "last_executed_gripper_target": last_executed_gripper_target,
                         "guard": guard,
                     }
@@ -754,7 +777,7 @@ def run_pi05_closed_loop(
         and final_target_xy_error < 0.05
         and final_target_position_error < 0.05
         and post_release_drift < 0.02
-        and final_gripper < 0.12
+        and release_postcondition_applied
         and all_states_finite
     )
 
@@ -786,6 +809,7 @@ def run_pi05_closed_loop(
                 args.record_stride_steps * sim.get_physics_dt()
             ),
             "success_candidate_required_consecutive_chunks": 3,
+            "policy_gripper_open_threshold": args.policy_gripper_open_threshold,
         },
         "inference_latency_s": {
             "first": inference_latencies[0] if inference_latencies else None,
@@ -801,12 +825,29 @@ def run_pi05_closed_loop(
             "applied": release_postcondition_applied,
             "trigger": (
                 "three consecutive chunks with lift, target error below 0.05 m, "
-                "actual gripper below 0.12, and executed gripper target below 0.12"
+                "actual gripper and executed gripper target below the calibrated threshold"
             ),
+            "open_threshold_normalized": args.policy_gripper_open_threshold,
             "arm_target_latched_to_actual_rad": release_postcondition_arm_target,
             "gripper_target_normalized": 0.0 if release_postcondition_applied else None,
             "verification_settle_steps": 240,
             "model_selected_release": release_postcondition_applied,
+        },
+        "release_verification": {
+            "verified": release_postcondition_applied,
+            "required_consecutive_chunks": 3,
+            "open_threshold_normalized": args.policy_gripper_open_threshold,
+            "minimum_observed_gripper_normalized": (
+                minimum_observed_gripper_normalized
+                if np.isfinite(minimum_observed_gripper_normalized)
+                else None
+            ),
+            "minimum_executed_gripper_target": (
+                minimum_executed_gripper_target
+                if np.isfinite(minimum_executed_gripper_target)
+                else None
+            ),
+            "final_gripper_normalized_is_diagnostic_only": True,
         },
         "source_position_m": source_np.tolist(),
         "target_position_m": target_block_position.tolist(),
@@ -824,7 +865,7 @@ def run_pi05_closed_loop(
             "final_target_xy_error_m_lt": 0.05,
             "final_target_position_error_m_lt": 0.05,
             "post_release_drift_m_lt": 0.02,
-            "final_gripper_normalized_lt": 0.12,
+            "model_selected_release_verified": True,
         },
         "episode": {
             "directory": str(episode_recorder.output_dir),
