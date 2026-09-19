@@ -1,0 +1,130 @@
+{
+  "format": "rm65_pi05_project_progress_v1",
+  "generated_at_utc": "2026-09-19T08:18:18.251127+00:00",
+  "project_goal_complete": false,
+  "claims": {
+    "scripted_expert_simulation_complete": true,
+    "pi05_fine_tuning_complete": false,
+    "pi05_isaaclab_closed_loop_complete": false,
+    "pi05_real_robot_task_complete": false
+  },
+  "stages": {
+    "new_lab_pc_migration": {
+      "status": "pass",
+      "claim": "项目不再依赖旧实验室电脑",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/new_lab_pc_migration_audit.json",
+        "exists": true,
+        "sha256": "67abbe6515d4e534905777c7a8acc59b5ecf2eecde855de100b424ac046a01ab"
+      }
+    },
+    "scripted_expert_simulation": {
+      "status": "pass",
+      "claim": "脚本专家在 IsaacLab 完成 RM65-B + 4C2 任务；π0.5 未使用",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/stage_summary.json",
+        "exists": true,
+        "sha256": "d70fa819250ba6af4d3013efee25d713c4752585fd35f9b039f92ceb0dd93513"
+      }
+    },
+    "expert_dataset": {
+      "status": "pass",
+      "claim": "45 条脚本专家轨迹全部成功并分为训练/验证集",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_scripted_v1_summary.json",
+        "exists": true,
+        "sha256": "043d5a2e7454992ae347a03926932ab15a96f233ebc1010741579445189f6503"
+      },
+      "details": {
+        "episodes": 45
+      }
+    },
+    "openpi_data_and_norm_stats": {
+      "status": "pass",
+      "claim": "RM65 数据满足 OpenPI 张量契约并有专用归一化统计",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_sim_train_norm_stats.json",
+        "exists": true,
+        "sha256": "e505409a6bc6a429cbbb02f7d43b50eb557d0f4a9fcc58cf586c4e3e488de142"
+      }
+    },
+    "pi05_fine_tuning": {
+      "status": "in_progress",
+      "claim": "π0.5 在 RM65 数据上完成参数微调",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_formal_30k.json",
+        "exists": false,
+        "sha256": null
+      },
+      "details": {
+        "last_logged_step": 22500,
+        "target_steps": 30000,
+        "log": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/rm65_scripted_v1_lora_30k.log"
+      }
+    },
+    "offline_checkpoint_validation": {
+      "status": "waiting_for_training",
+      "claim": "checkpoint 在留出观测上输出有限且形状正确的动作；不代表任务成功",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_formal_offline_validation.json",
+        "exists": false,
+        "sha256": null
+      }
+    },
+    "pi05_isaaclab_closed_loop": {
+      "status": "waiting_for_training_or_evaluation",
+      "claim": "π0.5 在 20 个留出条件的 IsaacLab 闭环中达到至少 80% 成功率",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_eval_v1_summary.json",
+        "exists": false,
+        "sha256": null
+      },
+      "details": {
+        "episodes": 0,
+        "success_rate": 0.0
+      }
+    },
+    "real_robot_readiness": {
+      "status": "blocked",
+      "claim": "只读硬件、网络、相机、标定和现场安全准备齐全",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_real_robot_readiness.json",
+        "exists": true,
+        "sha256": "f54982164be5c11b0d3abf30bdcf54df50d3b4abb47824e8413f2993b733f848"
+      },
+      "details": {
+        "blockers": [
+          "wired_ipv4_configured",
+          "wired_ipv4_matches_udp_subnet",
+          "controller_ping_reachable",
+          "realsense_usb_detected",
+          "video_devices_present",
+          "gripper_calibration_verified",
+          "external_camera_calibrated",
+          "wrist_camera_calibrated",
+          "physical_emergency_stop_verified",
+          "human_supervisor_ready"
+        ]
+      }
+    },
+    "real_sensor_policy_shadow": {
+      "status": "not_started",
+      "claim": "真实传感器运行 π0.5 影子模式，零发布、零真机命令",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_policy_shadow_validation.json",
+        "exists": false,
+        "sha256": null
+      }
+    },
+    "pi05_real_robot_task": {
+      "status": "not_started",
+      "claim": "π0.5 实际控制 RM65-B + 4C2 成功完成任务",
+      "evidence": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_real_robot_evaluation.json",
+        "exists": false,
+        "sha256": null
+      }
+    }
+  },
+  "interpretation": "Each claim requires its own evidence file. Scripted-expert success, offline action validation, pi0.5 simulation closed loop, and real-robot success are not interchangeable."
+}
