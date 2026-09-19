@@ -1,0 +1,8 @@
+{
+  "status": "pass",
+  "incomplete_manifest_blocked": true,
+  "rm65_simulation_manifest_allowed": true,
+  "real_robot_blocked_before_evaluation": true,
+  "complete_real_robot_manifest_allowed": true,
+  "franka_manifest_blocked": true
+}

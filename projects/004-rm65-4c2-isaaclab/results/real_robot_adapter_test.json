@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "side_effects": false,
+  "joint_order": [
+    0.10000000149011612,
+    0.20000000298023224,
+    0.30000001192092896,
+    0.4000000059604645,
+    0.5,
+    0.6000000238418579
+  ],
+  "open_command": 950,
+  "closed_command": 120,
+  "maximum_real_robot_step_rad": 0.009999999776482582,
+  "stream_points": 25,
+  "stream_duration_seconds": 0.5,
+  "maximum_stream_step_rad": 0.0040000081062316895
+}

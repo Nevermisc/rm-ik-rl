@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "read_only": true,
+  "ros_publishers_created": 0,
+  "decoded_pixel_0_rgb": [
+    3,
+    2,
+    1
+  ],
+  "sensor_skew_seconds": 0.05000000000000071,
+  "gripper_state_source": "operator_confirmed_static_value",
+  "twenty_sample_validation": "pass"
+}
