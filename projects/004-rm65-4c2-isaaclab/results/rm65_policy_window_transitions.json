@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "threshold_rad": 0.05,
+  "episodes_checked": 45,
+  "all_transition_exceedance_count": 18,
+  "filtering_introduced_exceedance_count": 0,
+  "maximum_transition": {
+    "episode": "episode_000044",
+    "left_index": 198,
+    "right_index": 199,
+    "source_frame_gap": 1,
+    "left_phase": "TRANSFER",
+    "right_phase": "TRANSFER",
+    "arm_delta_rad": [
+      0.05236518383026123,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "max_arm_delta_rad": 0.05236518383026123,
+    "left_action": [
+      0.4277530908584595,
+      0.5032345056533813,
+      1.5628724098205566,
+      -0.036051537841558456,
+      1.8576358556747437,
+      -0.04329906031489372,
+      0.9248555302619934
+    ],
+    "right_action": [
+      0.4801182746887207,
+      0.5032345056533813,
+      1.5628724098205566,
+      -0.036051537841558456,
+      1.8576358556747437,
+      -0.04329906031489372,
+      0.9248555302619934
+    ]
+  },
+  "maximum_filtering_gap_transition": {
+    "episode": "episode_000007",
+    "left_index": 293,
+    "right_index": 302,
+    "source_frame_gap": 9,
+    "left_phase": "PLACE_DESCENT_12",
+    "right_phase": "PLACE_HOLD",
+    "arm_delta_rad": [
+      5.364418029785156e-07,
+      0.002755105495452881,
+      0.00021648406982421875,
+      9.555797078064643e-07,
+      0.0030717849731445312,
+      1.0645744623616338e-06
+    ],
+    "max_arm_delta_rad": 0.0030717849731445312,
+    "left_action": [
+      0.6000086665153503,
+      0.8109797835350037,
+      1.7100000381469727,
+      -3.1678318919148296e-06,
+      1.4019917249679565,
+      3.534935603966005e-05,
+      0.9248555302619934
+    ],
+    "right_action": [
+      0.6000081300735474,
+      0.8137348890304565,
+      1.7102165222167969,
+      -2.2122521841083653e-06,
+      1.398919939994812,
+      3.428478157729842e-05,
+      0.9248555302619934
+    ]
+  },
+  "filtering_introduced_exceedances": [],
+  "note": "Threshold crossings with source_frame_gap=1 already exist in the raw trajectory and are not introduced by policy-window filtering."
+}
