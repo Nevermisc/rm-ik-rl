@@ -873,6 +873,7 @@ Git 在 `54b9785` 才一次性加入整理后的项目，因此上述中间探�
 
 - [`run_pi05_franka_robustness_suite.py` 全文](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py)
 - [`run_all_suites.sh` 全文](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_all_suites.sh)
+- [零基础逐行导读：`FRANKA_PI05_CODE_WALKTHROUGH_ZH.md`](FRANKA_PI05_CODE_WALKTHROUGH_ZH.md)
 
 按阅读顺序使用这些直达链接：
 
