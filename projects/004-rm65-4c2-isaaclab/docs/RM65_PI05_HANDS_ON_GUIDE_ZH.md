@@ -415,6 +415,515 @@ less docs/FRANKA_STAGE_REPORT_ZH.md
 - 为什么只执行前 8 步就重新观察？
 - 为什么 DROID joint-position checkpoint 不能直接控制 RM65？
 
+### 4.2.1 我们实际下载了什么，分别放在哪里
+
+先把“代码”“场景资产”“模型权重”“运行环境”“实验结果”分开。它们不能全塞进一个 Git 仓库：模型和 USD 资产很大，运行结果会不断生成，而自己写的代码和小型证据适合由 Git 管理。
+
+| 内容 | 来源 | 新电脑实际位置 | 当前规模或版本 | 为什么放这里 |
+|---|---|---|---|---|
+| 主项目代码 | `Nevermisc/rm-ik-rl` | `~/robot-learning/rm-ik-rl` | HEAD 至少为本教程提交 | 保存我们写的 runner、文档和小型 JSON 证据 |
+| OpenPI | Physical Intelligence 官方仓库 | `~/robot-learning/openpi` | `15a9616` | 模型定义、策略服务、WebSocket client 和 checkpoint 下载器 |
+| IsaacLab | NVIDIA 官方仓库 | `~/robot-learning/IsaacLab` | v2.3.2 / `37ddf62` | 运行环境、传感器、action manager 和 Isaac Python 入口 |
+| Isaac Sim | NVIDIA 5.1.0 二进制包 | `~/isaac-sim-5.1.0` | 约 19 GB | 物理、RTX 渲染和 USD 运行时，不适合放 Git |
+| sim-evals | `arhanjain/sim-evals` | `~/robot-learning/sim-evals` | `3a6b0e8` | 提供 DROID 风格 Franka 环境和三个场景 |
+| DROID 场景资产 | Hugging Face `owhan/DROID-sim-environments` | `~/robot-learning/sim-evals/assets` | 约 88 MB | sim-evals 用相对路径读取，放仓库根目录的 `assets` 最直接 |
+| π0.5 DROID joint-position 权重 | `gs://openpi-assets/checkpoints/pi05_droid_jointpos` | `~/.cache/openpi/openpi-assets/checkpoints/pi05_droid_jointpos` | 磁盘约 12 GB | OpenPI 下载器的标准缓存，可跨容器复用 |
+| PaliGemma tokenizer | OpenPI 自动下载 | `~/.cache/openpi/big_vision` | tokenizer model 约 4.3 MB | π0.5 文字指令分词所需 |
+| OpenPI 服务镜像 | 本机从 OpenPI Dockerfile 构建 | Docker image `openpi_server:latest` | image ID 前缀 `c9036656`，约 19.36 GB | 隔离 JAX/CUDA/模型依赖 |
+| LIBERO runtime 镜像 | 本机从 LIBERO Dockerfile 构建 | Docker image `libero:latest` | image ID 前缀 `25beb997`，约 21.05 GB | 只在 LIBERO benchmark 使用，Franka Isaac 闭环不依赖它 |
+| Franka 完整运行结果 | runner 自动生成 | `~/robot-learning/sim-evals/runs/pi05_franka_suite` | 视频、PNG、NPZ、JSON | 大文件且会重复生成，由 `.gitignore` 排除 |
+| Franka 摘要证据 | 从正式运行提炼 | `projects/003-pi05-franka-isaaclab/results` | 小型 JSON | 可以提交 Git，便于审阅结论而不搬运全部视频 |
+
+实际历史要分两段讲清楚：第一次在旧实验室电脑建立环境时，OpenPI、IsaacLab、sim-evals、DROID assets 和官方 checkpoint 分别从上游仓库、Hugging Face 与 OpenPI 资产服务器取得；换成当前 Ubuntu 24.04 新电脑时，没有把几十 GB 内容全部重新下载，而是复制 `~/robot-learning`、`~/.cache/openpi`、Isaac Sim 二进制和两个 Docker image，并用文件清单、镜像 ID 和分层测试验收。驱动、Docker、NVIDIA Container Toolkit 和 Python 虚拟环境则在新系统重装。教程里的下载命令描述“干净重建”，迁移文档描述“本项目实际上怎样搬到新电脑”，两者都是真实路线，但发生时间不同。
+
+场景资产目录中的关键文件是：
+
+```text
+assets/
+├── franka_robotiq_2f_85_flattened.usd   # Franka + Robotiq 机器人 USD
+├── scene1.usd                            # 魔方与红碗
+├── scene2.usd                            # 肉罐头与红杯
+├── scene3.usd                            # 香蕉与紫色收纳盒
+├── table.usd                             # 桌面
+└── backgrounds/
+    ├── billiard_hall_4k.hdr
+    ├── brown_photostudio_01_4k.hdr
+    └── empty_warehouse_01_4k.hdr
+```
+
+这批资产使用以下命令下载到 sim-evals 期望的位置：
+
+```bash
+cd ~/robot-learning/sim-evals
+uvx hf download owhan/DROID-sim-environments \
+  --repo-type dataset \
+  --local-dir assets
+```
+
+π0.5 权重不需要手工复制到 OpenPI 源码目录。服务收到：
+
+```text
+--policy.dir=gs://openpi-assets/checkpoints/pi05_droid_jointpos
+```
+
+以后，OpenPI 下载器会检查 `~/.cache/openpi`；没有就下载，有就复用。Docker Compose 把宿主机路径映射成容器内路径：
+
+```text
+宿主机 ~/robot-learning/openpi  → 容器 /app
+宿主机 ~/.cache/openpi          → 容器 /openpi_assets
+```
+
+因此模型日志中会显示从 `/openpi_assets/...` 加载，而你在宿主机上看到的是 `~/.cache/openpi/...`。两者是同一份文件的两种路径，不是下载了两遍。
+
+### 4.2.2 为什么目录要这样分层
+
+```text
+~/robot-learning/
+├── rm-ik-rl/              我们自己的代码、教程、配置、小型证据
+├── openpi/                上游模型仓库，尽量少改
+├── IsaacLab/              上游仿真框架，尽量少改
+└── sim-evals/             上游 Franka/DROID 环境和本地大运行结果
+
+~/isaac-sim-5.1.0/         NVIDIA 二进制运行时
+~/.cache/openpi/           可重新下载但很大的模型权重和 tokenizer
+```
+
+这种结构解决三个问题：
+
+1. **上游更新和自己的代码分离。** 可以明确说出修改发生在自己的项目，还是第三方仓库。
+2. **Git 不保存大文件。** checkpoint、视频、USD 和 Docker layer 不会把仓库撑到几十 GB。
+3. **迁移时有优先级。** 代码可从 Git 恢复；权重可从缓存或网络恢复；自己训练的 checkpoint 和机器人资产必须额外备份。
+
+### 4.2.3 哪些文件是我们自己写的
+
+Franka 项目在 Git 提交 `54b9785` 中首次完整加入。项目目录如下：
+
+```text
+projects/003-pi05-franka-isaaclab/
+├── README.md
+├── .gitignore
+├── .gitattributes
+├── config/
+│   └── openpi-gpu-memory.override.yml
+├── docs/
+│   └── FRANKA_STAGE_REPORT_ZH.md
+├── results/
+│   └── pi05_franka_summary_20260914.json
+└── scripts/
+    ├── probe_droid_scenes.py
+    ├── validate_droid_sim_scene.py
+    ├── warmup_pi05_droid.py
+    ├── start_and_warmup_pi05.sh
+    ├── stop_pi05_server.sh
+    ├── run_pi05_droid_scene1.py
+    ├── run_pi05_franka_robustness_suite.py
+    ├── run_all_suites.sh
+    ├── summarize_pi05_franka_suite.py
+    └── summarize_pi05_franka_audit.py
+```
+
+逐文件说明：
+
+| 文件 | 输入 | 输出 | 解决的问题 |
+|---|---|---|---|
+| `README.md` | 无 | 项目入口说明 | 让别人知道目标、依赖、结果和快速入口 |
+| `.gitignore` | Git 工作树 | 忽略规则 | 排除 `runs/`、视频、NPZ、USD、checkpoint 和缓存 |
+| `.gitattributes` | 文本文件 | LF 规则 | 防止 Windows/Ubuntu 换行差异破坏 Shell 脚本 |
+| `openpi-gpu-memory.override.yml` | Compose 服务配置 | 两个 JAX 环境变量 | 让 π0.5 和 Isaac Sim 共用一张 16 GB GPU |
+| `probe_droid_scenes.py` | 三个 scene USD | `/tmp/droid_scene_prims.json` | 在启动复杂策略前，先确认 prim、位置和刚体是否存在 |
+| `validate_droid_sim_scene.py` | scene 1 | 两张 PNG 和 shape 日志 | 检查环境注册、相机、7 轴状态、夹爪状态 |
+| `warmup_pi05_droid.py` | 官方假 DROID 观测 | 动作 shape、耗时、PASS | 触发 JAX 编译并检查 `(15,8)` 和有限值 |
+| `start_and_warmup_pi05.sh` | OpenPI、Compose、checkpoint | 8000 端口策略服务 | 把启动、等待、报错日志和预热变成一次可复现操作 |
+| `stop_pi05_server.sh` | 容器名 | 停止后的容器 | 可靠释放显存，不删除 checkpoint |
+| `run_pi05_droid_scene1.py` | scene 1 + π0.5 | 3 回合视频/轨迹/JSON | 最早的最小闭环，用来证明端到端链路能跑 |
+| `run_pi05_franka_robustness_suite.py` | 场景、suite、策略服务 | 严格多场景证据 | 修复宽松成功判定，增加扰动和工程审计 |
+| `run_all_suites.sh` | 正式 runner | 30 回合 | 固定执行顺序，避免手工漏场景或漏 suite |
+| `summarize_pi05_franka_suite.py` | 2026-09-14 固定运行目录 | 汇总 JSON | 提炼 9/9、17/18 和失败案例 |
+| `summarize_pi05_franka_audit.py` | 三个 audit 目录 | 安全/性能 JSON | 汇总 NaN、限位、跳变和推理延迟 |
+| `FRANKA_STAGE_REPORT_ZH.md` | 代码与实验结果 | 人类可读报告 | 解释路线、结果、限制和排错经验 |
+| `pi05_franka_summary_20260914.json` | 完整运行证据 | 小型机器可读摘要 | 让 Git 中保留可核对结论 |
+
+`sim-evals` 根目录目前还有三份未跟踪的早期副本：
+
+```text
+run_pi05_droid_scene1.py
+run_pi05_franka_robustness_suite.py
+validate_droid_sim_scene.py
+```
+
+正式版本是主仓库 `projects/003-pi05-franka-isaaclab/scripts/` 中的文件。运行命令使用绝对路径指向正式版本，避免同名文件造成混淆。不要把这些未跟踪副本当作另一套实现。
+
+### 4.2.4 实际改了哪些上游文件
+
+Franka 正式控制逻辑没有直接改 IsaacLab 或 sim-evals 的 tracked source，而是通过：
+
+```bash
+PYTHONPATH=~/robot-learning/sim-evals/src \
+~/robot-learning/IsaacLab/isaaclab.sh -p 我们自己的_runner.py
+```
+
+把官方环境作为库导入。这种做法的优点是上游仓库保持可比较，自己的实验逻辑有独立 Git 历史。
+
+OpenPI 仓库存在一项与 LIBERO runtime 构建有关的修改：
+
+```dockerfile
+RUN printf 'setuptools<75\n' > /tmp/build-constraints.txt
+RUN uv pip sync ... --build-constraint /tmp/build-constraints.txt
+```
+
+原因是 LIBERO 的旧 Python 依赖在新版 setuptools 下构建失败。它影响 `libero:latest` runtime 镜像的构建，不是 Franka runner 的控制算法，也没有改 π0.5 权重。
+
+OpenPI 工作树还保留了一些早期探针和 warm-up 草稿。正式复现不要依赖这些散落文件；对应的稳定版本已经放进 `projects/003-pi05-franka-isaaclab/scripts/` 并由主仓库 Git 管理。判断“正式代码”时看主项目提交，不要根据文件修改时间猜测。
+
+新电脑迁移提交 `20ca660` 对 Franka 项目只改了 `start_and_warmup_pi05.sh` 两处：
+
+```text
+等待次数：24 × 5 秒 → 60 × 5 秒
+提示文字：删除“RTX 4060 Ti 约需 2～3 分钟”的硬编码
+```
+
+原因是新电脑、冷缓存和模型下载时间不同。启动器应该按“服务是否开始监听”判断，而不是假设某张显卡必然在固定时间内完成。
+
+本次教程补全时还修复了 IsaacLab Python 中 `openpi-client` 的 editable metadata：旧记录指向 `/home/iot22/...`，虽然兼容符号链接还能工作，但不适合长期维护。重新执行：
+
+```bash
+cd ~/robot-learning/IsaacLab
+./isaaclab.sh -p -m pip install --no-deps -e \
+  /home/chengyu/robot-learning/openpi/packages/openpi-client
+```
+
+现在 import 来自 `/home/chengyu/robot-learning/openpi/...`。这是 Python 环境登记修复，不是策略算法修改。
+
+### 4.2.5 服务启动代码到底做了什么
+
+`start_and_warmup_pi05.sh` 开头使用：
+
+```bash
+set -euo pipefail
+```
+
+含义是：命令失败就停止、使用未定义变量就报错、管道中任一命令失败都算失败。自动化脚本如果忽略错误，可能在模型服务没启动时继续跑数小时仿真。
+
+它把三个路径做成变量：
+
+```text
+SCRIPT_DIR     当前脚本所在目录
+PROJECT_DIR    Franka 项目根目录
+OPENPI_DIR     默认 ~/robot-learning/openpi，可由环境变量覆盖
+CONTAINER_NAME 默认 libero-openpi_server-1
+```
+
+随后设置策略参数：
+
+```text
+policy.config = pi05_droid_jointpos_polaris
+policy.dir    = gs://openpi-assets/checkpoints/pi05_droid_jointpos
+```
+
+为什么选 `jointpos`：sim-evals 的 action manager 期望“7 个 Franka 目标关节角 + 1 个夹爪值”。若使用 joint velocity checkpoint，即使都是 8 个数，物理含义也不同。
+
+Compose override 设置：
+
+```yaml
+XLA_PYTHON_CLIENT_MEM_FRACTION=0.50
+XLA_FLAGS=--xla_gpu_enable_command_buffer=
+```
+
+第一个变量限制 JAX 预占约一半显存，为 Isaac Sim 留空间；第二个变量避免首次推理为了 GPU command buffer 再申请一大块显存。这里解决的是同 GPU 双进程资源竞争。
+
+启动后脚本每 5 秒读取一次容器日志，最多检查 60 次。只有看到：
+
+```text
+server listening
+```
+
+才执行预热；否则打印最后 100 行日志并失败退出。
+
+### 4.2.6 为什么要单独写预热程序
+
+`warmup_pi05_droid.py` 使用官方 `make_droid_example()` 产生字段和 shape 正确的假观测，通过 `WebsocketClientPolicy` 发到 `127.0.0.1:8000`。
+
+第一次推理同时发生：
+
+```text
+恢复 checkpoint
+→ 初始化 JAX/XLA
+→ 编译计算图
+→ 分配 GPU buffer
+→ 执行 flow-matching 推理
+```
+
+它可能超过 WebSocket 默认 20 秒心跳。程序只关闭 keepalive ping：
+
+```python
+kwargs["ping_interval"] = None
+```
+
+`infer()` 本身仍然阻塞等待真实结果，不是跳过超时后伪造成功。返回后检查：
+
+```python
+actions.ndim == 2
+actions.shape[1] == 8
+np.isfinite(actions).all()
+```
+
+这只能证明模型服务能产生格式正确的有限动作，不能证明它完成了抓取。
+
+### 4.2.7 正式 runner 的数据流
+
+正式文件是：
+
+```text
+scripts/run_pi05_franka_robustness_suite.py
+```
+
+先看一帧数据怎样流动：
+
+```text
+IsaacLab obs["policy"]
+├── external_cam:  (1,180,320,3)
+├── wrist_cam:     (1,180,320,3)
+├── arm_joint_pos: (7,)
+└── gripper_pos:   (1,)
+        │
+        ├── 去掉 batch 维
+        ├── 两张图 resize_with_pad 到 224×224
+        └── 改成 DROID checkpoint 认识的键
+                │
+                ▼
+WebSocket request
+├── observation/exterior_image_1_left: (224,224,3)
+├── observation/wrist_image_left:      (224,224,3)
+├── observation/joint_position:        (7,)
+├── observation/gripper_position:      (1,)
+└── prompt:                             str
+                │
+                ▼
+π0.5 response["actions"]: (15,8)
+                │
+                ├── 取当前 action
+                ├── 前 7 维保持目标关节角
+                └── 第 8 维以 0.5 阈值二值化夹爪
+                │
+                ▼
+torch.float32 action: (1,8) → env.step(action)
+```
+
+为什么图像先保持 `180×320`：这是 16:9 视场，渲染显存低于直接 224×224 多相机；送入模型时再用 padding 保持纵横比变成 `224×224`，避免直接拉伸目标形状。
+
+为什么一次预测 15 步却只执行 8 步：完整执行 15 步推理次数少，但更容易盲目执行旧计划；每步都重新推理反馈快，但推理开销大。执行 8 步约为 `8/15 ≈ 0.53` 秒，是当时在 15 Hz 控制和约 0.32 秒稳态推理之间采用的折中。这是 receding horizon。
+
+`DroidJointPosClient.reset()` 在每个 case 开始时清空旧 action chunk。没有这一步，新回合可能先执行上个任务剩余的动作。
+
+### 4.2.8 为什么必须先启动 AppLauncher 再 import Isaac 模块
+
+runner 的导入顺序看起来反常：先解析参数并创建 `AppLauncher`，再 import `gymnasium`、`torch`、`isaaclab_tasks`。这是 Isaac Sim standalone 程序的要求：Kit 应用必须先初始化，之后依赖 Omniverse extension 的模块才有完整运行时。
+
+```python
+args.enable_cameras = True
+args.headless = True
+app_launcher = AppLauncher(args)
+simulation_app = app_launcher.app
+```
+
+`headless=True` 表示不创建主要可视窗口，不表示不渲染相机；所以还要显式 `enable_cameras=True`。
+
+### 4.2.9 环境创建和两次 reset 的原因
+
+```python
+cfg = parse_env_cfg("DROID", device=args.device, num_envs=1, use_fabric=True)
+cfg.set_scene(args.scene)
+env = gym.make("DROID", cfg=cfg)
+obs, _ = env.reset()
+obs, _ = env.reset()
+```
+
+- `parse_env_cfg("DROID")` 取 sim-evals 注册的 DROID 环境；
+- `set_scene(1/2/3)` 选择具体 USD；
+- `num_envs=1` 让真实视频和任务证据对应一个环境；
+- 第二次 reset 是因为第一次渲染后材质和纹理才完整，否则早期图像可能不完整。
+
+每个扰动 case reset 后还先执行 5 步 neutral action，再移动物体和目标，随后再执行 8 步 neutral action，让物理状态稳定。`neutral_action()` 直接返回当前关节与夹爪状态，因此不会故意移动机器人。
+
+### 4.2.10 三类评测用例怎么生成
+
+`Task` 保存每个场景不变的内容：源物体名称、目标名称、标准指令、同义指令和成功几何阈值。
+
+`Case` 保存一次实验的变化：
+
+```text
+source_dx/source_dy  源物体 XY 偏移
+target_dx/target_dy  目标容器 XY 偏移
+brightness           只改变送给策略的图像亮度
+prompt               标准或同义文字指令
+```
+
+`make_cases()` 生成：
+
+```text
+baseline_1 / 2 / 3           同一场景重复三次
+source_plus                  源物体 +3.5 cm, +2 cm
+source_minus                 源物体 -3.5 cm, -2 cm
+target_shift                 目标 +2.5 cm, -2 cm
+paraphrase                   同义英文指令
+darker_input                 图像亮度 ×0.75
+brighter_input               图像亮度 ×1.25
+engineering_audit            标准条件下保存完整安全指标
+```
+
+亮度扰动只改送入模型的 numpy 图像，不修改 Isaac 场景灯光。这样测的是策略对视觉输入变化的敏感性，不会同时引入物理和渲染场景变化。
+
+### 4.2.11 为什么早期“放进容器”判定不够
+
+最早的 `run_pi05_droid_scene1.py` 主要检查方块是否连续位于碗的几何范围。它能做端到端 smoke test，但可能在夹爪仍抓着物体时提前报告成功。
+
+正式 runner 增加五个条件：
+
+```text
+1. 源物体至少移动 0.05 m
+2. XY 距离低于该目标的阈值
+3. 相对高度位于合理范围
+4. 实际夹爪观测值 <= 0.25，证明已经张开
+5. 最近 15 步位置变化半径 <= 0.015 m，证明稳定
+```
+
+代码不是检查“命令要求张开”，而是检查 `gripper_pos` 的实际观测。因为发出 OPEN 命令不等于夹爪已经完成张开。
+
+`entered_target_while_closed` 额外记录物体是否在夹爪闭合时进入目标。这帮助识别“拿到了目标上方，但没有释放”的失败。
+
+### 4.2.12 为什么在 env.step 后立刻检查 terminated/truncated
+
+IsaacLab 在 time-out 后可能自动 reset。如果先记录 reset 后的关节，再判断回合结束，就会把“上一帧任务末态 → 下一回合初态”误认为一次巨大关节跳变。
+
+正式代码顺序是：
+
+```python
+obs, _, terminated, truncated, _ = env.step(action)
+if terminated or truncated:
+    break
+# 只有没有自动 reset 时，才把 obs 记入当前回合轨迹
+```
+
+历史审计中曾看到约 `1.2966 rad` 的表面跳变，定位后证明是 terminal reset 样本。修正记录顺序后，最大实际单步关节变化约 `0.080 rad`。
+
+### 4.2.13 每个 case 保存哪些证据
+
+每个用例目录包含：
+
+```text
+policy_views.mp4             外部相机和腕部相机并排视频
+final_policy_view.png        模型最后看到的组合画面
+final_external_camera.png    原始外部相机末帧
+final_wrist_camera.png       原始腕部相机末帧
+trajectory.npz               物体、目标、关节、夹爪和推理延迟数组
+summary.json                 成功结果和安全/性能指标
+```
+
+`trajectory.npz` 中记录：
+
+```text
+source_position
+target_position
+gripper_command
+gripper_observed
+arm_action
+arm_observed
+inference_latency_seconds
+```
+
+`summary.json` 额外计算：
+
+```text
+action_all_finite
+observation_all_finite
+minimum_observed_joint_limit_margin_rad
+maximum_command_step_jump_rad
+maximum_observed_joint_step_jump_rad
+replan_count
+inference_latency median / p95 / max
+```
+
+所以“成功”不是终端里的一行文字，而是可以用视频、轨迹数组和 JSON 交叉核对。
+
+### 4.2.14 从最小版本迭代到正式版本
+
+开发顺序可以概括为：
+
+```text
+官方 LIBERO 假观测推理
+→ 确认 π0.5 服务能返回有限动作
+→ 改用 DROID joint-position checkpoint
+→ 下载 sim-evals DROID 场景资产
+→ validate_droid_sim_scene 检查双相机和状态
+→ run_pi05_droid_scene1 跑通魔方进碗
+→ 发现几何成功判定可能过早
+→ 正式 runner 加入实际松爪和稳定条件
+→ 扩展三个场景
+→ 增加位置、语言和亮度扰动
+→ 增加关节限位、NaN、跳变和延迟审计
+→ 修复终止自动 reset 造成的假跳变
+→ 固定成 run_all_suites 和机器可读摘要
+```
+
+Git 在 `54b9785` 才一次性加入整理后的项目，因此上述中间探索并没有“一问题一提交”的完整历史。不能声称 Git 精确记录了每次尝试；问题和解决过程来自阶段报告、最终代码和运行证据。
+
+### 4.2.15 你应该怎样读这段代码
+
+第一次不要从第一行看到最后一行。按下面顺序读：
+
+1. `TASKS`：理解任务对象、指令和成功几何；
+2. `make_cases()`：理解实验变量；
+3. `DroidJointPosClient.infer()`：理解模型输入输出；
+4. `main()` 中环境创建：理解 IsaacLab 初始化；
+5. 内层 `for step`：理解闭环；
+6. `inside/is_open/is_stable`：理解成功判定；
+7. `np.savez_compressed` 和 summary：理解证据；
+8. `run_all_suites.sh`：理解实验编排。
+
+配套检索命令：
+
+```bash
+cd ~/robot-learning/rm-ik-rl
+
+rg -n "class DroidJointPosClient|def infer" \
+  projects/003-pi05-franka-isaaclab/scripts
+
+rg -n "request =|action_chunk|env.step" \
+  projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py
+
+rg -n "inside =|is_open|is_stable|success =" \
+  projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py
+
+rg -n "np.savez|summary.json|scene_summary" \
+  projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py
+```
+
+### 4.2.16 别人问你时，你应该能这样回答
+
+**问：你在 Franka 阶段做了什么？**
+
+答：我先用 OpenPI 的 π0.5 DROID joint-position checkpoint 建立模型服务，再用 sim-evals 在 Isaac Sim/IsaacLab 中提供 Franka + Robotiq、双相机和三个 DROID 风格场景。我写了客户端把两路 RGB、7 个关节角、夹爪状态和文字指令转换成模型请求，模型每次输出 `15×8` 动作块；仿真执行前 8 步后重新观察。随后我把单场景 smoke test 扩展为三场景严格基线、六类扰动和工程审计，并保存视频、轨迹和 JSON 证据。
+
+**问：你为什么没有直接使用 LIBERO？**
+
+答：LIBERO 用来验证 OpenPI 官方示例，但不是 Isaac Sim，也不是本项目的 Franka 环境。Franka 阶段选择 DROID joint-position checkpoint 和针对 DROID 策略调过的 sim-evals，使相机、关节状态和动作语义尽量对齐。
+
+**问：你改了模型吗？**
+
+答：Franka 阶段没有训练或修改 π0.5 权重。我改的是运行和评测层：显存分配、预热、观测字段转换、receding-horizon 执行、严格成功判定、扰动测试和证据记录。
+
+**问：最关键的 bug 是什么？**
+
+答：一类是首次 JAX 编译超过 WebSocket 心跳导致假超时，通过关闭 keepalive 并单独预热解决；一类是旧成功判定只看物体进入目标，可能没松爪，因此加入实际夹爪张开和稳定 15 步；另一类是环境超时自动 reset 被误记为关节跳变，因此在记录观测前先判断 terminated/truncated。
+
+**问：Franka 成功证明了什么？**
+
+答：证明模型服务、双相机、DROID 状态/动作接口和 IsaacLab 物理闭环在固定测试矩阵中可以工作。它不证明模型能直接控制 RM65，也不代表任意 Franka 场景有 96.3% 成功率。
+
+**问：你怎么证明结果不是只看动画？**
+
+答：每个 case 同时保存双视角视频、末帧、物体与目标位置、关节命令与观测、夹爪命令与观测、推理延迟和 JSON 成功判定。正式结果是 baseline `9/9`、robustness `17/18`，并保留唯一失败的任务条件。
+
 ### 4.3 终端 A：启动 π0.5 并完成冷启动预热
 
 ```bash
