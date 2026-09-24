@@ -51,7 +51,7 @@ cd projects/004-rm65-4c2-isaaclab
 python3 -m json.tool results/project_progress.json | less
 ```
 
-文档生成前的权威基线提交是 `2130709`，其后应存在本交接文档和刷新后的 `project_progress.json` 提交。以实际 Git HEAD 为准，不要依赖聊天记忆。
+截至 2026-09-24，权威 Git HEAD 为 `f17e1ea`。该提交已经包含从零环境、Franka 文件来源、逐文件职责、正式 runner 数据流、关键问题解决和 Franka→RM65 迁移说明。后续继续以实际 Git HEAD 和机器可读结果为准，不依赖聊天记忆。
 
 远端仓库长期存在一些与当前主线无关的未跟踪文件，例如根目录的旧 PPO、ROS bridge 和 `docs/13-policy-gripper-v3.md`。不要使用 `git add .`，不要删除它们，只精确 stage 本次确认过的文件。
 
