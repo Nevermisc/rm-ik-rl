@@ -109,7 +109,7 @@ hostname：chengyu-Z790-AORUS-ELITE-AX
 系统：Ubuntu 24.04
 GPU：RTX 4080 SUPER
 分支：main
-当前已验证提交：2130709 或其后续提交
+当前已验证提交：86a1446 或其后续提交
 ```
 
 `git status --short` 可能显示历史遗留的未跟踪文件。不要使用 `git add .`，只添加自己确认过的文件。
@@ -125,6 +125,254 @@ GPU：RTX 4080 SUPER
 
 训练、仿真、服务器部署、远程排障之前都应执行这组 preflight。
 
+## 3.5 第 0.5 课：从一台全新 Ubuntu 电脑重建环境
+
+这一节回答“如果没有现在已经配置好的实验室电脑，怎样从零走到可以运行 Franka”。当前新电脑已经完成这些安装，学习时先理解和验收，不要为了练习而重装已通过验证的驱动和系统软件。真正换电脑或环境损坏时，再按本节执行。
+
+### 3.5.1 先冻结项目版本
+
+本项目验证过的组合是：
+
+| 组件 | 当前新电脑上的版本或提交 |
+|---|---|
+| Ubuntu | 24.04 |
+| GPU | RTX 4080 SUPER 16 GB |
+| NVIDIA 驱动 | 580.173.02 |
+| Docker / Compose | 29.8.1 / v5.5.1 |
+| Isaac Sim | 5.1.0 二进制版 |
+| IsaacLab | v2.3.2，提交 `37ddf62` |
+| OpenPI | 提交 `15a9616`，另有本机实验文件 |
+| sim-evals | 提交 `3a6b0e8` |
+| 本项目仓库 | `https://github.com/Nevermisc/rm-ik-rl.git` |
+
+版本表的意义是建立“可复现实验环境”。不要把“最新版”自动理解为“最兼容版”。升级其中任何一项后，都应从空场景、相机、Franka 基线开始重新验收。
+
+OpenPI 在该提交的上游 README 中写明主要测试平台是 Ubuntu 22.04。本项目已经在新电脑的 Ubuntu 24.04 上完成迁移验收，这是本项目自己的验证结果，不代表上游对所有 Ubuntu 24.04 组合提供兼容保证。因此重建时要保留版本和日志，不能只记录“Ubuntu + CUDA”。
+
+### 3.5.2 安装基础工具和 SSH
+
+```bash
+sudo apt update
+sudo apt install -y git git-lfs curl ca-certificates gnupg \
+  build-essential cmake unzip ffmpeg openssh-server
+sudo systemctl enable --now ssh
+
+mkdir -p ~/robot-learning
+```
+
+验收：
+
+```bash
+git --version
+ssh -V
+systemctl is-active ssh
+```
+
+常见问题：`apt update` 如果出现 `Segmentation fault`，先不要继续安装。检查 `dmesg`、内存和磁盘，并重新运行 `sudo apt clean && sudo apt update`；软件索引没有正常生成时，后续会出现“Unable to locate package”。
+
+### 3.5.3 安装并验证 NVIDIA 驱动
+
+优先让 Ubuntu 为当前 GPU 选择推荐驱动，不复制旧电脑的 `/usr`、CUDA 或驱动文件：
+
+```bash
+sudo apt install -y ubuntu-drivers-common
+ubuntu-drivers devices
+sudo ubuntu-drivers install
+sudo reboot
+```
+
+重启后：
+
+```bash
+nvidia-smi
+```
+
+通过条件：能看到正确 GPU、驱动版本、显存总量，并且没有 `NVIDIA-SMI has failed`。`nvidia-smi` 右上角的 CUDA 版本是驱动支持上限，不等于你的 Python 环境安装了同版本 CUDA。
+
+### 3.5.4 安装 Docker Engine
+
+下面是 Docker 官方 apt 仓库方式。不要使用 snap 版 Docker；它曾与 NVIDIA 容器运行时产生兼容问题。
+
+```bash
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+sudo tee /etc/apt/sources.list.d/docker.sources >/dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io \
+  docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
+sudo usermod -aG docker "$USER"
+```
+
+退出 Linux 会话并重新登录，让 `docker` 用户组生效，然后验收：
+
+```bash
+docker version
+docker compose version
+docker run --rm hello-world
+```
+
+### 3.5.5 让 Docker 能使用 GPU
+
+按 NVIDIA Container Toolkit 官方仓库安装：
+
+```bash
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+  | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+  | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+  | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+
+sudo apt update
+sudo apt install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+```
+
+验收：
+
+```bash
+docker run --rm --gpus all nvidia/cuda:12.2.2-base-ubuntu22.04 nvidia-smi
+```
+
+宿主机 `nvidia-smi` 成功但容器失败时，优先检查 Container Toolkit 和 Docker runtime，不要重装 OpenPI。
+
+### 3.5.6 克隆并固定四个仓库
+
+```bash
+cd ~/robot-learning
+
+git clone https://github.com/Nevermisc/rm-ik-rl.git
+
+git clone --recurse-submodules https://github.com/Physical-Intelligence/openpi.git
+cd openpi
+git checkout 15a9616
+git submodule update --init --recursive
+
+cd ~/robot-learning
+git clone https://github.com/isaac-sim/IsaacLab.git
+cd IsaacLab
+git checkout v2.3.2
+
+cd ~/robot-learning
+git clone --recurse-submodules https://github.com/arhanjain/sim-evals.git
+cd sim-evals
+git checkout 3a6b0e8
+```
+
+如果 GitHub 主仓库尚未包含某些大文件，必须从经过哈希校验的备份恢复：Isaac Sim 二进制、`~/.cache/openpi` checkpoint、sim-evals assets、RM65/4C2 网格和本项目训练 checkpoint 都不应假设在 Git 中。
+
+### 3.5.7 安装 OpenPI 主机环境并构建模型服务镜像
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.local/bin/env
+
+cd ~/robot-learning/openpi
+GIT_LFS_SKIP_SMUDGE=1 uv sync
+GIT_LFS_SKIP_SMUDGE=1 uv pip install -e .
+
+docker compose -f examples/libero/compose.yml build openpi_server
+```
+
+Franka 复现只需要 `openpi_server` 镜像。官方 LIBERO 环境还需要构建 `runtime` 镜像：
+
+```bash
+docker compose -f examples/libero/compose.yml build runtime
+```
+
+本项目历史上构建 LIBERO runtime 时遇到旧依赖不能配合新版 setuptools 的问题，在 `examples/libero/Dockerfile` 中加入了 `setuptools<75` 的构建约束。这个修改只影响 LIBERO 镜像的依赖构建，不改变 π0.5 权重。遇到同类错误时先保存完整 build log，再核对仓库当前 Dockerfile；不要盲目降级宿主系统 Python。
+
+### 3.5.8 安装 Isaac Sim 5.1.0 和 IsaacLab v2.3.2
+
+从 NVIDIA 官方下载 Isaac Sim 5.1.0 Linux 二进制压缩包。假设下载文件位于 `~/Downloads`，解压到固定目录：
+
+```bash
+mkdir -p ~/isaac-sim-5.1.0
+unzip ~/Downloads/isaac-sim-standalone-5.1.0-linux-x86_64.zip \
+  -d ~/isaac-sim-5.1.0
+
+cd ~/robot-learning/IsaacLab
+ln -s ~/isaac-sim-5.1.0 _isaac_sim
+./isaaclab.sh --install none
+```
+
+压缩包真实文件名可能带 build 编号，以下载页面为准；目录名保持本项目约定即可。若 `_isaac_sim` 已存在，先用 `readlink -f _isaac_sim` 检查，不要直接覆盖。
+
+空场景验收：
+
+```bash
+cd ~/robot-learning/IsaacLab
+./isaaclab.sh -p scripts/tutorials/00_sim/create_empty.py --headless
+```
+
+首次启动如果受到旧 Omniverse 缓存影响，应先把旧缓存移到备份目录再验证；不要把 Ubuntu 22.04 的二进制缓存原样复制到 Ubuntu 24.04。
+
+### 3.5.9 安装 Franka 客户端依赖和场景资产
+
+Franka runner 使用 Isaac Sim 自带的 Python，因此 `openpi-client` 必须安装到这个 Python 中：
+
+```bash
+cd ~/robot-learning/IsaacLab
+./isaaclab.sh -p -m pip install -e \
+  ~/robot-learning/openpi/packages/openpi-client
+./isaaclab.sh -p -m pip install imageio-ffmpeg
+```
+
+验证导入路径不能指向已经不存在的旧用户名：
+
+```bash
+./isaaclab.sh -p -c \
+  'import openpi_client; print(openpi_client.__file__)'
+```
+
+下载 sim-evals 的三套 DROID 场景：
+
+```bash
+cd ~/robot-learning/sim-evals
+uvx hf download owhan/DROID-sim-environments \
+  --repo-type dataset --local-dir assets
+```
+
+最后记录目录和提交：
+
+```bash
+git -C ~/robot-learning/openpi rev-parse --short HEAD
+git -C ~/robot-learning/IsaacLab describe --tags --always
+git -C ~/robot-learning/sim-evals rev-parse --short HEAD
+find ~/robot-learning/sim-evals/assets -maxdepth 1 -type f | sort
+```
+
+### 3.5.10 环境层的验收顺序
+
+严格按下面顺序排错：
+
+```text
+宿主机 nvidia-smi
+→ Docker hello-world
+→ Docker 内 nvidia-smi
+→ Isaac Sim 空场景
+→ IsaacLab Python 导入 openpi_client
+→ DROID 场景和双相机
+→ π0.5 服务与预热
+→ Franka 单回合
+→ Franka 完整评测
+```
+
+前一层失败时不要跳到后一层。这样可以把驱动、容器、仿真、场景、模型和策略接口问题分开。
+
 ## 4. 第 1 课：先验证官方链路，再迁移机器人
 
 ### 目标
@@ -138,16 +386,192 @@ GPU：RTX 4080 SUPER
 - Franka 参考项目的严格基线为 9/9；鲁棒性矩阵为 17/18，总计 26/27。
 - 这证明新电脑可以同时运行 π0.5 服务、双相机观测和 IsaacLab 闭环，但不证明 Franka checkpoint 可以控制 RM65。
 
-### 你应该怎么复现
+### 4.1 先区分 LIBERO、DROID 和 Isaac
 
-先读：
+`LIBERO` 是一套机器人操作 benchmark 和任务数据，不是 Isaac Sim。官方 `pi05_libero` checkpoint 可以在 LIBERO/MuJoCo 环境中验证 OpenPI 的官方完整示例；本项目后来使用的 Franka 参考链路则是：
+
+```text
+DROID 风格的 Franka 数据接口
+        +
+pi05_droid_jointpos_polaris checkpoint
+        +
+sim-evals 在 Isaac Sim 中搭建的 DROID 场景
+```
+
+因此，“LIBERO 推理成功”只证明 OpenPI 模型服务能工作；“Franka + IsaacLab 闭环成功”才证明 OpenPI、双相机、关节状态、动作接口和 Isaac 物理形成了闭环。
+
+### 4.2 阅读 Franka 项目，不急着运行
 
 ```bash
 cd ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab
+less README.md
 less docs/FRANKA_STAGE_REPORT_ZH.md
 ```
 
-然后只运行该项目报告中已经记录的 smoke test 和单场景脚本。不要把 Franka 的 `15×8` 动作直接发送给 6 轴 RM65。
+先回答这些问题：
+
+- 输入为什么是外部相机、腕部相机、7 个 Franka 关节和夹爪状态？
+- 输出 `15×8` 的 15 和 8 分别代表什么？
+- 为什么只执行前 8 步就重新观察？
+- 为什么 DROID joint-position checkpoint 不能直接控制 RM65？
+
+### 4.3 终端 A：启动 π0.5 并完成冷启动预热
+
+```bash
+cd ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab
+bash scripts/start_and_warmup_pi05.sh
+```
+
+该脚本会：
+
+1. 在 `~/robot-learning/openpi` 启动 `openpi_server` 容器；
+2. 使用 `pi05_droid_jointpos_polaris` 配置；
+3. 加载 `gs://openpi-assets/checkpoints/pi05_droid_jointpos`；
+4. 把 JAX 显存预占比例限制为 0.50，为 Isaac Sim 留显存；
+5. 等待 WebSocket 8000 端口；
+6. 发送一次假观测触发 JAX 编译。
+
+验收：
+
+```bash
+docker ps --filter name=libero-openpi_server-1
+docker logs --tail 80 libero-openpi_server-1
+nvidia-smi
+```
+
+预热成功应看到：
+
+```text
+DROID_ACTION_SHAPE=(15, 8)
+PI05_DROID_WARMUP=PASS
+```
+
+首次预热可能需要数分钟；之后稳态推理约 0.32 秒。曾出现的 `keepalive ping timeout` 是客户端在 JAX 首次编译期间误以为连接失活，不代表模型一定加载失败。先看服务器日志和 GPU 进程，再处理 WebSocket keepalive。
+
+### 4.4 终端 B：只验证 DROID 场景和观测
+
+这一步不调用 π0.5，只检查场景、机器人、三路相机中的策略两路相机，以及关节 shape：
+
+```bash
+cd ~/robot-learning/sim-evals
+
+PYTHONPATH=~/robot-learning/sim-evals/src \
+~/robot-learning/IsaacLab/isaaclab.sh -p \
+  ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab/scripts/validate_droid_sim_scene.py
+```
+
+通过条件：
+
+```text
+arm_joint_pos=(7,)
+gripper_pos=(1,)
+external_cam=(180, 320, 3)
+wrist_cam=(180, 320, 3)
+DROID_SIM_SCENE_VALIDATION=PASS
+```
+
+输出图片位于：
+
+```text
+~/robot-learning/sim-evals/runs/scene_validation/
+```
+
+如果图像 shape 是 `(0,)`，这是相机还未完成渲染初始化，不能用黑图代替。应增加 reset/render 等待并重新读取，直到得到非空 `H×W×3` 图像。
+
+### 4.5 先跑一个 Franka 场景
+
+```bash
+cd ~/robot-learning/sim-evals
+
+PYTHONPATH=~/robot-learning/sim-evals/src \
+~/robot-learning/IsaacLab/isaaclab.sh -p \
+  ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py \
+  --scene 1 \
+  --suite baseline \
+  --device cuda:0 \
+  --headless
+```
+
+场景 1 的指令是 `put the cube in the bowl`。`baseline` 会运行 3 个回合。每个回合都应保存视频、末帧、轨迹和 JSON，而不是只凭 NoMachine 画面判断。
+
+严格成功条件是：
+
+1. 方块确实移动；
+2. 方块中心进入碗的 XY 范围和合理高度；
+3. 观测到夹爪已经张开；
+4. 上述状态稳定保持 15 个控制步。
+
+### 4.6 再跑三场景完整矩阵
+
+```bash
+cd ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab
+bash scripts/run_all_suites.sh
+```
+
+脚本依次运行：
+
+- `baseline`：3 个场景 × 每场景 3 回合，共 9 回合；
+- `robustness`：3 个场景 × 6 种扰动，共 18 回合；
+- `audit`：3 个场景 × 1 回合，共 3 回合。
+
+合计 30 回合。任务成功率只统计前 27 个任务回合，audit 用于动作有限性、关节限位、跳变和推理延迟审计。
+
+当前历史证据是：
+
+```text
+baseline：9/9
+robustness：17/18
+任务合计：26/27
+```
+
+结果目录：
+
+```text
+~/robot-learning/sim-evals/runs/pi05_franka_suite/
+```
+
+不要直接运行仓库中的两个 `summarize_pi05_franka_*.py` 来汇总新实验，因为它们保存的是 2026-09-14 历史运行的固定时间戳。学习阶段应先打开本次新生成的 `scene_summary.json`，核对 `scene`、`suite`、`cases_total`、`cases_successful` 和每个 case 的 `success`。之后再把汇总脚本改造成接受 `--run-root` 参数，这是一个合适的 Python 练习。
+
+### 4.7 结束实验并释放显存
+
+```bash
+cd ~/robot-learning/rm-ik-rl/projects/003-pi05-franka-isaaclab
+bash scripts/stop_pi05_server.sh
+nvidia-smi
+```
+
+停止容器不会删除镜像、checkpoint 或实验结果。
+
+### 4.8 从 Franka 迁移到 RM65 时，究竟改什么
+
+| 层 | Franka 参考链路 | RM65-B + 4C2 链路 | 为什么必须改 |
+|---|---|---|---|
+| 机器人 | Franka 7 轴 + Robotiq | RM65 6 轴 + 4C2 | 自由度、限位和运动学不同 |
+| checkpoint | DROID joint-position | `pi05_base` 经 RM65 数据 LoRA | DROID 动作分布不属于 RM65 |
+| 状态 | 7 关节 + 夹爪 | 6 关节 + 归一化夹爪 | shape 和数值范围不同 |
+| 动作 | `15×8` 绝对关节目标 | `10×7`，六轴目标 + 夹爪 | 动作宽度、chunk 长度和语义不同 |
+| 相机 | sim-evals DROID 位姿 | RM65 外部相机 + 腕部相机 | 视角属于训练分布的一部分 |
+| 环境 | 官方 DROID 三场景 | 自建 RM65 方块抓放场景 | 资产、接触和成功条件不同 |
+| 数据 | DROID 预训练数据 | 45 条 RM65 脚本专家轨迹 | 新机器人需要自己的示教分布 |
+| transform | DROID 字段映射 | `rm65_policy.py` | 模型字段、padding、归一化需适配 |
+
+错误做法是把 Franka `15×8` 的前 6 个数直接发送给 RM65。即使 shape 勉强匹配，关节意义、零位、尺度、工作空间、动作统计和夹爪语义都不匹配。
+
+正确迁移顺序是：
+
+```text
+组合 RM65 + 4C2 资产
+→ 验证 articulation、限位、IK、碰撞和夹爪方向
+→ 用 IK 状态机证明任务可解
+→ 记录 RM65 双相机专家轨迹
+→ 转换 LeRobot 数据并只用 train split 算 norm stats
+→ 定义 RM65Inputs / RM65Outputs
+→ 从 pi05_base 做 LoRA 微调
+→ 单帧、离线 validation、IsaacLab 闭环三级验证
+→ 固定随机采样后做可复现成功率评测
+```
+
+后续第 2～8 课逐项实现这条迁移路线。
 
 ### 这一步的意义
 
@@ -520,5 +944,13 @@ results/rm65_pi05_eval_v1_summary.json
 results/rm65_pi05_eval_v2_summary.json
 results/pi05_rm65_policy_window_v2_comparison_to_v1.json
 ```
+
+安装步骤对应的上游入口：
+
+- Docker Ubuntu 安装：`https://docs.docker.com/engine/install/ubuntu/`
+- NVIDIA Container Toolkit：`https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html`
+- IsaacLab 二进制安装：`https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/binaries_installation.html`
+- OpenPI：`https://github.com/Physical-Intelligence/openpi`
+- DROID sim-evals：`https://github.com/arhanjain/sim-evals`
 
 任何结论都优先以当前 Git 提交和 `results/*.json` 为准，而不是以聊天记忆为准。
