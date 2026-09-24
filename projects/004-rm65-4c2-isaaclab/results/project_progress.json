@@ -1,6 +1,6 @@
 {
   "format": "rm65_pi05_project_progress_v1",
-  "generated_at_utc": "2026-09-19T09:37:15.129402+00:00",
+  "generated_at_utc": "2026-09-24T05:05:31.996689+00:00",
   "active_execution_scope": "simulation_only",
   "project_goal_complete": false,
   "claims": {
@@ -73,31 +73,31 @@
       }
     },
     "pi05_isaaclab_closed_loop": {
-      "status": "in_progress_after_v1_failure",
+      "status": "fail",
       "claim": "π0.5 在 20 个留出条件的 IsaacLab 闭环中达到至少 80% 成功率",
       "evidence": {
-        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_eval_v1_summary.json",
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_eval_v2_summary.json",
         "exists": true,
-        "sha256": "952db364c8e53178d8eb23ced5e0c15834faf724804c6e98641e2ca6c612b230"
+        "sha256": "d5bd7974837a63adf0ecb367c9b18c1490dd379692831255aa2709f6e23d3e9b"
       },
       "details": {
         "episodes": 20,
-        "success_rate": 0.6
+        "success_rate": 0.55
       }
     },
     "pi05_policy_window_v2": {
-      "status": "training",
+      "status": "fail",
       "claim": "用缩短静止段的 policy-window 数据训练并复测第二个 π0.5 候选策略",
       "evidence": {
-        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/pi05_rm65_policy_window_v2_30k.json",
-        "exists": false,
-        "sha256": null
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_eval_v2_summary.json",
+        "exists": true,
+        "sha256": "d5bd7974837a63adf0ecb367c9b18c1490dd379692831255aa2709f6e23d3e9b"
       },
       "details": {
-        "training_report_pass": false,
-        "offline_validation_pass": false,
+        "training_report_pass": true,
+        "offline_validation_pass": true,
         "closed_loop_pass": false,
-        "pipeline_status": "waiting_for_training_pid=81283"
+        "pipeline_status": "failed: stage=twenty_case_closed_loop_suite exit_code=1"
       }
     },
     "real_robot_readiness": {
