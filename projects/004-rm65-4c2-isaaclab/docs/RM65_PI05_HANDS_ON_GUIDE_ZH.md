@@ -869,6 +869,23 @@ Git 在 `54b9785` 才一次性加入整理后的项目，因此上述中间探�
 
 ### 4.2.15 你应该怎样读这段代码
 
+正式 runner 的 GitHub 完整文件：
+
+- [`run_pi05_franka_robustness_suite.py` 全文](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py)
+- [`run_all_suites.sh` 全文](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_all_suites.sh)
+
+按阅读顺序使用这些直达链接：
+
+1. [`TASKS`：三个任务、物体名称、指令和成功几何](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L69-L97)
+2. [`make_cases()`：基线、位置、语言和亮度扰动](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L146-L166)
+3. [`DroidJointPosClient.infer()`：观测转换、WebSocket 与动作块](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L100-L143)
+4. [`main()` 环境创建：DROID、场景、相机、reset 和关节限位](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L198-L228)
+5. [内层 `for step`：调用模型、执行动作、读取新观测](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L265-L328)
+6. [`inside/is_open/is_stable`：严格成功判定](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L293-L328)
+7. [`np.savez_compressed` 和 case summary：保存轨迹与审计证据](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L342-L405)
+8. [`scene_summary.json`：汇总一个场景的全部 case](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_pi05_franka_robustness_suite.py#L414-L434)
+9. [`run_all_suites.sh`：三种 suite × 三个场景的实验编排](https://github.com/Nevermisc/rm-ik-rl/blob/main/projects/003-pi05-franka-isaaclab/scripts/run_all_suites.sh#L1-L24)
+
 第一次不要从第一行看到最后一行。按下面顺序读：
 
 1. `TASKS`：理解任务对象、指令和成功几何；
