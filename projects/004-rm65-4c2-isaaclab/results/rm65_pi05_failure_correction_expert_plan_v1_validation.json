@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "validation_kind": "rm65_pi05_failure_correction_plan_v1",
+  "checks": {
+    "format": true,
+    "plan_kind": true,
+    "simulation_only": true,
+    "no_real_robot_commands": true,
+    "training_only": true,
+    "all_train_split": true,
+    "unique_case_ids": true,
+    "contiguous_episode_indices": true,
+    "expected_case_count": true,
+    "declared_case_count": true,
+    "angles_within_expert_range": true,
+    "source_case_coverage": true,
+    "future_confirmation_reuse_blocked": true
+  },
+  "source_failure_case_count": 6,
+  "case_count": 30
+}

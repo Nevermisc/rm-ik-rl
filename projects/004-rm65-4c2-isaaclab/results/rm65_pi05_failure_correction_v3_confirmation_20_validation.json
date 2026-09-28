@@ -1,0 +1,49 @@
+{
+  "status": "pass",
+  "checks": {
+    "format_supported": true,
+    "twenty_cases": true,
+    "unique_case_ids": true,
+    "unique_conditions": true,
+    "four_balanced_angles": true,
+    "five_balanced_prompts": true,
+    "conditions_held_out_from_training": true,
+    "angles_held_out_from_training": true,
+    "conditions_held_out_from_prior_evaluation": true,
+    "policy_seeds_held_out": true,
+    "simulation_seeds_held_out": true,
+    "strict_ninety_percent_gate": true
+  },
+  "failed_checks": [],
+  "case_count": 20,
+  "training_case_count_considered": 75,
+  "prior_evaluation_case_count_considered": 100,
+  "angles_rad": [
+    0.6625,
+    0.7375,
+    0.8125,
+    0.9125
+  ],
+  "offsets_m": [
+    [
+      -0.009,
+      -0.002
+    ],
+    [
+      -0.004,
+      0.009
+    ],
+    [
+      0.002,
+      -0.008
+    ],
+    [
+      0.009,
+      0.004
+    ],
+    [
+      0.0,
+      0.006
+    ]
+  ]
+}

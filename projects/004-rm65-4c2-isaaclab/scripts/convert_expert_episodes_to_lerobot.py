@@ -135,9 +135,58 @@ def discover_episodes(
     return episodes
 
 
+def discover_dataset_roots(
+    dataset_roots: list[Path], *, collection_split: str | None = None
+) -> list[dict[str, Any]]:
+    """Load one logical dataset from independent, immutable episode roots."""
+
+    if not dataset_roots:
+        raise ValueError("at least one dataset root is required")
+    episodes = []
+    seen_directories: set[Path] = set()
+    for root in dataset_roots:
+        for episode in discover_episodes(root, collection_split=collection_split):
+            directory = episode["directory"].resolve()
+            if directory in seen_directories:
+                raise ValueError(f"duplicate episode directory: {directory}")
+            seen_directories.add(directory)
+            episodes.append(episode)
+
+    fps_values = {round(item["fps"], 9) for item in episodes}
+    if len(fps_values) != 1:
+        raise ValueError(
+            f"dataset roots use different control frequencies: {sorted(fps_values)}"
+        )
+    first = episodes[0]
+    expected_external_shape = read_rgb(
+        first["directory"] / first["external_paths"][0]
+    ).shape
+    expected_wrist_shape = read_rgb(
+        first["directory"] / first["wrist_paths"][0]
+    ).shape
+    for episode in episodes[1:]:
+        external_shape = read_rgb(
+            episode["directory"] / episode["external_paths"][0]
+        ).shape
+        wrist_shape = read_rgb(
+            episode["directory"] / episode["wrist_paths"][0]
+        ).shape
+        if (
+            external_shape != expected_external_shape
+            or wrist_shape != expected_wrist_shape
+        ):
+            raise ValueError("camera shapes differ across dataset roots")
+    return episodes
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("dataset_root", type=Path)
+    parser.add_argument(
+        "dataset_roots",
+        type=Path,
+        nargs="+",
+        help="One or more immutable episode roots to combine into one LeRobot dataset.",
+    )
     parser.add_argument("--repo-id", required=True, help="LeRobot repository id, e.g. local/rm65_sim")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument(
@@ -155,8 +204,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    episodes = discover_episodes(
-        args.dataset_root.expanduser().resolve(), collection_split=args.split
+    dataset_roots = [path.expanduser().resolve() for path in args.dataset_roots]
+    episodes = discover_dataset_roots(
+        dataset_roots, collection_split=args.split
     )
     fps = episodes[0]["fps"]
     rounded_fps = round(fps)
@@ -236,6 +286,7 @@ def main() -> int:
             {
                 "status": "pass",
                 "repo_id": args.repo_id,
+                "dataset_roots": [str(path) for path in dataset_roots],
                 "output_path": str(output_path),
                 "episode_count": len(episodes),
                 "frame_count": total_frames,

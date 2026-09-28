@@ -12,6 +12,7 @@ from openpi.models import model as _model
 from openpi.models import pi0_config
 from openpi.shared import nnx_utils
 from openpi.training import config as training_config
+from openpi.training import optimizer as training_optimizer
 from openpi.training import weight_loaders
 import openpi.transforms as transforms
 
@@ -67,6 +68,10 @@ def make_pi05_rm65_lora_config(
     repo_id: str = "local/rm65_sim",
     batch_size: int = 1,
     num_train_steps: int = 30_000,
+    initial_params_path: str = "gs://openpi-assets/checkpoints/pi05_base/params",
+    warmup_steps: int = 1_000,
+    peak_lr: float = 2.5e-5,
+    decay_lr: float = 2.5e-6,
 ) -> training_config.TrainConfig:
     """Build, without globally registering, the RM65 π0.5 LoRA config."""
 
@@ -95,7 +100,13 @@ def make_pi05_rm65_lora_config(
             base_config=training_config.DataConfig(prompt_from_task=True),
         ),
         weight_loader=weight_loaders.CheckpointWeightLoader(
-            "gs://openpi-assets/checkpoints/pi05_base/params"
+            initial_params_path
+        ),
+        lr_schedule=training_optimizer.CosineDecaySchedule(
+            warmup_steps=warmup_steps,
+            peak_lr=peak_lr,
+            decay_steps=num_train_steps,
+            decay_lr=decay_lr,
         ),
         freeze_filter=freeze_filter,
         ema_decay=None,

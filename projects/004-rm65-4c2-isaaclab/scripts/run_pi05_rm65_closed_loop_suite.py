@@ -85,22 +85,31 @@ def validate_evaluation_cases(cases: list[dict]) -> None:
 
 
 def evaluate_suite_gate(
-    planned_case_count: int, valid_report_count: int, success_count: int
+    planned_case_count: int,
+    valid_report_count: int,
+    success_count: int,
+    *,
+    minimum_episode_count: int = 20,
+    minimum_success_rate: float = 0.8,
 ) -> dict:
     if min(planned_case_count, valid_report_count, success_count) < 0:
         raise ValueError("suite counts must be non-negative")
     if valid_report_count > planned_case_count or success_count > valid_report_count:
         raise ValueError("suite counts are inconsistent")
+    if minimum_episode_count < 1:
+        raise ValueError("minimum_episode_count must be positive")
+    if not 0.0 <= minimum_success_rate <= 1.0:
+        raise ValueError("minimum_success_rate must be within [0, 1]")
     success_rate = success_count / valid_report_count if valid_report_count else 0.0
     checks = {
-        "minimum_episode_count_met": valid_report_count >= 20,
+        "minimum_episode_count_met": valid_report_count >= minimum_episode_count,
         "all_planned_reports_present": valid_report_count == planned_case_count,
-        "minimum_success_rate_met": success_rate >= 0.8,
+        "minimum_success_rate_met": success_rate >= minimum_success_rate,
     }
     return {
         "passed": all(checks.values()),
-        "minimum_episode_count": 20,
-        "minimum_success_rate": 0.8,
+        "minimum_episode_count": minimum_episode_count,
+        "minimum_success_rate": minimum_success_rate,
         "require_all_planned_reports": True,
         "missing_report_count": planned_case_count - valid_report_count,
         "success_rate": success_rate,
@@ -421,7 +430,14 @@ def main() -> int:
     valid_reports = [item["report"] for item in case_results if item.get("report") is not None]
     successes = sum(report.get("status") == "pass" for report in valid_reports)
     episode_count = len(valid_reports)
-    gate = evaluate_suite_gate(len(cases), episode_count, successes)
+    gate_contract = plan.get("gate", {})
+    gate = evaluate_suite_gate(
+        len(cases),
+        episode_count,
+        successes,
+        minimum_episode_count=gate_contract.get("minimum_episode_count", 20),
+        minimum_success_rate=gate_contract.get("minimum_success_rate", 0.8),
+    )
     success_rate = gate["success_rate"]
     passed = gate["passed"]
     summary = {

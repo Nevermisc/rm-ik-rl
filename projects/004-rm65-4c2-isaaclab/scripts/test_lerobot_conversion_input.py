@@ -16,6 +16,7 @@ for path in (PROJECT_ROOT, SCRIPTS_ROOT):
         sys.path.insert(0, str(path))
 
 from convert_expert_episodes_to_lerobot import (
+    discover_dataset_roots,
     discover_episodes,
     select_policy_window_indices,
 )
@@ -46,6 +47,30 @@ def main() -> int:
             )
         recorder.save()
         episodes = discover_episodes(root, collection_split="train")
+        second_root = root / "second_root"
+        second_recorder = EpisodeRecorder(
+            second_root / "episode_000000",
+            "pick up the block",
+            20.0,
+            metadata={"task_success": True, "collection_split": "train"},
+        )
+        for index in range(3):
+            image = np.full((10, 14, 3), index * 40, dtype=np.uint8)
+            second_recorder.add_frame(
+                timestamp_s=index / 20.0,
+                sim_step=index * 12,
+                phase="test",
+                joint_position_rad=np.full(6, index * 0.01),
+                gripper_position=index / 2.0,
+                action=np.concatenate([np.full(6, index * 0.02), [index / 2.0]]),
+                cube_pose_wxyz=np.array([0.2, 0.0, 0.7, 1.0, 0.0, 0.0, 0.0]),
+                external_rgb=image,
+                wrist_rgb=image,
+            )
+        second_recorder.save()
+        combined = discover_dataset_roots(
+            [root, second_root], collection_split="train"
+        )
         no_validation = False
         try:
             discover_episodes(root, collection_split="validation")
@@ -58,6 +83,8 @@ def main() -> int:
             and episodes[0]["fps"] == 20.0
             and episodes[0]["collection_split"] == "train"
             and no_validation
+            and len(combined) == 2
+            and len({item["directory"].resolve() for item in combined}) == 2
         )
         synthetic_phases = [
             "SOURCE_SETTLE",

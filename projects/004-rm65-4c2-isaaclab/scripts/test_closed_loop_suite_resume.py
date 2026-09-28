@@ -95,8 +95,16 @@ def main() -> int:
     assert boundary_pass["passed"] is True
     below_rate = evaluate_suite_gate(60, 60, 47)
     assert below_rate["passed"] is False
+    strict_boundary = evaluate_suite_gate(
+        20, 20, 18, minimum_episode_count=20, minimum_success_rate=0.9
+    )
+    assert strict_boundary["passed"] is True
+    strict_below = evaluate_suite_gate(
+        20, 20, 17, minimum_episode_count=20, minimum_success_rate=0.9
+    )
+    assert strict_below["passed"] is False
 
-    print(json.dumps({"status": "pass", "checks": 22}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 24}, indent=2))
     return 0
 
 

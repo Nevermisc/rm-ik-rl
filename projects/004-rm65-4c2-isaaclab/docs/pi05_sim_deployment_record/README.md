@@ -25,8 +25,10 @@
 - [07_REAL_ROBOT_GATE_CHECKLIST.md](07_REAL_ROBOT_GATE_CHECKLIST.md)：真机前置条件和当前阻塞项。
 - [08_NEXT_EXPERIMENT_PLAN.md](08_NEXT_EXPERIMENT_PLAN.md)：下一阶段 60 条新种子评测和失败数据闭环计划。
 - [09_ROBUSTNESS_RESULTS.md](09_ROBUSTNESS_RESULTS.md)：60-case 正式结果、置信区间和失败解释。
+- [10_ENGINEERING_ITERATION_LOG.md](10_ENGINEERING_ITERATION_LOG.md)：逐个代码更新记录版本、计划、问题、原因、实现与验证。
 - [DECISIONS.md](DECISIONS.md)：关键工程决策及其理由。
 - [STATUS.json](STATUS.json)：便于程序读取的当前状态快照。
+- [ITERATION_STATUS.json](ITERATION_STATUS.json)：便于程序读取的当前工作版本和下一步。
 - [CHANGELOG.md](CHANGELOG.md)：从本目录建立后持续追加的变更记录。
 
 当前机器可读状态以 `STATUS.json` 为准；历史运行中途数字只用于监控，不作为正式结论。
