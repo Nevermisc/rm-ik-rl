@@ -1392,7 +1392,10 @@ def main() -> int:
         dtype=np.float64,
     )
     place_waypoints = []
-    if args.place_descent:
+    # The pi0.5 branch returns to run_pi05_closed_loop before the scripted
+    # descent below is ever executed. Do not reject policy evaluation cases
+    # because an unused scripted-only trajectory crosses a different IK branch.
+    if args.place_descent and not args.pi05_closed_loop:
         place_waypoint_count = max(1, int(round(args.place_descent_distance_m / 0.01)))
         place_distances = np.linspace(0.01, args.place_descent_distance_m, place_waypoint_count)
         place_warm_start = lift_arm.copy()
