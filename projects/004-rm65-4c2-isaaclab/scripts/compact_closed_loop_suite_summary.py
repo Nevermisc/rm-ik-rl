@@ -75,6 +75,7 @@ def compact_case(case: dict) -> dict:
         "simulation_safety_abort_reason": report.get(
             "simulation_safety_abort_reason"
         ),
+        "preflight_failure": report.get("preflight_failure"),
         "release_verified": release.get("verified"),
         "episode_validation_status": episode.get("validation", {}).get("status"),
         "deterministic_chunk_evidence_sha256": chunk_evidence_sha256(report),

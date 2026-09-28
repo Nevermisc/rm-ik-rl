@@ -26,6 +26,99 @@ def _sha256_string(value: Any) -> bool:
     )
 
 
+def build_preflight_safety_failure_report(
+    *,
+    checkpoint_id: str,
+    policy_noise_seed: int,
+    simulation_seed: int,
+    prompt: str,
+    policy_max_action_chunks: int,
+    policy_execute_actions_per_chunk: int,
+    record_stride_steps: int,
+    policy_release_required_consecutive_chunks: int,
+    policy_gripper_open_threshold: float,
+    policy_gripper_actual_open_threshold: float,
+    python_hash_seed: str | None,
+    failure_reason: str,
+    failure_message: str,
+) -> dict[str, Any]:
+    """Create an auditable task failure before any policy action is executed."""
+
+    return {
+        "status": "fail",
+        "simulation_only": True,
+        "pi05_used": True,
+        "expert": None,
+        "real_robot_command_sent": False,
+        "policy_checkpoint_id": checkpoint_id,
+        "policy_noise_seed": policy_noise_seed,
+        "simulation_seed": simulation_seed,
+        "prompt": prompt,
+        "action_chunks": 0,
+        "executed_actions": 0,
+        "controller_config": {
+            "policy_max_action_chunks": policy_max_action_chunks,
+            "policy_execute_actions_per_chunk": policy_execute_actions_per_chunk,
+            "record_stride_steps": record_stride_steps,
+            "success_candidate_required_consecutive_chunks": (
+                policy_release_required_consecutive_chunks
+            ),
+            "policy_gripper_open_threshold": policy_gripper_open_threshold,
+            "policy_gripper_actual_open_threshold": (
+                policy_gripper_actual_open_threshold
+            ),
+            "target_zone_arm_hold_enabled": True,
+            "target_zone_arm_hold_error_m_lt": 0.05,
+            "target_zone_execute_full_action_chunk": True,
+            "policy_noise_seed": policy_noise_seed,
+            "policy_chunk_seed_rule": "case_seed + chunk_index",
+            "simulation_seed": simulation_seed,
+            "cube_workspace_escape_radius_m": 1.0,
+        },
+        "simulation_determinism": {
+            "seed": simulation_seed,
+            "python_hash_seed": python_hash_seed,
+            "torch_deterministic_algorithms": True,
+            "replicator_global_seed": simulation_seed,
+            "physx_enhanced_determinism": True,
+            "camera_antialiasing_mode": "FXAA",
+            "dlss_frame_generation_enabled": False,
+            "dl_denoiser_enabled": False,
+            "motion_blur_enabled": False,
+            "tv_noise_enabled": False,
+        },
+        "deterministic_sampling": {
+            "mode": POLICY_SAMPLING_MODE,
+            "case_seed": policy_noise_seed,
+            "chunk_seed_rule": "case_seed + chunk_index",
+            "noise_shape": [10, 32],
+            "noise_dtype": "float32",
+            "server_metadata": None,
+            "chunks": [],
+        },
+        "preflight_failure": {
+            "stage": "kinematic_safety_preflight",
+            "reason": failure_reason,
+            "message": failure_message,
+            "policy_inference_started": False,
+            "robot_motion_started": False,
+        },
+        "simulation_safety_abort_reason": failure_reason,
+        "release_verification": {
+            "verified": False,
+            "reason": "preflight_safety_rejection",
+        },
+        "all_states_finite": True,
+        "source_to_target_xy_distance_m": None,
+        "block_lift_height_m": None,
+        "final_target_xy_error_m": None,
+        "final_target_position_error_m": None,
+        "post_release_drift_m": None,
+        "final_gripper_normalized": None,
+        "limitation": "The task was rejected before policy inference or robot motion.",
+    }
+
+
 def _deterministic_sampling_valid(
     report: dict[str, Any], expected_policy_noise_seed: int
 ) -> bool:

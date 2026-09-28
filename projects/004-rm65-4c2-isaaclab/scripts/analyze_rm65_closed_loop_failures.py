@@ -33,6 +33,10 @@ def simulation_out_of_bounds(report: dict) -> bool:
 
 
 def failed_criteria(report: dict) -> list[str]:
+    preflight = report.get("preflight_failure")
+    if isinstance(preflight, dict):
+        reason = preflight.get("reason", "unknown")
+        return [f"preflight_safety_rejection:{reason}"]
     failures: list[str] = []
     if not report.get("all_states_finite", False):
         failures.append("nonfinite_state")

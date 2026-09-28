@@ -56,7 +56,17 @@ def main() -> int:
     historical["criteria"] = {"final_gripper_normalized_lt": 0.12}
     assert "gripper_not_open" in failed_criteria(historical)
 
-    print(json.dumps({"status": "pass", "checks": 11}, indent=2))
+    preflight = {
+        "preflight_failure": {
+            "reason": "unsafe_ik_branch_jump",
+            "message": "unsafe IK branch jump",
+        }
+    }
+    assert failed_criteria(preflight) == [
+        "preflight_safety_rejection:unsafe_ik_branch_jump"
+    ]
+
+    print(json.dumps({"status": "pass", "checks": 12}, indent=2))
     return 0
 
 

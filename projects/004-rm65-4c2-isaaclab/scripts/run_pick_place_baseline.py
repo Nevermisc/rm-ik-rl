@@ -232,6 +232,9 @@ from openpi_extension.expert_episode import (  # noqa: E402
     validate_episode,
 )
 from openpi_extension.action_guard import guard_action_chunk  # noqa: E402
+from openpi_extension.closed_loop_report import (  # noqa: E402
+    build_preflight_safety_failure_report,
+)
 from openpi_extension.deterministic_policy import (  # noqa: E402
     POLICY_NOISE_SEED_KEY,
     POLICY_SAMPLING_MODE,
@@ -282,6 +285,10 @@ TIP_LOCAL_POINTS = {
     "tool_r_2": (0.04368, -0.00645, 0.01250),
     "tool_l_2": (0.04368, 0.00645, 0.01257),
 }
+
+
+class UnsafeIKBranchJumpError(RuntimeError):
+    """A deterministic kinematic preflight rejection, not infrastructure failure."""
 PAD_LOCAL_CENTERS = {
     "tool_r_2": (0.028775714, -0.011597111, -0.073257379),
     "tool_l_2": (0.027286683, 0.013343694, -0.072958842),
@@ -396,7 +403,7 @@ def require_continuous_joint_step(
 ) -> None:
     max_step = float(np.max(np.abs(np.asarray(target) - np.asarray(start))))
     if max_step > max_step_rad:
-        raise RuntimeError(
+        raise UnsafeIKBranchJumpError(
             f"unsafe IK branch jump for {label}: {max_step:.6f} rad > {max_step_rad:.6f} rad"
         )
 
@@ -2451,6 +2458,29 @@ def main() -> int:
 
 try:
     exit_code = main()
+except UnsafeIKBranchJumpError as error:
+    print("PICK_PLACE_STAGE=PREFLIGHT_SAFETY_REJECTION", flush=True)
+    report = build_preflight_safety_failure_report(
+        checkpoint_id=args.policy_checkpoint_id,
+        policy_noise_seed=args.policy_noise_seed,
+        simulation_seed=CONFIGURED_SIMULATION_SEED,
+        prompt=args.episode_prompt,
+        policy_max_action_chunks=args.policy_max_action_chunks,
+        policy_execute_actions_per_chunk=args.policy_execute_actions_per_chunk,
+        record_stride_steps=args.record_stride_steps,
+        policy_release_required_consecutive_chunks=(
+            args.policy_release_required_consecutive_chunks
+        ),
+        policy_gripper_open_threshold=args.policy_gripper_open_threshold,
+        policy_gripper_actual_open_threshold=args.policy_gripper_actual_open_threshold,
+        python_hash_seed=os.environ.get("PYTHONHASHSEED"),
+        failure_reason="unsafe_ik_branch_jump",
+        failure_message=str(error),
+    )
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report, indent=2), flush=True)
+    exit_code = 2
 except BaseException:
     print("PICK_PLACE_STAGE=PYTHON_EXCEPTION", flush=True)
     traceback.print_exc()

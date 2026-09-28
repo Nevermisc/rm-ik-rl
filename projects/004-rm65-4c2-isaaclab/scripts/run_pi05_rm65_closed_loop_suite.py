@@ -84,6 +84,30 @@ def validate_evaluation_cases(cases: list[dict]) -> None:
         raise ValueError("evaluation simulation_seed values must be unique")
 
 
+def evaluate_suite_gate(
+    planned_case_count: int, valid_report_count: int, success_count: int
+) -> dict:
+    if min(planned_case_count, valid_report_count, success_count) < 0:
+        raise ValueError("suite counts must be non-negative")
+    if valid_report_count > planned_case_count or success_count > valid_report_count:
+        raise ValueError("suite counts are inconsistent")
+    success_rate = success_count / valid_report_count if valid_report_count else 0.0
+    checks = {
+        "minimum_episode_count_met": valid_report_count >= 20,
+        "all_planned_reports_present": valid_report_count == planned_case_count,
+        "minimum_success_rate_met": success_rate >= 0.8,
+    }
+    return {
+        "passed": all(checks.values()),
+        "minimum_episode_count": 20,
+        "minimum_success_rate": 0.8,
+        "require_all_planned_reports": True,
+        "missing_report_count": planned_case_count - valid_report_count,
+        "success_rate": success_rate,
+        "checks": checks,
+    }
+
+
 def load_existing_report(
     path: Path,
     checkpoint_id: str,
@@ -377,8 +401,9 @@ def main() -> int:
     valid_reports = [item["report"] for item in case_results if item.get("report") is not None]
     successes = sum(report.get("status") == "pass" for report in valid_reports)
     episode_count = len(valid_reports)
-    success_rate = successes / episode_count if episode_count else 0.0
-    passed = episode_count >= 20 and success_rate >= 0.8
+    gate = evaluate_suite_gate(len(cases), episode_count, successes)
+    success_rate = gate["success_rate"]
+    passed = gate["passed"]
     summary = {
         "status": "pass" if passed else "fail",
         "evaluation_kind": "isaaclab_pi0.5_closed_loop",
@@ -408,7 +433,7 @@ def main() -> int:
         "episode_count": episode_count,
         "success_count": successes,
         "success_rate": success_rate,
-        "gate": {"minimum_episode_count": 20, "minimum_success_rate": 0.8},
+        "gate": gate,
         "cases": case_results,
     }
     summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

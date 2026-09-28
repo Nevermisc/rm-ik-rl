@@ -12,7 +12,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from openpi_extension.closed_loop_report import validate_closed_loop_task_report
+from openpi_extension.closed_loop_report import (
+    build_preflight_safety_failure_report,
+    validate_closed_loop_task_report,
+)
 from openpi_extension.deterministic_policy import policy_sampling_evidence
 
 
@@ -164,6 +167,30 @@ def main() -> int:
         expected_policy_noise_seed=policy_noise_seed,
         expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
+    preflight_failure = build_preflight_safety_failure_report(
+        checkpoint_id=checkpoint_id,
+        policy_noise_seed=policy_noise_seed,
+        simulation_seed=simulation_seed,
+        prompt="pick up the block",
+        policy_max_action_chunks=120,
+        policy_execute_actions_per_chunk=5,
+        record_stride_steps=12,
+        policy_release_required_consecutive_chunks=2,
+        policy_gripper_open_threshold=0.12,
+        policy_gripper_actual_open_threshold=0.20,
+        python_hash_seed=str(simulation_seed),
+        failure_reason="unsafe_ik_branch_jump",
+        failure_message="unsafe IK branch jump",
+    )
+    assert preflight_failure["status"] == "fail"
+    assert preflight_failure["action_chunks"] == 0
+    assert preflight_failure["preflight_failure"]["policy_inference_started"] is False
+    assert validate_closed_loop_task_report(
+        preflight_failure,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
+    )["status"] == "blocked"
     print(
         json.dumps(
             {
@@ -175,6 +202,7 @@ def main() -> int:
                 "wrong_simulation_seed_blocked": True,
                 "tampered_noise_hash_blocked": True,
                 "simulation_safety_abort_blocked": True,
+                "preflight_safety_failure_structured_and_blocked": True,
             },
             indent=2,
         )

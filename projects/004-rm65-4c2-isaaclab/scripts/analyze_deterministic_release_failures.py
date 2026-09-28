@@ -51,6 +51,16 @@ def maximum_candidate_streak(
 
 
 def classify_failure(report: dict, chunks: list[dict], threshold: float) -> tuple[str, dict]:
+    preflight = report.get("preflight_failure")
+    if isinstance(preflight, dict):
+        return "preflight_safety_rejection", {
+            "preflight_failure": preflight,
+            "minimum_target_error_m": None,
+            "minimum_target_error_chunk": None,
+            "near_target_chunk_count": 0,
+            "maximum_consecutive_release_candidate_chunks": 0,
+            "release_signals_near_target": [],
+        }
     minimum_target_error, minimum_target_error_chunk = minimum_with_location(
         chunks, "target_error_m"
     )

@@ -7,7 +7,11 @@ import json
 import tempfile
 from pathlib import Path
 
-from run_pi05_rm65_closed_loop_suite import load_existing_report, validate_evaluation_cases
+from run_pi05_rm65_closed_loop_suite import (
+    evaluate_suite_gate,
+    load_existing_report,
+    validate_evaluation_cases,
+)
 
 
 def write_report(
@@ -81,7 +85,16 @@ def main() -> int:
     else:
         raise AssertionError("duplicate evaluation cases must fail closed")
 
-    print(json.dumps({"status": "pass", "checks": 15}, indent=2))
+    incomplete = evaluate_suite_gate(60, 56, 51)
+    assert incomplete["passed"] is False
+    assert incomplete["missing_report_count"] == 4
+    assert incomplete["checks"]["all_planned_reports_present"] is False
+    boundary_pass = evaluate_suite_gate(60, 60, 48)
+    assert boundary_pass["passed"] is True
+    below_rate = evaluate_suite_gate(60, 60, 47)
+    assert below_rate["passed"] is False
+
+    print(json.dumps({"status": "pass", "checks": 21}, indent=2))
     return 0
 
 
