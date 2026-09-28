@@ -35,9 +35,11 @@ def main() -> int:
                 "raw_action_shape": [10, 7],
                 "raw_action_dtype": "float32",
                 "raw_action_sha256": "1" * 64,
+                "raw_gripper_targets": [0.5] * 10,
                 "safe_action_shape": [10, 7],
                 "safe_action_dtype": "float32",
                 "safe_action_sha256": "2" * 64,
+                "safe_gripper_targets": [0.5] * 10,
                 "executed_action_count": 5,
             }
         )
@@ -51,6 +53,17 @@ def main() -> int:
         "simulation_seed": simulation_seed,
         "action_chunks": 12,
         "executed_actions": 120,
+        "controller_config": {
+            "policy_max_action_chunks": 120,
+            "policy_execute_actions_per_chunk": 5,
+            "success_candidate_required_consecutive_chunks": 2,
+            "policy_gripper_open_threshold": 0.12,
+            "policy_gripper_actual_open_threshold": 0.20,
+            "target_zone_arm_hold_enabled": True,
+            "target_zone_arm_hold_error_m_lt": 0.05,
+            "target_zone_execute_full_action_chunk": True,
+            "cube_workspace_escape_radius_m": 1.0,
+        },
         "source_to_target_xy_distance_m": 0.2,
         "block_lift_height_m": 0.04,
         "final_target_xy_error_m": 0.01,
@@ -58,6 +71,7 @@ def main() -> int:
         "post_release_drift_m": 0.001,
         "final_gripper_normalized": 0.0,
         "all_states_finite": True,
+        "simulation_safety_abort_reason": None,
         "episode": {"validation": {"status": "pass"}, "evaluation_only": True},
         "low_level_release_postcondition": {
             "applied": True,
@@ -80,6 +94,11 @@ def main() -> int:
             "torch_deterministic_algorithms": True,
             "replicator_global_seed": simulation_seed,
             "physx_enhanced_determinism": True,
+            "camera_antialiasing_mode": "FXAA",
+            "dlss_frame_generation_enabled": False,
+            "dl_denoiser_enabled": False,
+            "motion_blur_enabled": False,
+            "tv_noise_enabled": False,
         },
     }
     assert validate_closed_loop_task_report(
@@ -136,6 +155,15 @@ def main() -> int:
         expected_policy_noise_seed=policy_noise_seed,
         expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
+    safety_aborted = dict(
+        report, simulation_safety_abort_reason="cube_outside_workspace_envelope"
+    )
+    assert validate_closed_loop_task_report(
+        safety_aborted,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
+    )["status"] == "blocked"
     print(
         json.dumps(
             {
@@ -146,6 +174,7 @@ def main() -> int:
                 "wrong_policy_noise_seed_blocked": True,
                 "wrong_simulation_seed_blocked": True,
                 "tampered_noise_hash_blocked": True,
+                "simulation_safety_abort_blocked": True,
             },
             indent=2,
         )

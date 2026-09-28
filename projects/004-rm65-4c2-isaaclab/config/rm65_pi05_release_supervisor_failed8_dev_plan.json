@@ -1,0 +1,20 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Development-only rerun of the eight release-supervisor failures; not a formal gate.",
+  "sampling_contract": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "chunk_seed_rule": "policy_noise_seed + chunk_index",
+    "historical_plan_modified": false,
+    "diagnostic_only": true
+  },
+  "cases": [
+    {"case_id": "eval_002", "policy_noise_seed": 260924002, "simulation_seed": 360924002, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_003", "policy_noise_seed": 260924003, "simulation_seed": 360924003, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_008", "policy_noise_seed": 260924008, "simulation_seed": 360924008, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_009", "policy_noise_seed": 260924009, "simulation_seed": 360924009, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_010", "policy_noise_seed": 260924010, "simulation_seed": 360924010, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_011", "policy_noise_seed": 260924011, "simulation_seed": 360924011, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_016", "policy_noise_seed": 260924016, "simulation_seed": 360924016, "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_019", "policy_noise_seed": 260924019, "simulation_seed": 360924019, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "grasp the block and set it on the target"}
+  ]
+}

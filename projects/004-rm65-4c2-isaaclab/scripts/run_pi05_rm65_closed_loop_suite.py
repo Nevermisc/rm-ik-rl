@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+EVALUATION_POLICY_MAX_ACTION_CHUNKS = 120
 
 
 def port_open(port: int) -> bool:
@@ -29,6 +30,13 @@ def report_gripper_open_threshold(report: dict) -> float | None:
     if isinstance(historical, (int, float)):
         return float(historical)
     return None
+
+
+def report_gripper_actual_open_threshold(report: dict) -> float | None:
+    configured = report.get("controller_config", {}).get(
+        "policy_gripper_actual_open_threshold"
+    )
+    return float(configured) if isinstance(configured, (int, float)) else None
 
 
 def report_policy_noise_seed(report: dict) -> int | None:
@@ -80,6 +88,8 @@ def load_existing_report(
     path: Path,
     checkpoint_id: str,
     gripper_open_threshold: float,
+    gripper_actual_open_threshold: float,
+    policy_max_action_chunks: int,
     policy_noise_seed: int,
     simulation_seed: int,
 ) -> dict | None:
@@ -95,6 +105,17 @@ def load_existing_report(
         return None
     existing_threshold = report_gripper_open_threshold(report)
     if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
+        return None
+    existing_actual_threshold = report_gripper_actual_open_threshold(report)
+    if (
+        existing_actual_threshold is None
+        or abs(existing_actual_threshold - gripper_actual_open_threshold) > 1e-9
+    ):
+        return None
+    if (
+        report.get("controller_config", {}).get("policy_max_action_chunks")
+        != policy_max_action_chunks
+    ):
         return None
     if report_policy_noise_seed(report) != policy_noise_seed:
         return None
@@ -129,11 +150,26 @@ def main() -> int:
         help="Normalized 4C2 threshold used for in-loop release verification.",
     )
     parser.add_argument(
+        "--gripper-actual-open-threshold",
+        type=float,
+        default=0.20,
+        help="Normalized actual 4C2 feedback threshold for release detection.",
+    )
+    parser.add_argument(
         "--repo-id",
         default=os.environ.get("RM65_REPO_ID", "local/rm65_sim_train"),
         help="LeRobot repository id whose normalization statistics belong to the checkpoint.",
     )
     parser.add_argument("--case-timeout-seconds", type=int, default=1200)
+    parser.add_argument(
+        "--policy-max-action-chunks",
+        type=int,
+        default=EVALUATION_POLICY_MAX_ACTION_CHUNKS,
+        help=(
+            f"Use {EVALUATION_POLICY_MAX_ACTION_CHUNKS} for evaluation; other values "
+            "are diagnostic-only."
+        ),
+    )
     parser.add_argument(
         "--infrastructure-retries",
         type=int,
@@ -145,8 +181,14 @@ def main() -> int:
 
     if args.infrastructure_retries < 0:
         raise ValueError("--infrastructure-retries must be non-negative")
+    if args.policy_max_action_chunks < 1:
+        raise ValueError("--policy-max-action-chunks must be positive")
     if not 0.0 < args.gripper_open_threshold < 1.0:
         raise ValueError("--gripper-open-threshold must be between 0 and 1")
+    if not args.gripper_open_threshold <= args.gripper_actual_open_threshold < 1.0:
+        raise ValueError(
+            "--gripper-actual-open-threshold must be at least the target threshold and below 1"
+        )
 
     checkpoint = args.checkpoint.expanduser().resolve()
     if not checkpoint.is_dir():
@@ -181,6 +223,10 @@ def main() -> int:
     )
     environment["RM65_REPO_ID"] = args.repo_id
     environment["POLICY_GRIPPER_OPEN_THRESHOLD"] = str(args.gripper_open_threshold)
+    environment["POLICY_GRIPPER_ACTUAL_OPEN_THRESHOLD"] = str(
+        args.gripper_actual_open_threshold
+    )
+    environment["POLICY_MAX_ACTION_CHUNKS"] = str(args.policy_max_action_chunks)
     server_log_path = PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"
     server_log_path.parent.mkdir(parents=True, exist_ok=True)
     with server_log_path.open("w", encoding="utf-8") as server_log:
@@ -224,6 +270,8 @@ def main() -> int:
                     report_path,
                     checkpoint_id,
                     args.gripper_open_threshold,
+                    args.gripper_actual_open_threshold,
+                    args.policy_max_action_chunks,
                     case_seed,
                     simulation_seed,
                 )
@@ -290,6 +338,8 @@ def main() -> int:
                         report_path,
                         checkpoint_id,
                         args.gripper_open_threshold,
+                        args.gripper_actual_open_threshold,
+                        args.policy_max_action_chunks,
                         case_seed,
                         simulation_seed,
                     )
@@ -339,6 +389,13 @@ def main() -> int:
         "policy_checkpoint_id": checkpoint_id,
         "repo_id": args.repo_id,
         "gripper_open_threshold_normalized": args.gripper_open_threshold,
+        "gripper_actual_open_threshold_normalized": (
+            args.gripper_actual_open_threshold
+        ),
+        "policy_max_action_chunks": args.policy_max_action_chunks,
+        "diagnostic_only": (
+            args.policy_max_action_chunks != EVALUATION_POLICY_MAX_ACTION_CHUNKS
+        ),
         "deterministic_sampling": {
             "mode": "explicit_numpy_gaussian_noise_v1",
             "case_seed_source": "evaluation_plan",

@@ -13,6 +13,7 @@ from run_pi05_rm65_closed_loop_suite import load_existing_report, validate_evalu
 def write_report(
     path: Path,
     threshold: float | None,
+    actual_threshold: float | None,
     seed: int | None,
     simulation_seed: int | None,
     *,
@@ -26,7 +27,11 @@ def write_report(
     if historical_threshold:
         report["criteria"] = {"final_gripper_normalized_lt": threshold}
     elif threshold is not None:
-        report["controller_config"] = {"policy_gripper_open_threshold": threshold}
+        report["controller_config"] = {
+            "policy_gripper_open_threshold": threshold,
+            "policy_gripper_actual_open_threshold": actual_threshold,
+            "policy_max_action_chunks": 120,
+        }
     if seed is not None:
         report["policy_noise_seed"] = seed
         report["deterministic_sampling"] = {"case_seed": seed}
@@ -39,24 +44,25 @@ def write_report(
 def main() -> int:
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "task_report.json"
-        write_report(path, 0.20, 8000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.20, 8000, 7000) is not None
-        assert load_existing_report(path, "experiment/29999", 0.12, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.20, 8001, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.20, 8000, 7001) is None
+        write_report(path, 0.12, 0.20, 8000, 7000)
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8000, 7000) is not None
+        assert load_existing_report(path, "experiment/29999", 0.10, 0.20, 120, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.25, 120, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 80, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8001, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8000, 7001) is None
 
-        write_report(path, 0.12, 9000, 7000, historical_threshold=True)
-        assert load_existing_report(path, "experiment/29999", 0.12, 9000, 7000) is not None
-        assert load_existing_report(path, "experiment/29999", 0.20, 9000, 7000) is None
+        write_report(path, 0.12, 0.20, 9000, 7000, historical_threshold=True)
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
 
-        write_report(path, None, 9000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 9000, 7000) is None
+        write_report(path, None, None, 9000, 7000)
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
 
-        write_report(path, 0.12, None, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 9000, 7000) is None
+        write_report(path, 0.12, 0.20, None, 7000)
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
 
-        write_report(path, 0.12, 9000, None)
-        assert load_existing_report(path, "experiment/29999", 0.12, 9000, 7000) is None
+        write_report(path, 0.12, 0.20, 9000, None)
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
 
     plan_path = (
         Path(__file__).resolve().parents[1]
@@ -75,7 +81,7 @@ def main() -> int:
     else:
         raise AssertionError("duplicate evaluation cases must fail closed")
 
-    print(json.dumps({"status": "pass", "checks": 13}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 15}, indent=2))
     return 0
 
 

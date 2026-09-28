@@ -17,6 +17,8 @@ policy_port="${POLICY_PORT:-8000}"
 policy_server_mode="${POLICY_SERVER_MODE:-managed}"
 repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
 gripper_open_threshold="${POLICY_GRIPPER_OPEN_THRESHOLD:-0.12}"
+gripper_actual_open_threshold="${POLICY_GRIPPER_ACTUAL_OPEN_THRESHOLD:-0.20}"
+policy_max_action_chunks="${POLICY_MAX_ACTION_CHUNKS:-120}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 if [[ ! "$policy_noise_seed" =~ ^[0-9]+$ ]]; then
@@ -25,6 +27,10 @@ if [[ ! "$policy_noise_seed" =~ ^[0-9]+$ ]]; then
 fi
 if [[ ! "$simulation_seed" =~ ^[0-9]+$ ]]; then
   echo "ERROR: SIMULATION_SEED must be a non-negative integer" >&2
+  exit 2
+fi
+if [[ ! "$policy_max_action_chunks" =~ ^[1-9][0-9]*$ ]]; then
+  echo "ERROR: POLICY_MAX_ACTION_CHUNKS must be a positive integer" >&2
   exit 2
 fi
 
@@ -123,7 +129,9 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --place-waypoint-steps 180 \
   --unassisted-release \
   --pi05-closed-loop \
+  --policy-max-action-chunks "$policy_max_action_chunks" \
   --policy-gripper-open-threshold "$gripper_open_threshold" \
+  --policy-gripper-actual-open-threshold "$gripper_actual_open_threshold" \
   --policy-port "$policy_port" \
   --policy-checkpoint-id "$checkpoint_id" \
   --policy-noise-seed "$policy_noise_seed" \

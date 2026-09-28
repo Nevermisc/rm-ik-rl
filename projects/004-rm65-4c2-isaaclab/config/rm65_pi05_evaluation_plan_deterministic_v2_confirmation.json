@@ -1,0 +1,35 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Fresh-seed confirmation of the RM65 pi0.5 release-supervisor controller; no policy or simulation seeds overlap the development plan.",
+  "sampling_contract": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "chunk_seed_rule": "policy_noise_seed + chunk_index",
+    "simulation_seed_fields": "Python, NumPy, Torch, CUDA, Warp, Replicator, PhysX enhanced determinism",
+    "development_seed_overlap": false
+  },
+  "cases": [
+    {"case_id": "confirm_000", "policy_noise_seed": 280928000, "simulation_seed": 380928000, "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "confirm_001", "policy_noise_seed": 280928001, "simulation_seed": 380928001, "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "confirm_002", "policy_noise_seed": 280928002, "simulation_seed": 380928002, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "confirm_003", "policy_noise_seed": 280928003, "simulation_seed": 380928003, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "confirm_004", "policy_noise_seed": 280928004, "simulation_seed": 380928004, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick the block and put it at the target"},
+
+    {"case_id": "confirm_005", "policy_noise_seed": 280928005, "simulation_seed": 380928005, "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "confirm_006", "policy_noise_seed": 280928006, "simulation_seed": 380928006, "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "confirm_007", "policy_noise_seed": 280928007, "simulation_seed": 380928007, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "confirm_008", "policy_noise_seed": 280928008, "simulation_seed": 380928008, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "confirm_009", "policy_noise_seed": 280928009, "simulation_seed": 380928009, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick up the block and place it on the target"},
+
+    {"case_id": "confirm_010", "policy_noise_seed": 280928010, "simulation_seed": 380928010, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "confirm_011", "policy_noise_seed": 280928011, "simulation_seed": 380928011, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "confirm_012", "policy_noise_seed": 280928012, "simulation_seed": 380928012, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "confirm_013", "policy_noise_seed": 280928013, "simulation_seed": 380928013, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "confirm_014", "policy_noise_seed": 280928014, "simulation_seed": 380928014, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "move the block onto the target"},
+
+    {"case_id": "confirm_015", "policy_noise_seed": 280928015, "simulation_seed": 380928015, "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "confirm_016", "policy_noise_seed": 280928016, "simulation_seed": 380928016, "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "confirm_017", "policy_noise_seed": 280928017, "simulation_seed": 380928017, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "confirm_018", "policy_noise_seed": 280928018, "simulation_seed": 380928018, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "confirm_019", "policy_noise_seed": 280928019, "simulation_seed": 380928019, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "grasp the block and set it on the target"}
+  ]
+}

@@ -61,9 +61,18 @@ def _deterministic_sampling_valid(
             or chunk.get("raw_action_shape") != [10, 7]
             or chunk.get("raw_action_dtype") != "float32"
             or not _sha256_string(chunk.get("raw_action_sha256"))
+            or not isinstance(chunk.get("raw_gripper_targets"), list)
+            or len(chunk["raw_gripper_targets"]) != 10
+            or not all(_number(value) is not None for value in chunk["raw_gripper_targets"])
             or chunk.get("safe_action_shape") != [10, 7]
             or chunk.get("safe_action_dtype") != "float32"
             or not _sha256_string(chunk.get("safe_action_sha256"))
+            or not isinstance(chunk.get("safe_gripper_targets"), list)
+            or len(chunk["safe_gripper_targets"]) != 10
+            or not all(
+                _number(value) is not None and 0.0 <= float(value) <= 1.0
+                for value in chunk["safe_gripper_targets"]
+            )
             or not isinstance(chunk.get("executed_action_count"), int)
             or chunk["executed_action_count"] <= 0
         ):
@@ -83,6 +92,11 @@ def _simulation_determinism_valid(
         and evidence.get("torch_deterministic_algorithms") is True
         and evidence.get("replicator_global_seed") == expected_simulation_seed
         and evidence.get("physx_enhanced_determinism") is True
+        and evidence.get("camera_antialiasing_mode") == "FXAA"
+        and evidence.get("dlss_frame_generation_enabled") is False
+        and evidence.get("dl_denoiser_enabled") is False
+        and evidence.get("motion_blur_enabled") is False
+        and evidence.get("tv_noise_enabled") is False
     )
 
 
@@ -93,6 +107,7 @@ def validate_closed_loop_task_report(
     expected_policy_noise_seed: int,
     expected_simulation_seed: int,
 ) -> dict[str, Any]:
+    controller = report.get("controller_config", {})
     source_distance = _number(report.get("source_to_target_xy_distance_m"))
     lift_height = _number(report.get("block_lift_height_m"))
     xy_error = _number(report.get("final_target_xy_error_m"))
@@ -129,6 +144,18 @@ def validate_closed_loop_task_report(
         "simulation_determinism_verified": _simulation_determinism_valid(
             report, expected_simulation_seed
         ),
+        "release_supervisor_config_verified": bool(
+            isinstance(controller, dict)
+            and controller.get("policy_max_action_chunks") == 120
+            and controller.get("policy_execute_actions_per_chunk") == 5
+            and controller.get("success_candidate_required_consecutive_chunks") == 2
+            and controller.get("policy_gripper_open_threshold") == 0.12
+            and controller.get("policy_gripper_actual_open_threshold") == 0.20
+            and controller.get("target_zone_arm_hold_enabled") is True
+            and controller.get("target_zone_arm_hold_error_m_lt") == 0.05
+            and controller.get("target_zone_execute_full_action_chunk") is True
+            and controller.get("cube_workspace_escape_radius_m") == 1.0
+        ),
         "action_chunks_positive": isinstance(report.get("action_chunks"), int)
         and report["action_chunks"] > 0,
         "executed_actions_positive": isinstance(report.get("executed_actions"), int)
@@ -140,6 +167,8 @@ def validate_closed_loop_task_report(
         "post_release_drift": drift is not None and drift < 0.02,
         "final_gripper_open": final_gripper is not None and final_gripper < 0.12,
         "all_states_finite": report.get("all_states_finite") is True,
+        "simulation_safety_not_aborted": report.get("simulation_safety_abort_reason")
+        is None,
         "episode_validation": report.get("episode", {}).get("validation", {}).get("status")
         == "pass",
         "evaluation_only": report.get("episode", {}).get("evaluation_only") is True,

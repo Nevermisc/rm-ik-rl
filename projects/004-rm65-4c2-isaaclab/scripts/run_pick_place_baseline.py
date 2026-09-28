@@ -152,7 +152,7 @@ parser.add_argument(
 )
 parser.add_argument("--policy-host", default="127.0.0.1")
 parser.add_argument("--policy-port", type=int, default=8000)
-parser.add_argument("--policy-max-action-chunks", type=int, default=80)
+parser.add_argument("--policy-max-action-chunks", type=int, default=120)
 parser.add_argument("--policy-execute-actions-per-chunk", type=int, default=5)
 parser.add_argument(
     "--policy-gripper-open-threshold",
@@ -163,6 +163,16 @@ parser.add_argument(
         "release. Values below the threshold are open; calibrate this in simulation."
     ),
 )
+parser.add_argument(
+    "--policy-gripper-actual-open-threshold",
+    type=float,
+    default=0.20,
+    help=(
+        "Actual normalized 4C2 feedback threshold used to detect an opening gripper. "
+        "The stricter policy target threshold remains --policy-gripper-open-threshold."
+    ),
+)
+parser.add_argument("--policy-release-required-consecutive-chunks", type=int, default=2)
 parser.add_argument(
     "--policy-checkpoint-id",
     default="unknown",
@@ -185,6 +195,13 @@ AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
     parser.error("--policy-gripper-open-threshold must be between 0 and 1")
+if not args.policy_gripper_open_threshold <= args.policy_gripper_actual_open_threshold < 1.0:
+    parser.error(
+        "--policy-gripper-actual-open-threshold must be at least the policy target "
+        "threshold and below 1"
+    )
+if args.policy_release_required_consecutive_chunks < 1:
+    parser.error("--policy-release-required-consecutive-chunks must be positive")
 if args.pi05_closed_loop and args.policy_noise_seed is None:
     parser.error("--pi05-closed-loop requires --policy-noise-seed")
 if args.policy_noise_seed is not None and args.policy_noise_seed < 0:
@@ -251,6 +268,7 @@ BLOCK_SIZE = (0.060, 0.040, 0.025)
 BLOCK_MASS_KG = 0.030
 POLICY_NOISE_ACTION_HORIZON = 10
 POLICY_NOISE_ACTION_DIM = 32
+CUBE_WORKSPACE_ESCAPE_RADIUS_M = 1.0
 SOURCE_BLOCK_POSITION = np.array([-0.22128649, -0.00000383, 0.75670463], dtype=np.float64)
 SOURCE_BLOCK_QUATERNION_WXYZ = (-0.20872162, -0.00000211, 0.97797507, 0.00002437)
 TARGET_PLATFORM_SIZE = (0.200, 0.200, 0.040)
@@ -526,6 +544,7 @@ class ExpertEpisodeCapture:
         self.wrist_camera.set_world_poses_from_view(
             eye.unsqueeze(0), (eye + forward).unsqueeze(0)
         )
+
         # Isaac Sim can expose an empty RGB tensor during the first few render
         # ticks after a headless camera starts.  Wait for real sensor frames
         # instead of recording a fabricated image or aborting the episode.
@@ -686,6 +705,7 @@ def run_pi05_closed_loop(
     last_executed_gripper_target = None
     release_postcondition_applied = False
     release_postcondition_arm_target = None
+    simulation_safety_abort_reason = None
     minimum_observed_gripper_normalized = float("inf")
     minimum_executed_gripper_target = float("inf")
     policy_sampling_records = []
@@ -714,6 +734,16 @@ def run_pi05_closed_loop(
                 [normalize_gripper(float(robot.data.joint_pos[0, gripper_master_id].item()))],
                 dtype=np.float32,
             )
+            pre_action_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
+            pre_action_target_error = float(
+                np.linalg.norm(pre_action_cube - target_block_position)
+            )
+            pre_action_lifted = (
+                max_cube_z - float(settled_source_position[2].item()) > 0.02
+            )
+            target_zone_arm_hold_active = bool(
+                pre_action_lifted and pre_action_target_error < 0.05
+            )
             observation = {
                 "observation/joint_position": current_arm,
                 "observation/gripper_position": current_gripper,
@@ -733,12 +763,19 @@ def run_pi05_closed_loop(
             )
             raw_actions = np.asarray(response["actions"], dtype=np.float32)
             safe_actions, guard = guard_action_chunk(raw_actions, current_arm)
+            safe_actions = safe_actions.copy()
+            if target_zone_arm_hold_active:
+                safe_actions[:, :6] = current_arm
             total_joint_limit_clamps += guard["joint_limit_clamp_count"]
             total_joint_step_clamps += guard["joint_step_clamp_count"]
             total_gripper_clamps += guard["gripper_clamp_count"]
             action_chunks += 1
 
-            execute_count = min(args.policy_execute_actions_per_chunk, len(safe_actions))
+            execute_count = (
+                len(safe_actions)
+                if target_zone_arm_hold_active
+                else min(args.policy_execute_actions_per_chunk, len(safe_actions))
+            )
             sampling_record = {
                 "chunk_index": chunk_index,
                 **sampling_evidence,
@@ -751,10 +788,13 @@ def run_pi05_closed_loop(
                 "raw_action_shape": list(raw_actions.shape),
                 "raw_action_dtype": str(raw_actions.dtype),
                 "raw_action_sha256": array_sha256(raw_actions),
+                "raw_gripper_targets": raw_actions[:, 6].tolist(),
                 "safe_action_shape": list(safe_actions.shape),
                 "safe_action_dtype": str(safe_actions.dtype),
                 "safe_action_sha256": array_sha256(safe_actions),
+                "safe_gripper_targets": safe_actions[:, 6].tolist(),
                 "executed_action_count": execute_count,
+                "target_zone_arm_hold_active": target_zone_arm_hold_active,
             }
             policy_sampling_records.append(sampling_record)
             for action_index, action in enumerate(safe_actions[:execute_count]):
@@ -787,6 +827,15 @@ def run_pi05_closed_loop(
 
             current_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
             target_error = float(np.linalg.norm(current_cube - target_block_position))
+            cube_source_displacement = float(
+                np.linalg.norm(
+                    current_cube - settled_source_position.detach().cpu().numpy()
+                )
+            )
+            if not np.isfinite(current_cube).all():
+                simulation_safety_abort_reason = "non_finite_cube_position"
+            elif cube_source_displacement > CUBE_WORKSPACE_ESCAPE_RADIUS_M:
+                simulation_safety_abort_reason = "cube_outside_workspace_envelope"
             actual_gripper_normalized = normalize_gripper(
                 float(robot.data.joint_pos[0, gripper_master_id].item())
             )
@@ -794,7 +843,8 @@ def run_pi05_closed_loop(
                 minimum_observed_gripper_normalized, actual_gripper_normalized
             )
             gripper_open = (
-                actual_gripper_normalized < args.policy_gripper_open_threshold
+                actual_gripper_normalized
+                < args.policy_gripper_actual_open_threshold
             )
             gripper_command_open = (
                 last_executed_gripper_target is not None
@@ -817,13 +867,25 @@ def run_pi05_closed_loop(
                         "gripper_command_open": gripper_command_open,
                         "actual_gripper_normalized": actual_gripper_normalized,
                         "last_executed_gripper_target": last_executed_gripper_target,
+                        "cube_source_displacement_m": cube_source_displacement,
+                        "simulation_safety_abort_reason": simulation_safety_abort_reason,
                         "policy_sampling": sampling_record,
                         "guard": guard,
                     }
                 ),
                 flush=True,
             )
-            if consecutive_candidate_chunks >= 3:
+            if simulation_safety_abort_reason is not None:
+                state[:] = robot.data.joint_pos.detach()
+                print(
+                    f"PI05_STAGE=SIMULATION_SAFETY_ABORT:{simulation_safety_abort_reason}",
+                    flush=True,
+                )
+                break
+            if (
+                consecutive_candidate_chunks
+                >= args.policy_release_required_consecutive_chunks
+            ):
                 print("PI05_STAGE=SUCCESS_CANDIDATE", flush=True)
                 release_postcondition_arm_target = (
                     robot.data.joint_pos[0, arm_ids].detach().cpu().tolist()
@@ -863,6 +925,7 @@ def run_pi05_closed_loop(
         and post_release_drift < 0.02
         and release_postcondition_applied
         and all_states_finite
+        and simulation_safety_abort_reason is None
     )
 
     episode_recorder.metadata["task_success"] = passed
@@ -894,11 +957,20 @@ def run_pi05_closed_loop(
             "executed_action_hold_seconds": (
                 args.record_stride_steps * sim.get_physics_dt()
             ),
-            "success_candidate_required_consecutive_chunks": 3,
+            "success_candidate_required_consecutive_chunks": (
+                args.policy_release_required_consecutive_chunks
+            ),
             "policy_gripper_open_threshold": args.policy_gripper_open_threshold,
+            "policy_gripper_actual_open_threshold": (
+                args.policy_gripper_actual_open_threshold
+            ),
+            "target_zone_arm_hold_enabled": True,
+            "target_zone_arm_hold_error_m_lt": 0.05,
+            "target_zone_execute_full_action_chunk": True,
             "policy_noise_seed": args.policy_noise_seed,
             "policy_chunk_seed_rule": "case_seed + chunk_index",
             "simulation_seed": CONFIGURED_SIMULATION_SEED,
+            "cube_workspace_escape_radius_m": CUBE_WORKSPACE_ESCAPE_RADIUS_M,
         },
         "simulation_determinism": {
             "seed": CONFIGURED_SIMULATION_SEED,
@@ -906,6 +978,11 @@ def run_pi05_closed_loop(
             "torch_deterministic_algorithms": args.pi05_closed_loop,
             "replicator_global_seed": replicator.get_global_seed(),
             "physx_enhanced_determinism": args.pi05_closed_loop,
+            "camera_antialiasing_mode": "FXAA" if args.pi05_closed_loop else None,
+            "dlss_frame_generation_enabled": False if args.pi05_closed_loop else None,
+            "dl_denoiser_enabled": False if args.pi05_closed_loop else None,
+            "motion_blur_enabled": False if args.pi05_closed_loop else None,
+            "tv_noise_enabled": False if args.pi05_closed_loop else None,
         },
         "deterministic_sampling": {
             "mode": POLICY_SAMPLING_MODE,
@@ -926,13 +1003,18 @@ def run_pi05_closed_loop(
             "joint_step_clamp_count": total_joint_step_clamps,
             "gripper_clamp_count": total_gripper_clamps,
         },
+        "simulation_safety_abort_reason": simulation_safety_abort_reason,
         "low_level_release_postcondition": {
             "applied": release_postcondition_applied,
             "trigger": (
-                "three consecutive chunks with lift, target error below 0.05 m, "
-                "actual gripper and executed gripper target below the calibrated threshold"
+                "configured consecutive chunks with lift, target error below 0.05 m, "
+                "actual gripper below the feedback threshold, and executed gripper "
+                "target below the policy threshold"
             ),
-            "open_threshold_normalized": args.policy_gripper_open_threshold,
+            "policy_target_open_threshold_normalized": args.policy_gripper_open_threshold,
+            "actual_open_threshold_normalized": (
+                args.policy_gripper_actual_open_threshold
+            ),
             "arm_target_latched_to_actual_rad": release_postcondition_arm_target,
             "gripper_target_normalized": 0.0 if release_postcondition_applied else None,
             "verification_settle_steps": 240,
@@ -940,8 +1022,13 @@ def run_pi05_closed_loop(
         },
         "release_verification": {
             "verified": release_postcondition_applied,
-            "required_consecutive_chunks": 3,
-            "open_threshold_normalized": args.policy_gripper_open_threshold,
+            "required_consecutive_chunks": (
+                args.policy_release_required_consecutive_chunks
+            ),
+            "policy_target_open_threshold_normalized": args.policy_gripper_open_threshold,
+            "actual_open_threshold_normalized": (
+                args.policy_gripper_actual_open_threshold
+            ),
             "minimum_observed_gripper_normalized": (
                 minimum_observed_gripper_normalized
                 if np.isfinite(minimum_observed_gripper_normalized)
@@ -1400,6 +1487,19 @@ def main() -> int:
             device=args.device,
             physx=sim_utils.PhysxCfg(
                 enable_enhanced_determinism=args.pi05_closed_loop,
+            ),
+            render=sim_utils.RenderCfg(
+                antialiasing_mode="FXAA" if args.pi05_closed_loop else None,
+                enable_dlssg=False if args.pi05_closed_loop else None,
+                enable_dl_denoiser=False if args.pi05_closed_loop else None,
+                carb_settings=(
+                    {
+                        "/rtx/post/motionblur/enabled": False,
+                        "/rtx/post/tvNoise/enabled": False,
+                    }
+                    if args.pi05_closed_loop
+                    else None
+                ),
             ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=1.5,
