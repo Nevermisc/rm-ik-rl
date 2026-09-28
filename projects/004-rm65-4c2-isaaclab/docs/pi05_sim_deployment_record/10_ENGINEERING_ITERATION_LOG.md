@@ -244,6 +244,16 @@
 - 正式训练合同：10,000 step、batch size 1、从 v2 `29999/params` 初始化、warmup 500、峰值学习率 `5e-6`、余弦衰减到 `1e-6`、每 2,000 step 保存一次，独立实验目录且禁用真实机械臂命令。
 - 下一步：启动后确认首批 loss/grad 有限并记录实际 step rate；只有正式报告和最终 `9999/params` 均存在，才进入离线验证与全新条件 run1。
 
+### v3-fc-wip.022：10k 正式微调进入稳定计算区间
+
+- Git 基线：`756cbe4`（正式训练启动门禁已推送）；状态：训练运行中。
+- 做了什么：启动 `rm65_failure_correction_v3_lora_10k`，preflight 再次通过；训练器确认从冻结 v2 `29999/params` 恢复，并从 OpenPI assets 根加载哈希已核对的新 norm stats。
+- 初始运行状态：JAX 编译后进度从 42/10,000 增长到 86/10,000，稳定吞吐约 `4.4 step/s`，纯计算剩余时间估计约 37 分钟；该估计不含每 2,000 step 的约 6.8 GiB checkpoint I/O。
+- 资源采样：训练 PID 259194 为正常可中断睡眠/运行状态，RSS 约 6.6 GiB；系统可用 RAM 约 22 GiB，swap 仅 1.2 MiB；GPU 显存约 12,387/16,376 MiB、利用率 52%、60°C、约 258 W。
+- 遇到的问题：CheckpointManager 初始化日志显示内部 `save_interval_steps=1`，表面上像每步保存。
+- 怎么确认：检查 OpenPI `train.py`，真正的调用门禁是 `step % config.save_interval == 0` 或最后一步；本次 config 的 `save_interval=2000`，因此不会每步写 6.8 GiB。内部 manager 的 1 只是允许每次显式 save 调用生效。
+- 下一步：持续监控到 step 2,000，确认首个 checkpoint 原子提交；同时观察进度恢复后实际吞吐和是否出现 NaN/OOM。完成 9,999 后核验正式 PASS 报告与最终 params。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
