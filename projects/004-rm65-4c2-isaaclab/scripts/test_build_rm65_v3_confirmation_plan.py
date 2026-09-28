@@ -34,6 +34,9 @@ def main() -> int:
     assert validation["status"] == "pass"
     assert validation["case_count"] == 20
     assert all(validation["checks"].values())
+    assert plan["preregistration"]["repeat_count"] == 3
+    assert plan["repeatability_gate"]["required_reports"] == 60
+    assert plan["frozen_controller_contract"]["checkpoint_id"].endswith("/9999")
     contaminated_training = {"cases": [dict(plan["cases"][0])]}
     contaminated = validate_plan(plan, [contaminated_training], [prior])
     assert contaminated["status"] == "fail"
@@ -45,7 +48,7 @@ def main() -> int:
     assert not reused["checks"]["conditions_held_out_from_prior_evaluation"]
     assert not reused["checks"]["policy_seeds_held_out"]
     assert not reused["checks"]["simulation_seeds_held_out"]
-    print(json.dumps({"status": "pass", "checks": 10}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 13}, indent=2))
     return 0
 
 

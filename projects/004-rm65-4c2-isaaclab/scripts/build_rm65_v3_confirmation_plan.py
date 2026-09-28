@@ -64,6 +64,9 @@ def build_plan(policy_seed_start: int, simulation_seed_start: int) -> dict[str, 
         "preregistration": {
             "created_at": "2026-09-28",
             "created_before_v3_training": True,
+            "repeat_count": 3,
+            "first_run_is_independent_success_confirmation": True,
+            "later_runs_are_repeatability_evidence_not_new_success_trials": True,
             "normal_model_failures_must_not_be_retried": True,
             "infrastructure_retries_require_missing_valid_report": True,
             "conditions_must_not_be_added_to_training_before_confirmation": True,
@@ -77,6 +80,23 @@ def build_plan(policy_seed_start: int, simulation_seed_start: int) -> dict[str, 
             "mode": "explicit_numpy_gaussian_noise_v1",
             "chunk_seed_rule": "policy_noise_seed + chunk_index",
             "prior_plan_seed_overlap": False,
+        },
+        "frozen_controller_contract": {
+            "checkpoint_id": "rm65_failure_correction_v3_lora_10k/9999",
+            "repo_id": "local/rm65_sim_failure_correction_v3_train",
+            "policy_max_action_chunks": 120,
+            "policy_gripper_open_threshold": 0.12,
+            "actual_gripper_open_threshold": 0.20,
+            "required_release_candidate_chunks": 2,
+        },
+        "repeatability_gate": {
+            "required_reports": 60,
+            "minimum_status_consistency_rate": 0.95,
+            "maximum_outcome_flip_cases": 1,
+            "require_initial_joint_hash_match": True,
+            "require_initial_gripper_hash_match": True,
+            "require_chunk_zero_noise_hash_match": True,
+            "image_and_action_hash_matches": "reported_but_not_required_until_renderer_fix",
         },
         "cases": cases,
     }
@@ -129,6 +149,9 @@ def validate_plan(
             case["simulation_seed"] for case in cases
         }.isdisjoint(prior_simulation_seeds),
         "strict_ninety_percent_gate": plan.get("gate", {}).get("minimum_success_rate") == 0.9,
+        "three_repeats_preregistered": plan.get("preregistration", {}).get("repeat_count") == 3,
+        "ninety_five_percent_repeatability_gate": plan.get("repeatability_gate", {}).get("minimum_status_consistency_rate") == 0.95,
+        "expected_v3_checkpoint_frozen": plan.get("frozen_controller_contract", {}).get("checkpoint_id") == "rm65_failure_correction_v3_lora_10k/9999",
     }
     failed = [name for name, passed in checks.items() if not passed]
     return {

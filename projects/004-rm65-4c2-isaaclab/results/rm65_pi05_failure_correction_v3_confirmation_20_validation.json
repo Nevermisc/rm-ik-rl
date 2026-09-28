@@ -12,7 +12,10 @@
     "conditions_held_out_from_prior_evaluation": true,
     "policy_seeds_held_out": true,
     "simulation_seeds_held_out": true,
-    "strict_ninety_percent_gate": true
+    "strict_ninety_percent_gate": true,
+    "three_repeats_preregistered": true,
+    "ninety_five_percent_repeatability_gate": true,
+    "expected_v3_checkpoint_frozen": true
   },
   "failed_checks": [],
   "case_count": 20,
