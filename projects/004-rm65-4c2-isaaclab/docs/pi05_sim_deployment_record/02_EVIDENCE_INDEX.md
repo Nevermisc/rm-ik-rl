@@ -12,9 +12,17 @@
 - [`robust_042` 精确首个策略观测对比](../../results/rm65_pi05_exact_initial_observation_repeatability_robust042_v1.json)
 - [20 条件 × 3 次重复预注册计划](../../config/rm65_pi05_repeatability_plan_v1_20x3.json)
 - [20×3 计划验证](../../results/rm65_pi05_repeatability_plan_v1_20x3_validation.json)
+- [20×3 重复性矩阵正式结果（门禁失败）](../../results/rm65_pi05_repeatability_matrix_v1_20x3.json)
+- [第 1/2/3 轮失败与安全中止分析](../../results/rm65_pi05_repeatability_v1_run1_failure_analysis.json)、[第 2 轮](../../results/rm65_pi05_repeatability_v1_run2_failure_analysis.json)、[第 3 轮](../../results/rm65_pi05_repeatability_v1_run3_failure_analysis.json)
+- [`robust_008` 翻转精确对比](../../results/rm65_pi05_exact_initial_observation_repeatability_robust008_20x3_v1.json)
+- [`robust_028` 翻转精确对比](../../results/rm65_pi05_exact_initial_observation_repeatability_robust028_20x3_v1.json)
+- [`robust_042` 矩阵翻转精确对比](../../results/rm65_pi05_exact_initial_observation_repeatability_robust042_20x3_v1.json)
+- [14 种图像稳定化方案离线筛查](../../results/rm65_pi05_policy_image_stabilization_screen_v1_20x3.json)
+- [初始物理状态逐位一致探针](../../results/rm65_pi05_initial_physical_state_probe_v1_robust002.json)
+- [renderer accumulation 重置探针](../../results/rm65_pi05_renderer_reset_probe_v1_robust002.json)
 - [60-case 计划验证](../../results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json)
 
-关键审计项：60/60 报告、`diagnostic_only=false`、`simulation_only=true`、`real_robot_command_sent=false`、缺失报告为 0；四个替换报告均有正数动作块和执行动作。重复性审计同时证明双相机首帧会跨进程变化，不能把显式 noise seed 等同于端到端确定性。
+关键审计项：鲁棒性评测和重复性矩阵均为 60/60 报告齐全、`simulation_only=true`、`real_robot_command_sent=false`。20×3 矩阵状态一致率为 85%，3 个翻转；20/20 初始关节、夹爪和 noise 哈希一致，0/20 双相机与首动作哈希一致。重复矩阵复用了相同条件与 seed，只用于重复性审计，不能作为新的独立成功率确认。
 
 ## 初始正式证据
 

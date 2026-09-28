@@ -35,6 +35,7 @@ def write_report(
             "policy_gripper_open_threshold": threshold,
             "policy_gripper_actual_open_threshold": actual_threshold,
             "policy_max_action_chunks": 120,
+            "reset_renderer_accumulation_before_policy_observation": False,
         }
     if seed is not None:
         report["policy_noise_seed"] = seed
@@ -49,24 +50,25 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "task_report.json"
         write_report(path, 0.12, 0.20, 8000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8000, 7000) is not None
-        assert load_existing_report(path, "experiment/29999", 0.10, 0.20, 120, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.25, 120, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 80, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8001, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 8000, 7001) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8000, 7000) is not None
+        assert load_existing_report(path, "experiment/29999", 0.10, 0.20, 120, False, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.25, 120, False, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 80, False, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, True, 8000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8001, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8000, 7001) is None
 
         write_report(path, 0.12, 0.20, 9000, 7000, historical_threshold=True)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
 
         write_report(path, None, None, 9000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
 
         write_report(path, 0.12, 0.20, None, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
 
         write_report(path, 0.12, 0.20, 9000, None)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, 9000, 7000) is None
+        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
 
     plan_path = (
         Path(__file__).resolve().parents[1]
@@ -94,7 +96,7 @@ def main() -> int:
     below_rate = evaluate_suite_gate(60, 60, 47)
     assert below_rate["passed"] is False
 
-    print(json.dumps({"status": "pass", "checks": 21}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 22}, indent=2))
     return 0
 
 

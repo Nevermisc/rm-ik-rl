@@ -32,6 +32,12 @@ def report(case: dict, status: str, image_suffix: str) -> dict:
                         "gripper_position": "same-gripper",
                         "external_image": f"external-{image_suffix}",
                         "wrist_image": f"wrist-{image_suffix}",
+                        "cube_position": "same-cube-position",
+                        "cube_quaternion": "same-cube-quaternion",
+                        "wrist_tool_position": f"tool-position-{image_suffix}",
+                        "wrist_tool_quaternion": "same-tool-quaternion",
+                        "wrist_camera_eye": "same-camera-eye",
+                        "wrist_camera_forward": "same-camera-forward",
                     },
                 }
             ]
@@ -76,8 +82,26 @@ def main() -> int:
         assert analysis["chunk_zero_hash_match_case_counts"]["external_image"] == 0
         assert analysis["chunk_zero_hash_match_case_counts"]["noise"] == 2
         assert analysis["chunk_zero_hash_match_case_counts"]["raw_action"] == 0
+        assert (
+            analysis["chunk_zero_physical_state_hash_available_case_counts"][
+                "cube_position"
+            ]
+            == 2
+        )
+        assert (
+            analysis["chunk_zero_physical_state_hash_match_case_counts"][
+                "cube_position"
+            ]
+            == 2
+        )
+        assert (
+            analysis["chunk_zero_physical_state_hash_match_case_counts"][
+                "wrist_tool_position"
+            ]
+            == 0
+        )
 
-    print(json.dumps({"status": "pass", "checks": 9}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 12}, indent=2))
     return 0
 
 

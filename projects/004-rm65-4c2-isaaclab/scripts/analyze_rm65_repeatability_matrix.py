@@ -18,6 +18,14 @@ OBSERVATION_FIELDS = (
     "external_image",
     "wrist_image",
 )
+PHYSICAL_STATE_FIELDS = (
+    "cube_position",
+    "cube_quaternion",
+    "wrist_tool_position",
+    "wrist_tool_quaternion",
+    "wrist_camera_eye",
+    "wrist_camera_forward",
+)
 METRIC_FIELDS = (
     "block_lift_height_m",
     "final_target_xy_error_m",
@@ -130,6 +138,10 @@ def build_analysis(
             field: [chunk.get("observation_sha256", {}).get(field) for chunk in chunks]
             for field in OBSERVATION_FIELDS
         }
+        physical_state_hashes = {
+            field: [chunk.get("observation_sha256", {}).get(field) for chunk in chunks]
+            for field in PHYSICAL_STATE_FIELDS
+        }
         case_results.append(
             {
                 "case_id": case["case_id"],
@@ -151,6 +163,19 @@ def build_analysis(
                     "raw_action": all_same(
                         [chunk.get("raw_action_sha256") for chunk in chunks], len(run_roots)
                     ),
+                },
+                "chunk_zero_physical_state_hashes": {
+                    field: {
+                        "available": len(values) == len(run_roots)
+                        and all(value is not None for value in values),
+                        "match": (
+                            all_same(values, len(run_roots))
+                            if len(values) == len(run_roots)
+                            and all(value is not None for value in values)
+                            else None
+                        ),
+                    }
+                    for field, values in physical_state_hashes.items()
                 },
                 "exact_initial_policy_observation_present": all(
                     isinstance(report.get("initial_policy_observation"), dict)
@@ -179,6 +204,20 @@ def build_analysis(
     hash_match_counts = {
         key: sum(result["chunk_zero_hash_matches"][key] for result in complete_cases)
         for key in (*OBSERVATION_FIELDS, "noise", "raw_action")
+    }
+    physical_state_hash_available_case_counts = {
+        field: sum(
+            result["chunk_zero_physical_state_hashes"][field]["available"]
+            for result in complete_cases
+        )
+        for field in PHYSICAL_STATE_FIELDS
+    }
+    physical_state_hash_match_case_counts = {
+        field: sum(
+            result["chunk_zero_physical_state_hashes"][field]["match"] is True
+            for result in complete_cases
+        )
+        for field in PHYSICAL_STATE_FIELDS
     }
     gate_config = plan.get("repeatability_gate", {})
     expected_reports = len(cases) * len(run_roots)
@@ -211,6 +250,12 @@ def build_analysis(
         "status_consistency_rate": status_consistency_rate,
         "outcome_flip_case_count": outcome_flip_count,
         "chunk_zero_hash_match_case_counts": hash_match_counts,
+        "chunk_zero_physical_state_hash_available_case_counts": (
+            physical_state_hash_available_case_counts
+        ),
+        "chunk_zero_physical_state_hash_match_case_counts": (
+            physical_state_hash_match_case_counts
+        ),
         "exact_initial_policy_observation_case_count": sum(
             result["exact_initial_policy_observation_present"] for result in complete_cases
         ),

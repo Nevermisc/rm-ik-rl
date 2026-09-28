@@ -22,6 +22,14 @@ FINAL_METRICS = (
     "final_gripper_normalized",
     "post_release_drift_m",
 )
+PHYSICAL_STATE_FIELDS = (
+    "cube_position",
+    "cube_quaternion",
+    "wrist_tool_position",
+    "wrist_tool_quaternion",
+    "wrist_camera_eye",
+    "wrist_camera_forward",
+)
 
 
 def array_sha256(array: np.ndarray) -> str:
@@ -138,6 +146,49 @@ def numeric_difference(reference: np.ndarray, candidate: np.ndarray) -> dict[str
     }
 
 
+def physical_state_array(report: dict[str, Any], field: str) -> np.ndarray:
+    physical_state = report.get("initial_policy_physical_state")
+    if not isinstance(physical_state, dict):
+        raise ValueError("missing initial_policy_physical_state")
+    evidence = physical_state.get(field)
+    if not isinstance(evidence, dict):
+        raise ValueError(f"missing initial physical-state field: {field}")
+    dtype = np.dtype(evidence.get("dtype"))
+    array = np.asarray(evidence.get("values"), dtype=dtype)
+    if list(array.shape) != evidence.get("shape"):
+        raise ValueError(f"invalid initial physical-state shape: {field}")
+    if array_sha256(array) != evidence.get("sha256"):
+        raise ValueError(f"invalid initial physical-state hash: {field}")
+    return array
+
+
+def compare_initial_physical_state(
+    reference_report: dict[str, Any], candidate_report: dict[str, Any]
+) -> dict[str, Any] | None:
+    reference_present = isinstance(
+        reference_report.get("initial_policy_physical_state"), dict
+    )
+    candidate_present = isinstance(
+        candidate_report.get("initial_policy_physical_state"), dict
+    )
+    if not reference_present and not candidate_present:
+        return None
+    if reference_present != candidate_present:
+        raise ValueError("initial physical-state evidence is present in only one report")
+    fields = {}
+    for field in PHYSICAL_STATE_FIELDS:
+        reference = physical_state_array(reference_report, field)
+        candidate = physical_state_array(candidate_report, field)
+        fields[field] = {
+            "hash_match": array_sha256(reference) == array_sha256(candidate),
+            "difference": numeric_difference(reference, candidate),
+        }
+    return {
+        "all_hashes_match": all(value["hash_match"] for value in fields.values()),
+        "fields": fields,
+    }
+
+
 def openpi_preprocessor(openpi_root: Path | None) -> Callable[[np.ndarray], np.ndarray] | None:
     if openpi_root is None:
         return None
@@ -182,6 +233,9 @@ def build_analysis(
     candidate_chunk = candidate_report["deterministic_sampling"]["chunks"][0]
     reference_actions = first_chunk_actions(reference_dir)
     candidate_actions = first_chunk_actions(candidate_dir)
+    physical_state = compare_initial_physical_state(
+        reference_report, candidate_report
+    )
     return {
         "status": "pass",
         "analysis_kind": "rm65_pi05_exact_initial_policy_observation_repeatability",
@@ -201,6 +255,8 @@ def build_analysis(
             reference_chunk.get("raw_action_sha256")
             == candidate_chunk.get("raw_action_sha256")
         ),
+        "initial_physical_state_evidence_present": physical_state is not None,
+        "initial_physical_state": physical_state,
         "images": image_results,
         "executed_first_chunk_action_difference": numeric_difference(
             reference_actions, candidate_actions

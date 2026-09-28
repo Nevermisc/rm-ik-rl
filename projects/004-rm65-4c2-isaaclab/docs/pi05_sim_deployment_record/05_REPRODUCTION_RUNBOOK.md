@@ -133,3 +133,20 @@ git status --short
 ```
 
 策略服务应由 suite 的 `finally` 路径停止。原始 episode、图像和日志保留在 `datasets/`/`outputs/`，Git 中只保存必要的紧凑证据和分析结果。
+
+## 9. 复核 20×3 重复性矩阵
+
+三次运行必须使用同一个冻结计划和三个独立输出根目录。完成后执行：
+
+```bash
+python3 scripts/analyze_rm65_repeatability_matrix.py \
+  --plan config/rm65_pi05_repeatability_plan_v1_20x3.json \
+  --run-root datasets/rm65_pi05_repeatability_v1_run1 \
+  --run-root datasets/rm65_pi05_repeatability_v1_run2 \
+  --run-root datasets/rm65_pi05_repeatability_v1_run3 \
+  --output results/rm65_pi05_repeatability_matrix_v1_20x3.json
+```
+
+当前正式结果会返回非零，因为状态一致率为 85%、翻转数为 3，未达到 95%/最多 1 个翻转的预注册门槛。这是预期的门禁失败，不是分析脚本故障。
+
+`--reset-renderer-accumulation-before-policy-observation` 只用于诊断，并会强制 `diagnostic_only=true`；默认关闭，且恢复逻辑不会混用开启/关闭该选项的报告。单次两运行探针没有消除像素和首动作差异，因此禁止把它当作已经验证的正式改进。

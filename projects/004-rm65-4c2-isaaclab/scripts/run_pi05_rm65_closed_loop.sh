@@ -19,6 +19,7 @@ repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
 gripper_open_threshold="${POLICY_GRIPPER_OPEN_THRESHOLD:-0.12}"
 gripper_actual_open_threshold="${POLICY_GRIPPER_ACTUAL_OPEN_THRESHOLD:-0.20}"
 policy_max_action_chunks="${POLICY_MAX_ACTION_CHUNKS:-120}"
+reset_renderer_accumulation="${RESET_RENDERER_ACCUMULATION_BEFORE_POLICY_OBSERVATION:-0}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 if [[ ! "$policy_noise_seed" =~ ^[0-9]+$ ]]; then
@@ -32,6 +33,15 @@ fi
 if [[ ! "$policy_max_action_chunks" =~ ^[1-9][0-9]*$ ]]; then
   echo "ERROR: POLICY_MAX_ACTION_CHUNKS must be a positive integer" >&2
   exit 2
+fi
+if [[ "$reset_renderer_accumulation" != "0" && "$reset_renderer_accumulation" != "1" ]]; then
+  echo "ERROR: RESET_RENDERER_ACCUMULATION_BEFORE_POLICY_OBSERVATION must be 0 or 1" >&2
+  exit 2
+fi
+
+renderer_accumulation_args=()
+if [[ "$reset_renderer_accumulation" == "1" ]]; then
+  renderer_accumulation_args+=(--reset-renderer-accumulation-before-policy-observation)
 fi
 
 cd "$project_root"
@@ -136,6 +146,7 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --policy-checkpoint-id "$checkpoint_id" \
   --policy-noise-seed "$policy_noise_seed" \
   --simulation-seed "$simulation_seed" \
+  "${renderer_accumulation_args[@]}" \
   --headless \
   --enable_cameras
 

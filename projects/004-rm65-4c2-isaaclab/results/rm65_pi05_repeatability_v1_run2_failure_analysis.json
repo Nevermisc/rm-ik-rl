@@ -1,0 +1,316 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_deterministic_release_failure_analysis",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "planned_case_count": 20,
+  "analyzed_case_count": 20,
+  "gripper_open_threshold": 0.12,
+  "category_counts": {
+    "insufficient_lift": 1,
+    "never_reached_target": 2,
+    "no_release_signal_near_target": 1,
+    "pass": 16
+  },
+  "simulation_safety_abort_counts": {
+    "cube_outside_workspace_envelope": 1
+  },
+  "release_gate_candidate_case_counts": {
+    "actual_lt_0.12": {
+      "required_1": 16,
+      "required_2": 13,
+      "required_3": 0
+    },
+    "actual_lt_0.15": {
+      "required_1": 16,
+      "required_2": 15,
+      "required_3": 0
+    },
+    "actual_lt_0.20": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 0
+    },
+    "actual_lt_0.25": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 4
+    },
+    "actual_lt_0.30": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 6
+    }
+  },
+  "cases": [
+    {
+      "case_id": "robust_002",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 62,
+      "block_lift_height_m": 0.0463070273399353
+    },
+    {
+      "case_id": "robust_003",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 62,
+      "block_lift_height_m": 0.05020707845687866
+    },
+    {
+      "case_id": "robust_007",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 77,
+      "block_lift_height_m": 0.048470377922058105
+    },
+    {
+      "case_id": "robust_008",
+      "status": "fail",
+      "category": "insufficient_lift",
+      "simulation_safety_abort_reason": "cube_outside_workspace_envelope",
+      "action_chunks": 54,
+      "block_lift_height_m": 0.0071260929107666016,
+      "minimum_target_error_m": 0.17969575249492392,
+      "minimum_target_error_chunk": 21,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "robust_011",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 75,
+      "block_lift_height_m": 0.035326242446899414
+    },
+    {
+      "case_id": "robust_014",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 87,
+      "block_lift_height_m": 0.042758941650390625
+    },
+    {
+      "case_id": "robust_017",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 85,
+      "block_lift_height_m": 0.03774130344390869
+    },
+    {
+      "case_id": "robust_022",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 57,
+      "block_lift_height_m": 0.03586655855178833
+    },
+    {
+      "case_id": "robust_028",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 93,
+      "block_lift_height_m": 0.03581017255783081
+    },
+    {
+      "case_id": "robust_029",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 63,
+      "block_lift_height_m": 0.04056936502456665
+    },
+    {
+      "case_id": "robust_030",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 61,
+      "block_lift_height_m": 0.03525137901306152
+    },
+    {
+      "case_id": "robust_033",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 73,
+      "block_lift_height_m": 0.04303508996963501
+    },
+    {
+      "case_id": "robust_036",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 76,
+      "block_lift_height_m": 0.03937339782714844
+    },
+    {
+      "case_id": "robust_037",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 65,
+      "block_lift_height_m": 0.04781150817871094
+    },
+    {
+      "case_id": "robust_041",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.026324987411499023,
+      "minimum_target_error_m": 0.08979812290979287,
+      "minimum_target_error_chunk": 77,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "robust_042",
+      "status": "fail",
+      "category": "no_release_signal_near_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.07848334312438965,
+      "minimum_target_error_m": 0.020133850012133574,
+      "minimum_target_error_chunk": 116,
+      "near_target_chunk_count": 11,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": [
+        {
+          "chunk_index": 109,
+          "target_error_m": 0.04417431677135543,
+          "executed_min_gripper_target": 0.923065721988678,
+          "unexecuted_min_gripper_target": 0.9219924211502075,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 110,
+          "target_error_m": 0.04109069693846079,
+          "executed_min_gripper_target": 0.9216430187225342,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 111,
+          "target_error_m": 0.0381619627883771,
+          "executed_min_gripper_target": 0.9191288948059082,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 112,
+          "target_error_m": 0.03541653727410414,
+          "executed_min_gripper_target": 0.9204635620117188,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 113,
+          "target_error_m": 0.032893501582296356,
+          "executed_min_gripper_target": 0.9222862720489502,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 114,
+          "target_error_m": 0.03063448444080492,
+          "executed_min_gripper_target": 0.907427966594696,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 115,
+          "target_error_m": 0.025899063520215922,
+          "executed_min_gripper_target": 0.920655369758606,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 116,
+          "target_error_m": 0.020133850012133574,
+          "executed_min_gripper_target": 0.9138320088386536,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 117,
+          "target_error_m": 0.021482633870562942,
+          "executed_min_gripper_target": 0.9191270470619202,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 118,
+          "target_error_m": 0.021507465600836058,
+          "executed_min_gripper_target": 0.9187259078025818,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        },
+        {
+          "chunk_index": 119,
+          "target_error_m": 0.02152836116547608,
+          "executed_min_gripper_target": 0.9175532460212708,
+          "unexecuted_min_gripper_target": null,
+          "executed_release_signal": false,
+          "unexecuted_release_signal": false
+        }
+      ]
+    },
+    {
+      "case_id": "robust_045",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.03404867649078369,
+      "minimum_target_error_m": 0.05897641867253161,
+      "minimum_target_error_chunk": 47,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "robust_054",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 65,
+      "block_lift_height_m": 0.03304797410964966
+    },
+    {
+      "case_id": "robust_056",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 59,
+      "block_lift_height_m": 0.03282880783081055
+    },
+    {
+      "case_id": "robust_057",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 59,
+      "block_lift_height_m": 0.032230913639068604
+    }
+  ]
+}

@@ -191,6 +191,14 @@ parser.add_argument(
     type=int,
     help="Seed shared by Python, NumPy, Torch, CUDA, Warp, Replicator, and the report.",
 )
+parser.add_argument(
+    "--reset-renderer-accumulation-before-policy-observation",
+    action="store_true",
+    help=(
+        "Experimental diagnostic: reset Isaac Sim renderer accumulation before "
+        "each pi0.5 camera observation. Disabled by default."
+    ),
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
@@ -216,6 +224,7 @@ simulation_app = app_launcher.app
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
 import isaaclab.sim as sim_utils  # noqa: E402
+import omni.usd  # noqa: E402
 import omni.replicator.core as replicator  # noqa: E402
 from isaacsim.core.utils.extensions import enable_extension  # noqa: E402
 
@@ -491,6 +500,7 @@ class ExpertEpisodeCapture:
         external_camera: Camera | None = None,
         wrist_camera: Camera | None = None,
         wrist_tool_body_id: int | None = None,
+        reset_renderer_accumulation: bool = False,
     ) -> None:
         self.recorder = recorder
         self.arm_ids = arm_ids
@@ -501,8 +511,11 @@ class ExpertEpisodeCapture:
         self.external_camera = external_camera
         self.wrist_camera = wrist_camera
         self.wrist_tool_body_id = wrist_tool_body_id
+        self.reset_renderer_accumulation = reset_renderer_accumulation
         self.wrist_local_offset: torch.Tensor | None = None
         self.wrist_local_forward: torch.Tensor | None = None
+        self.last_wrist_eye: torch.Tensor | None = None
+        self.last_wrist_forward: torch.Tensor | None = None
         self.sim_step = 0
 
     @staticmethod
@@ -548,9 +561,13 @@ class ExpertEpisodeCapture:
         forward = math_utils.quat_apply(
             tool_quaternion.unsqueeze(0), self.wrist_local_forward.unsqueeze(0)
         )[0]
+        self.last_wrist_eye = eye.detach().clone()
+        self.last_wrist_forward = forward.detach().clone()
         self.wrist_camera.set_world_poses_from_view(
             eye.unsqueeze(0), (eye + forward).unsqueeze(0)
         )
+        if self.reset_renderer_accumulation:
+            omni.usd.get_context().reset_renderer_accumulation()
 
         # Isaac Sim can expose an empty RGB tensor during the first few render
         # ticks after a headless camera starts.  Wait for real sensor frames
@@ -717,6 +734,7 @@ def run_pi05_closed_loop(
     minimum_executed_gripper_target = float("inf")
     policy_sampling_records = []
     initial_policy_observation_images: tuple[np.ndarray, np.ndarray] | None = None
+    initial_policy_physical_state: dict[str, dict] | None = None
     server_metadata = client.get_server_metadata()
     try:
         expected_server_metadata = {
@@ -750,6 +768,39 @@ def run_pi05_closed_loop(
                 [normalize_gripper(float(robot.data.joint_pos[0, gripper_master_id].item()))],
                 dtype=np.float32,
             )
+            if episode_capture.wrist_tool_body_id is None:
+                raise RuntimeError("wrist tool body id is required for physical-state evidence")
+            if episode_capture.last_wrist_eye is None or episode_capture.last_wrist_forward is None:
+                raise RuntimeError("wrist camera pose evidence was not populated by rendering")
+            physical_arrays = {
+                "cube_position": cube.data.root_pos_w[0].detach().cpu().numpy().astype(np.float32),
+                "cube_quaternion": cube.data.root_quat_w[0].detach().cpu().numpy().astype(np.float32),
+                "wrist_tool_position": robot.data.body_pos_w[
+                    0, episode_capture.wrist_tool_body_id
+                ].detach().cpu().numpy().astype(np.float32),
+                "wrist_tool_quaternion": robot.data.body_quat_w[
+                    0, episode_capture.wrist_tool_body_id
+                ].detach().cpu().numpy().astype(np.float32),
+                "wrist_camera_eye": episode_capture.last_wrist_eye.detach()
+                .cpu()
+                .numpy()
+                .astype(np.float32),
+                "wrist_camera_forward": episode_capture.last_wrist_forward.detach()
+                .cpu()
+                .numpy()
+                .astype(np.float32),
+            }
+            physical_state = {
+                name: {
+                    "values": value.tolist(),
+                    "shape": list(value.shape),
+                    "dtype": str(value.dtype),
+                    "sha256": array_sha256(value),
+                }
+                for name, value in physical_arrays.items()
+            }
+            if chunk_index == 0:
+                initial_policy_physical_state = physical_state
             pre_action_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
             pre_action_target_error = float(
                 np.linalg.norm(pre_action_cube - target_block_position)
@@ -800,6 +851,10 @@ def run_pi05_closed_loop(
                     "gripper_position": array_sha256(current_gripper),
                     "external_image": array_sha256(external_rgb),
                     "wrist_image": array_sha256(wrist_rgb),
+                    **{
+                        name: evidence["sha256"]
+                        for name, evidence in physical_state.items()
+                    },
                 },
                 "raw_action_shape": list(raw_actions.shape),
                 "raw_action_dtype": str(raw_actions.dtype),
@@ -1014,6 +1069,9 @@ def run_pi05_closed_loop(
             "policy_chunk_seed_rule": "case_seed + chunk_index",
             "simulation_seed": CONFIGURED_SIMULATION_SEED,
             "cube_workspace_escape_radius_m": CUBE_WORKSPACE_ESCAPE_RADIUS_M,
+            "reset_renderer_accumulation_before_policy_observation": (
+                args.reset_renderer_accumulation_before_policy_observation
+            ),
         },
         "simulation_determinism": {
             "seed": CONFIGURED_SIMULATION_SEED,
@@ -1026,6 +1084,11 @@ def run_pi05_closed_loop(
             "dl_denoiser_enabled": False if args.pi05_closed_loop else None,
             "motion_blur_enabled": False if args.pi05_closed_loop else None,
             "tv_noise_enabled": False if args.pi05_closed_loop else None,
+            "renderer_accumulation_reset_before_policy_observation": (
+                args.reset_renderer_accumulation_before_policy_observation
+                if args.pi05_closed_loop
+                else None
+            ),
         },
         "deterministic_sampling": {
             "mode": POLICY_SAMPLING_MODE,
@@ -1037,6 +1100,7 @@ def run_pi05_closed_loop(
             "chunks": policy_sampling_records,
         },
         "initial_policy_observation": initial_policy_observation,
+        "initial_policy_physical_state": initial_policy_physical_state,
         "inference_latency_s": {
             "first": inference_latencies[0] if inference_latencies else None,
             "mean": float(np.mean(inference_latencies)) if inference_latencies else None,
@@ -1788,6 +1852,9 @@ def main() -> int:
                 list(robot.data.body_names).index("tool_base_link")
                 if args.record_images
                 else None
+            ),
+            reset_renderer_accumulation=(
+                args.reset_renderer_accumulation_before_policy_observation
             ),
         )
 

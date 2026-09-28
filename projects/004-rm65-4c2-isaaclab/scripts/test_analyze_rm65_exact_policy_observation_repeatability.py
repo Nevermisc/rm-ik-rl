@@ -34,9 +34,28 @@ def write_episode(root: Path, changed: bool) -> None:
             "sha256": digest,
         }
         hashes[f"{view}_image"] = digest
+    physical_state = {}
+    for field, size in (
+        ("cube_position", 3),
+        ("cube_quaternion", 4),
+        ("wrist_tool_position", 3),
+        ("wrist_tool_quaternion", 4),
+        ("wrist_camera_eye", 3),
+        ("wrist_camera_forward", 3),
+    ):
+        value = np.zeros(size, dtype=np.float32)
+        if changed and field == "cube_position":
+            value[0] = 1e-6
+        physical_state[field] = {
+            "values": value.tolist(),
+            "shape": list(value.shape),
+            "dtype": str(value.dtype),
+            "sha256": array_sha256(value),
+        }
     report = {
         "status": "pass" if not changed else "fail",
         "initial_policy_observation": {"chunk_index": 0, **views},
+        "initial_policy_physical_state": physical_state,
         "deterministic_sampling": {
             "chunks": [
                 {
@@ -73,8 +92,16 @@ def main() -> int:
         assert analysis["images"]["external"]["render_480x640"]["changed_pixel_count"] == 1
         assert analysis["images"]["external"]["render_480x640"]["maximum_absolute_channel_difference"] == 1
         assert not analysis["executed_first_chunk_action_difference"]["exact_match"]
+        assert analysis["initial_physical_state_evidence_present"]
+        assert not analysis["initial_physical_state"]["all_hashes_match"]
+        assert not analysis["initial_physical_state"]["fields"]["cube_position"][
+            "hash_match"
+        ]
+        assert analysis["initial_physical_state"]["fields"]["cube_quaternion"][
+            "hash_match"
+        ]
 
-    print(json.dumps({"status": "pass", "checks": 8}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 12}, indent=2))
     return 0
 
 

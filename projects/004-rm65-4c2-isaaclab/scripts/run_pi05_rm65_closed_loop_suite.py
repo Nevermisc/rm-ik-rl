@@ -114,6 +114,7 @@ def load_existing_report(
     gripper_open_threshold: float,
     gripper_actual_open_threshold: float,
     policy_max_action_chunks: int,
+    reset_renderer_accumulation: bool,
     policy_noise_seed: int,
     simulation_seed: int,
 ) -> dict | None:
@@ -140,6 +141,12 @@ def load_existing_report(
         report.get("controller_config", {}).get("policy_max_action_chunks")
         != policy_max_action_chunks
     ):
+        return None
+    if bool(
+        report.get("controller_config", {}).get(
+            "reset_renderer_accumulation_before_policy_observation", False
+        )
+    ) != reset_renderer_accumulation:
         return None
     if report_policy_noise_seed(report) != policy_noise_seed:
         return None
@@ -200,6 +207,14 @@ def main() -> int:
         default=1,
         help="Retry only cases that fail to produce a valid task report.",
     )
+    parser.add_argument(
+        "--reset-renderer-accumulation-before-policy-observation",
+        action="store_true",
+        help=(
+            "Diagnostic-only renderer accumulation reset; included in the resume "
+            "contract and disabled by default."
+        ),
+    )
     parser.add_argument("--max-cases", type=int)
     args = parser.parse_args()
 
@@ -251,6 +266,9 @@ def main() -> int:
         args.gripper_actual_open_threshold
     )
     environment["POLICY_MAX_ACTION_CHUNKS"] = str(args.policy_max_action_chunks)
+    environment["RESET_RENDERER_ACCUMULATION_BEFORE_POLICY_OBSERVATION"] = (
+        "1" if args.reset_renderer_accumulation_before_policy_observation else "0"
+    )
     server_log_path = PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"
     server_log_path.parent.mkdir(parents=True, exist_ok=True)
     with server_log_path.open("w", encoding="utf-8") as server_log:
@@ -296,6 +314,7 @@ def main() -> int:
                     args.gripper_open_threshold,
                     args.gripper_actual_open_threshold,
                     args.policy_max_action_chunks,
+                    args.reset_renderer_accumulation_before_policy_observation,
                     case_seed,
                     simulation_seed,
                 )
@@ -364,6 +383,7 @@ def main() -> int:
                         args.gripper_open_threshold,
                         args.gripper_actual_open_threshold,
                         args.policy_max_action_chunks,
+                        args.reset_renderer_accumulation_before_policy_observation,
                         case_seed,
                         simulation_seed,
                     )
@@ -418,8 +438,12 @@ def main() -> int:
             args.gripper_actual_open_threshold
         ),
         "policy_max_action_chunks": args.policy_max_action_chunks,
+        "reset_renderer_accumulation_before_policy_observation": (
+            args.reset_renderer_accumulation_before_policy_observation
+        ),
         "diagnostic_only": (
             args.policy_max_action_chunks != EVALUATION_POLICY_MAX_ACTION_CHUNKS
+            or args.reset_renderer_accumulation_before_policy_observation
         ),
         "deterministic_sampling": {
             "mode": "explicit_numpy_gaussian_noise_v1",
