@@ -9,38 +9,36 @@
   "category_counts": {
     "insufficient_lift": 1,
     "never_reached_target": 4,
-    "pass": 51,
-    "preflight_safety_rejection": 4
+    "pass": 55
   },
   "simulation_safety_abort_counts": {
-    "cube_outside_workspace_envelope": 1,
-    "unsafe_ik_branch_jump": 4
+    "cube_outside_workspace_envelope": 1
   },
   "release_gate_candidate_case_counts": {
     "actual_lt_0.12": {
-      "required_1": 50,
-      "required_2": 38,
+      "required_1": 54,
+      "required_2": 39,
       "required_3": 0
     },
     "actual_lt_0.15": {
-      "required_1": 51,
-      "required_2": 44,
+      "required_1": 55,
+      "required_2": 45,
       "required_3": 0
     },
     "actual_lt_0.20": {
-      "required_1": 51,
-      "required_2": 51,
+      "required_1": 55,
+      "required_2": 55,
       "required_3": 0
     },
     "actual_lt_0.25": {
-      "required_1": 51,
-      "required_2": 51,
-      "required_3": 10
+      "required_1": 55,
+      "required_2": 55,
+      "required_3": 11
     },
     "actual_lt_0.30": {
-      "required_1": 51,
-      "required_2": 51,
-      "required_3": 17
+      "required_1": 55,
+      "required_2": 55,
+      "required_3": 18
     }
   },
   "cases": [
@@ -402,23 +400,11 @@
     },
     {
       "case_id": "robust_042",
-      "status": "fail",
-      "category": "preflight_safety_rejection",
-      "simulation_safety_abort_reason": "unsafe_ik_branch_jump",
-      "action_chunks": 0,
-      "block_lift_height_m": null,
-      "preflight_failure": {
-        "stage": "kinematic_safety_preflight",
-        "reason": "unsafe_ik_branch_jump",
-        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
-        "policy_inference_started": false,
-        "robot_motion_started": false
-      },
-      "minimum_target_error_m": null,
-      "minimum_target_error_chunk": null,
-      "near_target_chunk_count": 0,
-      "maximum_consecutive_release_candidate_chunks": 0,
-      "release_signals_near_target": []
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 114,
+      "block_lift_height_m": 0.03811222314834595
     },
     {
       "case_id": "robust_043",
@@ -459,23 +445,11 @@
     },
     {
       "case_id": "robust_047",
-      "status": "fail",
-      "category": "preflight_safety_rejection",
-      "simulation_safety_abort_reason": "unsafe_ik_branch_jump",
-      "action_chunks": 0,
-      "block_lift_height_m": null,
-      "preflight_failure": {
-        "stage": "kinematic_safety_preflight",
-        "reason": "unsafe_ik_branch_jump",
-        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
-        "policy_inference_started": false,
-        "robot_motion_started": false
-      },
-      "minimum_target_error_m": null,
-      "minimum_target_error_chunk": null,
-      "near_target_chunk_count": 0,
-      "maximum_consecutive_release_candidate_chunks": 0,
-      "release_signals_near_target": []
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 68,
+      "block_lift_height_m": 0.04611414670944214
     },
     {
       "case_id": "robust_048",
@@ -511,23 +485,11 @@
     },
     {
       "case_id": "robust_052",
-      "status": "fail",
-      "category": "preflight_safety_rejection",
-      "simulation_safety_abort_reason": "unsafe_ik_branch_jump",
-      "action_chunks": 0,
-      "block_lift_height_m": null,
-      "preflight_failure": {
-        "stage": "kinematic_safety_preflight",
-        "reason": "unsafe_ik_branch_jump",
-        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
-        "policy_inference_started": false,
-        "robot_motion_started": false
-      },
-      "minimum_target_error_m": null,
-      "minimum_target_error_chunk": null,
-      "near_target_chunk_count": 0,
-      "maximum_consecutive_release_candidate_chunks": 0,
-      "release_signals_near_target": []
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 73,
+      "block_lift_height_m": 0.03649270534515381
     },
     {
       "case_id": "robust_053",
@@ -563,23 +525,11 @@
     },
     {
       "case_id": "robust_057",
-      "status": "fail",
-      "category": "preflight_safety_rejection",
-      "simulation_safety_abort_reason": "unsafe_ik_branch_jump",
-      "action_chunks": 0,
-      "block_lift_height_m": null,
-      "preflight_failure": {
-        "stage": "kinematic_safety_preflight",
-        "reason": "unsafe_ik_branch_jump",
-        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
-        "policy_inference_started": false,
-        "robot_motion_started": false
-      },
-      "minimum_target_error_m": null,
-      "minimum_target_error_chunk": null,
-      "near_target_chunk_count": 0,
-      "maximum_consecutive_release_candidate_chunks": 0,
-      "release_signals_near_target": []
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 60,
+      "block_lift_height_m": 0.03449279069900513
     },
     {
       "case_id": "robust_058",

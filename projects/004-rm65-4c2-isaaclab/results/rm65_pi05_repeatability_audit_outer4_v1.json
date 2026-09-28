@@ -1,0 +1,173 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_repeatability_audit",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "planned_case_count": 4,
+  "comparable_case_count": 4,
+  "missing_case_count": 0,
+  "outcome_flip_count": 1,
+  "status_match_count": 3,
+  "initial_observation_match_counts": {
+    "joint_position": 4,
+    "gripper_position": 4,
+    "external_image": 0,
+    "wrist_image": 0
+  },
+  "initial_noise_match_count": 4,
+  "initial_raw_action_match_count": 0,
+  "strict_repeatability_verified": false,
+  "end_to_end_determinism_claim_supported": false,
+  "interpretation": "Explicit policy noise seeds can be reproducible while rendered observations, policy actions, trajectories, and outcomes remain non-repeatable.",
+  "missing_cases": [],
+  "cases": [
+    {
+      "case_id": "robust_042",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928042,
+      "simulation_seed": 590928042,
+      "reference_status": "fail",
+      "candidate_status": "pass",
+      "status_match": false,
+      "outcome_flip": true,
+      "reference_action_chunks": 120,
+      "candidate_action_chunks": 114,
+      "initial_observation_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false
+      },
+      "initial_noise_match": true,
+      "initial_raw_action_match": false,
+      "common_chunk_count": 114,
+      "matching_noise_prefix_chunks": 114,
+      "matching_observation_prefix_chunks": 0,
+      "matching_action_prefix_chunks": 0,
+      "strict_repeatability_verified": false,
+      "metrics": {
+        "reference": {
+          "block_lift_height_m": 0.06349468231201172,
+          "final_target_position_error_m": 0.06831100426594847,
+          "final_gripper_normalized": 0.8724770104954008
+        },
+        "candidate": {
+          "block_lift_height_m": 0.03811222314834595,
+          "final_target_position_error_m": 0.009586656747319728,
+          "final_gripper_normalized": 0.05982801145900881
+        }
+      }
+    },
+    {
+      "case_id": "robust_047",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928047,
+      "simulation_seed": 590928047,
+      "reference_status": "pass",
+      "candidate_status": "pass",
+      "status_match": true,
+      "outcome_flip": false,
+      "reference_action_chunks": 66,
+      "candidate_action_chunks": 68,
+      "initial_observation_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false
+      },
+      "initial_noise_match": true,
+      "initial_raw_action_match": false,
+      "common_chunk_count": 66,
+      "matching_noise_prefix_chunks": 66,
+      "matching_observation_prefix_chunks": 0,
+      "matching_action_prefix_chunks": 0,
+      "strict_repeatability_verified": false,
+      "metrics": {
+        "reference": {
+          "block_lift_height_m": 0.0466381311416626,
+          "final_target_position_error_m": 0.007119587738584641,
+          "final_gripper_normalized": 0.06405989817112168
+        },
+        "candidate": {
+          "block_lift_height_m": 0.04611414670944214,
+          "final_target_position_error_m": 0.015794597728911668,
+          "final_gripper_normalized": 0.04478390247835589
+        }
+      }
+    },
+    {
+      "case_id": "robust_052",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928052,
+      "simulation_seed": 590928052,
+      "reference_status": "pass",
+      "candidate_status": "pass",
+      "status_match": true,
+      "outcome_flip": false,
+      "reference_action_chunks": 78,
+      "candidate_action_chunks": 73,
+      "initial_observation_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false
+      },
+      "initial_noise_match": true,
+      "initial_raw_action_match": false,
+      "common_chunk_count": 73,
+      "matching_noise_prefix_chunks": 73,
+      "matching_observation_prefix_chunks": 0,
+      "matching_action_prefix_chunks": 0,
+      "strict_repeatability_verified": false,
+      "metrics": {
+        "reference": {
+          "block_lift_height_m": 0.04008901119232178,
+          "final_target_position_error_m": 0.007567649544449119,
+          "final_gripper_normalized": 0.03882640531297364
+        },
+        "candidate": {
+          "block_lift_height_m": 0.03649270534515381,
+          "final_target_position_error_m": 0.015035639377349993,
+          "final_gripper_normalized": 0.03878373889564779
+        }
+      }
+    },
+    {
+      "case_id": "robust_057",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928057,
+      "simulation_seed": 590928057,
+      "reference_status": "pass",
+      "candidate_status": "pass",
+      "status_match": true,
+      "outcome_flip": false,
+      "reference_action_chunks": 67,
+      "candidate_action_chunks": 60,
+      "initial_observation_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false
+      },
+      "initial_noise_match": true,
+      "initial_raw_action_match": false,
+      "common_chunk_count": 60,
+      "matching_noise_prefix_chunks": 60,
+      "matching_observation_prefix_chunks": 0,
+      "matching_action_prefix_chunks": 0,
+      "strict_repeatability_verified": false,
+      "metrics": {
+        "reference": {
+          "block_lift_height_m": 0.038290977478027344,
+          "final_target_position_error_m": 0.004436078478073328,
+          "final_gripper_normalized": 0.0735069113659721
+        },
+        "candidate": {
+          "block_lift_height_m": 0.03449279069900513,
+          "final_target_position_error_m": 0.005616522764836237,
+          "final_gripper_normalized": 0.06936742477334304
+        }
+      }
+    }
+  ]
+}

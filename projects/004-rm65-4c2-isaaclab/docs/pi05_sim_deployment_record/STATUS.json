@@ -2,7 +2,7 @@
   "schema": "rm65_pi05_sim_deployment_status_v1",
   "updated_at": "2026-09-28",
   "scope": "RM65-B + 4C2 + pi0.5 Isaac Lab closed-loop simulation",
-  "stage": "expanded_simulation_gate_passed_with_outer_panel_weakness",
+  "stage": "expanded_simulation_gate_passed_end_to_end_repeatability_unverified",
   "real_robot_execution_allowed": false,
   "initial_confirmation": {
     "plan": "config/rm65_pi05_evaluation_plan_deterministic_v2_confirmation.json",
@@ -14,17 +14,18 @@
     "policy_seed_range": [280928000, 280928019],
     "simulation_seed_range": [380928000, 380928019]
   },
-  "robustness_evaluation": {
+  "robustness_evaluation_primary": {
     "status": "pass",
+    "interpretation": "corrected using the first actual pi0.5 execution for each of four cases previously blocked by unused scripted-only IK precomputation",
     "plan": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
     "checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
     "repo_id": "local/rm65_sim_policy_train",
     "planned_cases": 60,
     "valid_reports": 60,
-    "successes": 51,
-    "failures": 9,
-    "success_rate": 0.85,
-    "success_rate_ci95_wilson": [0.7388541093022145, 0.9190255941983225],
+    "successes": 54,
+    "failures": 6,
+    "success_rate": 0.9,
+    "success_rate_ci95_wilson": [0.7985053527602123, 0.9533571655261158],
     "minimum_success_rate": 0.8,
     "all_reports_present": true,
     "diagnostic_only": false,
@@ -35,14 +36,43 @@
     "by_panel": {
       "panel_a_inner": {"successes": 19, "total": 20, "success_rate": 0.95},
       "panel_b_mid": {"successes": 18, "total": 20, "success_rate": 0.9},
-      "panel_c_outer": {"successes": 14, "total": 20, "success_rate": 0.7}
+      "panel_c_outer": {"successes": 17, "total": 20, "success_rate": 0.85}
     },
+    "failure_summary": {
+      "never_reached_target": 5,
+      "insufficient_lift": 1,
+      "release_failures_after_reaching_target": 0
+    },
+    "evidence": "results/rm65_pi05_robustness_v3_60_first_policy_execution_corrected_evidence.json"
+  },
+  "formal_reproduction_run": {
+    "status": "pass",
+    "successes": 55,
+    "failures": 5,
+    "success_rate": 0.9166666666666666,
+    "success_rate_ci95_wilson": [0.8193105798166558, 0.9638795433982692],
+    "outcome_differs_from_primary": true,
+    "differing_case": "robust_042",
     "evidence": {
       "compact": "results/rm65_pi05_robustness_v3_60_compact_evidence.json",
       "failure_taxonomy": "results/rm65_pi05_robustness_v3_60_failure_taxonomy.json",
-      "release_analysis": "results/rm65_pi05_robustness_v3_60_release_analysis.json",
-      "plan_validation": "results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json"
+      "release_analysis": "results/rm65_pi05_robustness_v3_60_release_analysis.json"
     }
+  },
+  "repeatability_audit": {
+    "plan": "config/rm65_pi05_repeatability_audit_outer4_v1.json",
+    "comparable_cases": 4,
+    "status_matches": 3,
+    "outcome_flips": 1,
+    "initial_joint_hash_matches": 4,
+    "initial_gripper_hash_matches": 4,
+    "initial_noise_hash_matches": 4,
+    "initial_external_image_hash_matches": 0,
+    "initial_wrist_image_hash_matches": 0,
+    "initial_raw_action_hash_matches": 0,
+    "strict_repeatability_verified": false,
+    "end_to_end_determinism_claim_supported": false,
+    "evidence": "results/rm65_pi05_repeatability_audit_outer4_v1.json"
   },
   "controller": {
     "policy_max_action_chunks": 120,
@@ -53,24 +83,22 @@
     "post_release_verification_physics_steps": 240,
     "cube_workspace_envelope_m": 1.0
   },
-  "failure_summary": {
-    "preflight_safety_rejection_unsafe_ik_branch_jump": 4,
-    "never_reached_target": 4,
-    "insufficient_lift": 1,
-    "release_failures_after_reaching_target": 0,
-    "cube_outside_workspace_envelope": 1
-  },
   "reporting_gate_patch": {
     "commit": "98de449",
     "reason": "require all planned reports and structure deterministic preflight safety failures",
     "control_or_policy_semantics_changed": false
   },
+  "unused_scripted_ik_fix": {
+    "commit": "c707b7d",
+    "reason": "skip a scripted-only place trajectory that is unreachable after the pi0.5 branch returns",
+    "scripted_mode_ik_safety_threshold_changed": false
+  },
   "known_limitations": [
-    "overall Wilson confidence interval still crosses the 80 percent threshold",
-    "outer panel success rate is 70 percent",
-    "one outer offset triggers deterministic continuous-IK safety rejection at all four angles",
-    "RTX camera rendering retains sparse cross-process pixel differences",
+    "the primary 54/60 Wilson interval lower bound is slightly below 80 percent",
+    "same-seed runs do not reproduce rendered camera hashes or policy action hashes",
+    "one of four repeated cases flips pass/fail status",
+    "five primary failures never reach the target and one has insufficient lift",
     "real robot calibration and safety gates are incomplete"
   ],
-  "next_required_milestone": "fix outer-panel continuous IK and five closed-loop failures, then run a fresh-seed confirmation"
+  "next_required_milestone": "stabilize and quantify visual repeatability, run preregistered repeated-condition tests, then collect targeted failure corrections and perform fresh-seed confirmation"
 }

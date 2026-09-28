@@ -1,42 +1,178 @@
 {
   "status": "pass",
-  "evaluation_kind": "isaaclab_pi0.5_closed_loop",
+  "evidence_kind": "rm65_pi05_corrected_first_policy_execution_v1",
   "simulation_only": true,
   "real_robot_command_sent": false,
   "plan": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
   "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
   "policy_checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
   "repo_id": "local/rm65_sim_policy_train",
-  "gripper_open_threshold_normalized": 0.12,
-  "gripper_actual_open_threshold_normalized": 0.2,
-  "policy_max_action_chunks": 120,
-  "diagnostic_only": false,
-  "deterministic_sampling": {
-    "mode": "explicit_numpy_gaussian_noise_v1",
-    "case_seed_source": "evaluation_plan",
-    "chunk_seed_rule": "case_seed + chunk_index",
-    "resume_requires_matching_seed": true,
-    "simulation_seed_source": "evaluation_plan",
-    "resume_requires_matching_simulation_seed": true
+  "correction": {
+    "reason": "The replaced reports were false preflight rejections caused by an unused scripted-only place trajectory in pi0.5 mode.",
+    "base_summary": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/results/rm65_pi05_robustness_v3_60_summary_pre_unused_scripted_ik_fix.json",
+    "base_summary_sha256": "89456c1c943261447f7ed80a0d64940d4aba8a90948f35611fa32bc3d2225fa3",
+    "replacement_root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_case42_scripted_ik_skip_dev",
+    "replacement_case_ids": [
+      "robust_042",
+      "robust_047",
+      "robust_052",
+      "robust_057"
+    ],
+    "replacement_policy": "first actual pi0.5 execution for each affected case"
   },
   "planned_case_count": 60,
   "episode_count": 60,
-  "success_count": 55,
-  "success_rate": 0.9166666666666666,
+  "success_count": 54,
+  "failure_count": 6,
+  "success_rate": 0.9,
+  "success_rate_ci95_wilson": [
+    0.7985053527602123,
+    0.9533571655261158
+  ],
   "gate": {
     "passed": true,
     "minimum_episode_count": 20,
     "minimum_success_rate": 0.8,
     "require_all_planned_reports": true,
     "missing_report_count": 0,
-    "success_rate": 0.9166666666666666,
     "checks": {
       "minimum_episode_count_met": true,
       "all_planned_reports_present": true,
       "minimum_success_rate_met": true
     }
   },
-  "evidence_kind": "rm65_pi05_closed_loop_suite_compact_evidence_v1",
+  "by_panel": {
+    "panel_a_inner": {
+      "total": 20,
+      "passes": 19,
+      "success_rate": 0.95
+    },
+    "panel_b_mid": {
+      "total": 20,
+      "passes": 18,
+      "success_rate": 0.9
+    },
+    "panel_c_outer": {
+      "total": 20,
+      "passes": 17,
+      "success_rate": 0.85
+    }
+  },
+  "by_transfer_joint_1_rad": {
+    "0.65": {
+      "total": 15,
+      "passes": 13,
+      "success_rate": 0.8666666666666667
+    },
+    "0.75": {
+      "total": 15,
+      "passes": 13,
+      "success_rate": 0.8666666666666667
+    },
+    "0.85": {
+      "total": 15,
+      "passes": 14,
+      "success_rate": 0.9333333333333333
+    },
+    "0.95": {
+      "total": 15,
+      "passes": 14,
+      "success_rate": 0.9333333333333333
+    }
+  },
+  "by_prompt": {
+    "grasp the block and set it on the target": {
+      "total": 12,
+      "passes": 12,
+      "success_rate": 1.0
+    },
+    "move the block onto the target": {
+      "total": 12,
+      "passes": 8,
+      "success_rate": 0.6666666666666666
+    },
+    "pick the block and put it at the target": {
+      "total": 12,
+      "passes": 12,
+      "success_rate": 1.0
+    },
+    "pick up the block and place it on the target": {
+      "total": 12,
+      "passes": 10,
+      "success_rate": 0.8333333333333334
+    },
+    "place the block on the target platform": {
+      "total": 12,
+      "passes": 12,
+      "success_rate": 1.0
+    }
+  },
+  "replacements": [
+    {
+      "case_id": "robust_042",
+      "previous_status": "fail",
+      "previous_preflight_failure": {
+        "stage": "kinematic_safety_preflight",
+        "reason": "unsafe_ik_branch_jump",
+        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
+        "policy_inference_started": false,
+        "robot_motion_started": false
+      },
+      "first_policy_execution_status": "fail",
+      "action_chunks": 120,
+      "executed_actions": 600,
+      "report_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_case42_scripted_ik_skip_dev/robust_042/task_report.json",
+      "report_sha256": "3e10de2ea2b9a46f8dfbab795ecfa8f08076a0843809ea038f851c18795e168d"
+    },
+    {
+      "case_id": "robust_047",
+      "previous_status": "fail",
+      "previous_preflight_failure": {
+        "stage": "kinematic_safety_preflight",
+        "reason": "unsafe_ik_branch_jump",
+        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
+        "policy_inference_started": false,
+        "robot_motion_started": false
+      },
+      "first_policy_execution_status": "pass",
+      "action_chunks": 66,
+      "executed_actions": 425,
+      "report_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_case42_scripted_ik_skip_dev/robust_047/task_report.json",
+      "report_sha256": "d45b6abfab11b5de26a5964d64b7295745bac15f1ad623fc00da6e2c2e23362f"
+    },
+    {
+      "case_id": "robust_052",
+      "previous_status": "fail",
+      "previous_preflight_failure": {
+        "stage": "kinematic_safety_preflight",
+        "reason": "unsafe_ik_branch_jump",
+        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
+        "policy_inference_started": false,
+        "robot_motion_started": false
+      },
+      "first_policy_execution_status": "pass",
+      "action_chunks": 78,
+      "executed_actions": 520,
+      "report_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_case42_scripted_ik_skip_dev/robust_052/task_report.json",
+      "report_sha256": "52590153ec0ad9356ba12d1b487563bdd38b5c45ebab3741a2c666ef6767ecc1"
+    },
+    {
+      "case_id": "robust_057",
+      "previous_status": "fail",
+      "previous_preflight_failure": {
+        "stage": "kinematic_safety_preflight",
+        "reason": "unsafe_ik_branch_jump",
+        "message": "unsafe IK branch jump for place waypoint 0.110 m: 3.364869 rad > 0.750000 rad",
+        "policy_inference_started": false,
+        "robot_motion_started": false
+      },
+      "first_policy_execution_status": "pass",
+      "action_chunks": 67,
+      "executed_actions": 435,
+      "report_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_case42_scripted_ik_skip_dev/robust_057/task_report.json",
+      "report_sha256": "206f13bb9bd1b3e6ff6895dff5e40b08f64e56f72a59fac1a1b75096bad1e762"
+    }
+  ],
   "cases": [
     {
       "case_id": "robust_000",
@@ -1095,21 +1231,21 @@
       "runner_returncode": 0,
       "timed_out": false,
       "reused": false,
-      "status": "pass",
-      "action_chunks": 114,
-      "executed_actions": 650,
+      "status": "fail",
+      "action_chunks": 120,
+      "executed_actions": 600,
       "simulation_safety_abort_reason": null,
       "preflight_failure": null,
-      "release_verified": true,
+      "release_verified": false,
       "episode_validation_status": "pass",
-      "deterministic_chunk_evidence_sha256": "9b8f5da9d22b57ef091359dd010363485c408a0662f4c072dc59f5cccadf3bc7",
+      "deterministic_chunk_evidence_sha256": "a136d6aaa9e6a8d9a1ddf48787a87a1fd2fc2dd5554d77faae12e1699f2a4bc1",
       "metrics": {
-        "source_to_target_xy_distance_m": 0.13507795333862305,
-        "block_lift_height_m": 0.03811222314834595,
-        "final_target_xy_error_m": 0.00958665673924829,
-        "final_target_position_error_m": 0.009586656747319728,
-        "post_release_drift_m": 3.9908691178425215e-06,
-        "final_gripper_normalized": 0.05982801145900881,
+        "source_to_target_xy_distance_m": 0.1386127918958664,
+        "block_lift_height_m": 0.06349468231201172,
+        "final_target_xy_error_m": 0.009492884279762576,
+        "final_target_position_error_m": 0.06831100426594847,
+        "post_release_drift_m": 4.470348358154297e-08,
+        "final_gripper_normalized": 0.8724770104954008,
         "all_states_finite": true
       }
     },
@@ -1221,20 +1357,20 @@
       "timed_out": false,
       "reused": false,
       "status": "pass",
-      "action_chunks": 68,
-      "executed_actions": 445,
+      "action_chunks": 66,
+      "executed_actions": 425,
       "simulation_safety_abort_reason": null,
       "preflight_failure": null,
       "release_verified": true,
       "episode_validation_status": "pass",
-      "deterministic_chunk_evidence_sha256": "97ee670f9659cd76fdc7298ca361a8932f7505eb7c014af2ab7addce7ae6dddf",
+      "deterministic_chunk_evidence_sha256": "f495cca9547d061f89cf62c33821774e52703cd6636e1f169f807a30b300e825",
       "metrics": {
-        "source_to_target_xy_distance_m": 0.13856254518032074,
-        "block_lift_height_m": 0.04611414670944214,
-        "final_target_xy_error_m": 0.01579459772887118,
-        "final_target_position_error_m": 0.015794597728911668,
-        "post_release_drift_m": 0.0,
-        "final_gripper_normalized": 0.04478390247835589,
+        "source_to_target_xy_distance_m": 0.15366965532302856,
+        "block_lift_height_m": 0.0466381311416626,
+        "final_target_xy_error_m": 0.007119587611148606,
+        "final_target_position_error_m": 0.007119587738584641,
+        "post_release_drift_m": 8.505417667947768e-07,
+        "final_gripper_normalized": 0.06405989817112168,
         "all_states_finite": true
       }
     },
@@ -1346,20 +1482,20 @@
       "timed_out": false,
       "reused": false,
       "status": "pass",
-      "action_chunks": 73,
-      "executed_actions": 485,
+      "action_chunks": 78,
+      "executed_actions": 520,
       "simulation_safety_abort_reason": null,
       "preflight_failure": null,
       "release_verified": true,
       "episode_validation_status": "pass",
-      "deterministic_chunk_evidence_sha256": "f2cee541ca5b5c54aeb31915f12920b372ee75a75a89ad72ab7a7e33d22317d8",
+      "deterministic_chunk_evidence_sha256": "8ddbf4827d0b86fc10f25be83a5b2fa103b09fe4260d47336b3d5889e60bc7a0",
       "metrics": {
-        "source_to_target_xy_distance_m": 0.158725306391716,
-        "block_lift_height_m": 0.03649270534515381,
-        "final_target_xy_error_m": 0.015035639372510852,
-        "final_target_position_error_m": 0.015035639377349993,
-        "post_release_drift_m": 0.0006397287943400443,
-        "final_gripper_normalized": 0.03878373889564779,
+        "source_to_target_xy_distance_m": 0.16629505157470703,
+        "block_lift_height_m": 0.04008901119232178,
+        "final_target_xy_error_m": 0.0075676489716226,
+        "final_target_position_error_m": 0.007567649544449119,
+        "post_release_drift_m": 0.0003138278843834996,
+        "final_gripper_normalized": 0.03882640531297364,
         "all_states_finite": true
       }
     },
@@ -1471,20 +1607,20 @@
       "timed_out": false,
       "reused": false,
       "status": "pass",
-      "action_chunks": 60,
-      "executed_actions": 375,
+      "action_chunks": 67,
+      "executed_actions": 435,
       "simulation_safety_abort_reason": null,
       "preflight_failure": null,
       "release_verified": true,
       "episode_validation_status": "pass",
-      "deterministic_chunk_evidence_sha256": "8719dbec4001a0cb1453e3928a674b4e0c76d532390aa71746d17f7fa97e920d",
+      "deterministic_chunk_evidence_sha256": "87acf07a8b4706a7b111290a0a7cbb25e8175df8a71f9a7cff46c35644dc8247",
       "metrics": {
-        "source_to_target_xy_distance_m": 0.1924075335264206,
-        "block_lift_height_m": 0.03449279069900513,
-        "final_target_xy_error_m": 0.00561652276472238,
-        "final_target_position_error_m": 0.005616522764836237,
-        "post_release_drift_m": 0.00041975569911301136,
-        "final_gripper_normalized": 0.06936742477334304,
+        "source_to_target_xy_distance_m": 0.18847553431987762,
+        "block_lift_height_m": 0.038290977478027344,
+        "final_target_xy_error_m": 0.004436078219729293,
+        "final_target_position_error_m": 0.004436078478073328,
+        "post_release_drift_m": 1.8148855360777816e-06,
+        "final_gripper_normalized": 0.0735069113659721,
         "all_states_finite": true
       }
     },
@@ -1538,7 +1674,5 @@
         "all_states_finite": true
       }
     }
-  ],
-  "all_reports_present": true,
-  "all_cases_simulation_only": true
+  ]
 }

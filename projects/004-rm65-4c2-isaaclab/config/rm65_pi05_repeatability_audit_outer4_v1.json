@@ -1,0 +1,46 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Audit plan for the four cases previously blocked by unused scripted-only IK precomputation.",
+  "cases": [
+    {
+      "case_id": "robust_042",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928042,
+      "simulation_seed": 590928042,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_047",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928047,
+      "simulation_seed": 590928047,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_052",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928052,
+      "simulation_seed": 590928052,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_057",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928057,
+      "simulation_seed": 590928057,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick the block and put it at the target"
+    }
+  ]
+}
