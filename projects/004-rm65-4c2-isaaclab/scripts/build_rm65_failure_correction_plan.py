@@ -43,6 +43,28 @@ EXPERT_INFEASIBLE_REPLACEMENTS = {
             ("angle_plus_0p025", 0.025),
         )
     },
+    ("robust_042", "angle_minus_0p025"): {
+        "variant": "source_x_inward_0p00525",
+        "transfer_angle_delta_rad": 0.0,
+        "source_offset_x_delta_m": -0.00525,
+        "source_offset_y_delta_m": 0.0,
+        "reason": (
+            "the repaired-source 0.625 rad task passed IK but caused a physics "
+            "escape during place; a 0.65 rad, +0.006 m source-x probe passed "
+            "all unchanged task-success gates"
+        ),
+    },
+    ("robust_042", "angle_plus_0p025"): {
+        "variant": "source_xy_inward_0p00375_0p001875",
+        "transfer_angle_delta_rad": 0.0,
+        "source_offset_x_delta_m": -0.00375,
+        "source_offset_y_delta_m": 0.001875,
+        "reason": (
+            "angle variants were removed after the repaired-source 0.625 rad "
+            "task caused a physics escape; an orthogonal source-y neighborhood "
+            "passed all unchanged task-success gates"
+        ),
+    },
 }
 
 

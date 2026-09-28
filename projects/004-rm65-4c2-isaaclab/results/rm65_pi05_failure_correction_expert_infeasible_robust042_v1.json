@@ -47,16 +47,49 @@
       "final_target_position_error_m": 0.009459257697708268,
       "block_lift_height_m": 0.0395926833152771,
       "place_max_command_step_rad": 0.040799416987316706
+    },
+    {
+      "kind": "repaired_source_angle_minus_0p025_planned_attempt",
+      "transfer_joint_1_rad": 0.625,
+      "source_offset_xy_m": [0.0075, -0.01125],
+      "status": "fail",
+      "failure_reason": "physics_escape_during_place",
+      "pre_release_position_m": [0.10929057002067566, -1.1468404531478882, -5.190098762512207],
+      "final_position_m": [1.6876187324523926, -6.950741291046143, -320.540283203125],
+      "all_states_finite": true
+    },
+    {
+      "kind": "source_x_inward_0p00525_diagnostic",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_xy_m": [0.006, -0.01125],
+      "status": "pass",
+      "post_release_drift_m": 0.011138228699564934,
+      "final_target_position_error_m": 0.009194849349017913,
+      "block_lift_height_m": 0.03961169719696045,
+      "place_max_command_step_rad": 0.0406945674005732
+    },
+    {
+      "kind": "source_xy_inward_0p00375_0p001875_diagnostic",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_xy_m": [0.0075, -0.009375],
+      "status": "pass",
+      "post_release_drift_m": 0.007444050163030624,
+      "final_target_position_error_m": 0.010342734210585593,
+      "block_lift_height_m": 0.03969991207122803,
+      "place_max_command_step_rad": 0.04073380177675401
     }
   ],
   "decision": {
     "replacement_scope": "all five robust_042 correction variants",
-    "source_offset_x_m": 0.0075,
-    "source_offset_y_m": -0.01125,
+    "exact_repeat_source_offset_xy_m": [0.0075, -0.01125],
+    "additional_source_neighborhoods_xy_m": [
+      [0.006, -0.01125],
+      [0.0075, -0.009375]
+    ],
     "preserve_exact_repeat_count": 3,
-    "preserve_angle_offsets_rad": [-0.025, 0.025],
+    "removed_angle_offsets_rad": [-0.025, 0.025],
     "preserve_total_planned_episode_count": 30,
-    "reason": "The scripted place path depends on the source grasp pose. Moving source x inward by 3.75 mm preserves the correction neighborhood while restoring a continuous and task-successful expert path.",
+    "reason": "The scripted place path depends on the source grasp pose. Moving source x inward restored IK continuity; the 0.625 rad repaired-source trajectory then exposed a severe physics escape, so the two angle variants were replaced by validated orthogonal source-pose neighborhoods at the stable 0.65 rad target angle.",
     "final_confirmation_conditions_changed": false
   }
 }

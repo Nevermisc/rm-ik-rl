@@ -94,13 +94,16 @@ def main() -> int:
         if case["source_evaluation_case_id"] == "robust_042"
     ]
     assert len(robust_042_cases) == 5
-    assert all(case["source_offset_x_m"] == 0.0075 for case in robust_042_cases)
-    assert [case["transfer_joint_1_rad"] for case in robust_042_cases] == [
-        0.65,
-        0.65,
-        0.65,
-        0.625,
-        0.675,
+    assert all(case["transfer_joint_1_rad"] == 0.65 for case in robust_042_cases)
+    assert [
+        [case["source_offset_x_m"], case["source_offset_y_m"]]
+        for case in robust_042_cases
+    ] == [
+        [0.0075, -0.01125],
+        [0.0075, -0.01125],
+        [0.0075, -0.01125],
+        [0.006, -0.01125],
+        [0.0075, -0.009375],
     ]
 
     bad_evidence = {**evidence, "failure_count": 2}
@@ -110,7 +113,7 @@ def main() -> int:
         pass
     else:
         raise AssertionError("mismatched failure_count must fail closed")
-    print(json.dumps({"status": "pass", "checks": 16}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 17}, indent=2))
     return 0
 
 
