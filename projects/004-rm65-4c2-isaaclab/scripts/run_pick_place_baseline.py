@@ -2583,6 +2583,12 @@ except UnsafeIKBranchJumpError as error:
         python_hash_seed=os.environ.get("PYTHONHASHSEED"),
         failure_reason="unsafe_ik_branch_jump",
         failure_message=str(error),
+        pi05_used=args.pi05_closed_loop,
+        expert=(
+            None
+            if args.pi05_closed_loop
+            else "scripted Cartesian-approach and joint-space transport baseline"
+        ),
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")

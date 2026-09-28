@@ -22,7 +22,27 @@ EXPERT_INFEASIBLE_REPLACEMENTS = {
             "the 0.02 m post-release drift gate; the source-offset replacement "
             "passed without weakening criteria"
         ),
-    }
+    },
+    **{
+        ("robust_042", variant): {
+            "variant": f"{variant}_source_x_inward_0p00375",
+            "transfer_angle_delta_rad": angle_delta,
+            "source_offset_x_delta_m": -0.00375,
+            "source_offset_y_delta_m": 0.0,
+            "reason": (
+                "the original +0.01125 m source x and a +0.009375 m probe "
+                "crossed an unsafe scripted place-IK branch; +0.0075 m passed "
+                "the unchanged 0.75 rad continuity and task-success gates"
+            ),
+        }
+        for variant, angle_delta in (
+            ("exact_repeat_1", 0.0),
+            ("exact_repeat_2", 0.0),
+            ("exact_repeat_3", 0.0),
+            ("angle_minus_0p025", -0.025),
+            ("angle_plus_0p025", 0.025),
+        )
+    },
 }
 
 

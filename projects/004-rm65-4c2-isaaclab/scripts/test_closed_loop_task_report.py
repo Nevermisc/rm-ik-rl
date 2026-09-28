@@ -191,6 +191,31 @@ def main() -> int:
         expected_policy_noise_seed=policy_noise_seed,
         expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
+    scripted_preflight_failure = build_preflight_safety_failure_report(
+        checkpoint_id="unknown",
+        policy_noise_seed=None,
+        simulation_seed=simulation_seed,
+        prompt="move the block",
+        policy_max_action_chunks=120,
+        policy_execute_actions_per_chunk=5,
+        record_stride_steps=12,
+        policy_release_required_consecutive_chunks=2,
+        policy_gripper_open_threshold=0.12,
+        policy_gripper_actual_open_threshold=0.20,
+        python_hash_seed=None,
+        failure_reason="unsafe_ik_branch_jump",
+        failure_message="unsafe IK branch jump",
+        pi05_used=False,
+        expert="scripted expert",
+    )
+    assert scripted_preflight_failure["pi05_used"] is False
+    assert scripted_preflight_failure["expert"] == "scripted expert"
+    assert scripted_preflight_failure["policy_checkpoint_id"] is None
+    assert scripted_preflight_failure["deterministic_sampling"] is None
+    assert (
+        scripted_preflight_failure["preflight_failure"]["execution_mode"]
+        == "scripted_expert"
+    )
     print(
         json.dumps(
             {
@@ -203,6 +228,7 @@ def main() -> int:
                 "tampered_noise_hash_blocked": True,
                 "simulation_safety_abort_blocked": True,
                 "preflight_safety_failure_structured_and_blocked": True,
+                "scripted_preflight_mode_labeled_correctly": True,
             },
             indent=2,
         )

@@ -28,8 +28,8 @@ def _sha256_string(value: Any) -> bool:
 
 def build_preflight_safety_failure_report(
     *,
-    checkpoint_id: str,
-    policy_noise_seed: int,
+    checkpoint_id: str | None,
+    policy_noise_seed: int | None,
     simulation_seed: int,
     prompt: str,
     policy_max_action_chunks: int,
@@ -41,17 +41,19 @@ def build_preflight_safety_failure_report(
     python_hash_seed: str | None,
     failure_reason: str,
     failure_message: str,
+    pi05_used: bool = True,
+    expert: str | None = None,
 ) -> dict[str, Any]:
     """Create an auditable task failure before any policy action is executed."""
 
-    return {
+    report = {
         "status": "fail",
         "simulation_only": True,
-        "pi05_used": True,
-        "expert": None,
+        "pi05_used": pi05_used,
+        "expert": expert,
         "real_robot_command_sent": False,
-        "policy_checkpoint_id": checkpoint_id,
-        "policy_noise_seed": policy_noise_seed,
+        "policy_checkpoint_id": checkpoint_id if pi05_used else None,
+        "policy_noise_seed": policy_noise_seed if pi05_used else None,
         "simulation_seed": simulation_seed,
         "prompt": prompt,
         "action_chunks": 0,
@@ -117,6 +119,31 @@ def build_preflight_safety_failure_report(
         "final_gripper_normalized": None,
         "limitation": "The task was rejected before policy inference or robot motion.",
     }
+    if not pi05_used:
+        report["controller_config"] = {}
+        report["deterministic_sampling"] = None
+        report["simulation_determinism"].update(
+            {
+                "torch_deterministic_algorithms": False,
+                "physx_enhanced_determinism": False,
+                "camera_antialiasing_mode": None,
+                "dlss_frame_generation_enabled": None,
+                "dl_denoiser_enabled": None,
+                "motion_blur_enabled": None,
+                "tv_noise_enabled": None,
+            }
+        )
+        report["scripted_expert_config"] = {
+            "record_stride_steps": record_stride_steps,
+        }
+        report["preflight_failure"]["execution_mode"] = "scripted_expert"
+        report["limitation"] = (
+            "The scripted expert was rejected before robot motion; no episode "
+            "was recorded and the attempt is not training-ready."
+        )
+    else:
+        report["preflight_failure"]["execution_mode"] = "pi05_closed_loop"
+    return report
 
 
 def _deterministic_sampling_valid(

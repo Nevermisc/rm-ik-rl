@@ -27,6 +27,36 @@
       "source_evaluation_case_id": "robust_041",
       "replaces_variant": "angle_plus_0p025",
       "replacement_reason": "two exact 0.675 rad attempts and a 0.670 rad diagnostic exceeded the 0.02 m post-release drift gate; the source-offset replacement passed without weakening criteria"
+    },
+    {
+      "case_id": "correction_robust_042_exact_repeat_1_source_x_inward_0p00375",
+      "source_evaluation_case_id": "robust_042",
+      "replaces_variant": "exact_repeat_1",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
+    },
+    {
+      "case_id": "correction_robust_042_exact_repeat_2_source_x_inward_0p00375",
+      "source_evaluation_case_id": "robust_042",
+      "replaces_variant": "exact_repeat_2",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
+    },
+    {
+      "case_id": "correction_robust_042_exact_repeat_3_source_x_inward_0p00375",
+      "source_evaluation_case_id": "robust_042",
+      "replaces_variant": "exact_repeat_3",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
+    },
+    {
+      "case_id": "correction_robust_042_angle_minus_0p025_source_x_inward_0p00375",
+      "source_evaluation_case_id": "robust_042",
+      "replaces_variant": "angle_minus_0p025",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
+    },
+    {
+      "case_id": "correction_robust_042_angle_plus_0p025_source_x_inward_0p00375",
+      "source_evaluation_case_id": "robust_042",
+      "replaces_variant": "angle_plus_0p025",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     }
   ],
   "case_count": 30,
@@ -257,59 +287,69 @@
       "replacement_reason": "two exact 0.675 rad attempts and a 0.670 rad diagnostic exceeded the 0.02 m post-release drift gate; the source-offset replacement passed without weakening criteria"
     },
     {
-      "case_id": "correction_robust_042_exact_repeat_1",
+      "case_id": "correction_robust_042_exact_repeat_1_source_x_inward_0p00375",
       "episode_index": 20,
       "split": "train",
       "transfer_joint_1_rad": 0.65,
-      "source_offset_x_m": 0.01125,
+      "source_offset_x_m": 0.0075,
       "source_offset_y_m": -0.01125,
       "prompt": "move the block onto the target",
       "source_evaluation_case_id": "robust_042",
-      "variant": "exact_repeat_1"
+      "variant": "exact_repeat_1_source_x_inward_0p00375",
+      "replaces_variant": "exact_repeat_1",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     },
     {
-      "case_id": "correction_robust_042_exact_repeat_2",
+      "case_id": "correction_robust_042_exact_repeat_2_source_x_inward_0p00375",
       "episode_index": 21,
       "split": "train",
       "transfer_joint_1_rad": 0.65,
-      "source_offset_x_m": 0.01125,
+      "source_offset_x_m": 0.0075,
       "source_offset_y_m": -0.01125,
       "prompt": "move the block onto the target",
       "source_evaluation_case_id": "robust_042",
-      "variant": "exact_repeat_2"
+      "variant": "exact_repeat_2_source_x_inward_0p00375",
+      "replaces_variant": "exact_repeat_2",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     },
     {
-      "case_id": "correction_robust_042_exact_repeat_3",
+      "case_id": "correction_robust_042_exact_repeat_3_source_x_inward_0p00375",
       "episode_index": 22,
       "split": "train",
       "transfer_joint_1_rad": 0.65,
-      "source_offset_x_m": 0.01125,
+      "source_offset_x_m": 0.0075,
       "source_offset_y_m": -0.01125,
       "prompt": "move the block onto the target",
       "source_evaluation_case_id": "robust_042",
-      "variant": "exact_repeat_3"
+      "variant": "exact_repeat_3_source_x_inward_0p00375",
+      "replaces_variant": "exact_repeat_3",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     },
     {
-      "case_id": "correction_robust_042_angle_minus_0p025",
+      "case_id": "correction_robust_042_angle_minus_0p025_source_x_inward_0p00375",
       "episode_index": 23,
       "split": "train",
       "transfer_joint_1_rad": 0.625,
-      "source_offset_x_m": 0.01125,
+      "source_offset_x_m": 0.0075,
       "source_offset_y_m": -0.01125,
       "prompt": "move the block onto the target",
       "source_evaluation_case_id": "robust_042",
-      "variant": "angle_minus_0p025"
+      "variant": "angle_minus_0p025_source_x_inward_0p00375",
+      "replaces_variant": "angle_minus_0p025",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     },
     {
-      "case_id": "correction_robust_042_angle_plus_0p025",
+      "case_id": "correction_robust_042_angle_plus_0p025_source_x_inward_0p00375",
       "episode_index": 24,
       "split": "train",
       "transfer_joint_1_rad": 0.675,
-      "source_offset_x_m": 0.01125,
+      "source_offset_x_m": 0.0075,
       "source_offset_y_m": -0.01125,
       "prompt": "move the block onto the target",
       "source_evaluation_case_id": "robust_042",
-      "variant": "angle_plus_0p025"
+      "variant": "angle_plus_0p025_source_x_inward_0p00375",
+      "replaces_variant": "angle_plus_0p025",
+      "replacement_reason": "the original +0.01125 m source x and a +0.009375 m probe crossed an unsafe scripted place-IK branch; +0.0075 m passed the unchanged 0.75 rad continuity and task-success gates"
     },
     {
       "case_id": "correction_robust_045_exact_repeat_1",

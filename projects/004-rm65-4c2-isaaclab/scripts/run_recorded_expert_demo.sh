@@ -55,5 +55,9 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --headless \
   --enable_cameras
 
+if [[ ! -f "$episode_dir/metadata.json" ]]; then
+  echo "ERROR: scripted expert stopped before recording a training episode: $episode_dir" >&2
+  exit 2
+fi
 python3 scripts/validate_expert_episode.py "$episode_dir" --require-images
 echo "RM65_RECORDED_EXPERT_EPISODE=$episode_dir"
