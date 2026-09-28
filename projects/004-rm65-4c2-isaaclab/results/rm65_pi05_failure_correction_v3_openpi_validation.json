@@ -1,0 +1,19 @@
+{
+  "status": "pass",
+  "config_name": "pi05_rm65_lora",
+  "repo_id": "local/rm65_sim_failure_correction_v3_train",
+  "model_type": "ModelType.PI05",
+  "action_horizon": 10,
+  "observation": "Observation(images={'base_0_rgb': {'shape': [1, 224, 224, 3], 'dtype': 'float32'}, 'left_wrist_0_rgb': {'shape': [1, 224, 224, 3], 'dtype': 'float32'}, 'right_wrist_0_rgb': {'shape': [1, 224, 224, 3], 'dtype': 'float32'}}, image_masks={'base_0_rgb': {'shape': [1], 'dtype': 'bool'}, 'left_wrist_0_rgb': {'shape': [1], 'dtype': 'bool'}, 'right_wrist_0_rgb': {'shape': [1], 'dtype': 'bool'}}, state={'shape': [1, 32], 'dtype': 'float32'}, tokenized_prompt={'shape': [1, 64], 'dtype': 'int32'}, tokenized_prompt_mask={'shape': [1, 64], 'dtype': 'bool'}, token_ar_mask=None, token_loss_mask=None)",
+  "actions": {
+    "shape": [
+      1,
+      10,
+      32
+    ],
+    "dtype": "float32"
+  },
+  "expected_rm65_state_dim": 7,
+  "expected_rm65_action_dim_before_padding": 7,
+  "normalization_skipped_for_contract_test": true
+}

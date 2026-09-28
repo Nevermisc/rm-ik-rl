@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import hashlib
 import json
 import sys
@@ -39,6 +40,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-id", default="local/rm65_sim_train")
     parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument(
+        "--assets-base-dir",
+        type=Path,
+        help="OpenPI assets root that training will use (for example /path/to/openpi/assets).",
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
@@ -46,6 +52,11 @@ def main() -> int:
         repo_id=args.repo_id,
         batch_size=args.batch_size,
     )
+    if args.assets_base_dir is not None:
+        config = dataclasses.replace(
+            config,
+            assets_base_dir=str(args.assets_base_dir.expanduser().resolve()),
+        )
     data_config = config.data.create(config.assets_dirs, config.model)
     dataset = data_loader.create_torch_dataset(
         data_config,
@@ -84,6 +95,7 @@ def main() -> int:
         "dataset_frames": len(dataset),
         "processed_frames": num_batches * args.batch_size,
         "batch_size": args.batch_size,
+        "assets_base_dir": str(config.assets_base_dir),
         "output_path": str(stats_path),
         "sha256": hashlib.sha256(stats_path.read_bytes()).hexdigest(),
         "keys": sorted(norm_stats),

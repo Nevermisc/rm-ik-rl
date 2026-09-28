@@ -178,6 +178,62 @@
 - 验证计划：运行 17 项计划测试、重建计划、重新验证确认集隔离，然后从 episode 23 恢复。
 - 测试修正：首次回归保留了旧的“5 条 x 均为 0.0075”断言，与新加入的 `x=0.006` 邻域冲突。已删除过期断言，仍保留五条 `(x,y)` 的完整顺序精确比较，因此验证强度没有降低。
 
+### v3-fc-wip.016：完成 30/30 纠正专家集并恢复中断占位目录
+
+- Git 基线：`f6ab8e5`（稳定化 `robust_042` 纠正数据计划已推送）；状态：运行里程碑待提交。
+- 准备做：先把 30 条失败纠正专家轨迹全部闭合，再运行健康汇总、36+30 来源门禁和 OpenPI 数据批次验证。
+- 做了什么：从已验证的 28/30 状态恢复采集；保全并隔离中断留下的空 `episode_000028`，随后重采 episode 28、29。采集器跳过原有 28 条，只新增最后 2 条。
+- 遇到的问题：第一次恢复被 fail-closed 检查拒绝，提示 `episode_000028` 不完整或属于其他 case。只读检查确认目录内为 0 个文件，没有 metadata、图像或动作，属于进程在建目录后中断留下的占位符。
+- 为什么做：直接删除会丢失中断证据；忽略该目录会阻塞恢复；把空目录视为 episode 又会污染训练集数量和来源统计。
+- 怎么解决：核对精确源路径与未占用的目标路径后，将空目录移动到 rejected 根并命名为 `episode_000028_interrupted_empty`，随后按同一冻结计划恢复。失败/中断证据保留，但不进入训练。
+- 结果：30/30 条正式纠正 episode 全部通过，最后两条均为 569 帧、28.4 秒；episode 28 的最终位置误差/释放后漂移为 `0.005305/0.007827 m`，episode 29 为 `0.005213/0.010789 m`，均满足原始门槛。
+- 下一步：运行 `prepare_rm65_failure_correction_v3.sh`；必须同时证明纠正汇总 30/30、合并总数 66、来源恰为旧训练 36 + 纠正 30、归一化统计成功且 OpenPI 批次可读，之后才允许训练 smoke。
+
+### v3-fc-wip.017：通过 36+30 合并数据与 OpenPI 输入合同门禁
+
+- Git 基线：`f6ab8e5`；状态：数据准备结果待提交。
+- 准备做：在加载 v2 权重前证明 v3 数据不仅能转换，而且来源、归一化和模型输入张量均符合冻结合同。
+- 做了什么：运行 `prepare_rm65_failure_correction_v3.sh`，依次完成 30 条纠正健康汇总、双源 LeRobot policy-window 转换、归一化统计计算和 OpenPI 单批次读取。
+- 遇到的问题：没有新的数据错误；转换阶段逐 episode 编码耗时较长，归一化统计需遍历 337 个 batch。长进程保持在同一会话中监控，未并行启动训练占用 GPU。
+- 为什么做：只检查 episode 目录数量不足以证明训练可用；还必须排除来源比例错误、旧 norm stats 误用、相机键/张量维度与 pi0.5 配置不一致等静默问题。
+- 怎么解决：门禁逐层 fail-closed。健康汇总为 30/30、17,070 帧且计划覆盖无缺失/重复/错配；合并集为 66 个 episode，来源精确为旧训练 36 + 纠正 30；33,249 个源帧经 policy-window 得到 21,622 帧。
+- 归一化结果：成功处理 21,568 帧，输出 `actions/state` 两组统计，SHA-256 为 `0cd9f8ca8bb6772f57062d3f9ea7cf1d1922e8cad4a9a65a2b9e4487335a45bb`。
+- OpenPI 合同：三路相机均为 `[1,224,224,3]`，token 长度 64，输入状态填充为 `[1,32]`，动作 batch 为 `[1,10,32]`；RM65 填充前状态/动作维度均为 7。数据准备总门禁 `PASS`。
+- 下一步：运行训练 preflight，确认 v2 初始权重、数据 repo、norm stats、10k/500 warmup/`5e-6→1e-6` 学习率与独立输出目录；通过后只跑 2-step smoke。
+
+### v3-fc-wip.018：统一归一化统计的生成路径与训练读取路径
+
+- Git 基线：`f6ab8e5`；状态：修复待验证。
+- 准备做：修复训练 preflight 暴露的 normalization asset 路径合同错误，重新通过数据准备门禁后再尝试 smoke。
+- 做了什么：`compute_rm65_norm_stats.py` 新增显式 `--assets-base-dir`，准备脚本固定传入实际 OpenPI 根的 `assets` 目录；最终准备门禁新增“报告路径等于训练读取路径、文件存在、SHA-256 一致”三项检查。
+- 遇到的问题：首次训练 preflight 正确拒绝启动，因为统计报告指向项目内 `assets/pi05_rm65_lora/...`，而训练器把 `assets_base_dir` 设为 OpenPI 仓库的 `assets`，实际查找 `/home/chengyu/robot-learning/openpi/assets/pi05_rm65_lora/...`。
+- 根因：统计脚本使用 TrainConfig 的相对默认 `assets_base_dir`，其解析结果依赖当前工作目录；训练脚本则显式覆盖到 OpenPI 根。两个入口各自都合理，但没有共享同一个显式路径参数。
+- 为什么做：手工复制现有 `norm_stats.json` 虽能暂时通过，却无法保证重跑可复现，也可能让报告中的输出路径与实际训练资产不一致。
+- 怎么解决：让生成端接收训练端的真实 assets root，并把路径与内容哈希纳入准备门禁。这样未来修改 `OPENPI_ROOT` 时两端仍由同一环境变量派生，不依赖运行目录。
+- 验证计划：Python 编译、shell 语法、完整准备脚本重跑、训练 preflight；只有四项全部通过才进入 2-step smoke。
+
+### v3-fc-wip.019：归一化路径修复与训练 preflight 通过
+
+- Git 基线：`f6ab8e5`；状态：修复已验证，待与结果提交。
+- 准备做：在独立 smoke 实验目录中实际加载 v2 权重和新数据，运行 2 个训练 step，验证反向传播与 checkpoint 保存。
+- 做了什么：通过 Python 编译、shell 语法、状态 JSON 和 `git diff --check`；随后完整重跑数据准备并重跑训练 preflight。
+- 结果：统计直接写入 `/home/chengyu/robot-learning/openpi/assets/pi05_rm65_lora/local/rm65_sim_failure_correction_v3_train/norm_stats.json`，报告路径与训练期望路径一致，SHA-256 仍为 `0cd9f8ca8bb6772f57062d3f9ea7cf1d1922e8cad4a9a65a2b9e4487335a45bb`。
+- Preflight：v2 初始参数目录、新 66-episode 数据报告、OpenPI batch 报告、norm asset 文件及哈希全部通过；脚本明确返回 `TRAINING_NOT_STARTED=true`，因此该验证没有消耗正式训练步数。
+- 为什么下一步只跑 2-step：preflight 只能验证静态合同，不能证明 JAX 模型、LoRA 参数、优化器和新数据能完成反向更新及序列化；先用独立实验名冒烟可避免 10k 正式目录出现半初始化状态。
+- 下一步门禁：smoke 必须产出数值 checkpoint 和 `status=pass` 报告；失败则保留 smoke 诊断并修复，成功后才启动 `rm65_failure_correction_v3_lora_10k`。
+
+### v3-fc-wip.020：2-step v3 增量训练 smoke 通过
+
+- Git 基线：`f6ab8e5`；状态：smoke 结果待提交。
+- 准备做：封存本轮代码、数据准备证据和 smoke 报告；确认 smoke 进程完全退出后启动独立目录的 10k 正式微调。
+- 做了什么：从冻结 v2 `29999/params` 恢复约 6.4 GiB 参数，实际加载新 norm stats 与三相机 batch，完成 2 次 LoRA 训练更新并保存数值 checkpoint `rm65_failure_correction_v3_incremental_smoke/1`。
+- 训练数值：step 0 的 `loss=0.0004, grad_norm=0.0424`；step 1 的 `loss=0.0198, grad_norm=0.9365`；参数范数均为 `1803.8978`。数值有限且没有 OOM、NaN 或梯度爆炸。
+- 验证：smoke 报告为 `status=pass`、`num_train_steps=2`、`batch_size=1`；报告 JSON 可解析且 checkpoint 的 `params` 目录存在。训练和报告均声明 `real_robot_command_sent=false`。
+- 遇到的问题：训练本身约 39 秒完成，但 Orbax 保存约 6.8 GiB 参数/训练状态用了约 125 秒；之后 Python 在 `folio_wait_bit_common` 等待页回写，观测到约 1.09 GiB swap，退出明显慢于计算。
+- 为什么不能立即并行启动正式训练：smoke 主进程虽已生成报告，仍持有约数 GiB RSS/换出页；并行加载第二份模型会放大内存和 I/O 压力，也会触发脚本的单实例保护。
+- 怎么解决：不强杀已完成进程，等待内核自然回收；正式训练只保留每 2,000 step 保存一次，避免 smoke 的每 step 保存开销代表常规吞吐。正式运行后依据无保存区间的实际 step rate 更新完成时间判断。
+- 下一步：精确暂存并推送代码、日志和小型 JSON 报告，不提交数据集或 checkpoint；待进程退出后运行 `start`。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

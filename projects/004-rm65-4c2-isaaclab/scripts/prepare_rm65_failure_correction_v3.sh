@@ -11,6 +11,7 @@ correction_summary="$project_root/results/rm65_pi05_failure_correction_expert_v1
 conversion_report="$project_root/results/rm65_pi05_failure_correction_v3_conversion.json"
 norm_report="$project_root/results/rm65_pi05_failure_correction_v3_norm_stats.json"
 validation_report="$project_root/results/rm65_pi05_failure_correction_v3_openpi_validation.json"
+norm_asset="$openpi_root/assets/pi05_rm65_lora/$repo_id/norm_stats.json"
 
 cd "$project_root"
 mkdir -p results
@@ -51,6 +52,7 @@ PYTHONPATH=. "$openpi_root/.venv/bin/python" \
   scripts/compute_rm65_norm_stats.py \
   --repo-id "$repo_id" \
   --batch-size 64 \
+  --assets-base-dir "$openpi_root/assets" \
   --output "$norm_report"
 
 PYTHONPATH=. "$openpi_root/.venv/bin/python" \
@@ -58,16 +60,18 @@ PYTHONPATH=. "$openpi_root/.venv/bin/python" \
   --repo-id "$repo_id" \
   --output "$validation_report"
 
-python3 - "$conversion_report" "$norm_report" "$validation_report" <<'PY'
+python3 - "$conversion_report" "$norm_report" "$validation_report" "$norm_asset" <<'PY'
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
 
 conversion, norm, validation = (
-    json.loads(Path(path).read_text(encoding="utf-8")) for path in sys.argv[1:]
+    json.loads(Path(path).read_text(encoding="utf-8")) for path in sys.argv[1:4]
 )
+expected_norm_asset = Path(sys.argv[4]).resolve()
 if conversion.get("status") != "pass":
     raise SystemExit("conversion report is not PASS")
 if conversion.get("episode_count") != 66:
@@ -81,6 +85,18 @@ if not conversion.get("policy_window"):
     raise SystemExit("combined dataset was not built with the policy window")
 if norm.get("status") != "pass" or validation.get("status") != "pass":
     raise SystemExit("normalization or OpenPI data validation is not PASS")
+reported_norm_asset = Path(norm.get("output_path", "")).resolve()
+if reported_norm_asset != expected_norm_asset:
+    raise SystemExit(
+        f"normalization asset path mismatch: expected {expected_norm_asset}, got {reported_norm_asset}"
+    )
+if not expected_norm_asset.is_file():
+    raise SystemExit(f"normalization asset is missing: {expected_norm_asset}")
+actual_hash = hashlib.sha256(expected_norm_asset.read_bytes()).hexdigest()
+if actual_hash != norm.get("sha256"):
+    raise SystemExit(
+        f"normalization asset hash mismatch: expected {norm.get('sha256')}, got {actual_hash}"
+    )
 print("RM65_FAILURE_CORRECTION_V3_PREPARATION=PASS")
 PY
 
