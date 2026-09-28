@@ -14,7 +14,9 @@
     "declared_case_count": true,
     "angles_within_expert_range": true,
     "source_case_coverage": true,
-    "future_confirmation_reuse_blocked": true
+    "future_confirmation_reuse_blocked": true,
+    "replacement_cases_declared": true,
+    "replacement_offsets_within_expert_range": true
   },
   "source_failure_case_count": 6,
   "case_count": 30

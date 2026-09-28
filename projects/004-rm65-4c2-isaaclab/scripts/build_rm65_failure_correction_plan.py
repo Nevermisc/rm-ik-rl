@@ -11,6 +11,19 @@ from typing import Any
 
 EXACT_REPEAT_COUNT = 3
 ANGLE_OFFSETS_RAD = (-0.025, 0.025)
+EXPERT_INFEASIBLE_REPLACEMENTS = {
+    ("robust_041", "angle_plus_0p025"): {
+        "variant": "source_x_inward_0p001875",
+        "transfer_angle_delta_rad": 0.0,
+        "source_offset_x_delta_m": 0.001875,
+        "source_offset_y_delta_m": 0.0,
+        "reason": (
+            "two exact 0.675 rad attempts and a 0.670 rad diagnostic exceeded "
+            "the 0.02 m post-release drift gate; the source-offset replacement "
+            "passed without weakening criteria"
+        ),
+    }
+}
 
 
 def primary_failure_ids(evidence: dict[str, Any]) -> list[str]:
@@ -47,31 +60,60 @@ def build_plan(
     for source_case_id in failure_ids:
         source = source_cases[source_case_id]
         variants = [
-            (f"exact_repeat_{index + 1}", float(source["transfer_joint_1_rad"]))
+            {
+                "variant": f"exact_repeat_{index + 1}",
+                "transfer_joint_1_rad": float(source["transfer_joint_1_rad"]),
+                "source_offset_x_m": float(source["source_offset_x_m"]),
+                "source_offset_y_m": float(source["source_offset_y_m"]),
+            }
             for index in range(EXACT_REPEAT_COUNT)
         ]
         variants.extend(
-            (
-                f"angle_{'minus' if offset < 0 else 'plus'}_0p025",
-                float(source["transfer_joint_1_rad"]) + offset,
-            )
+            {
+                "variant": f"angle_{'minus' if offset < 0 else 'plus'}_0p025",
+                "transfer_joint_1_rad": float(source["transfer_joint_1_rad"])
+                + offset,
+                "source_offset_x_m": float(source["source_offset_x_m"]),
+                "source_offset_y_m": float(source["source_offset_y_m"]),
+            }
             for offset in ANGLE_OFFSETS_RAD
         )
-        for variant, angle in variants:
-            index = len(cases)
-            cases.append(
-                {
-                    "case_id": f"correction_{source_case_id}_{variant}",
-                    "episode_index": index,
-                    "split": "train",
-                    "transfer_joint_1_rad": round(angle, 6),
-                    "source_offset_x_m": float(source["source_offset_x_m"]),
-                    "source_offset_y_m": float(source["source_offset_y_m"]),
-                    "prompt": source["prompt"],
-                    "source_evaluation_case_id": source_case_id,
-                    "variant": variant,
-                }
+        for variant_spec in variants:
+            original_variant = variant_spec["variant"]
+            replacement = EXPERT_INFEASIBLE_REPLACEMENTS.get(
+                (source_case_id, original_variant)
             )
+            if replacement is not None:
+                variant_spec = {
+                    "variant": replacement["variant"],
+                    "transfer_joint_1_rad": float(source["transfer_joint_1_rad"])
+                    + replacement["transfer_angle_delta_rad"],
+                    "source_offset_x_m": float(source["source_offset_x_m"])
+                    + replacement["source_offset_x_delta_m"],
+                    "source_offset_y_m": float(source["source_offset_y_m"])
+                    + replacement["source_offset_y_delta_m"],
+                    "replaces_variant": original_variant,
+                    "replacement_reason": replacement["reason"],
+                }
+            index = len(cases)
+            case = {
+                "case_id": f"correction_{source_case_id}_{variant_spec['variant']}",
+                "episode_index": index,
+                "split": "train",
+                "transfer_joint_1_rad": round(
+                    variant_spec["transfer_joint_1_rad"], 6
+                ),
+                "source_offset_x_m": round(variant_spec["source_offset_x_m"], 6),
+                "source_offset_y_m": round(variant_spec["source_offset_y_m"], 6),
+                "prompt": source["prompt"],
+                "source_evaluation_case_id": source_case_id,
+                "variant": variant_spec["variant"],
+            }
+            if replacement is not None:
+                case["replaces_variant"] = variant_spec["replaces_variant"]
+                case["replacement_reason"] = variant_spec["replacement_reason"]
+            cases.append(case)
+    replacement_cases = [case for case in cases if "replaces_variant" in case]
     return {
         "format": "rm65_expert_collection_plan_v1",
         "plan_kind": "rm65_pi05_failure_correction_v1",
@@ -85,6 +127,15 @@ def build_plan(
         "source_failure_case_ids": failure_ids,
         "exact_repeat_count_per_source_case": EXACT_REPEAT_COUNT,
         "angle_offsets_rad": list(ANGLE_OFFSETS_RAD),
+        "expert_infeasible_replacements": [
+            {
+                "case_id": case["case_id"],
+                "source_evaluation_case_id": case["source_evaluation_case_id"],
+                "replaces_variant": case["replaces_variant"],
+                "replacement_reason": case["replacement_reason"],
+            }
+            for case in replacement_cases
+        ],
         "case_count": len(cases),
         "train_case_count": len(cases),
         "validation_case_count": 0,
@@ -97,6 +148,7 @@ def validate_plan(plan: dict[str, Any]) -> dict[str, Any]:
     cases = plan.get("cases", [])
     source_ids = plan.get("source_failure_case_ids", [])
     expected_per_source = EXACT_REPEAT_COUNT + len(ANGLE_OFFSETS_RAD)
+    replacement_cases = [case for case in cases if "replaces_variant" in case]
     checks = {
         "format": plan.get("format") == "rm65_expert_collection_plan_v1",
         "plan_kind": plan.get("plan_kind") == "rm65_pi05_failure_correction_v1",
@@ -120,6 +172,13 @@ def validate_plan(plan: dict[str, Any]) -> dict[str, Any]:
         ),
         "future_confirmation_reuse_blocked": (
             plan.get("independent_confirmation_reuse_allowed") is False
+        ),
+        "replacement_cases_declared": len(replacement_cases)
+        == len(plan.get("expert_infeasible_replacements", [])),
+        "replacement_offsets_within_expert_range": all(
+            -0.015 <= float(case.get("source_offset_x_m", 1.0)) <= 0.015
+            and -0.015 <= float(case.get("source_offset_y_m", 1.0)) <= 0.015
+            for case in replacement_cases
         ),
     }
     return {

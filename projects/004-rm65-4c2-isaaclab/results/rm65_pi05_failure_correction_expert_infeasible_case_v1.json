@@ -1,0 +1,56 @@
+{
+  "status": "resolved_by_plan_replacement",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "source_evaluation_case_id": "robust_041",
+  "rejected_planned_variant": "angle_plus_0p025",
+  "success_criteria_unchanged": true,
+  "post_release_drift_must_be_lt": 0.02,
+  "attempts": [
+    {
+      "kind": "planned_attempt_001",
+      "transfer_joint_1_rad": 0.675,
+      "source_offset_xy_m": [-0.01125, 0.01125],
+      "status": "fail",
+      "post_release_drift_m": 0.025172367691993713,
+      "final_target_position_error_m": 0.00870394168608356,
+      "block_lift_height_m": 0.03951758146286011
+    },
+    {
+      "kind": "planned_attempt_002",
+      "transfer_joint_1_rad": 0.675,
+      "source_offset_xy_m": [-0.01125, 0.01125],
+      "status": "fail",
+      "post_release_drift_m": 0.025172367691993713,
+      "final_target_position_error_m": 0.00870394168608356,
+      "block_lift_height_m": 0.03951758146286011
+    },
+    {
+      "kind": "nearest_angle_diagnostic",
+      "transfer_joint_1_rad": 0.67,
+      "source_offset_xy_m": [-0.01125, 0.01125],
+      "status": "fail",
+      "post_release_drift_m": 0.025224588811397552,
+      "final_target_position_error_m": 0.0071106778638563165,
+      "block_lift_height_m": 0.03951758146286011
+    },
+    {
+      "kind": "source_offset_replacement_diagnostic",
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_xy_m": [-0.009375, 0.01125],
+      "status": "pass",
+      "post_release_drift_m": 0.009953855536878109,
+      "final_target_position_error_m": 0.016895019173251317,
+      "block_lift_height_m": 0.039527952671051025
+    }
+  ],
+  "decision": {
+    "replacement_variant": "source_x_inward_0p001875",
+    "transfer_joint_1_rad": 0.65,
+    "source_offset_xy_m": [-0.009375, 0.01125],
+    "preserve_total_planned_episode_count": 30,
+    "reason": "The target-side angle neighborhood is deterministically infeasible for the frozen scripted expert under the existing post-release drift gate, while a local source-pose perturbation passes all unchanged criteria.",
+    "final_confirmation_conditions_changed": false
+  }
+}
