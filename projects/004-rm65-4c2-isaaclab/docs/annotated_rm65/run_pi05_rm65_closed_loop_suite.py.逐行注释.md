@@ -29,579 +29,579 @@
 
 ## 逐行学习副本
 
-每个 `【Lxxxx】` 注释解释紧随其后的原始行。空行也保留并说明，因为空行体现程序分段。
+每个 `【Lxxxx】` 注释解释紧随其后的原始行。解释会回答三个问题：这一行操作的项目对象是什么；Python/NumPy/Isaac/OpenPI 具体做了什么；结果流向哪个后续步骤。空行也保留，因为空行体现程序分段。
 
 ```python
-# 【L0001】shebang：在 Linux 直接执行文件时，选择后面的 Python 或 Bash 解释器。
+# 【L0001】Linux 直接执行这个文件时，请操作系统用 `/usr/bin/env python3` 解释后面的源码；它决定这是 Python 还是 Bash 入口。
 #!/usr/bin/env python3
-# 【L0002】模块、类或函数说明字符串；运行时可由 help() 读取，也告诉读者这一块负责什么。
+# 【L0002】说明字符串 `Run one RM65 pi0.5 server across a resumable IsaacLab evaluation plan.`：记录当前模块、类或函数在 RM65 流程里的公开职责，`help()` 也能读取它。
 """Run one RM65 pi0.5 server across a resumable IsaacLab evaluation plan."""
 # 【L0003】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
-# 【L0004】延迟解析类型标注，允许在类型提示里更自由地引用尚未定义的类型。
+# 【L0004】让 Python 暂缓解析类型标注；本项目中的 `Path | None`、自定义类等提示不会在模块导入时过早求值。
 from __future__ import annotations
 # 【L0005】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
-# 【L0006】导入 argparse：标准库命令行解析器，让实验参数不必写死在代码里；后面的代码会调用其中的类或函数。
+# 【L0006】从 `argparse` 引入 `argparse`。在这份程序里，`argparse` 用于标准库命令行解析器，让实验参数不必写死在代码里；后续出现这些名字时调用的是这里的外部能力。
 import argparse
-# 【L0007】导入 json：读写人和程序都容易检查的 JSON 证据文件；后面的代码会调用其中的类或函数。
+# 【L0007】从 `json` 引入 `json`。在这份程序里，`json` 用于读写人和程序都容易检查的 JSON 证据文件；后续出现这些名字时调用的是这里的外部能力。
 import json
-# 【L0008】导入 os：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0008】从 `os` 引入 `os`。在这份程序里，`os` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import os
-# 【L0009】导入 socket：TCP 端口探测与主机信息；后面的代码会调用其中的类或函数。
+# 【L0009】从 `socket` 引入 `socket`。在这份程序里，`socket` 用于TCP 端口探测与主机信息；后续出现这些名字时调用的是这里的外部能力。
 import socket
-# 【L0010】导入 subprocess：启动和管理另一个系统进程；后面的代码会调用其中的类或函数。
+# 【L0010】从 `subprocess` 引入 `subprocess`。在这份程序里，`subprocess` 用于启动和管理另一个系统进程；后续出现这些名字时调用的是这里的外部能力。
 import subprocess
-# 【L0011】导入 sys：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0011】从 `sys` 引入 `sys`。在这份程序里，`sys` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import sys
-# 【L0012】导入 time：计时和短暂等待；后面的代码会调用其中的类或函数。
+# 【L0012】从 `time` 引入 `time`。在这份程序里，`time` 用于计时和短暂等待；后续出现这些名字时调用的是这里的外部能力。
 import time
-# 【L0013】导入 pathlib：使用 Path 对象处理跨平台文件路径；后面的代码会调用其中的类或函数。
+# 【L0013】从 `pathlib` 引入 `Path`。在这份程序里，`pathlib` 用于使用 Path 对象处理跨平台文件路径；后续出现这些名字时调用的是这里的外部能力。
 from pathlib import Path
 # 【L0014】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
 # 【L0015】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
-# 【L0016】调用 `Path`：创建路径对象。本行位于“依赖、项目路径和端口探测”。
+# 【L0016】得到 `PROJECT_ROOT`，它在本项目中表示004-rm65-4c2-isaaclab 项目根目录；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `Path(__file__).resolve().parents[1]`；`__file__` 表示本功能块中的 `__file__` 值；`resolve` 表示本功能块中的 `resolve` 值；`parents` 表示本功能块中的 `parents` 值。
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 # 【L0017】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
 # 【L0018】空行：分隔“依赖、项目路径和端口探测”中的逻辑段，让结构更容易看清。
 
-# 【L0019】定义函数 port_open；其职责属于“依赖、项目路径和端口探测”，缩进块是函数体。
+# 【L0019】定义函数 `port_open(port: int)`；调用者把参数交给它完成“依赖、项目路径和端口探测”，后面的缩进代码是具体实现。
 def port_open(port: int) -> bool:
-# 【L0020】上下文管理块：进入时打开资源，离开时自动关闭文件、数组或 socket。
+# 【L0020】进入资源上下文 `socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client`；执行完缩进块后自动关闭对应文件、数组映射或网络资源，避免数据未落盘。
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
-# 【L0021】执行“依赖、项目路径和端口探测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0021】对 `client` 调用 `settimeout(0.5)`：调用 `client` 提供的 `settimeout` 操作。本行产生的修改/返回值服务于“依赖、项目路径和端口探测”。
         client.settimeout(0.5)
-# 【L0022】结束当前函数并把结果交给调用者；这里完成“依赖、项目路径和端口探测”的输出。
+# 【L0022】结束当前函数并把 `client.connect_ex(("127.0.0.1", port)) == 0` 交回调用者；这个值的含义是：计算表达式 `client.connect_ex(("127.0.0.1", port)) == 0`；`client` 表示本功能块中的 `client` 值；`connect_ex` 表示本功能块中的 `connect_ex` 值；`port` 表示本功能块中的 `port` 值。
         return client.connect_ex(("127.0.0.1", port)) == 0
 # 【L0023】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0024】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0025】定义函数 report_gripper_open_threshold；其职责属于“判断旧报告能否安全复用”，缩进块是函数体。
+# 【L0025】定义函数 `report_gripper_open_threshold(report: dict)`；调用者把参数交给它完成“判断旧报告能否安全复用”，后面的缩进代码是具体实现。
 def report_gripper_open_threshold(report: dict) -> float | None:
-# 【L0026】计算并保存变量 `configured`；该值服务于“判断旧报告能否安全复用”。
+# 【L0026】得到 `configured`，它在本项目中表示本功能块中的 `configured` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `report.get("controller_config", {}).get("policy_gripper_open_threshold")`；`report` 表示机器可读实验报告字典；`get` 表示本功能块中的 `get` 值；`controller_config` 表示配置相关值。
     configured = report.get("controller_config", {}).get("policy_gripper_open_threshold")
-# 【L0027】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0027】判断 `isinstance(configured, (int, float))` 是否成立；`isinstance` 表示本功能块中的 `isinstance` 值；`configured` 表示本功能块中的 `configured` 值
     if isinstance(configured, (int, float)):
-# 【L0028】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0028】结束当前函数并把 `float(configured)` 交回调用者；这个值的含义是：计算表达式 `float(configured)`；`configured` 表示本功能块中的 `configured` 值。
         return float(configured)
-# 【L0029】计算并保存变量 `historical`；该值服务于“判断旧报告能否安全复用”。
+# 【L0029】得到 `historical`，它在本项目中表示本功能块中的 `historical` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `report.get("criteria", {}).get("final_gripper_normalized_lt")`；`report` 表示机器可读实验报告字典；`get` 表示本功能块中的 `get` 值；`criteria` 表示本功能块中的 `criteria` 值。
     historical = report.get("criteria", {}).get("final_gripper_normalized_lt")
-# 【L0030】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0030】判断 `isinstance(historical, (int, float))` 是否成立；`isinstance` 表示本功能块中的 `isinstance` 值；`historical` 表示本功能块中的 `historical` 值
     if isinstance(historical, (int, float)):
-# 【L0031】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0031】结束当前函数并把 `float(historical)` 交回调用者；这个值的含义是：计算表达式 `float(historical)`；`historical` 表示本功能块中的 `historical` 值。
         return float(historical)
-# 【L0032】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0032】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
     return None
 # 【L0033】空行：分隔“判断旧报告能否安全复用”中的逻辑段，让结构更容易看清。
 
 # 【L0034】空行：分隔“判断旧报告能否安全复用”中的逻辑段，让结构更容易看清。
 
-# 【L0035】定义函数 load_existing_report；其职责属于“判断旧报告能否安全复用”，缩进块是函数体。
+# 【L0035】定义函数 `load_existing_report(参数在后续行继续)`；调用者把参数交给它完成“判断旧报告能否安全复用”，后面的缩进代码是具体实现。
 def load_existing_report(
-# 【L0036】调用 `Path`：创建路径对象。本行位于“判断旧报告能否安全复用”。
+# 【L0036】调用 `Path`：创建路径对象；本行实际操作 `path: Path, checkpoint_id: str, gripper_open_threshold: float`。`path` 表示路径相关值；`checkpoint_id` 表示模型检查点相关值。
     path: Path, checkpoint_id: str, gripper_open_threshold: float
-# 【L0037】开始一个缩进代码块或键值结构；该块负责“判断旧报告能否安全复用”。
+# 【L0037】以 `) -> dict | None:` 开始一个新的缩进代码块或键值结构；接下来的缩进行共同实现“判断旧报告能否安全复用”。
 ) -> dict | None:
-# 【L0038】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0038】判断 `not path.is_file()` 是否成立；`path` 表示路径相关值；`is_file` 表示本功能块中的 `is_file` 值
     if not path.is_file():
-# 【L0039】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0039】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
         return None
-# 【L0040】开始可能失败的操作块，后面由 except/finally 负责错误或清理。
+# 【L0040】开始执行可能抛错的“判断旧报告能否安全复用”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
     try:
-# 【L0041】调用 `read_text`：从磁盘读取文本。本行位于“判断旧报告能否安全复用”。
+# 【L0041】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：读取 JSON 文本并还原成 Python 字典，后续按固定键检查计划、metadata 或报告。
         report = json.loads(path.read_text(encoding="utf-8"))
-# 【L0042】捕获指定异常，把可预期失败转换成清晰错误或重试逻辑。
+# 【L0042】捕获 `(OSError, json.JSONDecodeError)`；把这一类可预期故障转换为本项目的错误记录、失败 case 或清理路径。
     except (OSError, json.JSONDecodeError):
-# 【L0043】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0043】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
         return None
-# 【L0044】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0044】判断 `report.get("policy_checkpoint_id") != checkpoint_id` 是否成立；`report` 表示机器可读实验报告字典；`get` 表示本功能块中的 `get` 值；`policy_checkpoint_id` 表示策略、模型检查点相关值
     if report.get("policy_checkpoint_id") != checkpoint_id:
-# 【L0045】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0045】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
         return None
-# 【L0046】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0046】判断 `report.get("pi05_used") is not True or report.get("simulation_only") is not True` 是否成立；`report` 表示机器可读实验报告字典；`get` 表示本功能块中的 `get` 值；`pi05_used` 表示本功能块中的 `pi05_used` 值
     if report.get("pi05_used") is not True or report.get("simulation_only") is not True:
-# 【L0047】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0047】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
         return None
-# 【L0048】计算并保存变量 `existing_threshold`；该值服务于“判断旧报告能否安全复用”。
+# 【L0048】得到 `existing_threshold`，它在本项目中表示本功能块中的 `existing_threshold` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `report_gripper_open_threshold(report)`；`report_gripper_open_threshold` 表示报告、夹爪相关值；`report` 表示机器可读实验报告字典。
     existing_threshold = report_gripper_open_threshold(report)
-# 【L0049】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0049】检查 `existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9`，也就是所需对象/结果是否还没有创建或求解失败；成立时进入缺失处理
     if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
-# 【L0050】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0050】结束当前函数并把 `None` 交回调用者；这个值的含义是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
         return None
-# 【L0051】结束当前函数并把结果交给调用者；这里完成“判断旧报告能否安全复用”的输出。
+# 【L0051】结束当前函数并把 `report` 交回调用者；这个值的含义是：计算表达式 `report`；`report` 表示机器可读实验报告字典。
     return report
 # 【L0052】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0053】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0054】定义函数 main；其职责属于“评测参数和范围校验”，缩进块是函数体。
+# 【L0054】定义函数 `main()`；调用者把参数交给它完成“评测参数和范围校验”，后面的缩进代码是具体实现。
 def main() -> int:
-# 【L0055】计算并保存变量 `parser`；该值服务于“评测参数和范围校验”。
+# 【L0055】得到 `parser`，它在本项目中表示本功能块中的 `parser` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `argparse.ArgumentParser(description=__doc__)`；`argparse` 表示本功能块中的 `argparse` 值；`ArgumentParser` 表示本功能块中的 `ArgumentParser` 值；`description` 表示Lula 将规划关节组和末端 link 映射到 URDF 的 robot description YAML。
     parser = argparse.ArgumentParser(description=__doc__)
-# 【L0056】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0056】声明命令行参数 `--checkpoint`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--checkpoint", type=Path, required=True)
-# 【L0057】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0057】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0058】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0058】提供文本片段 `"--plan"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--plan",
-# 【L0059】调用 `Path`：创建路径对象。本行位于“评测参数和范围校验”。
+# 【L0059】给上一层函数/配置构造器的命名参数 `type` 传入 `Path`；该参数在本项目中表示本功能块中的 `type` 值，会参与“评测参数和范围校验”。
         type=Path,
-# 【L0060】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0060】给上一层函数/配置构造器的命名参数 `default` 传入 `PROJECT_ROOT / "config" / "rm65_pi05_evaluation_plan_v1.json"`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=PROJECT_ROOT / "config" / "rm65_pi05_evaluation_plan_v1.json",
 # 【L0061】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0062】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0062】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0063】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0063】提供文本片段 `"--output-root"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--output-root",
-# 【L0064】调用 `Path`：创建路径对象。本行位于“评测参数和范围校验”。
+# 【L0064】给上一层函数/配置构造器的命名参数 `type` 传入 `Path`；该参数在本项目中表示本功能块中的 `type` 值，会参与“评测参数和范围校验”。
         type=Path,
-# 【L0065】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0065】给上一层函数/配置构造器的命名参数 `default` 传入 `PROJECT_ROOT / "datasets" / "rm65_pi05_eval_v1"`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=PROJECT_ROOT / "datasets" / "rm65_pi05_eval_v1",
 # 【L0066】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0067】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0067】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0068】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0068】提供文本片段 `"--summary"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--summary",
-# 【L0069】调用 `Path`：创建路径对象。本行位于“评测参数和范围校验”。
+# 【L0069】给上一层函数/配置构造器的命名参数 `type` 传入 `Path`；该参数在本项目中表示本功能块中的 `type` 值，会参与“评测参数和范围校验”。
         type=Path,
-# 【L0070】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0070】给上一层函数/配置构造器的命名参数 `default` 传入 `PROJECT_ROOT / "results" / "rm65_pi05_eval_v1_summary.json"`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=PROJECT_ROOT / "results" / "rm65_pi05_eval_v1_summary.json",
 # 【L0071】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0072】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0072】声明命令行参数 `--policy-port`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--policy-port", type=int, default=8000)
-# 【L0073】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0073】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0074】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0074】提供文本片段 `"--gripper-open-threshold"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--gripper-open-threshold",
-# 【L0075】计算并保存变量 `type`；该值服务于“评测参数和范围校验”。
+# 【L0075】给上一层函数/配置构造器的命名参数 `type` 传入 `float`；该参数在本项目中表示本功能块中的 `type` 值，会参与“评测参数和范围校验”。
         type=float,
-# 【L0076】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0076】给上一层函数/配置构造器的命名参数 `default` 传入 `0.12`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=0.12,
-# 【L0077】计算并保存变量 `help`；该值服务于“评测参数和范围校验”。
+# 【L0077】给上一层函数/配置构造器的命名参数 `help` 传入 `"Normalized 4C2 threshold used for in-loop release verification."`；该参数在本项目中表示本功能块中的 `help` 值，会参与“评测参数和范围校验”。
         help="Normalized 4C2 threshold used for in-loop release verification.",
 # 【L0078】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0079】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0079】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0080】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0080】提供文本片段 `"--repo-id"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--repo-id",
-# 【L0081】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0081】给上一层函数/配置构造器的命名参数 `default` 传入 `os.environ.get("RM65_REPO_ID", "local/rm65_sim_train")`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=os.environ.get("RM65_REPO_ID", "local/rm65_sim_train"),
-# 【L0082】计算并保存变量 `help`；该值服务于“评测参数和范围校验”。
+# 【L0082】给上一层函数/配置构造器的命名参数 `help` 传入 `"LeRobot repository id whose normalization statistics belong to the checkpoint."`；该参数在本项目中表示本功能块中的 `help` 值，会参与“评测参数和范围校验”。
         help="LeRobot repository id whose normalization statistics belong to the checkpoint.",
 # 【L0083】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0084】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0084】声明命令行参数 `--case-timeout-seconds`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--case-timeout-seconds", type=int, default=1200)
-# 【L0085】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0085】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument(
-# 【L0086】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“评测参数和范围校验”。
+# 【L0086】提供文本片段 `"--infrastructure-retries"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“评测参数和范围校验”中的帮助说明、错误原因、任务名称或报告文字。
         "--infrastructure-retries",
-# 【L0087】计算并保存变量 `type`；该值服务于“评测参数和范围校验”。
+# 【L0087】给上一层函数/配置构造器的命名参数 `type` 传入 `int`；该参数在本项目中表示本功能块中的 `type` 值，会参与“评测参数和范围校验”。
         type=int,
-# 【L0088】计算并保存变量 `default`；该值服务于“评测参数和范围校验”。
+# 【L0088】给上一层函数/配置构造器的命名参数 `default` 传入 `1`；该参数在本项目中表示本功能块中的 `default` 值，会参与“评测参数和范围校验”。
         default=1,
-# 【L0089】计算并保存变量 `help`；该值服务于“评测参数和范围校验”。
+# 【L0089】给上一层函数/配置构造器的命名参数 `help` 传入 `"Retry only cases that fail to produce a valid task report."`；该参数在本项目中表示本功能块中的 `help` 值，会参与“评测参数和范围校验”。
         help="Retry only cases that fail to produce a valid task report.",
 # 【L0090】结束或闭合当前语法结构；它属于“评测参数和范围校验”。
     )
-# 【L0091】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0091】声明命令行参数 `--max-cases`；启动脚本可用它改变“评测参数和范围校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--max-cases", type=int)
-# 【L0092】计算并保存变量 `args`；该值服务于“评测参数和范围校验”。
+# 【L0092】得到 `args`，它在本项目中表示解析后的命令行参数集合；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `parser.parse_args()`；`parser` 表示本功能块中的 `parser` 值；`parse_args` 表示本功能块中的 `parse_args` 值。
     args = parser.parse_args()
 # 【L0093】空行：分隔“评测参数和范围校验”中的逻辑段，让结构更容易看清。
 
-# 【L0094】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0094】判断 `args.infrastructure_retries < 0` 是否成立；`infrastructure_retries` 表示本功能块中的 `infrastructure_retries` 值
     if args.infrastructure_retries < 0:
-# 【L0095】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0095】主动抛出 `ValueError("--infrastructure-retries must be non-negative")` 并停止当前路径；说明当前输入违反“评测参数和范围校验”要求，不能继续进入仿真、训练或评测。
         raise ValueError("--infrastructure-retries must be non-negative")
-# 【L0096】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0096】判断 `not 0.0 < args.gripper_open_threshold < 1.0` 是否成立；`gripper_open_threshold` 表示夹爪相关值
     if not 0.0 < args.gripper_open_threshold < 1.0:
-# 【L0097】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0097】主动抛出 `ValueError("--gripper-open-threshold must be between 0 and 1")` 并停止当前路径；说明当前输入违反“评测参数和范围校验”要求，不能继续进入仿真、训练或评测。
         raise ValueError("--gripper-open-threshold must be between 0 and 1")
 # 【L0098】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0099】给变量 `checkpoint` 赋值：一次训练保存的模型参数目录。
+# 【L0099】得到 `checkpoint`，它在本项目中表示一次训练保存的模型参数目录；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.checkpoint.expanduser().resolve()`；`checkpoint` 表示一次训练保存的模型参数目录；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     checkpoint = args.checkpoint.expanduser().resolve()
-# 【L0100】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0100】判断 `not checkpoint.is_dir()` 是否成立；`checkpoint` 表示一次训练保存的模型参数目录；`is_dir` 表示本功能块中的 `is_dir` 值
     if not checkpoint.is_dir():
-# 【L0101】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0101】主动抛出 `FileNotFoundError(checkpoint)` 并停止当前路径；说明当前输入违反“载入 checkpoint/评测计划并准备环境变量”要求，不能继续进入仿真、训练或评测。
         raise FileNotFoundError(checkpoint)
-# 【L0102】计算并保存变量 `plan_path`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0102】得到 `plan_path`，它在本项目中表示路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.plan.expanduser().resolve()`；`plan` 表示从 JSON 读取的专家采集计划或闭环评测计划；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     plan_path = args.plan.expanduser().resolve()
-# 【L0103】调用 `read_text`：从磁盘读取文本。本行位于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0103】得到 `plan`，它在本项目中表示从 JSON 读取的专家采集计划或闭环评测计划；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：读取 JSON 文本并还原成 Python 字典，后续按固定键检查计划、metadata 或报告。
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
-# 【L0104】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0104】判断 `plan.get("format") != "rm65_pi05_sim_evaluation_plan_v1"` 是否成立；`plan` 表示从 JSON 读取的专家采集计划或闭环评测计划；`get` 表示本功能块中的 `get` 值；`format` 表示本功能块中的 `format` 值
     if plan.get("format") != "rm65_pi05_sim_evaluation_plan_v1":
-# 【L0105】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0105】主动抛出 `ValueError("unsupported evaluation plan format")` 并停止当前路径；说明当前输入违反“载入 checkpoint/评测计划并准备环境变量”要求，不能继续进入仿真、训练或评测。
         raise ValueError("unsupported evaluation plan format")
-# 【L0106】计算并保存变量 `cases`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0106】得到 `cases`，它在本项目中表示经过 split/max-cases 过滤后本次要运行的实验条件列表；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `plan.get("cases", [])`；`plan` 表示从 JSON 读取的专家采集计划或闭环评测计划；`get` 表示本功能块中的 `get` 值；`cases` 表示经过 split/max-cases 过滤后本次要运行的实验条件列表。
     cases = plan.get("cases", [])
-# 【L0107】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0107】检查 `args.max_cases is not None`；只有该可选对象已经存在时才执行对应采集、保存或处理逻辑
     if args.max_cases is not None:
-# 【L0108】计算并保存变量 `cases`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0108】得到 `cases`，它在本项目中表示经过 split/max-cases 过滤后本次要运行的实验条件列表；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `cases[: args.max_cases]`；`cases` 表示经过 split/max-cases 过滤后本次要运行的实验条件列表；`max_cases` 表示本功能块中的 `max_cases` 值。
         cases = cases[: args.max_cases]
-# 【L0109】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0109】判断 `not cases` 是否成立；`cases` 表示经过 split/max-cases 过滤后本次要运行的实验条件列表
     if not cases:
-# 【L0110】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0110】主动抛出 `ValueError("evaluation plan has no cases")` 并停止当前路径；说明当前输入违反“载入 checkpoint/评测计划并准备环境变量”要求，不能继续进入仿真、训练或评测。
         raise ValueError("evaluation plan has no cases")
-# 【L0111】计算并保存变量 `case_ids`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0111】得到 `case_ids`，它在本项目中表示本功能块中的 `case_ids` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `[case["case_id"] for case in cases]`；`case` 表示本功能块中的 `case` 值；`case_id` 表示本功能块中的 `case_id` 值；`cases` 表示经过 split/max-cases 过滤后本次要运行的实验条件列表。
     case_ids = [case["case_id"] for case in cases]
-# 【L0112】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0112】判断 `len(set(case_ids)) != len(case_ids)` 是否成立；`set` 表示本功能块中的 `set` 值；`case_ids` 表示本功能块中的 `case_ids` 值
     if len(set(case_ids)) != len(case_ids):
-# 【L0113】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0113】主动抛出 `ValueError("evaluation case ids must be unique")` 并停止当前路径；说明当前输入违反“载入 checkpoint/评测计划并准备环境变量”要求，不能继续进入仿真、训练或评测。
         raise ValueError("evaluation case ids must be unique")
-# 【L0114】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0114】判断 `port_open(args.policy_port)` 是否成立；`port_open` 表示本功能块中的 `port_open` 值；`policy_port` 表示OpenPI WebSocket policy server 监听的 TCP 端口
     if port_open(args.policy_port):
-# 【L0115】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0115】主动抛出 `RuntimeError(f"policy port {args.policy_port} is already in use")` 并停止当前路径；说明当前输入违反“载入 checkpoint/评测计划并准备环境变量”要求，不能继续进入仿真、训练或评测。
         raise RuntimeError(f"policy port {args.policy_port} is already in use")
 # 【L0116】空行：分隔“载入 checkpoint/评测计划并准备环境变量”中的逻辑段，让结构更容易看清。
 
-# 【L0117】计算并保存变量 `output_root`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0117】得到 `output_root`，它在本项目中表示输出相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.output_root.expanduser().resolve()`；`output_root` 表示输出相关值；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     output_root = args.output_root.expanduser().resolve()
-# 【L0118】计算并保存变量 `summary_path`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0118】得到 `summary_path`，它在本项目中表示路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.summary.expanduser().resolve()`；`summary` 表示本功能块中的 `summary` 值；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     summary_path = args.summary.expanduser().resolve()
-# 【L0119】调用 `mkdir`：创建目录。本行位于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0119】调用 `mkdir`：创建目录；本行实际操作 `output_root.mkdir(parents=True, exist_ok=True)`。`output_root` 表示输出相关值；`mkdir` 表示本功能块中的 `mkdir` 值。
     output_root.mkdir(parents=True, exist_ok=True)
-# 【L0120】调用 `mkdir`：创建目录。本行位于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0120】调用 `mkdir`：创建目录；本行实际操作 `summary_path.parent.mkdir(parents=True, exist_ok=True)`。`summary_path` 表示路径相关值；`parent` 表示本功能块中的 `parent` 值。
     summary_path.parent.mkdir(parents=True, exist_ok=True)
-# 【L0121】调用 `Path`：创建路径对象。本行位于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0121】得到 `openpi_root`，它在本项目中表示本功能块中的 `openpi_root` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `Path.home() / "robot-learning" / "openpi"`；`home` 表示本功能块中的 `home` 值；`robot` 表示IsaacLab Articulation；表示有多个关节的 RM65+4C2；`learning` 表示本功能块中的 `learning` 值。
     openpi_root = Path.home() / "robot-learning" / "openpi"
-# 【L0122】计算并保存变量 `checkpoint_id`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0122】得到 `checkpoint_id`，它在本项目中表示模型检查点相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `f"{checkpoint.parent.name}/{checkpoint.name}"`；`f` 表示本功能块中的 `f` 值；`checkpoint` 表示一次训练保存的模型参数目录；`parent` 表示本功能块中的 `parent` 值。
     checkpoint_id = f"{checkpoint.parent.name}/{checkpoint.name}"
-# 【L0123】计算并保存变量 `environment`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0123】得到 `environment`，它在本项目中表示本功能块中的 `environment` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：创建独立副本，避免后续原地修改同时改变作为参考的原数组/状态。
     environment = os.environ.copy()
-# 【L0124】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0124】把右侧结果写进 `environment["PYTHONPATH"]`（写入 `environment["PYTHONPATH"]` 指定的字段）；右侧具体做的是：计算表达式 `os.pathsep.join(`；`os` 表示本功能块中的 `os` 值；`pathsep` 表示本功能块中的 `pathsep` 值；`join` 表示本功能块中的 `join` 值。
     environment["PYTHONPATH"] = os.pathsep.join(
-# 【L0125】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0125】这是上一行尚未闭合的参数、数组或字典内容：`[`；其数据会并入上一行创建的对象，共同完成“载入 checkpoint/评测计划并准备环境变量”。
         [
-# 【L0126】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0126】调用 `str(PROJECT_ROOT)`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“载入 checkpoint/评测计划并准备环境变量”。
             str(PROJECT_ROOT),
-# 【L0127】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0127】调用 `str(openpi_root / "packages" / "openpi-client" / "src")`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“载入 checkpoint/评测计划并准备环境变量”。
             str(openpi_root / "packages" / "openpi-client" / "src"),
-# 【L0128】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0128】对 `environment` 调用 `get("PYTHONPATH", "")`：按键读取字典/XML 属性；若不存在则使用代码给出的默认值。本行产生的修改/返回值服务于“载入 checkpoint/评测计划并准备环境变量”。
             environment.get("PYTHONPATH", ""),
 # 【L0129】结束或闭合当前语法结构；它属于“载入 checkpoint/评测计划并准备环境变量”。
         ]
-# 【L0130】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0130】对 `)` 调用 `rstrip(os.pathsep)`：调用 `)` 提供的 `rstrip` 操作。本行产生的修改/返回值服务于“载入 checkpoint/评测计划并准备环境变量”。
     ).rstrip(os.pathsep)
-# 【L0131】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0131】把右侧结果写进 `environment["XLA_PYTHON_CLIENT_MEM_FRACTION"]`（写入 `environment["XLA_PYTHON_CLIENT_MEM_FRACTION"]` 指定的字段）；右侧具体做的是：计算表达式 `environment.get(`；`environment` 表示本功能块中的 `environment` 值；`get` 表示本功能块中的 `get` 值。
     environment["XLA_PYTHON_CLIENT_MEM_FRACTION"] = environment.get(
-# 【L0132】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0132】提供文本片段 `"XLA_PYTHON_CLIENT_MEM_FRACTION", "0.50"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“载入 checkpoint/评测计划并准备环境变量”中的帮助说明、错误原因、任务名称或报告文字。
         "XLA_PYTHON_CLIENT_MEM_FRACTION", "0.50"
 # 【L0133】结束或闭合当前语法结构；它属于“载入 checkpoint/评测计划并准备环境变量”。
     )
-# 【L0134】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0134】把右侧结果写进 `environment["RM65_REPO_ID"]`（写入 `environment["RM65_REPO_ID"]` 指定的字段）；右侧具体做的是：计算表达式 `args.repo_id`；`repo_id` 表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本。
     environment["RM65_REPO_ID"] = args.repo_id
-# 【L0135】执行“载入 checkpoint/评测计划并准备环境变量”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0135】把右侧结果写进 `environment["POLICY_GRIPPER_OPEN_THRESHOLD"]`（写入 `environment["POLICY_GRIPPER_OPEN_THRESHOLD"]` 指定的字段）；右侧具体做的是：计算表达式 `str(args.gripper_open_threshold)`；`gripper_open_threshold` 表示夹爪相关值。
     environment["POLICY_GRIPPER_OPEN_THRESHOLD"] = str(args.gripper_open_threshold)
-# 【L0136】计算并保存变量 `server_log_path`；该值服务于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0136】得到 `server_log_path`，它在本项目中表示路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"`；`PROJECT_ROOT` 表示004-rm65-4c2-isaaclab 项目根目录；`outputs` 表示本功能块中的 `outputs` 值；`rm65_pi05_policy_server_suite` 表示策略相关值。
     server_log_path = PROJECT_ROOT / "outputs" / "rm65_pi05_policy_server_suite.log"
-# 【L0137】调用 `mkdir`：创建目录。本行位于“载入 checkpoint/评测计划并准备环境变量”。
+# 【L0137】调用 `mkdir`：创建目录；本行实际操作 `server_log_path.parent.mkdir(parents=True, exist_ok=True)`。`server_log_path` 表示路径相关值；`parent` 表示本功能块中的 `parent` 值。
     server_log_path.parent.mkdir(parents=True, exist_ok=True)
-# 【L0138】上下文管理块：进入时打开资源，离开时自动关闭文件、数组或 socket。
+# 【L0138】进入资源上下文 `server_log_path.open("w", encoding="utf-8") as server_log`；执行完缩进块后自动关闭对应文件、数组映射或网络资源，避免数据未落盘。
     with server_log_path.open("w", encoding="utf-8") as server_log:
-# 【L0139】计算并保存变量 `server`；该值服务于“启动一次策略服务并等待就绪”。
+# 【L0139】得到 `server`，它在本项目中表示本功能块中的 `server` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `subprocess.Popen(`；`subprocess` 表示本功能块中的 `subprocess` 值；`Popen` 表示本功能块中的 `Popen` 值。
         server = subprocess.Popen(
-# 【L0140】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“启动一次策略服务并等待就绪”。
+# 【L0140】这是上一行尚未闭合的参数、数组或字典内容：`[`；其数据会并入上一行创建的对象，共同完成“启动一次策略服务并等待就绪”。
             [
-# 【L0141】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0141】调用 `str(openpi_root / ".venv" / "bin" / "python")`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“启动一次策略服务并等待就绪”。
                 str(openpi_root / ".venv" / "bin" / "python"),
-# 【L0142】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0142】提供文本片段 `"-u"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“启动一次策略服务并等待就绪”中的帮助说明、错误原因、任务名称或报告文字。
                 "-u",
-# 【L0143】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0143】调用 `str(PROJECT_ROOT / "scripts" / "serve_rm65_policy.py")`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“启动一次策略服务并等待就绪”。
                 str(PROJECT_ROOT / "scripts" / "serve_rm65_policy.py"),
-# 【L0144】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0144】提供文本片段 `"--checkpoint"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“启动一次策略服务并等待就绪”中的帮助说明、错误原因、任务名称或报告文字。
                 "--checkpoint",
-# 【L0145】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0145】调用 `str(checkpoint)`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“启动一次策略服务并等待就绪”。
                 str(checkpoint),
-# 【L0146】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0146】提供文本片段 `"--repo-id"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“启动一次策略服务并等待就绪”中的帮助说明、错误原因、任务名称或报告文字。
                 "--repo-id",
-# 【L0147】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0147】向上一行的函数调用或容器继续传入 `args.repo_id`；`repo_id` 表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本，它参与“启动一次策略服务并等待就绪”。
                 args.repo_id,
-# 【L0148】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0148】提供文本片段 `"--port"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“启动一次策略服务并等待就绪”中的帮助说明、错误原因、任务名称或报告文字。
                 "--port",
-# 【L0149】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“启动一次策略服务并等待就绪”。
+# 【L0149】调用 `str(args.policy_port)`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“启动一次策略服务并等待就绪”。
                 str(args.policy_port),
 # 【L0150】结束或闭合当前语法结构；它属于“启动一次策略服务并等待就绪”。
             ],
-# 【L0151】计算并保存变量 `cwd`；该值服务于“启动一次策略服务并等待就绪”。
+# 【L0151】给上一层函数/配置构造器的命名参数 `cwd` 传入 `PROJECT_ROOT`；该参数在本项目中表示本功能块中的 `cwd` 值，会参与“启动一次策略服务并等待就绪”。
             cwd=PROJECT_ROOT,
-# 【L0152】计算并保存变量 `env`；该值服务于“启动一次策略服务并等待就绪”。
+# 【L0152】给上一层函数/配置构造器的命名参数 `env` 传入 `environment`；该参数在本项目中表示本功能块中的 `env` 值，会参与“启动一次策略服务并等待就绪”。
             env=environment,
-# 【L0153】计算并保存变量 `stdout`；该值服务于“启动一次策略服务并等待就绪”。
+# 【L0153】给上一层函数/配置构造器的命名参数 `stdout` 传入 `server_log`；该参数在本项目中表示本功能块中的 `stdout` 值，会参与“启动一次策略服务并等待就绪”。
             stdout=server_log,
-# 【L0154】计算并保存变量 `stderr`；该值服务于“启动一次策略服务并等待就绪”。
+# 【L0154】给上一层函数/配置构造器的命名参数 `stderr` 传入 `subprocess.STDOUT`；该参数在本项目中表示本功能块中的 `stderr` 值，会参与“启动一次策略服务并等待就绪”。
             stderr=subprocess.STDOUT,
 # 【L0155】结束或闭合当前语法结构；它属于“启动一次策略服务并等待就绪”。
         )
-# 【L0156】开始可能失败的操作块，后面由 except/finally 负责错误或清理。
+# 【L0156】开始执行可能抛错的“启动一次策略服务并等待就绪”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
         try:
-# 【L0157】for 循环：依次处理序列中的每个元素/时间步/episode/case。
+# 【L0157】遍历 `range(180)`，每次把当前元素放进 `_`；这会逐个处理“启动一次策略服务并等待就绪”所需的帧、episode、动作或实验 case。
             for _ in range(180):
-# 【L0158】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0158】检查 `server.poll() is not None`；只有该可选对象已经存在时才执行对应采集、保存或处理逻辑
                 if server.poll() is not None:
-# 【L0159】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0159】主动抛出 `RuntimeError(` 并停止当前路径；说明当前输入违反“启动一次策略服务并等待就绪”要求，不能继续进入仿真、训练或评测。
                     raise RuntimeError(
-# 【L0160】执行“启动一次策略服务并等待就绪”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0160】把表达式/参数 `f"policy server stopped during startup; see {server_log_path}"` 接入当前完整语句；`f` 表示本功能块中的 `f` 值；`policy` 表示加载了 RM65 checkpoint、transform 和 norm stats 的 OpenPI 推理对象；`server` 表示本功能块中的 `server` 值。在“启动一次策略服务并等待就绪”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
                         f"policy server stopped during startup; see {server_log_path}"
 # 【L0161】结束或闭合当前语法结构；它属于“启动一次策略服务并等待就绪”。
                     )
-# 【L0162】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0162】判断 `port_open(args.policy_port)` 是否成立；`port_open` 表示本功能块中的 `port_open` 值；`policy_port` 表示OpenPI WebSocket policy server 监听的 TCP 端口
                 if port_open(args.policy_port):
-# 【L0163】立即结束最近一层循环；通常表示已经找到解或达到成功条件。
+# 【L0163】立即结束最近一层循环；在“启动一次策略服务并等待就绪”中表示已经找到解、完成 episode 或无需再尝试剩余候选。
                     break
-# 【L0164】执行“启动一次策略服务并等待就绪”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0164】对 `time` 调用 `sleep(1)`：调用 `time` 提供的 `sleep` 操作。本行产生的修改/返回值服务于“启动一次策略服务并等待就绪”。
                 time.sleep(1)
-# 【L0165】否则分支：前面的 if/elif 都不成立时执行。
+# 【L0165】前面的 `if/elif` 都不成立时走这里；在“启动一次策略服务并等待就绪”中处理剩余输入或备用路径。
             else:
-# 【L0166】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0166】主动抛出 `TimeoutError("policy server did not listen within 180 seconds")` 并停止当前路径；说明当前输入违反“启动一次策略服务并等待就绪”要求，不能继续进入仿真、训练或评测。
                 raise TimeoutError("policy server did not listen within 180 seconds")
 # 【L0167】空行：分隔“启动一次策略服务并等待就绪”中的逻辑段，让结构更容易看清。
 
-# 【L0168】计算并保存变量 `case_results`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0168】得到 `case_results`，它在本项目中表示每个评测 case 的退出码、日志和 task report 汇总；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `[]` 的结果保存下来，供当前功能块后续使用。
             case_results = []
-# 【L0169】for 循环：依次处理序列中的每个元素/时间步/episode/case。
+# 【L0169】遍历 `enumerate(cases, start=1)`，每次把当前元素放进 `position, case`；这会逐个处理“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”所需的帧、episode、动作或实验 case。
             for position, case in enumerate(cases, start=1):
-# 【L0170】计算并保存变量 `case_id`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0170】得到 `case_id`，它在本项目中表示本功能块中的 `case_id` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `case["case_id"]`；`case` 表示本功能块中的 `case` 值；`case_id` 表示本功能块中的 `case_id` 值。
                 case_id = case["case_id"]
-# 【L0171】计算并保存变量 `episode_dir`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0171】得到 `episode_dir`，它在本项目中表示一条轨迹相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `output_root / case_id`；`output_root` 表示输出相关值；`case_id` 表示本功能块中的 `case_id` 值。
                 episode_dir = output_root / case_id
-# 【L0172】计算并保存变量 `report_path`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0172】得到 `report_path`，它在本项目中表示报告、路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `episode_dir / "task_report.json"`；`episode_dir` 表示一条轨迹相关值；`task_report` 表示报告相关值；`json` 表示本功能块中的 `json` 值。
                 report_path = episode_dir / "task_report.json"
-# 【L0173】计算并保存变量 `existing`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0173】得到 `existing`，它在本项目中表示本功能块中的 `existing` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `load_existing_report(`；`load_existing_report` 表示报告相关值。
                 existing = load_existing_report(
-# 【L0174】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0174】把表达式/参数 `report_path, checkpoint_id, args.gripper_open_threshold` 接入当前完整语句；`report_path` 表示报告、路径相关值；`checkpoint_id` 表示模型检查点相关值；`gripper_open_threshold` 表示夹爪相关值。在“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
                     report_path, checkpoint_id, args.gripper_open_threshold
 # 【L0175】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                 )
-# 【L0176】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0176】检查 `existing is not None`；只有该可选对象已经存在时才执行对应采集、保存或处理逻辑
                 if existing is not None:
-# 【L0177】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0177】把 `f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True` 的当前值/文字输出到终端；它用于观察“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”进度，也给日志留下可搜索证据。
                     print(f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True)
-# 【L0178】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0178】开始对 `case_results` 调用多行方法 `append`：把当前结果追加到已有列表末尾，保留后续汇总、筛选或落盘所需的顺序；具体参数写在随后几行，用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     case_results.append(
-# 【L0179】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0179】这是上一行尚未闭合的参数、数组或字典内容：`{"case_id": case_id, "runner_returncode": 0, "report": existing, "reused": True}`；`case_id` 表示本功能块中的 `case_id` 值；`runner_returncode` 表示本功能块中的 `runner_returncode` 值；`report` 表示机器可读实验报告字典，共同完成“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                         {"case_id": case_id, "runner_returncode": 0, "report": existing, "reused": True}
 # 【L0180】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     )
-# 【L0181】跳过本次循环剩余语句，继续处理下一个候选项。
+# 【L0181】放弃当前元素剩余步骤，直接处理下一个候选/帧/episode；当前项在“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中不满足继续条件。
                     continue
-# 【L0182】调用 `mkdir`：创建目录。本行位于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0182】调用 `mkdir`：创建目录；本行实际操作 `episode_dir.mkdir(parents=True, exist_ok=True)`。`episode_dir` 表示一条轨迹相关值；`mkdir` 表示本功能块中的 `mkdir` 值。
                 episode_dir.mkdir(parents=True, exist_ok=True)
-# 【L0183】计算并保存变量 `case_environment`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0183】得到 `case_environment`，它在本项目中表示本功能块中的 `case_environment` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：创建独立副本，避免后续原地修改同时改变作为参考的原数组/状态。
                 case_environment = environment.copy()
-# 【L0184】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0184】把右侧结果写进 `case_environment["POLICY_SERVER_MODE"]`（写入 `case_environment["POLICY_SERVER_MODE"]` 指定的字段）；右侧具体做的是：计算表达式 `"external"`；`external` 表示外部相机相关值。
                 case_environment["POLICY_SERVER_MODE"] = "external"
-# 【L0185】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0185】把右侧结果写进 `case_environment["POLICY_PORT"]`（写入 `case_environment["POLICY_PORT"]` 指定的字段）；右侧具体做的是：计算表达式 `str(args.policy_port)`；`policy_port` 表示OpenPI WebSocket policy server 监听的 TCP 端口。
                 case_environment["POLICY_PORT"] = str(args.policy_port)
-# 【L0186】计算并保存变量 `command`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0186】得到 `command`，它在本项目中表示控制命令相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `[` 的结果保存下来，供当前功能块后续使用。
                 command = [
-# 【L0187】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0187】提供文本片段 `"bash"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的帮助说明、错误原因、任务名称或报告文字。
                     "bash",
-# 【L0188】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0188】调用 `str(PROJECT_ROOT / "scripts" / "run_pi05_rm65_closed_loop.sh")`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(PROJECT_ROOT / "scripts" / "run_pi05_rm65_closed_loop.sh"),
-# 【L0189】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0189】调用 `str(checkpoint)`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(checkpoint),
-# 【L0190】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0190】调用 `str(episode_dir)`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(episode_dir),
-# 【L0191】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0191】调用 `str(case["transfer_joint_1_rad"])`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(case["transfer_joint_1_rad"]),
-# 【L0192】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0192】调用 `str(case["source_offset_x_m"])`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(case["source_offset_x_m"]),
-# 【L0193】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0193】调用 `str(case["source_offset_y_m"])`：把路径、数字或其他对象转换为命令行参数需要的文本；这一行通常是外层命令列表中的一个元素。它的结果/修改用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     str(case["source_offset_y_m"]),
-# 【L0194】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0194】向上一行的函数调用或容器继续传入 `case["prompt"]`；`case` 表示本功能块中的 `case` 值；`prompt` 表示本功能块中的 `prompt` 值，它参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     case["prompt"],
 # 【L0195】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                 ]
-# 【L0196】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0196】把 `f"[{position}/{len(cases)}] {case_id}: run", flush=True` 的当前值/文字输出到终端；它用于观察“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”进度，也给日志留下可搜索证据。
                 print(f"[{position}/{len(cases)}] {case_id}: run", flush=True)
-# 【L0197】计算并保存变量 `attempt_results`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0197】得到 `attempt_results`，它在本项目中表示本功能块中的 `attempt_results` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `[]` 的结果保存下来，供当前功能块后续使用。
                 attempt_results = []
-# 【L0198】给变量 `report` 赋值：机器可读实验报告字典。
+# 【L0198】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `None` 的结果保存下来，供当前功能块后续使用。
                 report = None
-# 【L0199】for 循环：依次处理序列中的每个元素/时间步/episode/case。
+# 【L0199】遍历 `range(args.infrastructure_retries + 1)`，每次把当前元素放进 `attempt`；这会逐个处理“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”所需的帧、episode、动作或实验 case。
                 for attempt in range(args.infrastructure_retries + 1):
-# 【L0200】计算并保存变量 `log_name`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0200】得到 `log_name`，它在本项目中表示本功能块中的 `log_name` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"runner.log" if attempt == 0 else f"runner_retry_{attempt}.log"`；`runner` 表示本功能块中的 `runner` 值；`log` 表示本功能块中的 `log` 值；`attempt` 表示本功能块中的 `attempt` 值。
                     log_name = "runner.log" if attempt == 0 else f"runner_retry_{attempt}.log"
-# 【L0201】计算并保存变量 `case_log_path`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0201】得到 `case_log_path`，它在本项目中表示路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `episode_dir / log_name`；`episode_dir` 表示一条轨迹相关值；`log_name` 表示本功能块中的 `log_name` 值。
                     case_log_path = episode_dir / log_name
-# 【L0202】上下文管理块：进入时打开资源，离开时自动关闭文件、数组或 socket。
+# 【L0202】进入资源上下文 `case_log_path.open("w", encoding="utf-8") as case_log`；执行完缩进块后自动关闭对应文件、数组映射或网络资源，避免数据未落盘。
                     with case_log_path.open("w", encoding="utf-8") as case_log:
-# 【L0203】开始可能失败的操作块，后面由 except/finally 负责错误或清理。
+# 【L0203】开始执行可能抛错的“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
                         try:
-# 【L0204】计算并保存变量 `completed`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0204】得到 `completed`，它在本项目中表示本功能块中的 `completed` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `subprocess.run(`；`subprocess` 表示本功能块中的 `subprocess` 值；`run` 表示本功能块中的 `run` 值。
                             completed = subprocess.run(
-# 【L0205】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0205】声明/传入参数 `command`；在本项目中它表示控制命令相关值。
                                 command,
-# 【L0206】计算并保存变量 `cwd`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0206】给上一层函数/配置构造器的命名参数 `cwd` 传入 `PROJECT_ROOT`；该参数在本项目中表示本功能块中的 `cwd` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 cwd=PROJECT_ROOT,
-# 【L0207】计算并保存变量 `env`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0207】给上一层函数/配置构造器的命名参数 `env` 传入 `case_environment`；该参数在本项目中表示本功能块中的 `env` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 env=case_environment,
-# 【L0208】计算并保存变量 `stdout`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0208】给上一层函数/配置构造器的命名参数 `stdout` 传入 `case_log`；该参数在本项目中表示本功能块中的 `stdout` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 stdout=case_log,
-# 【L0209】计算并保存变量 `stderr`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0209】给上一层函数/配置构造器的命名参数 `stderr` 传入 `subprocess.STDOUT`；该参数在本项目中表示本功能块中的 `stderr` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 stderr=subprocess.STDOUT,
-# 【L0210】计算并保存变量 `timeout`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0210】给上一层函数/配置构造器的命名参数 `timeout` 传入 `args.case_timeout_seconds`；该参数在本项目中表示本功能块中的 `timeout` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 timeout=args.case_timeout_seconds,
-# 【L0211】计算并保存变量 `check`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0211】给上一层函数/配置构造器的命名参数 `check` 传入 `False`；该参数在本项目中表示本功能块中的 `check` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                                 check=False,
 # 【L0212】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                             )
-# 【L0213】计算并保存变量 `returncode`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0213】得到 `returncode`，它在本项目中表示本功能块中的 `returncode` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `completed.returncode`；`completed` 表示本功能块中的 `completed` 值；`returncode` 表示本功能块中的 `returncode` 值。
                             returncode = completed.returncode
-# 【L0214】计算并保存变量 `timed_out`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0214】得到 `timed_out`，它在本项目中表示本功能块中的 `timed_out` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `False` 的结果保存下来，供当前功能块后续使用。
                             timed_out = False
-# 【L0215】捕获指定异常，把可预期失败转换成清晰错误或重试逻辑。
+# 【L0215】捕获 `subprocess.TimeoutExpired`；把这一类可预期故障转换为本项目的错误记录、失败 case 或清理路径。
                         except subprocess.TimeoutExpired:
-# 【L0216】计算并保存变量 `returncode`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0216】得到 `returncode`，它在本项目中表示本功能块中的 `returncode` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `124` 的结果保存下来，供当前功能块后续使用。
                             returncode = 124
-# 【L0217】计算并保存变量 `timed_out`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0217】得到 `timed_out`，它在本项目中表示本功能块中的 `timed_out` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `True` 的结果保存下来，供当前功能块后续使用。
                             timed_out = True
-# 【L0218】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0218】开始对 `attempt_results` 调用多行方法 `append`：把当前结果追加到已有列表末尾，保留后续汇总、筛选或落盘所需的顺序；具体参数写在随后几行，用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     attempt_results.append(
-# 【L0219】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0219】这是上一行尚未闭合的参数、数组或字典内容：`{`；其数据会并入上一行创建的对象，共同完成“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                         {
-# 【L0220】定义字典/JSON 字段 `attempt`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0220】定义字典/JSON 字段 `attempt`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `attempt` 数据；字段值来自 `attempt + 1`，因此保存/传递的是这个表达式当前计算出的结果。
                             "attempt": attempt + 1,
-# 【L0221】定义字典/JSON 字段 `runner_returncode`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0221】定义字典/JSON 字段 `runner_returncode`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `runner_returncode` 数据；字段值来自 `returncode`，因此保存/传递的是这个表达式当前计算出的结果。
                             "runner_returncode": returncode,
-# 【L0222】定义字典/JSON 字段 `timed_out`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0222】定义字典/JSON 字段 `timed_out`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `timed_out` 数据；字段值来自 `timed_out`，因此保存/传递的是这个表达式当前计算出的结果。
                             "timed_out": timed_out,
-# 【L0223】定义字典/JSON 字段 `log`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0223】定义字典/JSON 字段 `log`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `log` 数据；字段值来自 `str(case_log_path)`，因此保存/传递的是这个表达式当前计算出的结果。
                             "log": str(case_log_path),
 # 【L0224】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                         }
 # 【L0225】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     )
-# 【L0226】给变量 `report` 赋值：机器可读实验报告字典。
+# 【L0226】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `load_existing_report(`；`load_existing_report` 表示报告相关值。
                     report = load_existing_report(
-# 【L0227】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0227】把表达式/参数 `report_path, checkpoint_id, args.gripper_open_threshold` 接入当前完整语句；`report_path` 表示报告、路径相关值；`checkpoint_id` 表示模型检查点相关值；`gripper_open_threshold` 表示夹爪相关值。在“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
                         report_path, checkpoint_id, args.gripper_open_threshold
 # 【L0228】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     )
-# 【L0229】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0229】检查 `report is not None`；只有该可选对象已经存在时才执行对应采集、保存或处理逻辑
                     if report is not None:
-# 【L0230】立即结束最近一层循环；通常表示已经找到解或达到成功条件。
+# 【L0230】立即结束最近一层循环；在“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中表示已经找到解、完成 episode 或无需再尝试剩余候选。
                         break
-# 【L0231】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0231】判断 `attempt < args.infrastructure_retries` 是否成立；`attempt` 表示本功能块中的 `attempt` 值；`infrastructure_retries` 表示本功能块中的 `infrastructure_retries` 值
                     if attempt < args.infrastructure_retries:
-# 【L0232】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0232】把 `` 的当前值/文字输出到终端；它用于观察“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”进度，也给日志留下可搜索证据。
                         print(
-# 【L0233】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0233】把表达式/参数 `f"[{position}/{len(cases)}] {case_id}: missing_report; "` 接入当前完整语句；`f` 表示本功能块中的 `f` 值；`position` 表示位置相关值；`cases` 表示经过 split/max-cases 过滤后本次要运行的实验条件列表。在“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
                             f"[{position}/{len(cases)}] {case_id}: missing_report; "
-# 【L0234】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0234】向上一行的函数调用或容器继续传入 `f"retry infrastructure attempt {attempt + 2}"`；`f` 表示本功能块中的 `f` 值；`retry` 表示本功能块中的 `retry` 值；`infrastructure` 表示本功能块中的 `infrastructure` 值，它参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                             f"retry infrastructure attempt {attempt + 2}",
-# 【L0235】计算并保存变量 `flush`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0235】给上一层函数/配置构造器的命名参数 `flush` 传入 `True`；该参数在本项目中表示本功能块中的 `flush` 值，会参与“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                             flush=True,
 # 【L0236】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                         )
-# 【L0237】执行“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0237】开始对 `case_results` 调用多行方法 `append`：把当前结果追加到已有列表末尾，保留后续汇总、筛选或落盘所需的顺序；具体参数写在随后几行，用于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                 case_results.append(
-# 【L0238】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0238】这是上一行尚未闭合的参数、数组或字典内容：`{`；其数据会并入上一行创建的对象，共同完成“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     {
-# 【L0239】定义字典/JSON 字段 `case_id`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0239】定义字典/JSON 字段 `case_id`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `case_id` 数据；字段值来自 `case_id`，因此保存/传递的是这个表达式当前计算出的结果。
                         "case_id": case_id,
-# 【L0240】定义字典/JSON 字段 `runner_returncode`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0240】定义字典/JSON 字段 `runner_returncode`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `runner_returncode` 数据；字段值来自 `returncode`，因此保存/传递的是这个表达式当前计算出的结果。
                         "runner_returncode": returncode,
-# 【L0241】定义字典/JSON 字段 `timed_out`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0241】定义字典/JSON 字段 `timed_out`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `timed_out` 数据；字段值来自 `timed_out`，因此保存/传递的是这个表达式当前计算出的结果。
                         "timed_out": timed_out,
-# 【L0242】定义字典/JSON 字段 `report`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0242】定义字典/JSON 字段 `report`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `report` 数据；字段值来自 `report`，因此保存/传递的是这个表达式当前计算出的结果。
                         "report": report,
-# 【L0243】定义字典/JSON 字段 `reused`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0243】定义字典/JSON 字段 `reused`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `reused` 数据；字段值来自 `False`，因此保存/传递的是这个表达式当前计算出的结果。
                         "reused": False,
-# 【L0244】定义字典/JSON 字段 `log`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0244】定义字典/JSON 字段 `log`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `log` 数据；字段值来自 `str(case_log_path)`，因此保存/传递的是这个表达式当前计算出的结果。
                         "log": str(case_log_path),
-# 【L0245】定义字典/JSON 字段 `infrastructure_attempts`；它把“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的结果用稳定键名记录下来。
+# 【L0245】定义字典/JSON 字段 `infrastructure_attempts`，它表示“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”中的 `infrastructure_attempts` 数据；字段值来自 `attempt_results`，因此保存/传递的是这个表达式当前计算出的结果。
                         "infrastructure_attempts": attempt_results,
 # 【L0246】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                     }
 # 【L0247】结束或闭合当前语法结构；它属于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
                 )
-# 【L0248】计算并保存变量 `status`；该值服务于“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”。
+# 【L0248】得到 `status`，它在本项目中表示本功能块中的 `status` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：取得或构造该字段：本阶段的机器可读通过/失败状态。
                 status = report.get("status") if report else "missing_report"
-# 【L0249】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0249】把 `f"[{position}/{len(cases)}] {case_id}: {status}", flush=True` 的当前值/文字输出到终端；它用于观察“逐 case 运行、复用报告、仅对缺报告的基础设施故障重试”进度，也给日志留下可搜索证据。
                 print(f"[{position}/{len(cases)}] {case_id}: {status}", flush=True)
-# 【L0250】清理块：无论前面成功还是抛错都执行，常用于关闭服务和 Isaac Sim。
+# 【L0250】无论前面的仿真/服务调用成功还是抛错都运行这里，确保 Isaac Sim、WebSocket 或临时文件被正确收尾。
         finally:
-# 【L0251】执行“无论结果如何都关闭服务”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0251】对 `server` 调用 `terminate()`：调用 `server` 提供的 `terminate` 操作。本行产生的修改/返回值服务于“无论结果如何都关闭服务”。
             server.terminate()
-# 【L0252】开始可能失败的操作块，后面由 except/finally 负责错误或清理。
+# 【L0252】开始执行可能抛错的“无论结果如何都关闭服务”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
             try:
-# 【L0253】执行“无论结果如何都关闭服务”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0253】对 `server` 调用 `wait(timeout=20)`：调用 `server` 提供的 `wait` 操作。本行产生的修改/返回值服务于“无论结果如何都关闭服务”。
                 server.wait(timeout=20)
-# 【L0254】捕获指定异常，把可预期失败转换成清晰错误或重试逻辑。
+# 【L0254】捕获 `subprocess.TimeoutExpired`；把这一类可预期故障转换为本项目的错误记录、失败 case 或清理路径。
             except subprocess.TimeoutExpired:
-# 【L0255】执行“无论结果如何都关闭服务”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0255】对 `server` 调用 `kill()`：调用 `server` 提供的 `kill` 操作。本行产生的修改/返回值服务于“无论结果如何都关闭服务”。
                 server.kill()
-# 【L0256】执行“无论结果如何都关闭服务”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0256】对 `server` 调用 `wait(timeout=20)`：调用 `server` 提供的 `wait` 操作。本行产生的修改/返回值服务于“无论结果如何都关闭服务”。
                 server.wait(timeout=20)
 # 【L0257】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0258】计算并保存变量 `valid_reports`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0258】得到 `valid_reports`，它在本项目中表示本功能块中的 `valid_reports` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `[item["report"] for item in case_results if item.get("report") is not None]`；`item` 表示本功能块中的 `item` 值；`report` 表示机器可读实验报告字典；`case_results` 表示每个评测 case 的退出码、日志和 task report 汇总。
     valid_reports = [item["report"] for item in case_results if item.get("report") is not None]
-# 【L0259】计算并保存变量 `successes`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0259】得到 `successes`，它在本项目中表示本功能块中的 `successes` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：取得或构造该字段：本阶段的机器可读通过/失败状态。
     successes = sum(report.get("status") == "pass" for report in valid_reports)
-# 【L0260】计算并保存变量 `episode_count`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0260】得到 `episode_count`，它在本项目中表示一条轨迹、数量相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `len(valid_reports)`；`valid_reports` 表示本功能块中的 `valid_reports` 值。
     episode_count = len(valid_reports)
-# 【L0261】计算并保存变量 `success_rate`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0261】得到 `success_rate`，它在本项目中表示有效闭环报告中 status=pass 的比例；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `successes / episode_count if episode_count else 0.0`；`successes` 表示本功能块中的 `successes` 值；`episode_count` 表示一条轨迹、数量相关值。
     success_rate = successes / episode_count if episode_count else 0.0
-# 【L0262】计算并保存变量 `passed`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0262】得到 `passed`，它在本项目中表示当前单条任务或整套评测是否满足所有硬性门槛；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `episode_count >= 20 and success_rate >= 0.8`；`episode_count` 表示一条轨迹、数量相关值；`success_rate` 表示有效闭环报告中 status=pass 的比例。
     passed = episode_count >= 20 and success_rate >= 0.8
-# 【L0263】计算并保存变量 `summary`；该值服务于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0263】得到 `summary`，它在本项目中表示本功能块中的 `summary` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `{` 的结果保存下来，供当前功能块后续使用。
     summary = {
-# 【L0264】定义字典/JSON 字段 `status`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0264】定义字典/JSON 字段 `status`，它表示本阶段的机器可读通过/失败状态；字段值来自 `"pass" if passed else "fail"`，因此保存/传递的是这个表达式当前计算出的结果。
         "status": "pass" if passed else "fail",
-# 【L0265】定义字典/JSON 字段 `evaluation_kind`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0265】定义字典/JSON 字段 `evaluation_kind`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `evaluation_kind` 数据；字段值来自 `"isaaclab_pi0.5_closed_loop"`，因此保存/传递的是这个表达式当前计算出的结果。
         "evaluation_kind": "isaaclab_pi0.5_closed_loop",
-# 【L0266】定义字典/JSON 字段 `simulation_only`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0266】定义字典/JSON 字段 `simulation_only`，它表示明确证据只来自仿真；字段值来自 `True`，因此保存/传递的是这个表达式当前计算出的结果。
         "simulation_only": True,
-# 【L0267】定义字典/JSON 字段 `real_robot_command_sent`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0267】定义字典/JSON 字段 `real_robot_command_sent`，它表示是否向真实机械臂发送过命令；本项目应始终为 false；字段值来自 `False`，因此保存/传递的是这个表达式当前计算出的结果。
         "real_robot_command_sent": False,
-# 【L0268】定义字典/JSON 字段 `plan`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0268】定义字典/JSON 字段 `plan`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `plan` 数据；字段值来自 `str(plan_path)`，因此保存/传递的是这个表达式当前计算出的结果。
         "plan": str(plan_path),
-# 【L0269】定义字典/JSON 字段 `checkpoint`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0269】定义字典/JSON 字段 `checkpoint`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `checkpoint` 数据；字段值来自 `str(checkpoint)`，因此保存/传递的是这个表达式当前计算出的结果。
         "checkpoint": str(checkpoint),
-# 【L0270】定义字典/JSON 字段 `policy_checkpoint_id`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0270】定义字典/JSON 字段 `policy_checkpoint_id`，它表示生成动作的 checkpoint 标识，用来阻止混用旧报告；字段值来自 `checkpoint_id`，因此保存/传递的是这个表达式当前计算出的结果。
         "policy_checkpoint_id": checkpoint_id,
-# 【L0271】定义字典/JSON 字段 `repo_id`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0271】定义字典/JSON 字段 `repo_id`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `repo_id` 数据；字段值来自 `args.repo_id`，因此保存/传递的是这个表达式当前计算出的结果。
         "repo_id": args.repo_id,
-# 【L0272】定义字典/JSON 字段 `gripper_open_threshold_normalized`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0272】定义字典/JSON 字段 `gripper_open_threshold_normalized`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `gripper_open_threshold_normalized` 数据；字段值来自 `args.gripper_open_threshold`，因此保存/传递的是这个表达式当前计算出的结果。
         "gripper_open_threshold_normalized": args.gripper_open_threshold,
-# 【L0273】定义字典/JSON 字段 `planned_case_count`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0273】定义字典/JSON 字段 `planned_case_count`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `planned_case_count` 数据；字段值来自 `len(cases)`，因此保存/传递的是这个表达式当前计算出的结果。
         "planned_case_count": len(cases),
-# 【L0274】定义字典/JSON 字段 `episode_count`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0274】定义字典/JSON 字段 `episode_count`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `episode_count` 数据；字段值来自 `episode_count`，因此保存/传递的是这个表达式当前计算出的结果。
         "episode_count": episode_count,
-# 【L0275】定义字典/JSON 字段 `success_count`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0275】定义字典/JSON 字段 `success_count`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `success_count` 数据；字段值来自 `successes`，因此保存/传递的是这个表达式当前计算出的结果。
         "success_count": successes,
-# 【L0276】定义字典/JSON 字段 `success_rate`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0276】定义字典/JSON 字段 `success_rate`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `success_rate` 数据；字段值来自 `success_rate`，因此保存/传递的是这个表达式当前计算出的结果。
         "success_rate": success_rate,
-# 【L0277】定义字典/JSON 字段 `gate`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0277】定义字典/JSON 字段 `gate`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `gate` 数据；字段值来自 `{"minimum_episode_count": 20, "minimum_success_rate": 0.8}`，因此保存/传递的是这个表达式当前计算出的结果。
         "gate": {"minimum_episode_count": 20, "minimum_success_rate": 0.8},
-# 【L0278】定义字典/JSON 字段 `cases`；它把“统计成功率并执行 20 条、80% 门槛”中的结果用稳定键名记录下来。
+# 【L0278】定义字典/JSON 字段 `cases`，它表示“统计成功率并执行 20 条、80% 门槛”中的 `cases` 数据；字段值来自 `case_results`，因此保存/传递的是这个表达式当前计算出的结果。
         "cases": case_results,
 # 【L0279】结束或闭合当前语法结构；它属于“统计成功率并执行 20 条、80% 门槛”。
     }
-# 【L0280】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本。本行位于“统计成功率并执行 20 条、80% 门槛”。
+# 【L0280】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本；本行实际操作 `summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")`。`summary_path` 表示路径相关值；`write_text` 表示本功能块中的 `write_text` 值。
     summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
-# 【L0281】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0281】把 `json.dumps({key: value for key, value in summary.items() if key != "cases"}, indent=2)` 的当前值/文字输出到终端；它用于观察“统计成功率并执行 20 条、80% 门槛”进度，也给日志留下可搜索证据。
     print(json.dumps({key: value for key, value in summary.items() if key != "cases"}, indent=2))
-# 【L0282】结束当前函数并把结果交给调用者；这里完成“统计成功率并执行 20 条、80% 门槛”的输出。
+# 【L0282】结束当前函数并把 `0 if passed else 1` 交回调用者；这个值的含义是：计算表达式 `0 if passed else 1`；`passed` 表示当前单条任务或整套评测是否满足所有硬性门槛。
     return 0 if passed else 1
 # 【L0283】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0284】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0285】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0285】判断 `__name__ == "__main__"` 是否成立；`__name__` 表示本功能块中的 `__name__` 值；`__main__` 表示本功能块中的 `__main__` 值
 if __name__ == "__main__":
-# 【L0286】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0286】主动抛出 `SystemExit(main())` 并停止当前路径；说明当前输入违反“脚本入口”要求，不能继续进入仿真、训练或评测。
     raise SystemExit(main())
 ```

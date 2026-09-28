@@ -23,187 +23,187 @@
 
 ## 逐行学习副本
 
-每个 `【Lxxxx】` 注释解释紧随其后的原始行。空行也保留并说明，因为空行体现程序分段。
+每个 `【Lxxxx】` 注释解释紧随其后的原始行。解释会回答三个问题：这一行操作的项目对象是什么；Python/NumPy/Isaac/OpenPI 具体做了什么；结果流向哪个后续步骤。空行也保留，因为空行体现程序分段。
 
 ```python
-# 【L0001】shebang：在 Linux 直接执行文件时，选择后面的 Python 或 Bash 解释器。
+# 【L0001】Linux 直接执行这个文件时，请操作系统用 `/usr/bin/env python3` 解释后面的源码；它决定这是 Python 还是 Bash 入口。
 #!/usr/bin/env python3
-# 【L0002】模块、类或函数说明字符串；运行时可由 help() 读取，也告诉读者这一块负责什么。
+# 【L0002】说明字符串 `Import the generated RM65 + 4C2 URDF into a standalone USD file.`：记录当前模块、类或函数在 RM65 流程里的公开职责，`help()` 也能读取它。
 """Import the generated RM65 + 4C2 URDF into a standalone USD file."""
 # 【L0003】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
-# 【L0004】延迟解析类型标注，允许在类型提示里更自由地引用尚未定义的类型。
+# 【L0004】让 Python 暂缓解析类型标注；本项目中的 `Path | None`、自定义类等提示不会在模块导入时过早求值。
 from __future__ import annotations
 # 【L0005】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
-# 【L0006】导入 argparse：标准库命令行解析器，让实验参数不必写死在代码里；后面的代码会调用其中的类或函数。
+# 【L0006】从 `argparse` 引入 `argparse`。在这份程序里，`argparse` 用于标准库命令行解析器，让实验参数不必写死在代码里；后续出现这些名字时调用的是这里的外部能力。
 import argparse
-# 【L0007】导入 json：读写人和程序都容易检查的 JSON 证据文件；后面的代码会调用其中的类或函数。
+# 【L0007】从 `json` 引入 `json`。在这份程序里，`json` 用于读写人和程序都容易检查的 JSON 证据文件；后续出现这些名字时调用的是这里的外部能力。
 import json
-# 【L0008】导入 pathlib：使用 Path 对象处理跨平台文件路径；后面的代码会调用其中的类或函数。
+# 【L0008】从 `pathlib` 引入 `Path`。在这份程序里，`pathlib` 用于使用 Path 对象处理跨平台文件路径；后续出现这些名字时调用的是这里的外部能力。
 from pathlib import Path
 # 【L0009】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
-# 【L0010】导入 isaaclab：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0010】从 `isaaclab` 引入 `AppLauncher`。在这份程序里，`isaaclab` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 from isaaclab.app import AppLauncher
 # 【L0011】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
 # 【L0012】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
-# 【L0013】计算并保存变量 `parser`；该值服务于“解析参数并启动 Isaac Sim 应用”。
+# 【L0013】得到 `parser`，它在本项目中表示本功能块中的 `parser` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `argparse.ArgumentParser(description=__doc__)`；`argparse` 表示本功能块中的 `argparse` 值；`ArgumentParser` 表示本功能块中的 `ArgumentParser` 值；`description` 表示Lula 将规划关节组和末端 link 映射到 URDF 的 robot description YAML。
 parser = argparse.ArgumentParser(description=__doc__)
-# 【L0014】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0014】声明命令行参数 `--urdf`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--urdf", type=Path, required=True)
-# 【L0015】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0015】声明命令行参数 `--usd`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--usd", type=Path, required=True)
-# 【L0016】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0016】声明命令行参数 `--report`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--report", type=Path)
-# 【L0017】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0017】声明命令行参数 `parser.add_argument(`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument(
-# 【L0018】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“解析参数并启动 Isaac Sim 应用”。
+# 【L0018】提供文本片段 `"--parse-mimic"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“解析参数并启动 Isaac Sim 应用”中的帮助说明、错误原因、任务名称或报告文字。
     "--parse-mimic",
-# 【L0019】计算并保存变量 `action`；该值服务于“解析参数并启动 Isaac Sim 应用”。
+# 【L0019】给上一层函数/配置构造器的命名参数 `action` 传入 `"store_true"`；该参数在本项目中表示动作相关值，会参与“解析参数并启动 Isaac Sim 应用”。
     action="store_true",
-# 【L0020】计算并保存变量 `help`；该值服务于“解析参数并启动 Isaac Sim 应用”。
+# 【L0020】给上一层函数/配置构造器的命名参数 `help` 传入 `"Preserve URDF mimic constraints. The default imports independent follower DOFs for stable software coupling."`；该参数在本项目中表示本功能块中的 `help` 值，会参与“解析参数并启动 Isaac Sim 应用”。
     help="Preserve URDF mimic constraints. The default imports independent follower DOFs for stable software coupling.",
 # 【L0021】结束或闭合当前语法结构；它属于“解析参数并启动 Isaac Sim 应用”。
 )
 # 【L0022】把 IsaacLab 通用参数（如 --headless、--device、--enable_cameras）加入解析器。
 AppLauncher.add_app_launcher_args(parser)
-# 【L0023】计算并保存变量 `args`；该值服务于“解析参数并启动 Isaac Sim 应用”。
+# 【L0023】得到 `args`，它在本项目中表示解析后的命令行参数集合；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `parser.parse_args()`；`parser` 表示本功能块中的 `parser` 值；`parse_args` 表示本功能块中的 `parse_args` 值。
 args = parser.parse_args()
 # 【L0024】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0025】计算并保存变量 `app_launcher`；该值服务于“应用启动后才能导入的 Isaac/Omniverse 模块”。
+# 【L0025】得到 `app_launcher`，它在本项目中表示本功能块中的 `app_launcher` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `AppLauncher(args)`；`AppLauncher` 表示本功能块中的 `AppLauncher` 值。
 app_launcher = AppLauncher(args)
-# 【L0026】计算并保存变量 `simulation_app`；该值服务于“应用启动后才能导入的 Isaac/Omniverse 模块”。
+# 【L0026】得到 `simulation_app`，它在本项目中表示本功能块中的 `simulation_app` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `app_launcher.app`；`app_launcher` 表示本功能块中的 `app_launcher` 值；`app` 表示本功能块中的 `app` 值。
 simulation_app = app_launcher.app
 # 【L0027】空行：分隔“应用启动后才能导入的 Isaac/Omniverse 模块”中的逻辑段，让结构更容易看清。
 
-# 【L0028】导入 omni：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0028】从 `omni` 引入 `omni.kit.commands  # noqa: E402`。在这份程序里，`omni` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import omni.kit.commands  # noqa: E402
-# 【L0029】导入 omni：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0029】从 `omni` 引入 `omni.kit.app  # noqa: E402`。在这份程序里，`omni` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import omni.kit.app  # noqa: E402
-# 【L0030】导入 isaacsim：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0030】从 `isaacsim` 引入 `enable_extension  # noqa: E402`。在这份程序里，`isaacsim` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 from isaacsim.core.utils.extensions import enable_extension  # noqa: E402
-# 【L0031】导入 pxr：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0031】从 `pxr` 引入 `Usd, UsdPhysics  # noqa: E402`。在这份程序里，`pxr` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 from pxr import Usd, UsdPhysics  # noqa: E402
 # 【L0032】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0033】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0034】定义函数 main；其职责属于“校验输入并设置 URDF 导入选项”，缩进块是函数体。
+# 【L0034】定义函数 `main()`；调用者把参数交给它完成“校验输入并设置 URDF 导入选项”，后面的缩进代码是具体实现。
 def main() -> None:
-# 【L0035】计算并保存变量 `urdf`；该值服务于“校验输入并设置 URDF 导入选项”。
+# 【L0035】得到 `urdf`，它在本项目中表示Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.urdf.expanduser().resolve()`；`urdf` 表示Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     urdf = args.urdf.expanduser().resolve()
-# 【L0036】计算并保存变量 `usd`；该值服务于“校验输入并设置 URDF 导入选项”。
+# 【L0036】得到 `usd`，它在本项目中表示Isaac Sim 实际加载的 RM65+4C2 USD 资产路径；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.usd.expanduser().resolve()`；`usd` 表示Isaac Sim 实际加载的 RM65+4C2 USD 资产路径；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
     usd = args.usd.expanduser().resolve()
-# 【L0037】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0037】判断 `not urdf.is_file()` 是否成立；`urdf` 表示Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径；`is_file` 表示本功能块中的 `is_file` 值
     if not urdf.is_file():
-# 【L0038】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0038】主动抛出 `FileNotFoundError(urdf)` 并停止当前路径；说明当前输入违反“校验输入并设置 URDF 导入选项”要求，不能继续进入仿真、训练或评测。
         raise FileNotFoundError(urdf)
-# 【L0039】调用 `mkdir`：创建目录。本行位于“校验输入并设置 URDF 导入选项”。
+# 【L0039】调用 `mkdir`：创建目录；本行实际操作 `usd.parent.mkdir(parents=True, exist_ok=True)`。`usd` 表示Isaac Sim 实际加载的 RM65+4C2 USD 资产路径；`parent` 表示本功能块中的 `parent` 值。
     usd.parent.mkdir(parents=True, exist_ok=True)
 # 【L0040】空行：分隔“校验输入并设置 URDF 导入选项”中的逻辑段，让结构更容易看清。
 
-# 【L0041】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0041】调用 `enable_extension("isaacsim.asset.importer.urdf")`：让 Isaac Sim 加载指定扩展；没有它就无法使用随后导入的 URDF 或 Lula API。它的结果/修改用于“校验输入并设置 URDF 导入选项”。
     enable_extension("isaacsim.asset.importer.urdf")
-# 【L0042】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0042】对 `simulation_app` 执行 `update`，把 `` 加入已有结果；该集合表示本功能块中的 `simulation_app` 值，随后会用于“校验输入并设置 URDF 导入选项”。
     simulation_app.update()
 # 【L0043】空行：分隔“校验输入并设置 URDF 导入选项”中的逻辑段，让结构更容易看清。
 
-# 【L0044】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0044】把右侧返回的多个结果按位置拆给 `status, config`；`status` 表示本功能块中的 `status` 值；`config` 表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置。右侧的来源是：计算表达式 `omni.kit.commands.execute("URDFCreateImportConfig")`；`omni` 表示本功能块中的 `omni` 值；`kit` 表示本功能块中的 `kit` 值；`commands` 表示本功能块中的 `commands` 值。
     status, config = omni.kit.commands.execute("URDFCreateImportConfig")
-# 【L0045】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0045】判断 `not status` 是否成立；`status` 表示本功能块中的 `status` 值
     if not status:
-# 【L0046】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0046】主动抛出 `RuntimeError("URDFCreateImportConfig failed")` 并停止当前路径；说明当前输入违反“校验输入并设置 URDF 导入选项”要求，不能继续进入仿真、训练或评测。
         raise RuntimeError("URDFCreateImportConfig failed")
-# 【L0047】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0047】把 `config` 对象的 `fix_base` 配置成 `True`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.fix_base = True
-# 【L0048】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0048】把 `config` 对象的 `merge_fixed_joints` 配置成 `True`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.merge_fixed_joints = True
-# 【L0049】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0049】把 `config` 对象的 `make_default_prim` 配置成 `True`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.make_default_prim = True
-# 【L0050】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0050】把 `config` 对象的 `create_physics_scene` 配置成 `False`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.create_physics_scene = False
-# 【L0051】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0051】把 `config` 对象的 `import_inertia_tensor` 配置成 `True`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.import_inertia_tensor = True
-# 【L0052】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0052】把 `config` 对象的 `self_collision` 配置成 `False`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.self_collision = False
-# 【L0053】执行“校验输入并设置 URDF 导入选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0053】把 `config` 对象的 `parse_mimic` 配置成 `args.parse_mimic`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.parse_mimic = args.parse_mimic
 # 【L0054】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0055】执行“执行导入并重新打开 USD 检查物理对象”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0055】把右侧返回的多个结果按位置拆给 `status, imported_path`；`status` 表示本功能块中的 `status` 值；`imported_path` 表示路径相关值。右侧的来源是：计算表达式 `omni.kit.commands.execute(`；`omni` 表示本功能块中的 `omni` 值；`kit` 表示本功能块中的 `kit` 值；`commands` 表示本功能块中的 `commands` 值。
     status, imported_path = omni.kit.commands.execute(
-# 【L0056】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0056】提供文本片段 `"URDFParseAndImportFile"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“执行导入并重新打开 USD 检查物理对象”中的帮助说明、错误原因、任务名称或报告文字。
         "URDFParseAndImportFile",
-# 【L0057】计算并保存变量 `urdf_path`；该值服务于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0057】给上一层函数/配置构造器的命名参数 `urdf_path` 传入 `str(urdf)`；该参数在本项目中表示路径相关值，会参与“执行导入并重新打开 USD 检查物理对象”。
         urdf_path=str(urdf),
-# 【L0058】计算并保存变量 `import_config`；该值服务于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0058】给上一层函数/配置构造器的命名参数 `import_config` 传入 `config`；该参数在本项目中表示配置相关值，会参与“执行导入并重新打开 USD 检查物理对象”。
         import_config=config,
-# 【L0059】计算并保存变量 `dest_path`；该值服务于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0059】给上一层函数/配置构造器的命名参数 `dest_path` 传入 `str(usd)`；该参数在本项目中表示路径相关值，会参与“执行导入并重新打开 USD 检查物理对象”。
         dest_path=str(usd),
 # 【L0060】结束或闭合当前语法结构；它属于“执行导入并重新打开 USD 检查物理对象”。
     )
-# 【L0061】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0061】判断 `not status` 是否成立；`status` 表示本功能块中的 `status` 值
     if not status:
-# 【L0062】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0062】主动抛出 `RuntimeError("URDFParseAndImportFile failed")` 并停止当前路径；说明当前输入违反“执行导入并重新打开 USD 检查物理对象”要求，不能继续进入仿真、训练或评测。
         raise RuntimeError("URDFParseAndImportFile failed")
-# 【L0063】执行“执行导入并重新打开 USD 检查物理对象”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0063】对 `simulation_app` 执行 `update`，把 `` 加入已有结果；该集合表示本功能块中的 `simulation_app` 值，随后会用于“执行导入并重新打开 USD 检查物理对象”。
     simulation_app.update()
 # 【L0064】空行：分隔“执行导入并重新打开 USD 检查物理对象”中的逻辑段，让结构更容易看清。
 
-# 【L0065】计算并保存变量 `stage`；该值服务于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0065】得到 `stage`，它在本项目中表示本功能块中的 `stage` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `Usd.Stage.Open(str(usd))`；`Usd` 表示本功能块中的 `Usd` 值；`Stage` 表示本功能块中的 `Stage` 值；`Open` 表示本功能块中的 `Open` 值。
     stage = Usd.Stage.Open(str(usd))
-# 【L0066】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0066】检查 `stage is None`，也就是所需对象/结果是否还没有创建或求解失败；成立时进入缺失处理
     if stage is None:
-# 【L0067】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0067】主动抛出 `RuntimeError(f"could not open generated USD: {usd}")` 并停止当前路径；说明当前输入违反“执行导入并重新打开 USD 检查物理对象”要求，不能继续进入仿真、训练或评测。
         raise RuntimeError(f"could not open generated USD: {usd}")
-# 【L0068】给变量 `joints` 赋值：六个 RM65 关节位置的一维 NumPy 数组。
+# 【L0068】得到 `joints`，它在本项目中表示六个 RM65 关节位置的一维 NumPy 数组；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `[prim for prim in stage.Traverse() if prim.IsA(UsdPhysics.Joint)]`；`prim` 表示本功能块中的 `prim` 值；`stage` 表示本功能块中的 `stage` 值；`Traverse` 表示本功能块中的 `Traverse` 值。
     joints = [prim for prim in stage.Traverse() if prim.IsA(UsdPhysics.Joint)]
-# 【L0069】计算并保存变量 `articulation_roots`；该值服务于“执行导入并重新打开 USD 检查物理对象”。
+# 【L0069】得到 `articulation_roots`，它在本项目中表示本功能块中的 `articulation_roots` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `[prim for prim in stage.Traverse() if prim.HasAPI(UsdPhysics.ArticulationRootAPI)]`；`prim` 表示本功能块中的 `prim` 值；`stage` 表示本功能块中的 `stage` 值；`Traverse` 表示本功能块中的 `Traverse` 值。
     articulation_roots = [prim for prim in stage.Traverse() if prim.HasAPI(UsdPhysics.ArticulationRootAPI)]
-# 【L0070】给变量 `report` 赋值：机器可读实验报告字典。
+# 【L0070】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `{` 的结果保存下来，供当前功能块后续使用。
     report = {
-# 【L0071】定义字典/JSON 字段 `status`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0071】定义字典/JSON 字段 `status`，它表示本阶段的机器可读通过/失败状态；字段值来自 `"pass"`，因此保存/传递的是这个表达式当前计算出的结果。
         "status": "pass",
-# 【L0072】定义字典/JSON 字段 `urdf`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0072】定义字典/JSON 字段 `urdf`，它表示“写出导入报告”中的 `urdf` 数据；字段值来自 `str(urdf)`，因此保存/传递的是这个表达式当前计算出的结果。
         "urdf": str(urdf),
-# 【L0073】定义字典/JSON 字段 `usd`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0073】定义字典/JSON 字段 `usd`，它表示“写出导入报告”中的 `usd` 数据；字段值来自 `str(usd)`，因此保存/传递的是这个表达式当前计算出的结果。
         "usd": str(usd),
-# 【L0074】定义字典/JSON 字段 `imported_path`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0074】定义字典/JSON 字段 `imported_path`，它表示“写出导入报告”中的 `imported_path` 数据；字段值来自 `str(imported_path)`，因此保存/传递的是这个表达式当前计算出的结果。
         "imported_path": str(imported_path),
-# 【L0075】定义字典/JSON 字段 `usd_joint_count`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0075】定义字典/JSON 字段 `usd_joint_count`，它表示“写出导入报告”中的 `usd_joint_count` 数据；字段值来自 `len(joints)`，因此保存/传递的是这个表达式当前计算出的结果。
         "usd_joint_count": len(joints),
-# 【L0076】定义字典/JSON 字段 `parse_mimic`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0076】定义字典/JSON 字段 `parse_mimic`，它表示“写出导入报告”中的 `parse_mimic` 数据；字段值来自 `args.parse_mimic`，因此保存/传递的是这个表达式当前计算出的结果。
         "parse_mimic": args.parse_mimic,
-# 【L0077】定义字典/JSON 字段 `gripper_coupling`；它把“写出导入报告”中的结果用稳定键名记录下来。
+# 【L0077】定义字典/JSON 字段 `gripper_coupling`，它表示“写出导入报告”中的 `gripper_coupling` 数据；字段值来自 `"physx_mimic" if args.parse_mimic else "software_coupled_joint_targets"`，因此保存/传递的是这个表达式当前计算出的结果。
         "gripper_coupling": "physx_mimic" if args.parse_mimic else "software_coupled_joint_targets",
-# 【L0078】调用 `Path`：创建路径对象。本行位于“写出导入报告”。
+# 【L0078】定义字典/JSON 字段 `articulation_roots`，它表示“写出导入报告”中的 `articulation_roots` 数据；字段值来自 `[str(prim.GetPath()) for prim in articulation_roots]`，因此保存/传递的是这个表达式当前计算出的结果。
         "articulation_roots": [str(prim.GetPath()) for prim in articulation_roots],
 # 【L0079】结束或闭合当前语法结构；它属于“写出导入报告”。
     }
-# 【L0080】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0080】判断 `args.report` 是否成立；`report` 表示机器可读实验报告字典
     if args.report:
-# 【L0081】计算并保存变量 `report_path`；该值服务于“写出导入报告”。
+# 【L0081】得到 `report_path`，它在本项目中表示报告、路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.report.expanduser().resolve()`；`report` 表示机器可读实验报告字典；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
         report_path = args.report.expanduser().resolve()
-# 【L0082】调用 `mkdir`：创建目录。本行位于“写出导入报告”。
+# 【L0082】调用 `mkdir`：创建目录；本行实际操作 `report_path.parent.mkdir(parents=True, exist_ok=True)`。`report_path` 表示报告、路径相关值；`parent` 表示本功能块中的 `parent` 值。
         report_path.parent.mkdir(parents=True, exist_ok=True)
-# 【L0083】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本。本行位于“写出导入报告”。
+# 【L0083】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本；本行实际操作 `report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")`。`report_path` 表示报告、路径相关值；`write_text` 表示本功能块中的 `write_text` 值。
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-# 【L0084】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0084】把 `json.dumps(report, indent=2), flush=True` 的当前值/文字输出到终端；它用于观察“写出导入报告”进度，也给日志留下可搜索证据。
     print(json.dumps(report, indent=2), flush=True)
 # 【L0085】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0086】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0087】开始可能失败的操作块，后面由 except/finally 负责错误或清理。
+# 【L0087】开始执行可能抛错的“无论成功失败都关闭 Isaac Sim”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
 try:
-# 【L0088】执行“无论成功失败都关闭 Isaac Sim”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0088】调用本文件的 `main()`，从这里正式进入参数解析、资源创建和主任务流程；上面的函数此时才开始被实际使用。
     main()
-# 【L0089】清理块：无论前面成功还是抛错都执行，常用于关闭服务和 Isaac Sim。
+# 【L0089】无论前面的仿真/服务调用成功还是抛错都运行这里，确保 Isaac Sim、WebSocket 或临时文件被正确收尾。
 finally:
-# 【L0090】执行“无论成功失败都关闭 Isaac Sim”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0090】对 `simulation_app` 调用 `close(skip_cleanup=True)`：关闭仿真应用、文件或连接，释放 GPU、文件句柄或网络资源。本行产生的修改/返回值服务于“无论成功失败都关闭 Isaac Sim”。
     simulation_app.close(skip_cleanup=True)
 ```

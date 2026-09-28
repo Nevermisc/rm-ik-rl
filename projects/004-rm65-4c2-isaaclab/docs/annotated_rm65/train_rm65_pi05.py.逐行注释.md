@@ -24,205 +24,205 @@
 
 ## 逐行学习副本
 
-每个 `【Lxxxx】` 注释解释紧随其后的原始行。空行也保留并说明，因为空行体现程序分段。
+每个 `【Lxxxx】` 注释解释紧随其后的原始行。解释会回答三个问题：这一行操作的项目对象是什么；Python/NumPy/Isaac/OpenPI 具体做了什么；结果流向哪个后续步骤。空行也保留，因为空行体现程序分段。
 
 ```python
-# 【L0001】shebang：在 Linux 直接执行文件时，选择后面的 Python 或 Bash 解释器。
+# 【L0001】Linux 直接执行这个文件时，请操作系统用 `/usr/bin/env python3` 解释后面的源码；它决定这是 Python 还是 Bash 入口。
 #!/usr/bin/env python3
-# 【L0002】模块、类或函数说明字符串；运行时可由 help() 读取，也告诉读者这一块负责什么。
+# 【L0002】说明字符串 `Launch OpenPI's JAX trainer with the RM65-B + 4C2 π0.5 LoRA config.`：记录当前模块、类或函数在 RM65 流程里的公开职责，`help()` 也能读取它。
 """Launch OpenPI's JAX trainer with the RM65-B + 4C2 π0.5 LoRA config."""
 # 【L0003】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
-# 【L0004】延迟解析类型标注，允许在类型提示里更自由地引用尚未定义的类型。
+# 【L0004】让 Python 暂缓解析类型标注；本项目中的 `Path | None`、自定义类等提示不会在模块导入时过早求值。
 from __future__ import annotations
 # 【L0005】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
-# 【L0006】导入 argparse：标准库命令行解析器，让实验参数不必写死在代码里；后面的代码会调用其中的类或函数。
+# 【L0006】从 `argparse` 引入 `argparse`。在这份程序里，`argparse` 用于标准库命令行解析器，让实验参数不必写死在代码里；后续出现这些名字时调用的是这里的外部能力。
 import argparse
-# 【L0007】导入 dataclasses：标准库数据类工具，用较少样板代码声明配置/记录对象；后面的代码会调用其中的类或函数。
+# 【L0007】从 `dataclasses` 引入 `dataclasses`。在这份程序里，`dataclasses` 用于标准库数据类工具，用较少样板代码声明配置/记录对象；后续出现这些名字时调用的是这里的外部能力。
 import dataclasses
-# 【L0008】导入 importlib：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0008】从 `importlib` 引入 `importlib.util`。在这份程序里，`importlib` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import importlib.util
-# 【L0009】导入 json：读写人和程序都容易检查的 JSON 证据文件；后面的代码会调用其中的类或函数。
+# 【L0009】从 `json` 引入 `json`。在这份程序里，`json` 用于读写人和程序都容易检查的 JSON 证据文件；后续出现这些名字时调用的是这里的外部能力。
 import json
-# 【L0010】导入 sys：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0010】从 `sys` 引入 `sys`。在这份程序里，`sys` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import sys
-# 【L0011】导入 pathlib：使用 Path 对象处理跨平台文件路径；后面的代码会调用其中的类或函数。
+# 【L0011】从 `pathlib` 引入 `Path`。在这份程序里，`pathlib` 用于使用 Path 对象处理跨平台文件路径；后续出现这些名字时调用的是这里的外部能力。
 from pathlib import Path
 # 【L0012】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
-# 【L0013】导入 openpi：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0013】从 `openpi` 引入 `openpi`。在这份程序里，`openpi` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 import openpi
 # 【L0014】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
 # 【L0015】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
-# 【L0016】调用 `Path`：创建路径对象。本行位于“依赖、项目根目录和 RM65 配置导入”。
+# 【L0016】得到 `PROJECT_ROOT`，它在本项目中表示004-rm65-4c2-isaaclab 项目根目录；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `Path(__file__).resolve().parents[1]`；`__file__` 表示本功能块中的 `__file__` 值；`resolve` 表示本功能块中的 `resolve` 值；`parents` 表示本功能块中的 `parents` 值。
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-# 【L0017】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0017】判断 `str(PROJECT_ROOT) not in sys.path` 是否成立；`PROJECT_ROOT` 表示004-rm65-4c2-isaaclab 项目根目录；`sys` 表示本功能块中的 `sys` 值；`path` 表示路径相关值
 if str(PROJECT_ROOT) not in sys.path:
-# 【L0018】执行“依赖、项目根目录和 RM65 配置导入”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0018】对 `sys.path` 调用 `insert(0, str(PROJECT_ROOT))`：把元素插入指定位置；对 `sys.path` 而言是让项目模块优先被 Python 找到。本行产生的修改/返回值服务于“依赖、项目根目录和 RM65 配置导入”。
     sys.path.insert(0, str(PROJECT_ROOT))
 # 【L0019】空行：分隔“依赖、项目根目录和 RM65 配置导入”中的逻辑段，让结构更容易看清。
 
-# 【L0020】导入 openpi_extension：项目或第三方模块；后面的代码会调用其中的类或函数。
+# 【L0020】从 `openpi_extension` 引入 `make_pi05_rm65_lora_config`。在这份程序里，`openpi_extension` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 from openpi_extension.rm65_training_config import make_pi05_rm65_lora_config
 # 【L0021】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0022】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0023】定义函数 load_openpi_trainer；其职责属于“从已安装 OpenPI 定位并动态载入官方 train.py”，缩进块是函数体。
+# 【L0023】定义函数 `load_openpi_trainer()`；调用者把参数交给它完成“从已安装 OpenPI 定位并动态载入官方 train.py”，后面的缩进代码是具体实现。
 def load_openpi_trainer():
-# 【L0024】调用 `Path`：创建路径对象。本行位于“从已安装 OpenPI 定位并动态载入官方 train.py”。
+# 【L0024】得到 `openpi_root`，它在本项目中表示本功能块中的 `openpi_root` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `Path(openpi.__file__).resolve().parents[2]`；`openpi` 表示本功能块中的 `openpi` 值；`__file__` 表示本功能块中的 `__file__` 值；`resolve` 表示本功能块中的 `resolve` 值。
     openpi_root = Path(openpi.__file__).resolve().parents[2]
-# 【L0025】计算并保存变量 `trainer_path`；该值服务于“从已安装 OpenPI 定位并动态载入官方 train.py”。
+# 【L0025】得到 `trainer_path`，它在本项目中表示路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `openpi_root / "scripts" / "train.py"`；`openpi_root` 表示本功能块中的 `openpi_root` 值；`scripts` 表示本功能块中的 `scripts` 值；`train` 表示本功能块中的 `train` 值。
     trainer_path = openpi_root / "scripts" / "train.py"
-# 【L0026】计算并保存变量 `spec`；该值服务于“从已安装 OpenPI 定位并动态载入官方 train.py”。
+# 【L0026】得到 `spec`，它在本项目中表示本功能块中的 `spec` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `importlib.util.spec_from_file_location("openpi_jax_train", trainer_path)`；`importlib` 表示本功能块中的 `importlib` 值；`util` 表示本功能块中的 `util` 值；`spec_from_file_location` 表示本功能块中的 `spec_from_file_location` 值。
     spec = importlib.util.spec_from_file_location("openpi_jax_train", trainer_path)
-# 【L0027】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0027】检查 `spec is None or spec.loader is None`，也就是所需对象/结果是否还没有创建或求解失败；成立时进入缺失处理
     if spec is None or spec.loader is None:
-# 【L0028】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0028】主动抛出 `ImportError(f"cannot load OpenPI trainer from {trainer_path}")` 并停止当前路径；说明当前输入违反“从已安装 OpenPI 定位并动态载入官方 train.py”要求，不能继续进入仿真、训练或评测。
         raise ImportError(f"cannot load OpenPI trainer from {trainer_path}")
-# 【L0029】计算并保存变量 `module`；该值服务于“从已安装 OpenPI 定位并动态载入官方 train.py”。
+# 【L0029】得到 `module`，它在本项目中表示本功能块中的 `module` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `importlib.util.module_from_spec(spec)`；`importlib` 表示本功能块中的 `importlib` 值；`util` 表示本功能块中的 `util` 值；`module_from_spec` 表示本功能块中的 `module_from_spec` 值。
     module = importlib.util.module_from_spec(spec)
-# 【L0030】执行“从已安装 OpenPI 定位并动态载入官方 train.py”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0030】对 `spec.loader` 调用 `exec_module(module)`：调用 `spec.loader` 提供的 `exec_module` 操作。本行产生的修改/返回值服务于“从已安装 OpenPI 定位并动态载入官方 train.py”。
     spec.loader.exec_module(module)
-# 【L0031】结束当前函数并把结果交给调用者；这里完成“从已安装 OpenPI 定位并动态载入官方 train.py”的输出。
+# 【L0031】结束当前函数并把 `module, openpi_root` 交回调用者；这个值的含义是：计算表达式 `module, openpi_root`；`module` 表示本功能块中的 `module` 值；`openpi_root` 表示本功能块中的 `openpi_root` 值。
     return module, openpi_root
 # 【L0032】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0033】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0034】定义函数 main；其职责属于“命令行参数与互斥/正数校验”，缩进块是函数体。
+# 【L0034】定义函数 `main()`；调用者把参数交给它完成“命令行参数与互斥/正数校验”，后面的缩进代码是具体实现。
 def main() -> int:
-# 【L0035】计算并保存变量 `parser`；该值服务于“命令行参数与互斥/正数校验”。
+# 【L0035】得到 `parser`，它在本项目中表示本功能块中的 `parser` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `argparse.ArgumentParser(description=__doc__)`；`argparse` 表示本功能块中的 `argparse` 值；`ArgumentParser` 表示本功能块中的 `ArgumentParser` 值；`description` 表示Lula 将规划关节组和末端 link 映射到 URDF 的 robot description YAML。
     parser = argparse.ArgumentParser(description=__doc__)
-# 【L0036】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0036】声明命令行参数 `--repo-id`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--repo-id", default="local/rm65_sim_train")
-# 【L0037】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0037】声明命令行参数 `--exp-name`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--exp-name", required=True)
-# 【L0038】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0038】声明命令行参数 `--num-train-steps`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--num-train-steps", type=int, default=30_000)
-# 【L0039】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0039】声明命令行参数 `--batch-size`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--batch-size", type=int, default=1)
-# 【L0040】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0040】声明命令行参数 `--save-interval`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--save-interval", type=int, default=1_000)
-# 【L0041】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0041】声明命令行参数 `--log-interval`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--log-interval", type=int, default=10)
-# 【L0042】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0042】声明命令行参数 `--overwrite`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--overwrite", action="store_true")
-# 【L0043】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0043】声明命令行参数 `--resume`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--resume", action="store_true")
-# 【L0044】声明一个命令行参数，使这项实验设置能在启动时指定并被日志复现。
+# 【L0044】声明命令行参数 `--report`；启动脚本可用它改变“命令行参数与互斥/正数校验”的配置，最终参数也会写入证据便于复现。
     parser.add_argument("--report", type=Path)
-# 【L0045】计算并保存变量 `args`；该值服务于“命令行参数与互斥/正数校验”。
+# 【L0045】得到 `args`，它在本项目中表示解析后的命令行参数集合；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `parser.parse_args()`；`parser` 表示本功能块中的 `parser` 值；`parse_args` 表示本功能块中的 `parse_args` 值。
     args = parser.parse_args()
-# 【L0046】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0046】判断 `args.overwrite and args.resume` 是否成立；`overwrite` 表示本功能块中的 `overwrite` 值；`resume` 表示本功能块中的 `resume` 值
     if args.overwrite and args.resume:
-# 【L0047】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0047】主动抛出 `ValueError("--overwrite and --resume are mutually exclusive")` 并停止当前路径；说明当前输入违反“命令行参数与互斥/正数校验”要求，不能继续进入仿真、训练或评测。
         raise ValueError("--overwrite and --resume are mutually exclusive")
-# 【L0048】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0048】判断 `min(args.num_train_steps, args.batch_size, args.save_interval, args.log_interval) < 1` 是否成立；`num_train_steps` 表示步数相关值；`batch_size` 表示本功能块中的 `batch_size` 值；`save_interval` 表示本功能块中的 `save_interval` 值
     if min(args.num_train_steps, args.batch_size, args.save_interval, args.log_interval) < 1:
-# 【L0049】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0049】主动抛出 `ValueError("step counts, batch size, and intervals must be positive")` 并停止当前路径；说明当前输入违反“命令行参数与互斥/正数校验”要求，不能继续进入仿真、训练或评测。
         raise ValueError("step counts, batch size, and intervals must be positive")
 # 【L0050】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0051】执行“构造并覆盖 TrainConfig 后调用官方 trainer”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0051】把右侧返回的多个结果按位置拆给 `trainer, openpi_root`；`trainer` 表示本功能块中的 `trainer` 值；`openpi_root` 表示本功能块中的 `openpi_root` 值。右侧的来源是：计算表达式 `load_openpi_trainer()`；`load_openpi_trainer` 表示本功能块中的 `load_openpi_trainer` 值。
     trainer, openpi_root = load_openpi_trainer()
-# 【L0052】计算并保存变量 `checkpoint_base`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0052】得到 `checkpoint_base`，它在本项目中表示模型检查点相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `PROJECT_ROOT / "outputs" / "openpi_checkpoints"`；`PROJECT_ROOT` 表示004-rm65-4c2-isaaclab 项目根目录；`outputs` 表示本功能块中的 `outputs` 值；`openpi_checkpoints` 表示本功能块中的 `openpi_checkpoints` 值。
     checkpoint_base = PROJECT_ROOT / "outputs" / "openpi_checkpoints"
-# 【L0053】给变量 `config` 赋值：当前函数使用的配置对象。
+# 【L0053】得到 `config`，它在本项目中表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：创建训练与推理共用的 RM65 π0.5/LoRA、数据 transform 和基础权重配置。
     config = make_pi05_rm65_lora_config(
-# 【L0054】计算并保存变量 `repo_id`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0054】给上一层函数/配置构造器的命名参数 `repo_id` 传入 `args.repo_id`；该参数在本项目中表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         repo_id=args.repo_id,
-# 【L0055】计算并保存变量 `batch_size`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0055】给上一层函数/配置构造器的命名参数 `batch_size` 传入 `args.batch_size`；该参数在本项目中表示本功能块中的 `batch_size` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         batch_size=args.batch_size,
-# 【L0056】计算并保存变量 `num_train_steps`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0056】给上一层函数/配置构造器的命名参数 `num_train_steps` 传入 `args.num_train_steps`；该参数在本项目中表示步数相关值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         num_train_steps=args.num_train_steps,
 # 【L0057】结束或闭合当前语法结构；它属于“构造并覆盖 TrainConfig 后调用官方 trainer”。
     )
-# 【L0058】给变量 `config` 赋值：当前函数使用的配置对象。
+# 【L0058】得到 `config`，它在本项目中表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `dataclasses.replace(`；`dataclasses` 表示本功能块中的 `dataclasses` 值；`replace` 表示本功能块中的 `replace` 值。
     config = dataclasses.replace(
-# 【L0059】这是跨多行参数/容器中的一个元素，逗号表示后面还有内容；属于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0059】声明/传入参数 `config`；在本项目中它表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置。
         config,
-# 【L0060】计算并保存变量 `exp_name`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0060】给上一层函数/配置构造器的命名参数 `exp_name` 传入 `args.exp_name`；该参数在本项目中表示本功能块中的 `exp_name` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         exp_name=args.exp_name,
-# 【L0061】计算并保存变量 `assets_base_dir`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0061】给上一层函数/配置构造器的命名参数 `assets_base_dir` 传入 `str(openpi_root / "assets")`；该参数在本项目中表示本功能块中的 `assets_base_dir` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         assets_base_dir=str(openpi_root / "assets"),
-# 【L0062】计算并保存变量 `checkpoint_base_dir`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0062】给上一层函数/配置构造器的命名参数 `checkpoint_base_dir` 传入 `str(checkpoint_base)`；该参数在本项目中表示模型检查点相关值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         checkpoint_base_dir=str(checkpoint_base),
-# 【L0063】计算并保存变量 `save_interval`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0063】给上一层函数/配置构造器的命名参数 `save_interval` 传入 `args.save_interval`；该参数在本项目中表示本功能块中的 `save_interval` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         save_interval=args.save_interval,
-# 【L0064】计算并保存变量 `keep_period`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0064】给上一层函数/配置构造器的命名参数 `keep_period` 传入 `None`；该参数在本项目中表示本功能块中的 `keep_period` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         keep_period=None,
-# 【L0065】计算并保存变量 `log_interval`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0065】给上一层函数/配置构造器的命名参数 `log_interval` 传入 `args.log_interval`；该参数在本项目中表示本功能块中的 `log_interval` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         log_interval=args.log_interval,
-# 【L0066】计算并保存变量 `overwrite`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0066】给上一层函数/配置构造器的命名参数 `overwrite` 传入 `args.overwrite`；该参数在本项目中表示本功能块中的 `overwrite` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         overwrite=args.overwrite,
-# 【L0067】计算并保存变量 `resume`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0067】给上一层函数/配置构造器的命名参数 `resume` 传入 `args.resume`；该参数在本项目中表示本功能块中的 `resume` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         resume=args.resume,
-# 【L0068】计算并保存变量 `wandb_enabled`；该值服务于“构造并覆盖 TrainConfig 后调用官方 trainer”。
+# 【L0068】给上一层函数/配置构造器的命名参数 `wandb_enabled` 传入 `False`；该参数在本项目中表示本功能块中的 `wandb_enabled` 值，会参与“构造并覆盖 TrainConfig 后调用官方 trainer”。
         wandb_enabled=False,
 # 【L0069】结束或闭合当前语法结构；它属于“构造并覆盖 TrainConfig 后调用官方 trainer”。
     )
-# 【L0070】执行“确认 checkpoint 存在并写训练报告”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0070】对 `trainer` 调用 `main(config)`：调用 `trainer` 提供的 `main` 操作。本行产生的修改/返回值服务于“确认 checkpoint 存在并写训练报告”。
     trainer.main(config)
 # 【L0071】空行：分隔“确认 checkpoint 存在并写训练报告”中的逻辑段，让结构更容易看清。
 
-# 【L0072】计算并保存变量 `numeric_checkpoints`；该值服务于“确认 checkpoint 存在并写训练报告”。
+# 【L0072】得到 `numeric_checkpoints`，它在本项目中表示本功能块中的 `numeric_checkpoints` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `sorted(`；`sorted` 表示本功能块中的 `sorted` 值。
     numeric_checkpoints = sorted(
-# 【L0073】继续构造上一行开始的列表、元组、字典、参数或表达式；语义属于“确认 checkpoint 存在并写训练报告”。
+# 【L0073】对 `(path for path in config.checkpoint_dir` 调用 `iterdir() if path.name.isdigit())`：调用 `(path for path in config.checkpoint_dir` 提供的 `iterdir` 操作。本行产生的修改/返回值服务于“确认 checkpoint 存在并写训练报告”。
         (path for path in config.checkpoint_dir.iterdir() if path.name.isdigit()),
-# 【L0074】计算并保存变量 `key`；该值服务于“确认 checkpoint 存在并写训练报告”。
+# 【L0074】给上一层函数/配置构造器的命名参数 `key` 传入 `lambda path: int(path.name)`；该参数在本项目中表示本功能块中的 `key` 值，会参与“确认 checkpoint 存在并写训练报告”。
         key=lambda path: int(path.name),
 # 【L0075】结束或闭合当前语法结构；它属于“确认 checkpoint 存在并写训练报告”。
     )
-# 【L0076】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0076】判断 `not numeric_checkpoints` 是否成立；`numeric_checkpoints` 表示本功能块中的 `numeric_checkpoints` 值
     if not numeric_checkpoints:
-# 【L0077】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0077】主动抛出 `RuntimeError(f"training completed without a numeric checkpoint in {config.checkpoint_dir}")` 并停止当前路径；说明当前输入违反“确认 checkpoint 存在并写训练报告”要求，不能继续进入仿真、训练或评测。
         raise RuntimeError(f"training completed without a numeric checkpoint in {config.checkpoint_dir}")
-# 【L0078】给变量 `report` 赋值：机器可读实验报告字典。
+# 【L0078】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `{` 的结果保存下来，供当前功能块后续使用。
     report = {
-# 【L0079】定义字典/JSON 字段 `status`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0079】定义字典/JSON 字段 `status`，它表示本阶段的机器可读通过/失败状态；字段值来自 `"pass"`，因此保存/传递的是这个表达式当前计算出的结果。
         "status": "pass",
-# 【L0080】定义字典/JSON 字段 `simulation_only`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0080】定义字典/JSON 字段 `simulation_only`，它表示明确证据只来自仿真；字段值来自 `True`，因此保存/传递的是这个表达式当前计算出的结果。
         "simulation_only": True,
-# 【L0081】定义字典/JSON 字段 `real_robot_command_sent`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0081】定义字典/JSON 字段 `real_robot_command_sent`，它表示是否向真实机械臂发送过命令；本项目应始终为 false；字段值来自 `False`，因此保存/传递的是这个表达式当前计算出的结果。
         "real_robot_command_sent": False,
-# 【L0082】定义字典/JSON 字段 `config_name`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0082】定义字典/JSON 字段 `config_name`，它表示“确认 checkpoint 存在并写训练报告”中的 `config_name` 数据；字段值来自 `config.name`，因此保存/传递的是这个表达式当前计算出的结果。
         "config_name": config.name,
-# 【L0083】定义字典/JSON 字段 `repo_id`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0083】定义字典/JSON 字段 `repo_id`，它表示“确认 checkpoint 存在并写训练报告”中的 `repo_id` 数据；字段值来自 `args.repo_id`，因此保存/传递的是这个表达式当前计算出的结果。
         "repo_id": args.repo_id,
-# 【L0084】定义字典/JSON 字段 `exp_name`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0084】定义字典/JSON 字段 `exp_name`，它表示“确认 checkpoint 存在并写训练报告”中的 `exp_name` 数据；字段值来自 `args.exp_name`，因此保存/传递的是这个表达式当前计算出的结果。
         "exp_name": args.exp_name,
-# 【L0085】定义字典/JSON 字段 `batch_size`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0085】定义字典/JSON 字段 `batch_size`，它表示“确认 checkpoint 存在并写训练报告”中的 `batch_size` 数据；字段值来自 `args.batch_size`，因此保存/传递的是这个表达式当前计算出的结果。
         "batch_size": args.batch_size,
-# 【L0086】定义字典/JSON 字段 `num_train_steps`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0086】定义字典/JSON 字段 `num_train_steps`，它表示“确认 checkpoint 存在并写训练报告”中的 `num_train_steps` 数据；字段值来自 `args.num_train_steps`，因此保存/传递的是这个表达式当前计算出的结果。
         "num_train_steps": args.num_train_steps,
-# 【L0087】定义字典/JSON 字段 `checkpoint_dir`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0087】定义字典/JSON 字段 `checkpoint_dir`，它表示“确认 checkpoint 存在并写训练报告”中的 `checkpoint_dir` 数据；字段值来自 `str(config.checkpoint_dir)`，因此保存/传递的是这个表达式当前计算出的结果。
         "checkpoint_dir": str(config.checkpoint_dir),
-# 【L0088】定义字典/JSON 字段 `latest_checkpoint`；它把“确认 checkpoint 存在并写训练报告”中的结果用稳定键名记录下来。
+# 【L0088】定义字典/JSON 字段 `latest_checkpoint`，它表示“确认 checkpoint 存在并写训练报告”中的 `latest_checkpoint` 数据；字段值来自 `str(numeric_checkpoints[-1])`，因此保存/传递的是这个表达式当前计算出的结果。
         "latest_checkpoint": str(numeric_checkpoints[-1]),
 # 【L0089】结束或闭合当前语法结构；它属于“确认 checkpoint 存在并写训练报告”。
     }
-# 【L0090】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本。本行位于“确认 checkpoint 存在并写训练报告”。
+# 【L0090】得到 `text`，它在本项目中表示本功能块中的 `text` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把 Python 字典序列化为 JSON 文本，供日志、报告或下游程序读取。
     text = json.dumps(report, indent=2) + "\n"
-# 【L0091】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0091】检查 `args.report is not None`；只有该可选对象已经存在时才执行对应采集、保存或处理逻辑
     if args.report is not None:
-# 【L0092】调用 `mkdir`：创建目录。本行位于“确认 checkpoint 存在并写训练报告”。
+# 【L0092】调用 `mkdir`：创建目录；本行实际操作 `args.report.parent.mkdir(parents=True, exist_ok=True)`。`report` 表示机器可读实验报告字典；`parent` 表示本功能块中的 `parent` 值。
         args.report.parent.mkdir(parents=True, exist_ok=True)
-# 【L0093】调用 `write_text`：把文本写入磁盘文件。本行位于“确认 checkpoint 存在并写训练报告”。
+# 【L0093】调用 `write_text`：把文本写入磁盘文件；本行实际操作 `args.report.write_text(text, encoding="utf-8")`。`report` 表示机器可读实验报告字典；`write_text` 表示本功能块中的 `write_text` 值。
         args.report.write_text(text, encoding="utf-8")
-# 【L0094】向终端输出人可读进度或机器可搜索标记，便于定位阶段和失败。
+# 【L0094】把 `text, end=""` 的当前值/文字输出到终端；它用于观察“确认 checkpoint 存在并写训练报告”进度，也给日志留下可搜索证据。
     print(text, end="")
-# 【L0095】结束当前函数并把结果交给调用者；这里完成“确认 checkpoint 存在并写训练报告”的输出。
+# 【L0095】结束当前函数并把 `0` 交回调用者；这个值的含义是：把表达式 `0` 的结果保存下来，供当前功能块后续使用。
     return 0
 # 【L0096】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
 # 【L0097】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0098】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0098】判断 `__name__ == "__main__"` 是否成立；`__name__` 表示本功能块中的 `__name__` 值；`__main__` 表示本功能块中的 `__main__` 值
 if __name__ == "__main__":
-# 【L0099】主动抛出异常并停止当前路径，防止错误数据继续进入仿真、训练或评测。
+# 【L0099】主动抛出 `SystemExit(main())` 并停止当前路径；说明当前输入违反“脚本入口”要求，不能继续进入仿真、训练或评测。
     raise SystemExit(main())
 ```

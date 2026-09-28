@@ -1,0 +1,193 @@
+{
+  "format": "rm65_line_atlas_validation_v2",
+  "status": "pass",
+  "files_checked": 20,
+  "source_lines": 4659,
+  "annotation_markers": 4659,
+  "source_hashes_match": true,
+  "sequential_line_mapping": true,
+  "banned_generic_phrase_occurrences": 0,
+  "user_example_semantics_check": true,
+  "files": [
+    {
+      "file": "build_combined_urdf.py",
+      "source_lines": 305,
+      "annotation_markers": 305,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "import_combined_urdf.py",
+      "source_lines": 90,
+      "annotation_markers": 90,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "run_pick_place_baseline.py",
+      "source_lines": 2249,
+      "annotation_markers": 2249,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "expert_episode.py",
+      "source_lines": 254,
+      "annotation_markers": 254,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "convert_expert_episodes_to_lerobot.py",
+      "source_lines": 255,
+      "annotation_markers": 255,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "rm65_policy.py",
+      "source_lines": 73,
+      "annotation_markers": 73,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "rm65_training_config.py",
+      "source_lines": 106,
+      "annotation_markers": 106,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "train_rm65_pi05.py",
+      "source_lines": 99,
+      "annotation_markers": 99,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "serve_rm65_policy.py",
+      "source_lines": 58,
+      "annotation_markers": 58,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "action_guard.py",
+      "source_lines": 68,
+      "annotation_markers": 68,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "closed_loop_report.py",
+      "source_lines": 68,
+      "annotation_markers": 68,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "run_pi05_rm65_closed_loop.sh",
+      "source_lines": 124,
+      "annotation_markers": 124,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "run_pi05_rm65_closed_loop_suite.py",
+      "source_lines": 286,
+      "annotation_markers": 286,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "run_expert_collection_plan.py",
+      "source_lines": 104,
+      "annotation_markers": 104,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "compute_rm65_norm_stats.py",
+      "source_lines": 100,
+      "annotation_markers": 100,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "validate_rm65_checkpoint.py",
+      "source_lines": 97,
+      "annotation_markers": 97,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "run_rm65_post_training_pipeline.sh",
+      "source_lines": 158,
+      "annotation_markers": 158,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "grasp_geometry.py",
+      "source_lines": 105,
+      "annotation_markers": 105,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "websocket_compat.py",
+      "source_lines": 25,
+      "annotation_markers": 25,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    },
+    {
+      "file": "check_closed_loop_task_report.py",
+      "source_lines": 35,
+      "annotation_markers": 35,
+      "sequential_markers": true,
+      "sha256_matches_manifest": true,
+      "banned_generic_phrases": 0,
+      "pass": true
+    }
+  ]
+}

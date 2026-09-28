@@ -21,323 +21,323 @@
 
 ## 逐行学习副本
 
-每个 `【Lxxxx】` 注释解释紧随其后的原始行。空行也保留并说明，因为空行体现程序分段。
+每个 `【Lxxxx】` 注释解释紧随其后的原始行。解释会回答三个问题：这一行操作的项目对象是什么；Python/NumPy/Isaac/OpenPI 具体做了什么；结果流向哪个后续步骤。空行也保留，因为空行体现程序分段。
 
 ```bash
-# 【L0001】shebang：在 Linux 直接执行文件时，选择后面的 Python 或 Bash 解释器。
+# 【L0001】Linux 直接执行这个文件时，请操作系统用 `/usr/bin/env bash` 解释后面的源码；它决定这是 Python 还是 Bash 入口。
 #!/usr/bin/env bash
-# 【L0002】启用严格 Shell 模式：命令失败、未定义变量或管道失败都会让脚本停止。
+# 【L0002】启用 Bash 选项 `set -euo pipefail`；本项目通常用 `-euo pipefail` 让命令失败、未定义变量或管道失败立即停止流水线。
 set -euo pipefail
 # 【L0003】空行：分隔“严格 Shell 模式、目录和可覆盖流水线参数”中的逻辑段，让结构更容易看清。
 
-# 【L0004】计算并保存变量 `project_root`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0004】得到 `project_root`，它在本项目中表示本功能块中的 `project_root` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"`；`cd` 表示本功能块中的 `cd` 值；`dirname` 表示本功能块中的 `dirname` 值；`BASH_SOURCE` 表示源位置相关值。
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# 【L0005】计算并保存变量 `openpi_root`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0005】得到 `openpi_root`，它在本项目中表示本功能块中的 `openpi_root` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${OPENPI_ROOT:-$HOME/robot-learning/openpi}"`；`OPENPI_ROOT` 表示本功能块中的 `OPENPI_ROOT` 值；`HOME` 表示本功能块中的 `HOME` 值；`robot` 表示IsaacLab Articulation；表示有多个关节的 RM65+4C2。
 openpi_root="${OPENPI_ROOT:-$HOME/robot-learning/openpi}"
-# 【L0006】计算并保存变量 `training_pid`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0006】得到 `training_pid`，它在本项目中表示本功能块中的 `training_pid` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${1:?usage: $0 TRAINING_PID}"`；`usage` 表示本功能块中的 `usage` 值；`TRAINING_PID` 表示本功能块中的 `TRAINING_PID` 值。
 training_pid="${1:?usage: $0 TRAINING_PID}"
-# 【L0007】计算并保存变量 `training_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0007】得到 `training_report`，它在本项目中表示报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_TRAINING_REPORT:-$project_root/results/pi05_rm65_formal_30k.json}"`；`RM65_TRAINING_REPORT` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值。
 training_report="${RM65_TRAINING_REPORT:-$project_root/results/pi05_rm65_formal_30k.json}"
-# 【L0008】计算并保存变量 `repo_id`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0008】得到 `repo_id`，它在本项目中表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_REPO_ID:-local/rm65_sim_train}"`；`RM65_REPO_ID` 表示RM65 机械约束或项目常量；`local` 表示本功能块中的 `local` 值；`rm65_sim_train` 表示仿真相关值。
 repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
-# 【L0009】计算并保存变量 `norm_stats`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0009】得到 `norm_stats`，它在本项目中表示最终得到的 state/actions 归一化统计；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_NORM_STATS:-$openpi_root/assets/pi05_rm65_lora/$repo_id/norm_stats.json}"`；`RM65_NORM_STATS` 表示RM65 机械约束或项目常量；`openpi_root` 表示本功能块中的 `openpi_root` 值；`assets` 表示本功能块中的 `assets` 值。
 norm_stats="${RM65_NORM_STATS:-$openpi_root/assets/pi05_rm65_lora/$repo_id/norm_stats.json}"
-# 【L0010】计算并保存变量 `result_prefix`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0010】得到 `result_prefix`，它在本项目中表示结果相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_RESULT_PREFIX:-pi05_rm65_formal}"`；`RM65_RESULT_PREFIX` 表示RM65 机械约束或项目常量；`pi05_rm65_formal` 表示本功能块中的 `pi05_rm65_formal` 值。
 result_prefix="${RM65_RESULT_PREFIX:-pi05_rm65_formal}"
-# 【L0011】计算并保存变量 `evaluation_root`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0011】得到 `evaluation_root`，它在本项目中表示本功能块中的 `evaluation_root` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_EVALUATION_ROOT:-$project_root/datasets/rm65_pi05_eval_v1}"`；`RM65_EVALUATION_ROOT` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`datasets` 表示本功能块中的 `datasets` 值。
 evaluation_root="${RM65_EVALUATION_ROOT:-$project_root/datasets/rm65_pi05_eval_v1}"
-# 【L0012】计算并保存变量 `evaluation_summary`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0012】得到 `evaluation_summary`，它在本项目中表示本功能块中的 `evaluation_summary` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_EVALUATION_SUMMARY:-$project_root/results/rm65_pi05_eval_v1_summary.json}"`；`RM65_EVALUATION_SUMMARY` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值。
 evaluation_summary="${RM65_EVALUATION_SUMMARY:-$project_root/results/rm65_pi05_eval_v1_summary.json}"
-# 【L0013】计算并保存变量 `checkpoint_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0013】得到 `checkpoint_report`，它在本项目中表示模型检查点、报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$project_root/results/${result_prefix}_checkpoint_inference.json"`；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值；`result_prefix` 表示结果相关值。
 checkpoint_report="$project_root/results/${result_prefix}_checkpoint_inference.json"
-# 【L0014】计算并保存变量 `offline_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0014】得到 `offline_report`，它在本项目中表示报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$project_root/results/${result_prefix}_offline_validation.json"`；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值；`result_prefix` 表示结果相关值。
 offline_report="$project_root/results/${result_prefix}_offline_validation.json"
-# 【L0015】计算并保存变量 `artifact_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0015】得到 `artifact_report`，它在本项目中表示报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$project_root/results/${result_prefix}_policy_artifact.json"`；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值；`result_prefix` 表示结果相关值。
 artifact_report="$project_root/results/${result_prefix}_policy_artifact.json"
-# 【L0016】计算并保存变量 `taxonomy_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0016】得到 `taxonomy_report`，它在本项目中表示报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$project_root/results/${result_prefix}_failure_taxonomy.json"`；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值；`result_prefix` 表示结果相关值。
 taxonomy_report="$project_root/results/${result_prefix}_failure_taxonomy.json"
-# 【L0017】计算并保存变量 `baseline_summary`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0017】得到 `baseline_summary`，它在本项目中表示本功能块中的 `baseline_summary` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_BASELINE_SUMMARY:-$project_root/results/rm65_pi05_eval_v1_summary.json}"`；`RM65_BASELINE_SUMMARY` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值。
 baseline_summary="${RM65_BASELINE_SUMMARY:-$project_root/results/rm65_pi05_eval_v1_summary.json}"
-# 【L0018】计算并保存变量 `comparison_report`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0018】得到 `comparison_report`，它在本项目中表示报告相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_COMPARISON_REPORT:-$project_root/results/${result_prefix}_comparison_to_v1.json}"`；`RM65_COMPARISON_REPORT` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`results` 表示本功能块中的 `results` 值。
 comparison_report="${RM65_COMPARISON_REPORT:-$project_root/results/${result_prefix}_comparison_to_v1.json}"
-# 【L0019】计算并保存变量 `sentinel`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0019】得到 `sentinel`，它在本项目中表示本功能块中的 `sentinel` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_PIPELINE_STATUS:-$project_root/outputs/rm65_post_training_pipeline.status}"`；`RM65_PIPELINE_STATUS` 表示RM65 机械约束或项目常量；`project_root` 表示本功能块中的 `project_root` 值；`outputs` 表示本功能块中的 `outputs` 值。
 sentinel="${RM65_PIPELINE_STATUS:-$project_root/outputs/rm65_post_training_pipeline.status}"
-# 【L0020】计算并保存变量 `policy_window`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0020】得到 `policy_window`，它在本项目中表示策略相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_POLICY_WINDOW:-false}"`；`RM65_POLICY_WINDOW` 表示RM65 机械约束或项目常量；`false` 表示本功能块中的 `false` 值。
 policy_window="${RM65_POLICY_WINDOW:-false}"
-# 【L0021】计算并保存变量 `first_case_timeout_seconds`；该值服务于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0021】得到 `first_case_timeout_seconds`，它在本项目中表示秒相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"${RM65_FIRST_CASE_TIMEOUT_SECONDS:-1200}"`；`RM65_FIRST_CASE_TIMEOUT_SECONDS` 表示RM65 机械约束或项目常量。
 first_case_timeout_seconds="${RM65_FIRST_CASE_TIMEOUT_SECONDS:-1200}"
 # 【L0022】空行：分隔“严格 Shell 模式、目录和可覆盖流水线参数”中的逻辑段，让结构更容易看清。
 
-# 【L0023】执行“严格 Shell 模式、目录和可覆盖流水线参数”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0023】把表达式/参数 `cd "$project_root"` 接入当前完整语句；`cd` 表示本功能块中的 `cd` 值；`project_root` 表示本功能块中的 `project_root` 值。在“严格 Shell 模式、目录和可覆盖流水线参数”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 cd "$project_root"
-# 【L0024】调用 `mkdir`：创建目录。本行位于“严格 Shell 模式、目录和可覆盖流水线参数”。
+# 【L0024】调用 `mkdir`：创建目录；本行实际操作 `mkdir -p outputs results`。`mkdir` 表示本功能块中的 `mkdir` 值；`p` 表示本功能块中的 `p` 值。
 mkdir -p outputs results
-# 【L0025】计算并保存变量 `current_stage`；该值服务于“失败哨兵、参数检查和 policy-window 选项”。
+# 【L0025】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"initialization"`；`initialization` 表示本功能块中的 `initialization` 值。
 current_stage="initialization"
-# 【L0026】执行“失败哨兵、参数检查和 policy-window 选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0026】把表达式/参数 `on_error() {` 接入当前完整语句；`on_error` 表示本功能块中的 `on_error` 值。在“失败哨兵、参数检查和 policy-window 选项”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 on_error() {
-# 【L0027】计算并保存变量 `exit_code`；该值服务于“失败哨兵、参数检查和 policy-window 选项”。
+# 【L0027】得到 `exit_code`，它在本项目中表示本功能块中的 `exit_code` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `$?` 的结果保存下来，供当前功能块后续使用。
   exit_code=$?
-# 【L0028】向终端打印状态或最终结果路径。
+# 【L0028】把 `"failed: stage=$current_stage exit_code=$exit_code" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "failed: stage=$current_stage exit_code=$exit_code" | tee "$sentinel"
-# 【L0029】执行“失败哨兵、参数检查和 policy-window 选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0029】把表达式/参数 `exit "$exit_code"` 接入当前完整语句；`exit` 表示本功能块中的 `exit` 值；`exit_code` 表示本功能块中的 `exit_code` 值。在“失败哨兵、参数检查和 policy-window 选项”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   exit "$exit_code"
 # 【L0030】结束或闭合当前语法结构；它属于“失败哨兵、参数检查和 policy-window 选项”。
 }
-# 【L0031】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0031】注册退出处理 `on_error ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap on_error ERR
 # 【L0032】空行：分隔“失败哨兵、参数检查和 policy-window 选项”中的逻辑段，让结构更容易看清。
 
-# 【L0033】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0033】判断 `[[ ! "$first_case_timeout_seconds" =~ ^[1-9][0-9]*$ ]]; then` 是否成立；`first_case_timeout_seconds` 表示秒相关值；`then` 表示本功能块中的 `then` 值
 if [[ ! "$first_case_timeout_seconds" =~ ^[1-9][0-9]*$ ]]; then
-# 【L0034】向终端打印状态或最终结果路径。
+# 【L0034】把 `"RM65_FIRST_CASE_TIMEOUT_SECONDS must be a positive integer" >&2` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "RM65_FIRST_CASE_TIMEOUT_SECONDS must be a positive integer" >&2
-# 【L0035】执行“失败哨兵、参数检查和 policy-window 选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0035】声明/传入参数 `false`；在本项目中它表示本功能块中的 `false` 值。
   false
 # 【L0036】结束或闭合当前语法结构；它属于“失败哨兵、参数检查和 policy-window 选项”。
 fi
-# 【L0037】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0037】判断 `[[ "$policy_window" != "true" && "$policy_window" != "false" ]]; then` 是否成立；`policy_window` 表示策略相关值；`true` 表示本功能块中的 `true` 值；`false` 表示本功能块中的 `false` 值
 if [[ "$policy_window" != "true" && "$policy_window" != "false" ]]; then
-# 【L0038】向终端打印状态或最终结果路径。
+# 【L0038】把 `"RM65_POLICY_WINDOW must be true or false" >&2` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "RM65_POLICY_WINDOW must be true or false" >&2
-# 【L0039】执行“失败哨兵、参数检查和 policy-window 选项”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0039】声明/传入参数 `false`；在本项目中它表示本功能块中的 `false` 值。
   false
 # 【L0040】结束或闭合当前语法结构；它属于“失败哨兵、参数检查和 policy-window 选项”。
 fi
-# 【L0041】计算并保存变量 `offline_view_args`；该值服务于“失败哨兵、参数检查和 policy-window 选项”。
+# 【L0041】得到 `offline_view_args`，它在本项目中表示本功能块中的 `offline_view_args` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `()` 的结果保存下来，供当前功能块后续使用。
 offline_view_args=()
-# 【L0042】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0042】判断 `[[ "$policy_window" == "true" ]]; then` 是否成立；`policy_window` 表示策略相关值；`true` 表示本功能块中的 `true` 值；`then` 表示本功能块中的 `then` 值
 if [[ "$policy_window" == "true" ]]; then
-# 【L0043】计算并保存变量 `offline_view_args`；该值服务于“失败哨兵、参数检查和 policy-window 选项”。
+# 【L0043】得到 `offline_view_args`，它在本项目中表示本功能块中的 `offline_view_args` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `(--policy-window)`；`policy` 表示加载了 RM65 checkpoint、transform 和 norm stats 的 OpenPI 推理对象；`window` 表示本功能块中的 `window` 值。
   offline_view_args=(--policy-window)
 # 【L0044】结束或闭合当前语法结构；它属于“失败哨兵、参数检查和 policy-window 选项”。
 fi
 # 【L0045】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0046】计算并保存变量 `current_stage`；该值服务于“等待训练 PID 并从训练报告提取 checkpoint”。
+# 【L0046】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"wait_for_training"`；`wait_for_training` 表示本功能块中的 `wait_for_training` 值。
 current_stage="wait_for_training"
-# 【L0047】向终端打印状态或最终结果路径。
+# 【L0047】把 `"waiting_for_training_pid=$training_pid" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "waiting_for_training_pid=$training_pid" | tee "$sentinel"
-# 【L0048】while 循环：条件保持为真时持续执行。
+# 【L0048】只要 `kill -0 "$training_pid" 2>/dev/null; do` 仍成立就重复后面的控制/等待步骤；判断 `kill -0 "$training_pid" 2>/dev/null; do` 是否成立；`kill` 表示本功能块中的 `kill` 值；`training_pid` 表示本功能块中的 `training_pid` 值；`dev` 表示本功能块中的 `dev` 值。
 while kill -0 "$training_pid" 2>/dev/null; do
-# 【L0049】执行“等待训练 PID 并从训练报告提取 checkpoint”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0049】把表达式/参数 `sleep 30` 接入当前完整语句；`sleep` 表示本功能块中的 `sleep` 值。在“等待训练 PID 并从训练报告提取 checkpoint”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   sleep 30
 # 【L0050】结束或闭合当前语法结构；它属于“等待训练 PID 并从训练报告提取 checkpoint”。
 done
 # 【L0051】空行：分隔“等待训练 PID 并从训练报告提取 checkpoint”中的逻辑段，让结构更容易看清。
 
-# 【L0052】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0052】判断 `[[ ! -f "$training_report" ]]; then` 是否成立；`f` 表示本功能块中的 `f` 值；`training_report` 表示报告相关值；`then` 表示本功能块中的 `then` 值
 if [[ ! -f "$training_report" ]]; then
-# 【L0053】向终端打印状态或最终结果路径。
+# 【L0053】把 `"failed: training report missing: $training_report" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "failed: training report missing: $training_report" | tee "$sentinel"
-# 【L0054】执行“等待训练 PID 并从训练报告提取 checkpoint”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0054】把表达式/参数 `exit 1` 接入当前完整语句；`exit` 表示本功能块中的 `exit` 值。在“等待训练 PID 并从训练报告提取 checkpoint”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   exit 1
 # 【L0055】结束或闭合当前语法结构；它属于“等待训练 PID 并从训练报告提取 checkpoint”。
 fi
-# 【L0056】给变量 `checkpoint` 赋值：一次训练保存的模型参数目录。
+# 【L0056】得到 `checkpoint`，它在本项目中表示一次训练保存的模型参数目录；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$($openpi_root/.venv/bin/python -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d.get("status")=="pass", d; print(d["latest_checkpoint"])' "$training_report")"`；`openpi_root` 表示本功能块中的 `openpi_root` 值；`venv` 表示本功能块中的 `venv` 值；`bin` 表示本功能块中的 `bin` 值。
 checkpoint="$($openpi_root/.venv/bin/python -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d.get("status")=="pass", d; print(d["latest_checkpoint"])' "$training_report")"
-# 【L0057】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0057】判断 `[[ ! -d "$checkpoint" ]]; then` 是否成立；`d` 表示本功能块中的 `d` 值；`checkpoint` 表示一次训练保存的模型参数目录；`then` 表示本功能块中的 `then` 值
 if [[ ! -d "$checkpoint" ]]; then
-# 【L0058】向终端打印状态或最终结果路径。
+# 【L0058】把 `"failed: checkpoint missing: $checkpoint" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "failed: checkpoint missing: $checkpoint" | tee "$sentinel"
-# 【L0059】执行“等待训练 PID 并从训练报告提取 checkpoint”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0059】把表达式/参数 `exit 1` 接入当前完整语句；`exit` 表示本功能块中的 `exit` 值。在“等待训练 PID 并从训练报告提取 checkpoint”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   exit 1
 # 【L0060】结束或闭合当前语法结构；它属于“等待训练 PID 并从训练报告提取 checkpoint”。
 fi
 # 【L0061】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0062】设置并导出环境变量，让随后启动的 Python/JAX 进程读取该配置。
+# 【L0062】设置并导出环境变量 `PYTHONPATH="$project_root:$openpi_root/packages/openpi-client/src${PYTHONPATH:+:$PYTHONPATH}"`；随后启动的 OpenPI/JAX/Isaac 进程会从环境读取这个运行配置。
 export PYTHONPATH="$project_root:$openpi_root/packages/openpi-client/src${PYTHONPATH:+:$PYTHONPATH}"
-# 【L0063】计算并保存变量 `validation_episode`；该值服务于“单帧 checkpoint 推理和验证集离线评测”。
+# 【L0063】得到 `validation_episode`，它在本项目中表示校验结果、一条轨迹相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"$project_root/datasets/rm65_scripted_v1/episode_000000"`；`project_root` 表示本功能块中的 `project_root` 值；`datasets` 表示本功能块中的 `datasets` 值；`rm65_scripted_v1` 表示本功能块中的 `rm65_scripted_v1` 值。
 validation_episode="$project_root/datasets/rm65_scripted_v1/episode_000000"
 # 【L0064】空行：分隔“单帧 checkpoint 推理和验证集离线评测”中的逻辑段，让结构更容易看清。
 
-# 【L0065】计算并保存变量 `current_stage`；该值服务于“单帧 checkpoint 推理和验证集离线评测”。
+# 【L0065】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"single_checkpoint_inference"`；`single_checkpoint_inference` 表示模型检查点相关值。
 current_stage="single_checkpoint_inference"
-# 【L0066】向终端打印状态或最终结果路径。
+# 【L0066】把 `"stage=$current_stage checkpoint=$checkpoint" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage checkpoint=$checkpoint" | tee "$sentinel"
-# 【L0067】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0067】提供路径/资源标识 `"$openpi_root/.venv/bin/python" scripts/validate_rm65_checkpoint.py \`；在“单帧 checkpoint 推理和验证集离线评测”中，外层配置会沿这个位置加载基础 checkpoint、数据或资产。
 "$openpi_root/.venv/bin/python" scripts/validate_rm65_checkpoint.py \
-# 【L0068】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0068】给上一条 Bash 命令传入 `--checkpoint`，值为 `"$checkpoint"`；该参数表示一次训练保存的模型参数目录，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --checkpoint "$checkpoint" \
-# 【L0069】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0069】给上一条 Bash 命令传入 `--episode`，值为 `"$validation_episode"`；该参数表示一条轨迹相关值，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --episode "$validation_episode" \
-# 【L0070】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0070】给上一条 Bash 命令传入 `--repo-id`，值为 `"$repo_id"`；该参数表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --repo-id "$repo_id" \
-# 【L0071】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0071】给上一条 Bash 命令传入 `--output`，值为 `"$checkpoint_report"`；该参数表示输出文件路径，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --output "$checkpoint_report"
 # 【L0072】空行：分隔“单帧 checkpoint 推理和验证集离线评测”中的逻辑段，让结构更容易看清。
 
-# 【L0073】计算并保存变量 `current_stage`；该值服务于“单帧 checkpoint 推理和验证集离线评测”。
+# 【L0073】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"offline_validation"`；`offline_validation` 表示校验结果相关值。
 current_stage="offline_validation"
-# 【L0074】向终端打印状态或最终结果路径。
+# 【L0074】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage" | tee "$sentinel"
-# 【L0075】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0075】提供路径/资源标识 `"$openpi_root/.venv/bin/python" scripts/evaluate_rm65_checkpoint_offline.py \`；在“单帧 checkpoint 推理和验证集离线评测”中，外层配置会沿这个位置加载基础 checkpoint、数据或资产。
 "$openpi_root/.venv/bin/python" scripts/evaluate_rm65_checkpoint_offline.py \
-# 【L0076】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0076】给上一条 Bash 命令传入 `--checkpoint`，值为 `"$checkpoint"`；该参数表示一次训练保存的模型参数目录，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --checkpoint "$checkpoint" \
-# 【L0077】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0077】给上一条 Bash 命令传入 `--dataset-root`，值为 `datasets/rm65_scripted_v1`；该参数表示数据集相关值，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --dataset-root datasets/rm65_scripted_v1 \
-# 【L0078】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0078】给上一条 Bash 命令传入 `--split`，值为 `validation`；该参数表示本功能块中的 `split` 值，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --split validation \
-# 【L0079】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0079】给上一条 Bash 命令传入 `--repo-id`，值为 `"$repo_id"`；该参数表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --repo-id "$repo_id" \
-# 【L0080】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0080】给上一条 Bash 命令传入 `--frames-per-episode`，值为 `5`；该参数表示一条轨迹相关值，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --frames-per-episode 5 \
-# 【L0081】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0081】给上一条 Bash 命令传入 `--output`，值为 `"$offline_report"`；该参数表示输出文件路径，会改变“单帧 checkpoint 推理和验证集离线评测”的运行配置。
   --output "$offline_report" \
-# 【L0082】执行“单帧 checkpoint 推理和验证集离线评测”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0082】提供文本片段 `"${offline_view_args[@]}"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“单帧 checkpoint 推理和验证集离线评测”中的帮助说明、错误原因、任务名称或报告文字。
   "${offline_view_args[@]}"
 # 【L0083】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0084】计算并保存变量 `current_stage`；该值服务于“构建策略资产清单并验证仿真 gate/评测计划”。
+# 【L0084】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"simulation_manifest"`；`simulation_manifest` 表示本功能块中的 `simulation_manifest` 值。
 current_stage="simulation_manifest"
-# 【L0085】向终端打印状态或最终结果路径。
+# 【L0085】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage" | tee "$sentinel"
-# 【L0086】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0086】把表达式/参数 `python3 scripts/build_rm65_policy_artifact.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`build_rm65_policy_artifact` 表示策略相关值。在“构建策略资产清单并验证仿真 gate/评测计划”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/build_rm65_policy_artifact.py \
-# 【L0087】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0087】给上一条 Bash 命令传入 `--training-report`，值为 `"$training_report"`；该参数表示报告相关值，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --training-report "$training_report" \
-# 【L0088】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0088】给上一条 Bash 命令传入 `--norm-stats`，值为 `"$norm_stats"`；该参数表示最终得到的 state/actions 归一化统计，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --norm-stats "$norm_stats" \
-# 【L0089】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0089】给上一条 Bash 命令传入 `--output`，值为 `"$artifact_report"`；该参数表示输出文件路径，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --output "$artifact_report"
-# 【L0090】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0090】把表达式/参数 `python3 scripts/check_policy_execution_gate.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`check_policy_execution_gate` 表示策略相关值。在“构建策略资产清单并验证仿真 gate/评测计划”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/check_policy_execution_gate.py \
-# 【L0091】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0091】提供文本片段 `"$artifact_report" --target simulation`；Python 会把相邻字符串自动拼接，外层参数会把它用作“构建策略资产清单并验证仿真 gate/评测计划”中的帮助说明、错误原因、任务名称或报告文字。
   "$artifact_report" --target simulation
 # 【L0092】空行：分隔“构建策略资产清单并验证仿真 gate/评测计划”中的逻辑段，让结构更容易看清。
 
-# 【L0093】计算并保存变量 `current_stage`；该值服务于“构建策略资产清单并验证仿真 gate/评测计划”。
+# 【L0093】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"evaluation_plan_validation"`；`evaluation_plan_validation` 表示校验结果相关值。
 current_stage="evaluation_plan_validation"
-# 【L0094】向终端打印状态或最终结果路径。
+# 【L0094】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage" | tee "$sentinel"
-# 【L0095】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0095】把表达式/参数 `python3 scripts/validate_rm65_evaluation_plan.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`validate_rm65_evaluation_plan` 表示本功能块中的 `validate_rm65_evaluation_plan` 值。在“构建策略资产清单并验证仿真 gate/评测计划”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/validate_rm65_evaluation_plan.py \
-# 【L0096】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0096】给上一条 Bash 命令传入 `--collection-plan`，值为 `config/rm65_expert_collection_plan_v1.json`；该参数表示本功能块中的 `collection_plan` 值，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --collection-plan config/rm65_expert_collection_plan_v1.json \
-# 【L0097】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0097】给上一条 Bash 命令传入 `--evaluation-plan`，值为 `config/rm65_pi05_evaluation_plan_v1.json`；该参数表示本功能块中的 `evaluation_plan` 值，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --evaluation-plan config/rm65_pi05_evaluation_plan_v1.json \
-# 【L0098】执行“构建策略资产清单并验证仿真 gate/评测计划”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0098】给上一条 Bash 命令传入 `--output`，值为 `results/rm65_pi05_evaluation_plan_validation.json`；该参数表示输出文件路径，会改变“构建策略资产清单并验证仿真 gate/评测计划”的运行配置。
   --output results/rm65_pi05_evaluation_plan_validation.json
 # 【L0099】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0100】计算并保存变量 `current_stage`；该值服务于“先运行一条闭环，但无论任务成败都继续完整 suite”。
+# 【L0100】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"first_closed_loop"`；`first_closed_loop` 表示本功能块中的 `first_closed_loop` 值。
 current_stage="first_closed_loop"
-# 【L0101】向终端打印状态或最终结果路径。
+# 【L0101】把 `"stage=$current_stage timeout_seconds=$first_case_timeout_seconds" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage timeout_seconds=$first_case_timeout_seconds" | tee "$sentinel"
-# 【L0102】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0102】把表达式/参数 `set +e` 接入当前完整语句；`set` 表示本功能块中的 `set` 值；`e` 表示本功能块中的 `e` 值。在“先运行一条闭环，但无论任务成败都继续完整 suite”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 set +e
-# 【L0103】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0103】注册退出处理 `- ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap - ERR
-# 【L0104】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0104】把表达式/参数 `timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \` 接入当前完整语句；`timeout` 表示本功能块中的 `timeout` 值；`signal` 表示本功能块中的 `signal` 值；`TERM` 表示本功能块中的 `TERM` 值。在“先运行一条闭环，但无论任务成败都继续完整 suite”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 timeout --signal=TERM --kill-after=30s "${first_case_timeout_seconds}s" \
-# 【L0105】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0105】把表达式/参数 `env RM65_REPO_ID="$repo_id" bash scripts/run_pi05_rm65_closed_loop.sh \` 接入当前完整语句；`env` 表示本功能块中的 `env` 值；`RM65_REPO_ID` 表示RM65 机械约束或项目常量；`repo_id` 表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本。在“先运行一条闭环，但无论任务成败都继续完整 suite”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   env RM65_REPO_ID="$repo_id" bash scripts/run_pi05_rm65_closed_loop.sh \
-# 【L0106】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0106】提供文本片段 `"$checkpoint" \`；Python 会把相邻字符串自动拼接，外层参数会把它用作“先运行一条闭环，但无论任务成败都继续完整 suite”中的帮助说明、错误原因、任务名称或报告文字。
   "$checkpoint" \
-# 【L0107】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0107】提供路径/资源标识 `"$evaluation_root/eval_000" \`；在“先运行一条闭环，但无论任务成败都继续完整 suite”中，外层配置会沿这个位置加载基础 checkpoint、数据或资产。
   "$evaluation_root/eval_000" \
-# 【L0108】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0108】把表达式/参数 `0.65 -0.0075 -0.0075 \` 接入当前完整语句；它补全了上一行尚未结束的数据或调用。在“先运行一条闭环，但无论任务成败都继续完整 suite”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   0.65 -0.0075 -0.0075 \
-# 【L0109】执行“先运行一条闭环，但无论任务成败都继续完整 suite”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0109】提供文本片段 `"pick up the block and place it on the target"`；Python 会把相邻字符串自动拼接，外层参数会把它用作“先运行一条闭环，但无论任务成败都继续完整 suite”中的帮助说明、错误原因、任务名称或报告文字。
   "pick up the block and place it on the target"
-# 【L0110】计算并保存变量 `first_case_exit_code`；该值服务于“先运行一条闭环，但无论任务成败都继续完整 suite”。
+# 【L0110】得到 `first_case_exit_code`，它在本项目中表示本功能块中的 `first_case_exit_code` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `$?` 的结果保存下来，供当前功能块后续使用。
 first_case_exit_code=$?
-# 【L0111】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0111】注册退出处理 `on_error ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap on_error ERR
-# 【L0112】启用严格 Shell 模式：命令失败、未定义变量或管道失败都会让脚本停止。
+# 【L0112】启用 Bash 选项 `set -e`；本项目通常用 `-euo pipefail` 让命令失败、未定义变量或管道失败立即停止流水线。
 set -e
-# 【L0113】向终端打印状态或最终结果路径。
+# 【L0113】把 `"stage=$current_stage exit_code=$first_case_exit_code continuing_to_full_suite" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage exit_code=$first_case_exit_code continuing_to_full_suite" | tee "$sentinel"
 # 【L0114】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0115】计算并保存变量 `current_stage`；该值服务于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
+# 【L0115】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"twenty_case_closed_loop_suite"`；`twenty_case_closed_loop_suite` 表示本功能块中的 `twenty_case_closed_loop_suite` 值。
 current_stage="twenty_case_closed_loop_suite"
-# 【L0116】向终端打印状态或最终结果路径。
+# 【L0116】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage" | tee "$sentinel"
-# 【L0117】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0117】把表达式/参数 `set +e` 接入当前完整语句；`set` 表示本功能块中的 `set` 值；`e` 表示本功能块中的 `e` 值。在“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 set +e
-# 【L0118】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0118】注册退出处理 `- ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap - ERR
-# 【L0119】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0119】把表达式/参数 `python3 scripts/run_pi05_rm65_closed_loop_suite.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`run_pi05_rm65_closed_loop_suite` 表示本功能块中的 `run_pi05_rm65_closed_loop_suite` 值。在“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/run_pi05_rm65_closed_loop_suite.py \
-# 【L0120】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0120】给上一条 Bash 命令传入 `--checkpoint`，值为 `"$checkpoint"`；该参数表示一次训练保存的模型参数目录，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --checkpoint "$checkpoint" \
-# 【L0121】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0121】给上一条 Bash 命令传入 `--repo-id`，值为 `"$repo_id"`；该参数表示LeRobot 数据集仓库标识；配置据此找到 RM65 训练样本，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --repo-id "$repo_id" \
-# 【L0122】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0122】给上一条 Bash 命令传入 `--plan`，值为 `config/rm65_pi05_evaluation_plan_v1.json`；该参数表示从 JSON 读取的专家采集计划或闭环评测计划，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --plan config/rm65_pi05_evaluation_plan_v1.json \
-# 【L0123】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0123】给上一条 Bash 命令传入 `--output-root`，值为 `"$evaluation_root"`；该参数表示输出相关值，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --output-root "$evaluation_root" \
-# 【L0124】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0124】给上一条 Bash 命令传入 `--summary`，值为 `"$evaluation_summary"`；该参数表示本功能块中的 `summary` 值，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --summary "$evaluation_summary"
-# 【L0125】计算并保存变量 `suite_exit_code`；该值服务于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
+# 【L0125】得到 `suite_exit_code`，它在本项目中表示本功能块中的 `suite_exit_code` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `$?` 的结果保存下来，供当前功能块后续使用。
 suite_exit_code=$?
-# 【L0126】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0126】注册退出处理 `on_error ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap on_error ERR
-# 【L0127】启用严格 Shell 模式：命令失败、未定义变量或管道失败都会让脚本停止。
+# 【L0127】启用 Bash 选项 `set -e`；本项目通常用 `-euo pipefail` 让命令失败、未定义变量或管道失败立即停止流水线。
 set -e
-# 【L0128】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0128】把表达式/参数 `python3 scripts/analyze_rm65_closed_loop_failures.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`analyze_rm65_closed_loop_failures` 表示本功能块中的 `analyze_rm65_closed_loop_failures` 值。在“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/analyze_rm65_closed_loop_failures.py \
-# 【L0129】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0129】给上一条 Bash 命令传入 `--plan`，值为 `config/rm65_pi05_evaluation_plan_v1.json`；该参数表示从 JSON 读取的专家采集计划或闭环评测计划，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --plan config/rm65_pi05_evaluation_plan_v1.json \
-# 【L0130】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0130】给上一条 Bash 命令传入 `--episode-root`，值为 `"$evaluation_root"`；该参数表示一条轨迹相关值，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --episode-root "$evaluation_root" \
-# 【L0131】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0131】给上一条 Bash 命令传入 `--output`，值为 `"$taxonomy_report"`；该参数表示输出文件路径，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
   --output "$taxonomy_report"
-# 【L0132】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0132】判断 `[[ -f "$baseline_summary" ]]; then` 是否成立；`f` 表示本功能块中的 `f` 值；`baseline_summary` 表示本功能块中的 `baseline_summary` 值；`then` 表示本功能块中的 `then` 值
 if [[ -f "$baseline_summary" ]]; then
-# 【L0133】计算并保存变量 `current_stage`；该值服务于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
+# 【L0133】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"compare_to_v1"`；`compare_to_v1` 表示本功能块中的 `compare_to_v1` 值。
   current_stage="compare_to_v1"
-# 【L0134】向终端打印状态或最终结果路径。
+# 【L0134】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "stage=$current_stage" | tee "$sentinel"
-# 【L0135】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0135】把表达式/参数 `python3 scripts/compare_rm65_closed_loop_runs.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`compare_rm65_closed_loop_runs` 表示本功能块中的 `compare_rm65_closed_loop_runs` 值。在“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   python3 scripts/compare_rm65_closed_loop_runs.py \
-# 【L0136】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0136】给上一条 Bash 命令传入 `--baseline`，值为 `"$baseline_summary"`；该参数表示本功能块中的 `baseline` 值，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
     --baseline "$baseline_summary" \
-# 【L0137】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0137】给上一条 Bash 命令传入 `--candidate`，值为 `"$evaluation_summary"`；该参数表示本功能块中的 `candidate` 值，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
     --candidate "$evaluation_summary" \
-# 【L0138】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0138】给上一条 Bash 命令传入 `--plan`，值为 `config/rm65_pi05_evaluation_plan_v1.json`；该参数表示从 JSON 读取的专家采集计划或闭环评测计划，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
     --plan config/rm65_pi05_evaluation_plan_v1.json \
-# 【L0139】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0139】给上一条 Bash 命令传入 `--output`，值为 `"$comparison_report"`；该参数表示输出文件路径，会改变“20 条闭环、失败分类、与 v1 比较并保留真实退出码”的运行配置。
     --output "$comparison_report"
 # 【L0140】结束或闭合当前语法结构；它属于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
 fi
-# 【L0141】条件分支：只有条件为真才执行后面的缩进代码；这里用于校验或选择运行路径。
+# 【L0141】判断 `[[ "$suite_exit_code" -ne 0 ]]; then` 是否成立；`suite_exit_code` 表示本功能块中的 `suite_exit_code` 值；`ne` 表示本功能块中的 `ne` 值；`then` 表示本功能块中的 `then` 值
 if [[ "$suite_exit_code" -ne 0 ]]; then
-# 【L0142】计算并保存变量 `current_stage`；该值服务于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
+# 【L0142】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"twenty_case_closed_loop_suite"`；`twenty_case_closed_loop_suite` 表示本功能块中的 `twenty_case_closed_loop_suite` 值。
   current_stage="twenty_case_closed_loop_suite"
-# 【L0143】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0143】注册退出处理 `- ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
   trap - ERR
-# 【L0144】向终端打印状态或最终结果路径。
+# 【L0144】把 `"failed: stage=$current_stage exit_code=$suite_exit_code" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
   echo "failed: stage=$current_stage exit_code=$suite_exit_code" | tee "$sentinel"
-# 【L0145】执行“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0145】把表达式/参数 `exit "$suite_exit_code"` 接入当前完整语句；`exit` 表示本功能块中的 `exit` 值；`suite_exit_code` 表示本功能块中的 `suite_exit_code` 值。在“20 条闭环、失败分类、与 v1 比较并保留真实退出码”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
   exit "$suite_exit_code"
 # 【L0146】结束或闭合当前语法结构；它属于“20 条闭环、失败分类、与 v1 比较并保留真实退出码”。
 fi
 # 【L0147】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
 
-# 【L0148】计算并保存变量 `current_stage`；该值服务于“构建含仿真结果的最终清单并写 pass 哨兵”。
+# 【L0148】得到 `current_stage`，它在本项目中表示当前值相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `"final_manifest"`；`final_manifest` 表示本功能块中的 `final_manifest` 值。
 current_stage="final_manifest"
-# 【L0149】向终端打印状态或最终结果路径。
+# 【L0149】把 `"stage=$current_stage" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "stage=$current_stage" | tee "$sentinel"
-# 【L0150】执行“构建含仿真结果的最终清单并写 pass 哨兵”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0150】把表达式/参数 `python3 scripts/build_rm65_policy_artifact.py \` 接入当前完整语句；`python3` 表示本功能块中的 `python3` 值；`scripts` 表示本功能块中的 `scripts` 值；`build_rm65_policy_artifact` 表示策略相关值。在“构建含仿真结果的最终清单并写 pass 哨兵”中，这些值会被外层函数、公式或容器继续消费，而不是单独成为一次控制命令。
 python3 scripts/build_rm65_policy_artifact.py \
-# 【L0151】执行“构建含仿真结果的最终清单并写 pass 哨兵”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0151】给上一条 Bash 命令传入 `--training-report`，值为 `"$training_report"`；该参数表示报告相关值，会改变“构建含仿真结果的最终清单并写 pass 哨兵”的运行配置。
   --training-report "$training_report" \
-# 【L0152】执行“构建含仿真结果的最终清单并写 pass 哨兵”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0152】给上一条 Bash 命令传入 `--norm-stats`，值为 `"$norm_stats"`；该参数表示最终得到的 state/actions 归一化统计，会改变“构建含仿真结果的最终清单并写 pass 哨兵”的运行配置。
   --norm-stats "$norm_stats" \
-# 【L0153】执行“构建含仿真结果的最终清单并写 pass 哨兵”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0153】给上一条 Bash 命令传入 `--simulation-summary`，值为 `"$evaluation_summary"`；该参数表示本功能块中的 `simulation_summary` 值，会改变“构建含仿真结果的最终清单并写 pass 哨兵”的运行配置。
   --simulation-summary "$evaluation_summary" \
-# 【L0154】执行“构建含仿真结果的最终清单并写 pass 哨兵”中的这一步；具体对象名和参数决定本行读取、计算或提交的值。
+# 【L0154】给上一条 Bash 命令传入 `--output`，值为 `"$artifact_report"`；该参数表示输出文件路径，会改变“构建含仿真结果的最终清单并写 pass 哨兵”的运行配置。
   --output "$artifact_report"
 # 【L0155】空行：分隔“构建含仿真结果的最终清单并写 pass 哨兵”中的逻辑段，让结构更容易看清。
 
-# 【L0156】注册退出/中断清理函数，避免模型服务残留在后台。
+# 【L0156】注册退出处理 `- ERR`；脚本结束或被中断时清理 π0.5 服务等后台进程。
 trap - ERR
-# 【L0157】向终端打印状态或最终结果路径。
+# 【L0157】把 `"pass" | tee "$sentinel"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "pass" | tee "$sentinel"
-# 【L0158】向终端打印状态或最终结果路径。
+# 【L0158】把 `"RM65_POST_TRAINING_PIPELINE=PASS"` 打到终端，告诉操作者当前流水线阶段、命令或最终证据路径。
 echo "RM65_POST_TRAINING_PIPELINE=PASS"
 ```
