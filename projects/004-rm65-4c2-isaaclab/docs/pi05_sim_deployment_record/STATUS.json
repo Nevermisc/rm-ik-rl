@@ -2,23 +2,47 @@
   "schema": "rm65_pi05_sim_deployment_status_v1",
   "updated_at": "2026-09-28",
   "scope": "RM65-B + 4C2 + pi0.5 Isaac Lab closed-loop simulation",
-  "stage": "simulation_gate_passed_at_boundary",
+  "stage": "expanded_simulation_gate_passed_with_outer_panel_weakness",
   "real_robot_execution_allowed": false,
-  "formal_evaluation": {
+  "initial_confirmation": {
     "plan": "config/rm65_pi05_evaluation_plan_deterministic_v2_confirmation.json",
-    "checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
-    "repo_id": "local/rm65_sim_policy_train",
     "planned_cases": 20,
     "valid_reports": 20,
     "successes": 16,
     "failures": 4,
     "success_rate": 0.8,
+    "policy_seed_range": [280928000, 280928019],
+    "simulation_seed_range": [380928000, 380928019]
+  },
+  "robustness_evaluation": {
+    "status": "pass",
+    "plan": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
+    "checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
+    "repo_id": "local/rm65_sim_policy_train",
+    "planned_cases": 60,
+    "valid_reports": 60,
+    "successes": 51,
+    "failures": 9,
+    "success_rate": 0.85,
+    "success_rate_ci95_wilson": [0.7388541093022145, 0.9190255941983225],
     "minimum_success_rate": 0.8,
+    "all_reports_present": true,
     "diagnostic_only": false,
     "simulation_only": true,
     "real_robot_command_sent": false,
-    "policy_seed_range": [280928000, 280928019],
-    "simulation_seed_range": [380928000, 380928019]
+    "policy_seed_range": [490928000, 490928059],
+    "simulation_seed_range": [590928000, 590928059],
+    "by_panel": {
+      "panel_a_inner": {"successes": 19, "total": 20, "success_rate": 0.95},
+      "panel_b_mid": {"successes": 18, "total": 20, "success_rate": 0.9},
+      "panel_c_outer": {"successes": 14, "total": 20, "success_rate": 0.7}
+    },
+    "evidence": {
+      "compact": "results/rm65_pi05_robustness_v3_60_compact_evidence.json",
+      "failure_taxonomy": "results/rm65_pi05_robustness_v3_60_failure_taxonomy.json",
+      "release_analysis": "results/rm65_pi05_robustness_v3_60_release_analysis.json",
+      "plan_validation": "results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json"
+    }
   },
   "controller": {
     "policy_max_action_chunks": 120,
@@ -30,45 +54,23 @@
     "cube_workspace_envelope_m": 1.0
   },
   "failure_summary": {
+    "preflight_safety_rejection_unsafe_ik_branch_jump": 4,
     "never_reached_target": 4,
+    "insufficient_lift": 1,
     "release_failures_after_reaching_target": 0,
-    "simulation_safety_aborts": 1
+    "cube_outside_workspace_envelope": 1
+  },
+  "reporting_gate_patch": {
+    "commit": "98de449",
+    "reason": "require all planned reports and structure deterministic preflight safety failures",
+    "control_or_policy_semantics_changed": false
   },
   "known_limitations": [
-    "twenty cases provide limited statistical confidence",
+    "overall Wilson confidence interval still crosses the 80 percent threshold",
+    "outer panel success rate is 70 percent",
+    "one outer offset triggers deterministic continuous-IK safety rejection at all four angles",
     "RTX camera rendering retains sparse cross-process pixel differences",
-    "0.85 rad and place-block prompt strata are weaker",
     "real robot calibration and safety gates are incomplete"
   ],
-  "next_evaluation_plan": {
-    "path": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
-    "case_count": 60,
-    "policy_seed_range": [490928000, 490928059],
-    "simulation_seed_range": [590928000, 590928059],
-    "validation": "results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json",
-    "status": "running"
-  },
-  "active_evaluation": {
-    "started_at": "2026-09-28T16:53:00+08:00",
-    "mode": "background_resumable_suite",
-    "plan": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
-    "output_root": "datasets/rm65_pi05_robustness_v3_60",
-    "summary": "results/rm65_pi05_robustness_v3_60_summary.json",
-    "console_log": "outputs/rm65_pi05_robustness_v3_60_console.log",
-    "pid_file": "outputs/rm65_pi05_robustness_v3_60.pid",
-    "simulation_only": true,
-    "real_robot_command_sent": false,
-    "interim_results_are_not_a_formal_conclusion": true
-  },
-  "smoke_evaluation": {
-    "case_id": "robust_000",
-    "status": "pass",
-    "policy_noise_seed": 490928000,
-    "simulation_seed": 590928000,
-    "action_chunks": 63,
-    "release_verified": true,
-    "simulation_only": true,
-    "real_robot_command_sent": false
-  },
-  "next_required_milestone": "complete the preregistered 60-case fresh-seed robustness evaluation"
+  "next_required_milestone": "fix outer-panel continuous IK and five closed-loop failures, then run a fresh-seed confirmation"
 }

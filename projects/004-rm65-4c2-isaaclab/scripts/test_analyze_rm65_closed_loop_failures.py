@@ -5,7 +5,11 @@ from __future__ import annotations
 
 import json
 
-from analyze_rm65_closed_loop_failures import failed_criteria, simulation_out_of_bounds
+from analyze_rm65_closed_loop_failures import (
+    failed_criteria,
+    simulation_out_of_bounds,
+    wilson_interval,
+)
 
 
 def base_report() -> dict:
@@ -66,7 +70,12 @@ def main() -> int:
         "preflight_safety_rejection:unsafe_ik_branch_jump"
     ]
 
-    print(json.dumps({"status": "pass", "checks": 12}, indent=2))
+    interval = wilson_interval(5, 10)
+    assert interval is not None
+    assert interval[0] < 0.5 < interval[1]
+    assert wilson_interval(0, 0) is None
+
+    print(json.dumps({"status": "pass", "checks": 15}, indent=2))
     return 0
 
 

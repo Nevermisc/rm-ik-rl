@@ -17,6 +17,23 @@ SIMULATION_BOUNDS_M = {
 }
 
 
+def wilson_interval(successes: int, total: int, z: float = 1.959963984540054) -> list[float] | None:
+    if total <= 0:
+        return None
+    probability = successes / total
+    denominator = 1.0 + z * z / total
+    center = (probability + z * z / (2.0 * total)) / denominator
+    margin = (
+        z
+        * math.sqrt(
+            probability * (1.0 - probability) / total
+            + z * z / (4.0 * total * total)
+        )
+        / denominator
+    )
+    return [center - margin, center + margin]
+
+
 def simulation_out_of_bounds(report: dict) -> bool:
     position = report.get("final_position_m")
     if not isinstance(position, list) or len(position) != 3:
@@ -79,6 +96,8 @@ def main() -> int:
     prompt_passes: Counter[str] = Counter()
     angle_totals: Counter[str] = Counter()
     angle_passes: Counter[str] = Counter()
+    panel_totals: Counter[str] = Counter()
+    panel_passes: Counter[str] = Counter()
     details: list[dict] = []
     status_counts: Counter[str] = Counter()
 
@@ -86,8 +105,10 @@ def main() -> int:
         case_id = case["case_id"]
         prompt = case["prompt"]
         angle = f"{float(case['transfer_joint_1_rad']):.2f}"
+        panel = str(case.get("panel", "unassigned"))
         prompt_totals[prompt] += 1
         angle_totals[angle] += 1
+        panel_totals[panel] += 1
         report_path = args.episode_root / case_id / "task_report.json"
         if not report_path.is_file():
             status_counts["missing_report"] += 1
@@ -97,6 +118,7 @@ def main() -> int:
                     "case_id": case_id,
                     "status": "missing_report",
                     "prompt": prompt,
+                    "panel": panel,
                     "transfer_joint_1_rad": float(case["transfer_joint_1_rad"]),
                     "failures": ["missing_report"],
                 }
@@ -111,11 +133,13 @@ def main() -> int:
         if status == "pass":
             prompt_passes[prompt] += 1
             angle_passes[angle] += 1
+            panel_passes[panel] += 1
         details.append(
             {
                 "case_id": case_id,
                 "status": status,
                 "prompt": prompt,
+                "panel": panel,
                 "transfer_joint_1_rad": float(case["transfer_joint_1_rad"]),
                 "source_offset_x_m": float(case["source_offset_x_m"]),
                 "source_offset_y_m": float(case["source_offset_y_m"]),
@@ -146,6 +170,7 @@ def main() -> int:
         "valid_report_count": valid_count,
         "success_count": pass_count,
         "success_rate_over_valid_reports": pass_count / valid_count if valid_count else 0.0,
+        "success_rate_ci95_wilson": wilson_interval(pass_count, valid_count),
         "status_counts": dict(sorted(status_counts.items())),
         "failure_counts": dict(sorted(failure_counts.items())),
         "by_prompt": {
@@ -153,6 +178,9 @@ def main() -> int:
                 "total": total,
                 "passes": prompt_passes[prompt],
                 "success_rate": prompt_passes[prompt] / total,
+                "success_rate_ci95_wilson": wilson_interval(
+                    prompt_passes[prompt], total
+                ),
             }
             for prompt, total in sorted(prompt_totals.items())
         },
@@ -161,8 +189,22 @@ def main() -> int:
                 "total": total,
                 "passes": angle_passes[angle],
                 "success_rate": angle_passes[angle] / total,
+                "success_rate_ci95_wilson": wilson_interval(
+                    angle_passes[angle], total
+                ),
             }
             for angle, total in sorted(angle_totals.items())
+        },
+        "by_panel": {
+            panel: {
+                "total": total,
+                "passes": panel_passes[panel],
+                "success_rate": panel_passes[panel] / total,
+                "success_rate_ci95_wilson": wilson_interval(
+                    panel_passes[panel], total
+                ),
+            }
+            for panel, total in sorted(panel_totals.items())
         },
         "cases": details,
     }

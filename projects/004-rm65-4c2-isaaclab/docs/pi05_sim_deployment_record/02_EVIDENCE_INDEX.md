@@ -1,6 +1,17 @@
 # 证据索引
 
-## 当前正式证据
+## 当前扩大样本证据
+
+预注册 60-case 鲁棒性评测：51 个成功、9 个失败，成功率 **85%**，全部报告齐全。
+
+- [60-case 紧凑证据](../../results/rm65_pi05_robustness_v3_60_compact_evidence.json)
+- [60-case 失败分类与分层统计](../../results/rm65_pi05_robustness_v3_60_failure_taxonomy.json)
+- [60-case 释放/阶段分析](../../results/rm65_pi05_robustness_v3_60_release_analysis.json)
+- [60-case 计划验证](../../results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json)
+
+关键审计项：60/60 报告、`diagnostic_only=false`、`simulation_only=true`、`real_robot_command_sent=false`、缺失报告为 0；门禁要求全部计划报告齐全。
+
+## 初始正式证据
 
 正式独立确认集：20 个案例，16 个成功，4 个失败，成功率 **80%**。
 
