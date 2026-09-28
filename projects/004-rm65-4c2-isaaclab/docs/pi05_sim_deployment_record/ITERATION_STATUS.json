@@ -1,18 +1,19 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-28",
-  "git_baseline": "67d26c2",
-  "working_version": "v3-fc-wip.009",
+  "git_baseline": "cf9cc5f",
+  "working_version": "v3-fc-wip.010",
   "committed": false,
   "phase": "failure_correction_expert_collection",
   "current_action": "collect 30 scripted expert correction episodes derived from the six primary robustness failures",
-  "latest_confirmed_complete_episode_count": 14,
+  "latest_confirmed_complete_episode_count": 16,
   "next_actions": [
     "complete and validate 30 of 30 correction episodes",
     "combine 36 original train episodes and 30 correction episodes into a new 66-episode LeRobot policy-window repo",
     "compute and verify new normalization statistics",
     "run a two-step incremental-training smoke from the frozen v2 checkpoint",
-    "start the 10000-step v3 LoRA fine-tune only if the smoke passes"
+    "start the 10000-step v3 LoRA fine-tune only if the smoke passes",
+    "run offline validation, one fresh-condition confirmation, and two same-plan repeatability runs"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
