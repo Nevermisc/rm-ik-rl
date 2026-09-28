@@ -10,6 +10,8 @@
 - [正式复现运行释放/阶段分析](../../results/rm65_pi05_robustness_v3_60_release_analysis.json)
 - [4-case 相同 seed 重复性审计](../../results/rm65_pi05_repeatability_audit_outer4_v1.json)
 - [`robust_042` 精确首个策略观测对比](../../results/rm65_pi05_exact_initial_observation_repeatability_robust042_v1.json)
+- [20 条件 × 3 次重复预注册计划](../../config/rm65_pi05_repeatability_plan_v1_20x3.json)
+- [20×3 计划验证](../../results/rm65_pi05_repeatability_plan_v1_20x3_validation.json)
 - [60-case 计划验证](../../results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json)
 
 关键审计项：60/60 报告、`diagnostic_only=false`、`simulation_only=true`、`real_robot_command_sent=false`、缺失报告为 0；四个替换报告均有正数动作块和执行动作。重复性审计同时证明双相机首帧会跨进程变化，不能把显式 noise seed 等同于端到端确定性。

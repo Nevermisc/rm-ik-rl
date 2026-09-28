@@ -87,6 +87,20 @@
       "evidence": "results/rm65_pi05_exact_initial_observation_repeatability_robust042_v1.json"
     }
   },
+  "repeatability_preregistration": {
+    "status": "ready_to_run",
+    "plan": "config/rm65_pi05_repeatability_plan_v1_20x3.json",
+    "validation": "results/rm65_pi05_repeatability_plan_v1_20x3_validation.json",
+    "condition_count": 20,
+    "repeat_count": 3,
+    "required_reports": 60,
+    "minimum_status_consistency_rate": 0.95,
+    "maximum_outcome_flip_cases": 1,
+    "initial_joint_hash_match_required": true,
+    "initial_gripper_hash_match_required": true,
+    "chunk_zero_noise_hash_match_required": true,
+    "independent_success_rate_confirmation": false
+  },
   "controller": {
     "policy_max_action_chunks": 120,
     "policy_gripper_open_threshold": 0.12,

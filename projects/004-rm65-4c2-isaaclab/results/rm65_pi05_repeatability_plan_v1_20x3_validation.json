@@ -1,0 +1,37 @@
+{
+  "status": "pass",
+  "checks": {
+    "format_supported": true,
+    "twenty_cases": true,
+    "unique_case_ids": true,
+    "unique_policy_seeds_within_run": true,
+    "unique_simulation_seeds_within_run": true,
+    "one_case_per_angle_prompt_cell": true,
+    "panel_targets_met": true,
+    "four_angles_balanced": true,
+    "five_prompts_balanced": true,
+    "mandatory_cases_present": true,
+    "three_repeats_preregistered": true,
+    "ninety_five_percent_consistency_gate": true
+  },
+  "failed_checks": [],
+  "case_count": 20,
+  "panel_counts": {
+    "panel_a_inner": 7,
+    "panel_b_mid": 7,
+    "panel_c_outer": 6
+  },
+  "angle_counts": {
+    "0.65": 5,
+    "0.75": 5,
+    "0.85": 5,
+    "0.95": 5
+  },
+  "prompt_counts": {
+    "grasp the block and set it on the target": 4,
+    "move the block onto the target": 4,
+    "pick the block and put it at the target": 4,
+    "pick up the block and place it on the target": 4,
+    "place the block on the target platform": 4
+  }
+}
