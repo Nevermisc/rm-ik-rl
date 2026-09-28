@@ -46,7 +46,29 @@
     "policy_seed_range": [490928000, 490928059],
     "simulation_seed_range": [590928000, 590928059],
     "validation": "results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json",
-    "status": "validated_pending_execution"
+    "status": "running"
+  },
+  "active_evaluation": {
+    "started_at": "2026-09-28T16:53:00+08:00",
+    "mode": "background_resumable_suite",
+    "plan": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
+    "output_root": "datasets/rm65_pi05_robustness_v3_60",
+    "summary": "results/rm65_pi05_robustness_v3_60_summary.json",
+    "console_log": "outputs/rm65_pi05_robustness_v3_60_console.log",
+    "pid_file": "outputs/rm65_pi05_robustness_v3_60.pid",
+    "simulation_only": true,
+    "real_robot_command_sent": false,
+    "interim_results_are_not_a_formal_conclusion": true
+  },
+  "smoke_evaluation": {
+    "case_id": "robust_000",
+    "status": "pass",
+    "policy_noise_seed": 490928000,
+    "simulation_seed": 590928000,
+    "action_chunks": 63,
+    "release_verified": true,
+    "simulation_only": true,
+    "real_robot_command_sent": false
   },
   "next_required_milestone": "complete the preregistered 60-case fresh-seed robustness evaluation"
 }
