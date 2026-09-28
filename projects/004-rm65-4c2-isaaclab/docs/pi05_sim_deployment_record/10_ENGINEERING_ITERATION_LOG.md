@@ -234,6 +234,16 @@
 - 怎么解决：不强杀已完成进程，等待内核自然回收；正式训练只保留每 2,000 step 保存一次，避免 smoke 的每 step 保存开销代表常规吞吐。正式运行后依据无保存区间的实际 step rate 更新完成时间判断。
 - 下一步：精确暂存并推送代码、日志和小型 JSON 报告，不提交数据集或 checkpoint；待进程退出后运行 `start`。
 
+### v3-fc-wip.021：封存 smoke 版本并放行 10k 正式微调
+
+- 上一工作版本提交：`a7c7b3d2ddf7b9be2fb4703af21288bb90ac34a6`（`Validate RM65 v3 correction training data`），已推送且本地/`origin/main` 指针一致。
+- 准备做：启动 `rm65_failure_correction_v3_lora_10k`，先用无 checkpoint 保存区间的实际吞吐估计训练时长，再持续监控 loss、grad norm、GPU/RAM 和 checkpoint。
+- 启动前门禁：没有残留 `train_rm65_pi05.py` 进程；正式输出目录不存在；根分区可用约 2.3 TiB；RAM 可用约 28 GiB、swap 仅 1.2 MiB；RTX 4080 SUPER 空闲，显存占用 140 MiB、温度 33°C。
+- Git 边界：项目中仍有多份历史结果和 `scripts_sync_staging/` 未跟踪，它们不属于本轮提交，继续保持原样；本轮只提交了 9 个精确选择的代码、日志及小型证据文件，未提交数据集或 checkpoint。
+- 为什么现在放行：30/30 纠正数据、36+30 来源、OpenPI batch、norm asset 路径/哈希、v2 恢复、两步前反向和 checkpoint 保存均已分别通过；不存在尚未解释的训练阻断项。
+- 正式训练合同：10,000 step、batch size 1、从 v2 `29999/params` 初始化、warmup 500、峰值学习率 `5e-6`、余弦衰减到 `1e-6`、每 2,000 step 保存一次，独立实验目录且禁用真实机械臂命令。
+- 下一步：启动后确认首批 loss/grad 有限并记录实际 step rate；只有正式报告和最终 `9999/params` 均存在，才进入离线验证与全新条件 run1。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
