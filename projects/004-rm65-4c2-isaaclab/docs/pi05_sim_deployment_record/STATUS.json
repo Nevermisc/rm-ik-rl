@@ -40,5 +40,13 @@
     "0.85 rad and place-block prompt strata are weaker",
     "real robot calibration and safety gates are incomplete"
   ],
-  "next_required_milestone": "complete a preregistered 60-case fresh-seed robustness evaluation"
+  "next_evaluation_plan": {
+    "path": "config/rm65_pi05_evaluation_plan_robustness_v3_60.json",
+    "case_count": 60,
+    "policy_seed_range": [490928000, 490928059],
+    "simulation_seed_range": [590928000, 590928059],
+    "validation": "results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json",
+    "status": "validated_pending_execution"
+  },
+  "next_required_milestone": "complete the preregistered 60-case fresh-seed robustness evaluation"
 }

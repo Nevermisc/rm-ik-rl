@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "checks": {
+    "format_supported": true,
+    "sixty_cases": true,
+    "unique_case_ids": true,
+    "unique_policy_seeds": true,
+    "unique_simulation_seeds": true,
+    "unique_kinematic_conditions": true,
+    "three_balanced_panels": true,
+    "four_balanced_angles": true,
+    "five_balanced_prompts": true,
+    "angles_held_out": true,
+    "angles_inside_demonstration_range": true,
+    "offsets_inside_demonstration_range": true,
+    "full_conditions_held_out": true,
+    "policy_seeds_disjoint_from_prior_plans": true,
+    "simulation_seeds_disjoint_from_prior_plans": true
+  },
+  "failed_checks": [],
+  "case_count": 60,
+  "panel_counts": {
+    "panel_a_inner": 20,
+    "panel_b_mid": 20,
+    "panel_c_outer": 20
+  },
+  "angle_counts": {
+    "0.65": 15,
+    "0.75": 15,
+    "0.85": 15,
+    "0.95": 15
+  },
+  "prompt_counts": {
+    "grasp the block and set it on the target": 12,
+    "move the block onto the target": 12,
+    "pick the block and put it at the target": 12,
+    "pick up the block and place it on the target": 12,
+    "place the block on the target platform": 12
+  },
+  "policy_seed_range": [
+    490928000,
+    490928059
+  ],
+  "simulation_seed_range": [
+    590928000,
+    590928059
+  ]
+}

@@ -1,0 +1,706 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Preregistered 60-case fresh-seed robustness evaluation for the frozen RM65 pi0.5 v2 checkpoint and release supervisor.",
+  "preregistration": {
+    "created_at": "2026-09-28",
+    "inspect_aggregate_only_after_all_cases": true,
+    "normal_model_failures_must_not_be_retried": true,
+    "infrastructure_retries_require_missing_valid_report": true
+  },
+  "sampling_contract": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "chunk_seed_rule": "policy_noise_seed + chunk_index",
+    "simulation_seed_fields": "Python, NumPy, Torch, CUDA, Warp, Replicator, PhysX enhanced determinism",
+    "prior_plan_seed_overlap": false
+  },
+  "frozen_controller_contract": {
+    "checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
+    "repo_id": "local/rm65_sim_policy_train",
+    "policy_max_action_chunks": 120,
+    "policy_gripper_open_threshold": 0.12,
+    "actual_gripper_open_threshold": 0.2,
+    "required_release_candidate_chunks": 2
+  },
+  "panels": [
+    {
+      "panel": "panel_a_inner",
+      "case_count": 20,
+      "offsets_m": [
+        [
+          -0.00375,
+          -0.00375
+        ],
+        [
+          -0.00375,
+          0.00375
+        ],
+        [
+          0.00375,
+          -0.00375
+        ],
+        [
+          0.00375,
+          0.00375
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "panel": "panel_b_mid",
+      "case_count": 20,
+      "offsets_m": [
+        [
+          -0.0075,
+          0.0
+        ],
+        [
+          0.0075,
+          0.0
+        ],
+        [
+          0.0,
+          -0.0075
+        ],
+        [
+          0.0,
+          0.0075
+        ],
+        [
+          0.0075,
+          0.0075
+        ]
+      ]
+    },
+    {
+      "panel": "panel_c_outer",
+      "case_count": 20,
+      "offsets_m": [
+        [
+          -0.01125,
+          -0.01125
+        ],
+        [
+          -0.01125,
+          0.01125
+        ],
+        [
+          0.01125,
+          -0.01125
+        ],
+        [
+          0.01125,
+          0.01125
+        ],
+        [
+          0.0,
+          -0.01125
+        ]
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "robust_000",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928000,
+      "simulation_seed": 590928000,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_001",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928001,
+      "simulation_seed": 590928001,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_002",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928002,
+      "simulation_seed": 590928002,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_003",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928003,
+      "simulation_seed": 590928003,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_004",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928004,
+      "simulation_seed": 590928004,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_005",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928005,
+      "simulation_seed": 590928005,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_006",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928006,
+      "simulation_seed": 590928006,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_007",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928007,
+      "simulation_seed": 590928007,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_008",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928008,
+      "simulation_seed": 590928008,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_009",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928009,
+      "simulation_seed": 590928009,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_010",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928010,
+      "simulation_seed": 590928010,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_011",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928011,
+      "simulation_seed": 590928011,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_012",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928012,
+      "simulation_seed": 590928012,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_013",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928013,
+      "simulation_seed": 590928013,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_014",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928014,
+      "simulation_seed": 590928014,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_015",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928015,
+      "simulation_seed": 590928015,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_016",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928016,
+      "simulation_seed": 590928016,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_017",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928017,
+      "simulation_seed": 590928017,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": -0.00375,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_018",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928018,
+      "simulation_seed": 590928018,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.00375,
+      "source_offset_y_m": 0.00375,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_019",
+      "panel": "panel_a_inner",
+      "policy_noise_seed": 490928019,
+      "simulation_seed": 590928019,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_020",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928020,
+      "simulation_seed": 590928020,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_021",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928021,
+      "simulation_seed": 590928021,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_022",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928022,
+      "simulation_seed": 590928022,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.0075,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_023",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928023,
+      "simulation_seed": 590928023,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0075,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_024",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928024,
+      "simulation_seed": 590928024,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_025",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928025,
+      "simulation_seed": 590928025,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_026",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928026,
+      "simulation_seed": 590928026,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_027",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928027,
+      "simulation_seed": 590928027,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.0075,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_028",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928028,
+      "simulation_seed": 590928028,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0075,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_029",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928029,
+      "simulation_seed": 590928029,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_030",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928030,
+      "simulation_seed": 590928030,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_031",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928031,
+      "simulation_seed": 590928031,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_032",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928032,
+      "simulation_seed": 590928032,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.0075,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_033",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928033,
+      "simulation_seed": 590928033,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0075,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_034",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928034,
+      "simulation_seed": 590928034,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_035",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928035,
+      "simulation_seed": 590928035,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_036",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928036,
+      "simulation_seed": 590928036,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_037",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928037,
+      "simulation_seed": 590928037,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.0075,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_038",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928038,
+      "simulation_seed": 590928038,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": 0.0075,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_039",
+      "panel": "panel_b_mid",
+      "policy_noise_seed": 490928039,
+      "simulation_seed": 590928039,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0075,
+      "source_offset_y_m": 0.0075,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_040",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928040,
+      "simulation_seed": 590928040,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_041",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928041,
+      "simulation_seed": 590928041,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_042",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928042,
+      "simulation_seed": 590928042,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_043",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928043,
+      "simulation_seed": 590928043,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_044",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928044,
+      "simulation_seed": 590928044,
+      "transfer_joint_1_rad": 0.65,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.01125,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_045",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928045,
+      "simulation_seed": 590928045,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_046",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928046,
+      "simulation_seed": 590928046,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_047",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928047,
+      "simulation_seed": 590928047,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_048",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928048,
+      "simulation_seed": 590928048,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_049",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928049,
+      "simulation_seed": 590928049,
+      "transfer_joint_1_rad": 0.75,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_050",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928050,
+      "simulation_seed": 590928050,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "robust_051",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928051,
+      "simulation_seed": 590928051,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_052",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928052,
+      "simulation_seed": 590928052,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_053",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928053,
+      "simulation_seed": 590928053,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_054",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928054,
+      "simulation_seed": 590928054,
+      "transfer_joint_1_rad": 0.85,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_055",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928055,
+      "simulation_seed": 590928055,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "robust_056",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928056,
+      "simulation_seed": 590928056,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": -0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "robust_057",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928057,
+      "simulation_seed": 590928057,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": -0.01125,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "robust_058",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928058,
+      "simulation_seed": 590928058,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.01125,
+      "source_offset_y_m": 0.01125,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "robust_059",
+      "panel": "panel_c_outer",
+      "policy_noise_seed": 490928059,
+      "simulation_seed": 590928059,
+      "transfer_joint_1_rad": 0.95,
+      "source_offset_x_m": 0.0,
+      "source_offset_y_m": -0.01125,
+      "prompt": "move the block onto the target"
+    }
+  ]
+}

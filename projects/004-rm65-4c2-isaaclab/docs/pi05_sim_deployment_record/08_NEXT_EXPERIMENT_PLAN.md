@@ -25,6 +25,15 @@
 
 预注册判定：60 个案例完整后再统一查看总体结论；不得因某个 panel 结果不好而修改剩余 panel。
 
+该计划由 `scripts/build_rm65_robustness_plan.py` 生成并校验，固定输出为：
+
+```text
+config/rm65_pi05_evaluation_plan_robustness_v3_60.json
+results/rm65_pi05_evaluation_plan_robustness_v3_60_validation.json
+```
+
+预注册种子范围为策略 `490928000..490928059`、仿真 `590928000..590928059`。三个 panel 分别覆盖内圈对角位置、中圈轴向位置和外圈对角位置；60 个运动学条件全部唯一，并位于专家采集范围内部。
+
 ## 阶段 B：失败邻域诊断
 
 对新评测失败逐项记录：
