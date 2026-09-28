@@ -1,0 +1,225 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_deterministic_release_failure_analysis",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "planned_case_count": 20,
+  "analyzed_case_count": 20,
+  "gripper_open_threshold": 0.12,
+  "category_counts": {
+    "never_reached_target": 4,
+    "pass": 16
+  },
+  "simulation_safety_abort_counts": {
+    "cube_outside_workspace_envelope": 1
+  },
+  "release_gate_candidate_case_counts": {
+    "actual_lt_0.12": {
+      "required_1": 16,
+      "required_2": 11,
+      "required_3": 0
+    },
+    "actual_lt_0.15": {
+      "required_1": 16,
+      "required_2": 13,
+      "required_3": 0
+    },
+    "actual_lt_0.20": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 0
+    },
+    "actual_lt_0.25": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 1
+    },
+    "actual_lt_0.30": {
+      "required_1": 16,
+      "required_2": 16,
+      "required_3": 2
+    }
+  },
+  "cases": [
+    {
+      "case_id": "confirm_000",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 53,
+      "block_lift_height_m": 0.04296153783798218
+    },
+    {
+      "case_id": "confirm_001",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 54,
+      "block_lift_height_m": 0.039809465408325195
+    },
+    {
+      "case_id": "confirm_002",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 61,
+      "block_lift_height_m": 0.043155789375305176
+    },
+    {
+      "case_id": "confirm_003",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 61,
+      "block_lift_height_m": 0.04442429542541504
+    },
+    {
+      "case_id": "confirm_004",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 60,
+      "block_lift_height_m": 0.05204981565475464
+    },
+    {
+      "case_id": "confirm_005",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 59,
+      "block_lift_height_m": 0.03161787986755371
+    },
+    {
+      "case_id": "confirm_006",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 66,
+      "block_lift_height_m": 0.05059528350830078
+    },
+    {
+      "case_id": "confirm_007",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.03129535913467407,
+      "minimum_target_error_m": 0.09274533558672962,
+      "minimum_target_error_chunk": 58,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "confirm_008",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 65,
+      "block_lift_height_m": 0.04295235872268677
+    },
+    {
+      "case_id": "confirm_009",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 64,
+      "block_lift_height_m": 0.046146392822265625
+    },
+    {
+      "case_id": "confirm_010",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.02276557683944702,
+      "minimum_target_error_m": 0.19796242578365195,
+      "minimum_target_error_chunk": 119,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "confirm_011",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": "cube_outside_workspace_envelope",
+      "action_chunks": 109,
+      "block_lift_height_m": 0.02082359790802002,
+      "minimum_target_error_m": 0.16076487277817508,
+      "minimum_target_error_chunk": 106,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "confirm_012",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 64,
+      "block_lift_height_m": 0.03950697183609009
+    },
+    {
+      "case_id": "confirm_013",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 62,
+      "block_lift_height_m": 0.03787803649902344
+    },
+    {
+      "case_id": "confirm_014",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 84,
+      "block_lift_height_m": 0.0424380898475647
+    },
+    {
+      "case_id": "confirm_015",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 93,
+      "block_lift_height_m": 0.0323408842086792
+    },
+    {
+      "case_id": "confirm_016",
+      "status": "fail",
+      "category": "never_reached_target",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 120,
+      "block_lift_height_m": 0.028780221939086914,
+      "minimum_target_error_m": 0.09439649344581412,
+      "minimum_target_error_chunk": 119,
+      "near_target_chunk_count": 0,
+      "maximum_consecutive_release_candidate_chunks": 0,
+      "release_signals_near_target": []
+    },
+    {
+      "case_id": "confirm_017",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 80,
+      "block_lift_height_m": 0.041202425956726074
+    },
+    {
+      "case_id": "confirm_018",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 68,
+      "block_lift_height_m": 0.033406734466552734
+    },
+    {
+      "case_id": "confirm_019",
+      "status": "pass",
+      "category": "pass",
+      "simulation_safety_abort_reason": null,
+      "action_chunks": 81,
+      "block_lift_height_m": 0.04767584800720215
+    }
+  ]
+}
