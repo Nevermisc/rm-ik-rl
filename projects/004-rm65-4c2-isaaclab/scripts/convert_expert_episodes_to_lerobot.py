@@ -145,11 +145,13 @@ def discover_dataset_roots(
     episodes = []
     seen_directories: set[Path] = set()
     for root in dataset_roots:
+        resolved_root = root.resolve()
         for episode in discover_episodes(root, collection_split=collection_split):
             directory = episode["directory"].resolve()
             if directory in seen_directories:
                 raise ValueError(f"duplicate episode directory: {directory}")
             seen_directories.add(directory)
+            episode["dataset_root"] = resolved_root
             episodes.append(episode)
 
     fps_values = {round(item["fps"], 9) for item in episodes}
@@ -189,6 +191,7 @@ def main() -> int:
     )
     parser.add_argument("--repo-id", required=True, help="LeRobot repository id, e.g. local/rm65_sim")
     parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument("--report", type=Path)
     parser.add_argument(
         "--split",
         choices=("train", "validation"),
@@ -281,24 +284,28 @@ def main() -> int:
             total_frames += 1
         dataset.save_episode()
 
-    print(
-        json.dumps(
-            {
-                "status": "pass",
-                "repo_id": args.repo_id,
-                "dataset_roots": [str(path) for path in dataset_roots],
-                "output_path": str(output_path),
-                "episode_count": len(episodes),
-                "frame_count": total_frames,
-                "source_frame_count": source_frames,
-                "policy_window": args.policy_window,
-                "selected_phase_counts": dict(sorted(selected_phase_counts.items())),
-                "fps": int(rounded_fps),
-                "collection_split": args.split,
-            },
-            indent=2,
-        )
-    )
+    report = {
+        "status": "pass",
+        "repo_id": args.repo_id,
+        "dataset_roots": [str(path) for path in dataset_roots],
+        "output_path": str(output_path),
+        "episode_count": len(episodes),
+        "episode_count_by_dataset_root": {
+            str(root): sum(episode["dataset_root"] == root for episode in episodes)
+            for root in dataset_roots
+        },
+        "frame_count": total_frames,
+        "source_frame_count": source_frames,
+        "policy_window": args.policy_window,
+        "selected_phase_counts": dict(sorted(selected_phase_counts.items())),
+        "fps": int(rounded_fps),
+        "collection_split": args.split,
+    }
+    text = json.dumps(report, indent=2) + "\n"
+    if args.report is not None:
+        args.report.parent.mkdir(parents=True, exist_ok=True)
+        args.report.write_text(text, encoding="utf-8")
+    print(text, end="")
     return 0
 
 

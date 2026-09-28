@@ -72,6 +72,11 @@ if conversion.get("status") != "pass":
     raise SystemExit("conversion report is not PASS")
 if conversion.get("episode_count") != 66:
     raise SystemExit(f"expected 66 combined training episodes, got {conversion.get('episode_count')}")
+if sorted(conversion.get("episode_count_by_dataset_root", {}).values()) != [30, 36]:
+    raise SystemExit(
+        "expected source episode counts 36 original + 30 correction, got "
+        f"{conversion.get('episode_count_by_dataset_root')}"
+    )
 if not conversion.get("policy_window"):
     raise SystemExit("combined dataset was not built with the policy window")
 if norm.get("status") != "pass" or validation.get("status") != "pass":

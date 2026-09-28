@@ -85,6 +85,8 @@ def main() -> int:
             and no_validation
             and len(combined) == 2
             and len({item["directory"].resolve() for item in combined}) == 2
+            and {item["dataset_root"] for item in combined}
+            == {root.resolve(), second_root.resolve()}
         )
         synthetic_phases = [
             "SOURCE_SETTLE",
