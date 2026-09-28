@@ -1,0 +1,112 @@
+{
+  "status": "pass",
+  "validation_kind": "rm65_pi05_deterministic_websocket_probe",
+  "simulation_action_executed": false,
+  "real_robot_command_sent": false,
+  "episode": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_scripted_v1/episode_000000",
+  "frame_index": 17,
+  "prompt": "pick up the block and place it on the target",
+  "policy_noise_seed": 260924000,
+  "request_schedule": [
+    260924000,
+    261924000,
+    260924000
+  ],
+  "same_seed_repeated_after_interleave": true,
+  "alternate_seed_noise_differs": true,
+  "server_metadata": {
+    "robot": "RM65-B",
+    "gripper": "4C2",
+    "model": "pi0.5",
+    "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+    "repo_id": "local/rm65_sim_policy_train",
+    "action_semantics": "six absolute joint targets plus normalized gripper target",
+    "sampling_mode": "explicit_numpy_gaussian_noise_v1",
+    "deterministic_seed_required": true,
+    "model_action_horizon": 10,
+    "model_action_dim": 32
+  },
+  "records": [
+    {
+      "request_index": 0,
+      "mode": "explicit_numpy_gaussian_noise_v1",
+      "seed": 260924000,
+      "shape": [
+        10,
+        32
+      ],
+      "dtype": "float32",
+      "noise_sha256": "ff16bb21aec439eac9659703153d5d767ab84a1421494968f6d749f0e2389491",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "80fb8bd3582c1b310c0f1b27b6062d4f51b0161c2e63f943df5751c257254118",
+      "first_action": [
+        0.044498901814222336,
+        0.5399017333984375,
+        1.2065372467041016,
+        0.0368475541472435,
+        2.1824514865875244,
+        0.05512452498078346,
+        0.0011090735206380486
+      ],
+      "inference_seconds": 9.542266977019608
+    },
+    {
+      "request_index": 1,
+      "mode": "explicit_numpy_gaussian_noise_v1",
+      "seed": 261924000,
+      "shape": [
+        10,
+        32
+      ],
+      "dtype": "float32",
+      "noise_sha256": "512014cfd389c6cd329dd24401d9c86f8c96c5a2991dbcb9fb03185cb6c41af1",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "33967b3dd3c3086bcf14d42cfdc5973e2351be30917de8fd7efcfa858fd40b63",
+      "first_action": [
+        0.04455528408288956,
+        0.5393038988113403,
+        1.2074040174484253,
+        0.03779764100909233,
+        2.1812024116516113,
+        0.053882136940956116,
+        0.0011176163097843528
+      ],
+      "inference_seconds": 0.10743010701844469
+    },
+    {
+      "request_index": 2,
+      "mode": "explicit_numpy_gaussian_noise_v1",
+      "seed": 260924000,
+      "shape": [
+        10,
+        32
+      ],
+      "dtype": "float32",
+      "noise_sha256": "ff16bb21aec439eac9659703153d5d767ab84a1421494968f6d749f0e2389491",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "80fb8bd3582c1b310c0f1b27b6062d4f51b0161c2e63f943df5751c257254118",
+      "first_action": [
+        0.044498901814222336,
+        0.5399017333984375,
+        1.2065372467041016,
+        0.0368475541472435,
+        2.1824514865875244,
+        0.05512452498078346,
+        0.0011090735206380486
+      ],
+      "inference_seconds": 0.10188031196594238
+    }
+  ]
+}

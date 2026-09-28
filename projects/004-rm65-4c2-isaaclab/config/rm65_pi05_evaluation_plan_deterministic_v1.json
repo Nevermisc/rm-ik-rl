@@ -1,0 +1,34 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Twenty novel-angle RM65 pi0.5 simulation cases with explicit per-case policy noise seeds.",
+  "sampling_contract": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "chunk_seed_rule": "policy_noise_seed + chunk_index",
+    "historical_plan_modified": false
+  },
+  "cases": [
+    {"case_id": "eval_000", "policy_noise_seed": 260924000, "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_001", "policy_noise_seed": 260924001, "transfer_joint_1_rad": 0.65, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_002", "policy_noise_seed": 260924002, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_003", "policy_noise_seed": 260924003, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_004", "policy_noise_seed": 260924004, "transfer_joint_1_rad": 0.65, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick the block and put it at the target"},
+
+    {"case_id": "eval_005", "policy_noise_seed": 260924005, "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_006", "policy_noise_seed": 260924006, "transfer_joint_1_rad": 0.75, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_007", "policy_noise_seed": 260924007, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_008", "policy_noise_seed": 260924008, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_009", "policy_noise_seed": 260924009, "transfer_joint_1_rad": 0.75, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "pick up the block and place it on the target"},
+
+    {"case_id": "eval_010", "policy_noise_seed": 260924010, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "grasp the block and set it on the target"},
+    {"case_id": "eval_011", "policy_noise_seed": 260924011, "transfer_joint_1_rad": 0.85, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_012", "policy_noise_seed": 260924012, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_013", "policy_noise_seed": 260924013, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_014", "policy_noise_seed": 260924014, "transfer_joint_1_rad": 0.85, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "move the block onto the target"},
+
+    {"case_id": "eval_015", "policy_noise_seed": 260924015, "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": -0.0075, "prompt": "place the block on the target platform"},
+    {"case_id": "eval_016", "policy_noise_seed": 260924016, "transfer_joint_1_rad": 0.95, "source_offset_x_m": -0.0075, "source_offset_y_m": 0.0075, "prompt": "pick the block and put it at the target"},
+    {"case_id": "eval_017", "policy_noise_seed": 260924017, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": -0.0075, "prompt": "pick up the block and place it on the target"},
+    {"case_id": "eval_018", "policy_noise_seed": 260924018, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0075, "source_offset_y_m": 0.0075, "prompt": "move the block onto the target"},
+    {"case_id": "eval_019", "policy_noise_seed": 260924019, "transfer_joint_1_rad": 0.95, "source_offset_x_m": 0.0, "source_offset_y_m": 0.0, "prompt": "grasp the block and set it on the target"}
+  ]
+}

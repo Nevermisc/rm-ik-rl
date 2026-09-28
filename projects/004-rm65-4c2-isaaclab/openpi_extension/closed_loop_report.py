@@ -4,6 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from openpi_extension.deterministic_policy import (
+    POLICY_SAMPLING_MODE,
+    policy_sampling_evidence,
+)
+
 
 def _number(value: Any) -> float | None:
     try:
@@ -13,8 +18,57 @@ def _number(value: Any) -> float | None:
     return result
 
 
+def _sha256_string(value: Any) -> bool:
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
+
+
+def _deterministic_sampling_valid(
+    report: dict[str, Any], expected_policy_noise_seed: int
+) -> bool:
+    sampling = report.get("deterministic_sampling")
+    action_chunks = report.get("action_chunks")
+    if not isinstance(sampling, dict) or not isinstance(action_chunks, int):
+        return False
+    if (
+        report.get("policy_noise_seed") != expected_policy_noise_seed
+        or sampling.get("mode") != POLICY_SAMPLING_MODE
+        or sampling.get("case_seed") != expected_policy_noise_seed
+        or sampling.get("chunk_seed_rule") != "case_seed + chunk_index"
+        or sampling.get("noise_shape") != [10, 32]
+        or sampling.get("noise_dtype") != "float32"
+    ):
+        return False
+    chunks = sampling.get("chunks")
+    if not isinstance(chunks, list) or len(chunks) != action_chunks:
+        return False
+    for chunk_index, chunk in enumerate(chunks):
+        if not isinstance(chunk, dict):
+            return False
+        chunk_seed = expected_policy_noise_seed + chunk_index
+        expected = policy_sampling_evidence(chunk_seed, 10, 32)
+        if any(chunk.get(key) != value for key, value in expected.items()):
+            return False
+        if (
+            chunk.get("chunk_index") != chunk_index
+            or chunk.get("raw_action_shape") != [10, 7]
+            or chunk.get("raw_action_dtype") != "float32"
+            or not _sha256_string(chunk.get("raw_action_sha256"))
+            or chunk.get("safe_action_shape") != [10, 7]
+            or chunk.get("safe_action_dtype") != "float32"
+            or not _sha256_string(chunk.get("safe_action_sha256"))
+            or not isinstance(chunk.get("executed_action_count"), int)
+            or chunk["executed_action_count"] <= 0
+        ):
+            return False
+    return True
+
+
 def validate_closed_loop_task_report(
-    report: dict[str, Any], *, expected_checkpoint_id: str
+    report: dict[str, Any], *, expected_checkpoint_id: str, expected_policy_noise_seed: int
 ) -> dict[str, Any]:
     source_distance = _number(report.get("source_to_target_xy_distance_m"))
     lift_height = _number(report.get("block_lift_height_m"))
@@ -42,6 +96,11 @@ def validate_closed_loop_task_report(
         "pi05_used": report.get("pi05_used") is True,
         "real_robot_command_not_sent": report.get("real_robot_command_sent") is False,
         "checkpoint_matches": report.get("policy_checkpoint_id") == expected_checkpoint_id,
+        "policy_noise_seed_matches": report.get("policy_noise_seed")
+        == expected_policy_noise_seed,
+        "deterministic_sampling_verified": _deterministic_sampling_valid(
+            report, expected_policy_noise_seed
+        ),
         "action_chunks_positive": isinstance(report.get("action_chunks"), int)
         and report["action_chunks"] > 0,
         "executed_actions_positive": isinstance(report.get("executed_actions"), int)
@@ -63,6 +122,7 @@ def validate_closed_loop_task_report(
         "status": "pass" if not failed else "blocked",
         "execution_verified": not failed,
         "expected_checkpoint_id": expected_checkpoint_id,
+        "expected_policy_noise_seed": expected_policy_noise_seed,
         "checks": checks,
         "failed_checks": failed,
     }

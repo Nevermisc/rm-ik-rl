@@ -13,16 +13,34 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from openpi_extension.closed_loop_report import validate_closed_loop_task_report
+from openpi_extension.deterministic_policy import policy_sampling_evidence
 
 
 def main() -> int:
     checkpoint_id = "rm65_scripted_v1_lora_30k/29999"
+    policy_noise_seed = 8000
+    chunks = []
+    for chunk_index in range(12):
+        chunks.append(
+            {
+                "chunk_index": chunk_index,
+                **policy_sampling_evidence(policy_noise_seed + chunk_index, 10, 32),
+                "raw_action_shape": [10, 7],
+                "raw_action_dtype": "float32",
+                "raw_action_sha256": "1" * 64,
+                "safe_action_shape": [10, 7],
+                "safe_action_dtype": "float32",
+                "safe_action_sha256": "2" * 64,
+                "executed_action_count": 5,
+            }
+        )
     report = {
         "status": "pass",
         "simulation_only": True,
         "pi05_used": True,
         "real_robot_command_sent": False,
         "policy_checkpoint_id": checkpoint_id,
+        "policy_noise_seed": policy_noise_seed,
         "action_chunks": 12,
         "executed_actions": 120,
         "source_to_target_xy_distance_m": 0.2,
@@ -40,22 +58,55 @@ def main() -> int:
             "verification_settle_steps": 240,
             "model_selected_release": True,
         },
+        "deterministic_sampling": {
+            "mode": "explicit_numpy_gaussian_noise_v1",
+            "case_seed": policy_noise_seed,
+            "chunk_seed_rule": "case_seed + chunk_index",
+            "noise_shape": [10, 32],
+            "noise_dtype": "float32",
+            "chunks": chunks,
+        },
     }
     assert validate_closed_loop_task_report(
-        report, expected_checkpoint_id=checkpoint_id
+        report,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
     )["status"] == "pass"
     wrong_checkpoint = dict(report, policy_checkpoint_id="other/1")
     assert validate_closed_loop_task_report(
-        wrong_checkpoint, expected_checkpoint_id=checkpoint_id
+        wrong_checkpoint,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
     )["status"] == "blocked"
     false_status = dict(report, status="fail")
     assert validate_closed_loop_task_report(
-        false_status, expected_checkpoint_id=checkpoint_id
+        false_status,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
     )["status"] == "blocked"
     incomplete = dict(report)
     incomplete.pop("executed_actions")
     assert validate_closed_loop_task_report(
-        incomplete, expected_checkpoint_id=checkpoint_id
+        incomplete,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
+    )["status"] == "blocked"
+    wrong_seed = dict(report, policy_noise_seed=policy_noise_seed + 1)
+    assert validate_closed_loop_task_report(
+        wrong_seed,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
+    )["status"] == "blocked"
+    tampered_sampling = dict(report)
+    tampered_chunks = [dict(chunk) for chunk in chunks]
+    tampered_chunks[0]["noise_sha256"] = "0" * 64
+    tampered_sampling["deterministic_sampling"] = dict(
+        report["deterministic_sampling"], chunks=tampered_chunks
+    )
+    assert validate_closed_loop_task_report(
+        tampered_sampling,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
     )["status"] == "blocked"
     print(
         json.dumps(
@@ -64,6 +115,8 @@ def main() -> int:
                 "wrong_checkpoint_blocked": True,
                 "failed_task_blocked": True,
                 "missing_execution_evidence_blocked": True,
+                "wrong_policy_noise_seed_blocked": True,
+                "tampered_noise_hash_blocked": True,
             },
             indent=2,
         )

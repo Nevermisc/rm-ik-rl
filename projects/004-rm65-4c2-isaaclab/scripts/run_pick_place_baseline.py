@@ -167,10 +167,22 @@ parser.add_argument(
     default="unknown",
     help="Checkpoint identifier stored in the machine-readable evaluation report.",
 )
+parser.add_argument(
+    "--policy-noise-seed",
+    type=int,
+    help=(
+        "Non-negative case-level seed. Chunk N uses seed + N and inference fails "
+        "closed when the server evidence does not match."
+    ),
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
     parser.error("--policy-gripper-open-threshold must be between 0 and 1")
+if args.pi05_closed_loop and args.policy_noise_seed is None:
+    parser.error("--pi05-closed-loop requires --policy-noise-seed")
+if args.policy_noise_seed is not None and args.policy_noise_seed < 0:
+    parser.error("--policy-noise-seed must be non-negative")
 app_launcher = AppLauncher(args)
 simulation_app = app_launcher.app
 
@@ -191,6 +203,13 @@ from openpi_extension.expert_episode import (  # noqa: E402
     validate_episode,
 )
 from openpi_extension.action_guard import guard_action_chunk  # noqa: E402
+from openpi_extension.deterministic_policy import (  # noqa: E402
+    POLICY_NOISE_SEED_KEY,
+    POLICY_SAMPLING_MODE,
+    array_sha256,
+    case_chunk_seed,
+    validate_policy_sampling_evidence,
+)
 from grasp_geometry import compute_top_down_link_pose  # noqa: E402
 from isaaclab.sim import SimulationContext  # noqa: E402
 from isaaclab.utils import math as math_utils  # noqa: E402
@@ -212,6 +231,8 @@ MOVING_GRIPPER_BODY_PATHS = {
 }
 BLOCK_SIZE = (0.060, 0.040, 0.025)
 BLOCK_MASS_KG = 0.030
+POLICY_NOISE_ACTION_HORIZON = 10
+POLICY_NOISE_ACTION_DIM = 32
 SOURCE_BLOCK_POSITION = np.array([-0.22128649, -0.00000383, 0.75670463], dtype=np.float64)
 SOURCE_BLOCK_QUATERNION_WXYZ = (-0.20872162, -0.00000211, 0.97797507, 0.00002437)
 TARGET_PLATFORM_SIZE = (0.200, 0.200, 0.040)
@@ -649,8 +670,26 @@ def run_pi05_closed_loop(
     release_postcondition_arm_target = None
     minimum_observed_gripper_normalized = float("inf")
     minimum_executed_gripper_target = float("inf")
+    policy_sampling_records = []
+    server_metadata = client.get_server_metadata()
     try:
+        expected_server_metadata = {
+            "sampling_mode": POLICY_SAMPLING_MODE,
+            "deterministic_seed_required": True,
+            "model_action_horizon": POLICY_NOISE_ACTION_HORIZON,
+            "model_action_dim": POLICY_NOISE_ACTION_DIM,
+        }
+        metadata_mismatches = {
+            key: {"expected": value, "actual": server_metadata.get(key)}
+            for key, value in expected_server_metadata.items()
+            if server_metadata.get(key) != value
+        }
+        if metadata_mismatches:
+            raise RuntimeError(
+                f"policy server deterministic metadata mismatch: {metadata_mismatches}"
+            )
         for chunk_index in range(args.policy_max_action_chunks):
+            chunk_seed = case_chunk_seed(args.policy_noise_seed, chunk_index)
             external_rgb, wrist_rgb = episode_capture._render_images(robot, cube)
             current_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy().astype(np.float32)
             current_gripper = np.array(
@@ -663,10 +702,18 @@ def run_pi05_closed_loop(
                 "observation/external_image": external_rgb,
                 "observation/wrist_image": wrist_rgb,
                 "prompt": args.episode_prompt,
+                POLICY_NOISE_SEED_KEY: chunk_seed,
             }
             started = time.perf_counter()
-            raw_actions = np.asarray(client.infer(observation)["actions"], dtype=np.float32)
+            response = client.infer(observation)
             inference_latencies.append(time.perf_counter() - started)
+            sampling_evidence = validate_policy_sampling_evidence(
+                response.get("policy_sampling"),
+                expected_seed=chunk_seed,
+                action_horizon=POLICY_NOISE_ACTION_HORIZON,
+                action_dim=POLICY_NOISE_ACTION_DIM,
+            )
+            raw_actions = np.asarray(response["actions"], dtype=np.float32)
             safe_actions, guard = guard_action_chunk(raw_actions, current_arm)
             total_joint_limit_clamps += guard["joint_limit_clamp_count"]
             total_joint_step_clamps += guard["joint_step_clamp_count"]
@@ -674,6 +721,18 @@ def run_pi05_closed_loop(
             action_chunks += 1
 
             execute_count = min(args.policy_execute_actions_per_chunk, len(safe_actions))
+            sampling_record = {
+                "chunk_index": chunk_index,
+                **sampling_evidence,
+                "raw_action_shape": list(raw_actions.shape),
+                "raw_action_dtype": str(raw_actions.dtype),
+                "raw_action_sha256": array_sha256(raw_actions),
+                "safe_action_shape": list(safe_actions.shape),
+                "safe_action_dtype": str(safe_actions.dtype),
+                "safe_action_sha256": array_sha256(safe_actions),
+                "executed_action_count": execute_count,
+            }
+            policy_sampling_records.append(sampling_record)
             for action_index, action in enumerate(safe_actions[:execute_count]):
                 state[:, arm_ids] = torch.as_tensor(
                     action[:6], device=sim.device, dtype=state.dtype
@@ -734,6 +793,7 @@ def run_pi05_closed_loop(
                         "gripper_command_open": gripper_command_open,
                         "actual_gripper_normalized": actual_gripper_normalized,
                         "last_executed_gripper_target": last_executed_gripper_target,
+                        "policy_sampling": sampling_record,
                         "guard": guard,
                     }
                 ),
@@ -796,6 +856,7 @@ def run_pi05_closed_loop(
         "expert": None,
         "real_robot_command_sent": False,
         "policy_checkpoint_id": args.policy_checkpoint_id,
+        "policy_noise_seed": args.policy_noise_seed,
         "prompt": args.episode_prompt,
         "action_chunks": action_chunks,
         "executed_actions": executed_actions,
@@ -810,6 +871,17 @@ def run_pi05_closed_loop(
             ),
             "success_candidate_required_consecutive_chunks": 3,
             "policy_gripper_open_threshold": args.policy_gripper_open_threshold,
+            "policy_noise_seed": args.policy_noise_seed,
+            "policy_chunk_seed_rule": "case_seed + chunk_index",
+        },
+        "deterministic_sampling": {
+            "mode": POLICY_SAMPLING_MODE,
+            "case_seed": args.policy_noise_seed,
+            "chunk_seed_rule": "case_seed + chunk_index",
+            "noise_shape": [POLICY_NOISE_ACTION_HORIZON, POLICY_NOISE_ACTION_DIM],
+            "noise_dtype": "float32",
+            "server_metadata": server_metadata,
+            "chunks": policy_sampling_records,
         },
         "inference_latency_s": {
             "first": inference_latencies[0] if inference_latencies else None,
@@ -1506,6 +1578,9 @@ def main() -> int:
                 "pi05_used": args.pi05_closed_loop,
                 "policy_checkpoint_id": (
                     args.policy_checkpoint_id if args.pi05_closed_loop else None
+                ),
+                "policy_noise_seed": (
+                    args.policy_noise_seed if args.pi05_closed_loop else None
                 ),
                 "images_recorded": args.record_images,
                 "robot_base_position_m": robot_base_position.tolist(),

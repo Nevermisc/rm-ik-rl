@@ -8,7 +8,6 @@ import json
 import os
 import socket
 import subprocess
-import sys
 import time
 from pathlib import Path
 
@@ -32,8 +31,37 @@ def report_gripper_open_threshold(report: dict) -> float | None:
     return None
 
 
+def report_policy_noise_seed(report: dict) -> int | None:
+    top_level = report.get("policy_noise_seed")
+    sampling = report.get("deterministic_sampling", {})
+    nested = sampling.get("case_seed") if isinstance(sampling, dict) else None
+    if any(isinstance(value, bool) or not isinstance(value, int) for value in (top_level, nested)):
+        return None
+    if top_level < 0 or nested < 0 or top_level != nested:
+        return None
+    return top_level
+
+
+def validate_evaluation_cases(cases: list[dict]) -> None:
+    if not cases:
+        raise ValueError("evaluation plan has no cases")
+    case_ids = [case.get("case_id") for case in cases]
+    if any(not isinstance(case_id, str) or not case_id for case_id in case_ids):
+        raise ValueError("every evaluation case must have a non-empty case_id")
+    if len(set(case_ids)) != len(case_ids):
+        raise ValueError("evaluation case ids must be unique")
+    seeds = [case.get("policy_noise_seed") for case in cases]
+    if any(isinstance(seed, bool) or not isinstance(seed, int) or seed < 0 for seed in seeds):
+        raise ValueError("every evaluation case must have a non-negative integer policy_noise_seed")
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("evaluation policy_noise_seed values must be unique")
+
+
 def load_existing_report(
-    path: Path, checkpoint_id: str, gripper_open_threshold: float
+    path: Path,
+    checkpoint_id: str,
+    gripper_open_threshold: float,
+    policy_noise_seed: int,
 ) -> dict | None:
     if not path.is_file():
         return None
@@ -48,6 +76,8 @@ def load_existing_report(
     existing_threshold = report_gripper_open_threshold(report)
     if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
         return None
+    if report_policy_noise_seed(report) != policy_noise_seed:
+        return None
     return report
 
 
@@ -57,7 +87,7 @@ def main() -> int:
     parser.add_argument(
         "--plan",
         type=Path,
-        default=PROJECT_ROOT / "config" / "rm65_pi05_evaluation_plan_v1.json",
+        default=PROJECT_ROOT / "config" / "rm65_pi05_evaluation_plan_deterministic_v1.json",
     )
     parser.add_argument(
         "--output-root",
@@ -101,16 +131,12 @@ def main() -> int:
         raise FileNotFoundError(checkpoint)
     plan_path = args.plan.expanduser().resolve()
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
-    if plan.get("format") != "rm65_pi05_sim_evaluation_plan_v1":
+    if plan.get("format") != "rm65_pi05_sim_evaluation_plan_deterministic_v1":
         raise ValueError("unsupported evaluation plan format")
     cases = plan.get("cases", [])
     if args.max_cases is not None:
         cases = cases[: args.max_cases]
-    if not cases:
-        raise ValueError("evaluation plan has no cases")
-    case_ids = [case["case_id"] for case in cases]
-    if len(set(case_ids)) != len(case_ids):
-        raise ValueError("evaluation case ids must be unique")
+    validate_evaluation_cases(cases)
     if port_open(args.policy_port):
         raise RuntimeError(f"policy port {args.policy_port} is already in use")
 
@@ -168,15 +194,25 @@ def main() -> int:
             case_results = []
             for position, case in enumerate(cases, start=1):
                 case_id = case["case_id"]
+                case_seed = case["policy_noise_seed"]
                 episode_dir = output_root / case_id
                 report_path = episode_dir / "task_report.json"
                 existing = load_existing_report(
-                    report_path, checkpoint_id, args.gripper_open_threshold
+                    report_path,
+                    checkpoint_id,
+                    args.gripper_open_threshold,
+                    case_seed,
                 )
                 if existing is not None:
                     print(f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True)
                     case_results.append(
-                        {"case_id": case_id, "runner_returncode": 0, "report": existing, "reused": True}
+                        {
+                            "case_id": case_id,
+                            "policy_noise_seed": case_seed,
+                            "runner_returncode": 0,
+                            "report": existing,
+                            "reused": True,
+                        }
                     )
                     continue
                 episode_dir.mkdir(parents=True, exist_ok=True)
@@ -192,6 +228,7 @@ def main() -> int:
                     str(case["source_offset_x_m"]),
                     str(case["source_offset_y_m"]),
                     case["prompt"],
+                    str(case_seed),
                 ]
                 print(f"[{position}/{len(cases)}] {case_id}: run", flush=True)
                 attempt_results = []
@@ -224,7 +261,10 @@ def main() -> int:
                         }
                     )
                     report = load_existing_report(
-                        report_path, checkpoint_id, args.gripper_open_threshold
+                        report_path,
+                        checkpoint_id,
+                        args.gripper_open_threshold,
+                        case_seed,
                     )
                     if report is not None:
                         break
@@ -237,6 +277,7 @@ def main() -> int:
                 case_results.append(
                     {
                         "case_id": case_id,
+                        "policy_noise_seed": case_seed,
                         "runner_returncode": returncode,
                         "timed_out": timed_out,
                         "report": report,
@@ -270,6 +311,12 @@ def main() -> int:
         "policy_checkpoint_id": checkpoint_id,
         "repo_id": args.repo_id,
         "gripper_open_threshold_normalized": args.gripper_open_threshold,
+        "deterministic_sampling": {
+            "mode": "explicit_numpy_gaussian_noise_v1",
+            "case_seed_source": "evaluation_plan",
+            "chunk_seed_rule": "case_seed + chunk_index",
+            "resume_requires_matching_seed": True,
+        },
         "planned_case_count": len(cases),
         "episode_count": episode_count,
         "success_count": successes,

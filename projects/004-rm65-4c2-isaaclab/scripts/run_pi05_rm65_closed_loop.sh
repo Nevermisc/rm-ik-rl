@@ -5,17 +5,23 @@ project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 isaaclab_root="${ISAACLAB_ROOT:-$HOME/robot-learning/IsaacLab}"
 openpi_root="${OPENPI_ROOT:-$HOME/robot-learning/openpi}"
 rm65_root="${RM65_ROOT:-$HOME/robot-learning/rm-ik-rl}"
-checkpoint="${1:?usage: $0 CHECKPOINT [EPISODE_DIR] [TRANSFER_ANGLE] [SOURCE_X] [SOURCE_Y] [PROMPT]}"
+checkpoint="${1:?usage: $0 CHECKPOINT [EPISODE_DIR] [TRANSFER_ANGLE] [SOURCE_X] [SOURCE_Y] [PROMPT] POLICY_NOISE_SEED}"
 episode_dir="${2:-datasets/rm65_pi05_eval/episode_000000}"
 transfer_angle="${3:-0.8}"
 source_offset_x="${4:-0.0}"
 source_offset_y="${5:-0.0}"
 episode_prompt="${6:-pick up the block and place it on the target}"
+policy_noise_seed="${7:-${POLICY_NOISE_SEED:-}}"
 policy_port="${POLICY_PORT:-8000}"
 policy_server_mode="${POLICY_SERVER_MODE:-managed}"
 repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
 gripper_open_threshold="${POLICY_GRIPPER_OPEN_THRESHOLD:-0.12}"
 server_log="$project_root/outputs/rm65_pi05_policy_server.log"
+
+if [[ ! "$policy_noise_seed" =~ ^[0-9]+$ ]]; then
+  echo "ERROR: POLICY_NOISE_SEED must be a non-negative integer" >&2
+  exit 2
+fi
 
 cd "$project_root"
 mkdir -p outputs "$(dirname "$episode_dir")"
@@ -114,11 +120,13 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --policy-gripper-open-threshold "$gripper_open_threshold" \
   --policy-port "$policy_port" \
   --policy-checkpoint-id "$checkpoint_id" \
+  --policy-noise-seed "$policy_noise_seed" \
   --headless \
   --enable_cameras
 
 python3 scripts/check_closed_loop_task_report.py \
   "$episode_dir/task_report.json" \
-  --checkpoint-id "$checkpoint_id"
+  --checkpoint-id "$checkpoint_id" \
+  --policy-noise-seed "$policy_noise_seed"
 
 echo "RM65_PI05_EVALUATION_EPISODE=$episode_dir"

@@ -16,6 +16,10 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from openpi.policies import policy_config
 from openpi.serving.websocket_policy_server import WebsocketPolicyServer
+from openpi_extension.deterministic_policy import (
+    DeterministicRequestPolicy,
+    POLICY_SAMPLING_MODE,
+)
 from openpi_extension.rm65_training_config import make_pi05_rm65_lora_config
 
 
@@ -30,10 +34,15 @@ def main() -> None:
 
     checkpoint = args.checkpoint.expanduser().resolve()
     config = make_pi05_rm65_lora_config(repo_id=args.repo_id, batch_size=1)
-    policy = policy_config.create_trained_policy(
+    trained_policy = policy_config.create_trained_policy(
         config,
         checkpoint,
         default_prompt=args.default_prompt,
+    )
+    policy = DeterministicRequestPolicy(
+        trained_policy,
+        action_horizon=config.model.action_horizon,
+        action_dim=config.model.action_dim,
     )
     metadata = {
         "robot": "RM65-B",
@@ -42,6 +51,10 @@ def main() -> None:
         "checkpoint": str(checkpoint),
         "repo_id": args.repo_id,
         "action_semantics": "six absolute joint targets plus normalized gripper target",
+        "sampling_mode": POLICY_SAMPLING_MODE,
+        "deterministic_seed_required": True,
+        "model_action_horizon": config.model.action_horizon,
+        "model_action_dim": config.model.action_dim,
     }
     hostname = socket.gethostname()
     logging.info("Creating RM65 policy server (host=%s, listen=%s:%d)", hostname, args.host, args.port)

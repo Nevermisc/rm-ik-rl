@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "validation_kind": "rm65_pi05_deterministic_server_restart_comparison",
+  "simulation_action_executed": false,
+  "real_robot_command_sent": false,
+  "checks": {
+    "first_probe_passed": true,
+    "second_probe_passed": true,
+    "no_simulation_action_executed": true,
+    "no_real_robot_command_sent": true,
+    "checkpoint_matches": true,
+    "repo_id_matches": true,
+    "episode_matches": true,
+    "frame_index_matches": true,
+    "request_schedule_matches": true,
+    "noise_and_actions_bit_exact_after_restart": true
+  },
+  "failed_checks": [],
+  "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+  "episode": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_scripted_v1/episode_000000",
+  "frame_index": 17,
+  "policy_noise_seed": 260924000,
+  "records": [
+    {
+      "request_index": 0,
+      "seed": 260924000,
+      "noise_sha256": "ff16bb21aec439eac9659703153d5d767ab84a1421494968f6d749f0e2389491",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "80fb8bd3582c1b310c0f1b27b6062d4f51b0161c2e63f943df5751c257254118"
+    },
+    {
+      "request_index": 1,
+      "seed": 261924000,
+      "noise_sha256": "512014cfd389c6cd329dd24401d9c86f8c96c5a2991dbcb9fb03185cb6c41af1",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "33967b3dd3c3086bcf14d42cfdc5973e2351be30917de8fd7efcfa858fd40b63"
+    },
+    {
+      "request_index": 2,
+      "seed": 260924000,
+      "noise_sha256": "ff16bb21aec439eac9659703153d5d767ab84a1421494968f6d749f0e2389491",
+      "action_shape": [
+        10,
+        7
+      ],
+      "action_dtype": "float32",
+      "action_sha256": "80fb8bd3582c1b310c0f1b27b6062d4f51b0161c2e63f943df5751c257254118"
+    }
+  ]
+}
