@@ -42,6 +42,17 @@ def report_policy_noise_seed(report: dict) -> int | None:
     return top_level
 
 
+def report_simulation_seed(report: dict) -> int | None:
+    top_level = report.get("simulation_seed")
+    determinism = report.get("simulation_determinism", {})
+    nested = determinism.get("seed") if isinstance(determinism, dict) else None
+    if any(isinstance(value, bool) or not isinstance(value, int) for value in (top_level, nested)):
+        return None
+    if top_level < 0 or nested < 0 or top_level != nested:
+        return None
+    return top_level
+
+
 def validate_evaluation_cases(cases: list[dict]) -> None:
     if not cases:
         raise ValueError("evaluation plan has no cases")
@@ -55,6 +66,14 @@ def validate_evaluation_cases(cases: list[dict]) -> None:
         raise ValueError("every evaluation case must have a non-negative integer policy_noise_seed")
     if len(set(seeds)) != len(seeds):
         raise ValueError("evaluation policy_noise_seed values must be unique")
+    simulation_seeds = [case.get("simulation_seed") for case in cases]
+    if any(
+        isinstance(seed, bool) or not isinstance(seed, int) or seed < 0
+        for seed in simulation_seeds
+    ):
+        raise ValueError("every evaluation case must have a non-negative integer simulation_seed")
+    if len(set(simulation_seeds)) != len(simulation_seeds):
+        raise ValueError("evaluation simulation_seed values must be unique")
 
 
 def load_existing_report(
@@ -62,6 +81,7 @@ def load_existing_report(
     checkpoint_id: str,
     gripper_open_threshold: float,
     policy_noise_seed: int,
+    simulation_seed: int,
 ) -> dict | None:
     if not path.is_file():
         return None
@@ -77,6 +97,8 @@ def load_existing_report(
     if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
         return None
     if report_policy_noise_seed(report) != policy_noise_seed:
+        return None
+    if report_simulation_seed(report) != simulation_seed:
         return None
     return report
 
@@ -195,6 +217,7 @@ def main() -> int:
             for position, case in enumerate(cases, start=1):
                 case_id = case["case_id"]
                 case_seed = case["policy_noise_seed"]
+                simulation_seed = case["simulation_seed"]
                 episode_dir = output_root / case_id
                 report_path = episode_dir / "task_report.json"
                 existing = load_existing_report(
@@ -202,6 +225,7 @@ def main() -> int:
                     checkpoint_id,
                     args.gripper_open_threshold,
                     case_seed,
+                    simulation_seed,
                 )
                 if existing is not None:
                     print(f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True)
@@ -209,6 +233,7 @@ def main() -> int:
                         {
                             "case_id": case_id,
                             "policy_noise_seed": case_seed,
+                            "simulation_seed": simulation_seed,
                             "runner_returncode": 0,
                             "report": existing,
                             "reused": True,
@@ -229,6 +254,7 @@ def main() -> int:
                     str(case["source_offset_y_m"]),
                     case["prompt"],
                     str(case_seed),
+                    str(simulation_seed),
                 ]
                 print(f"[{position}/{len(cases)}] {case_id}: run", flush=True)
                 attempt_results = []
@@ -265,6 +291,7 @@ def main() -> int:
                         checkpoint_id,
                         args.gripper_open_threshold,
                         case_seed,
+                        simulation_seed,
                     )
                     if report is not None:
                         break
@@ -278,6 +305,7 @@ def main() -> int:
                     {
                         "case_id": case_id,
                         "policy_noise_seed": case_seed,
+                        "simulation_seed": simulation_seed,
                         "runner_returncode": returncode,
                         "timed_out": timed_out,
                         "report": report,
@@ -316,6 +344,8 @@ def main() -> int:
             "case_seed_source": "evaluation_plan",
             "chunk_seed_rule": "case_seed + chunk_index",
             "resume_requires_matching_seed": True,
+            "simulation_seed_source": "evaluation_plan",
+            "resume_requires_matching_simulation_seed": True,
         },
         "planned_case_count": len(cases),
         "episode_count": episode_count,

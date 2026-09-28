@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import os
 import sys
 import traceback
 from pathlib import Path
@@ -175,6 +176,11 @@ parser.add_argument(
         "closed when the server evidence does not match."
     ),
 )
+parser.add_argument(
+    "--simulation-seed",
+    type=int,
+    help="Seed shared by Python, NumPy, Torch, CUDA, Warp, Replicator, and the report.",
+)
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
@@ -183,12 +189,17 @@ if args.pi05_closed_loop and args.policy_noise_seed is None:
     parser.error("--pi05-closed-loop requires --policy-noise-seed")
 if args.policy_noise_seed is not None and args.policy_noise_seed < 0:
     parser.error("--policy-noise-seed must be non-negative")
+if args.pi05_closed_loop and args.simulation_seed is None:
+    parser.error("--pi05-closed-loop requires --simulation-seed")
+if args.simulation_seed is not None and args.simulation_seed < 0:
+    parser.error("--simulation-seed must be non-negative")
 app_launcher = AppLauncher(args)
 simulation_app = app_launcher.app
 
 import numpy as np  # noqa: E402
 import torch  # noqa: E402
 import isaaclab.sim as sim_utils  # noqa: E402
+import omni.replicator.core as replicator  # noqa: E402
 from isaacsim.core.utils.extensions import enable_extension  # noqa: E402
 
 enable_extension("isaacsim.robot_motion.motion_generation")
@@ -197,6 +208,7 @@ from isaaclab.actuators import ImplicitActuatorCfg  # noqa: E402
 from isaaclab.assets import Articulation, ArticulationCfg, RigidObject, RigidObjectCfg  # noqa: E402
 from isaaclab.sensors import ContactSensor, ContactSensorCfg  # noqa: E402
 from isaaclab.sensors.camera import Camera, CameraCfg  # noqa: E402
+from isaaclab.utils.seed import configure_seed  # noqa: E402
 from openpi_extension.expert_episode import (  # noqa: E402
     EpisodeRecorder,
     normalize_gripper,
@@ -217,6 +229,12 @@ from isaacsim.core.utils.rotations import rot_matrix_to_quat  # noqa: E402
 from isaacsim.core.utils.stage import get_current_stage  # noqa: E402
 from isaacsim.robot_motion.motion_generation.lula.kinematics import LulaKinematicsSolver  # noqa: E402
 from pxr import PhysxSchema, UsdPhysics  # noqa: E402
+
+
+CONFIGURED_SIMULATION_SEED = configure_seed(
+    args.simulation_seed, torch_deterministic=args.pi05_closed_loop
+)
+replicator.set_global_seed(CONFIGURED_SIMULATION_SEED)
 
 
 ARM_JOINTS = [f"joint_{index}" for index in range(1, 7)]
@@ -724,6 +742,12 @@ def run_pi05_closed_loop(
             sampling_record = {
                 "chunk_index": chunk_index,
                 **sampling_evidence,
+                "observation_sha256": {
+                    "joint_position": array_sha256(current_arm),
+                    "gripper_position": array_sha256(current_gripper),
+                    "external_image": array_sha256(external_rgb),
+                    "wrist_image": array_sha256(wrist_rgb),
+                },
                 "raw_action_shape": list(raw_actions.shape),
                 "raw_action_dtype": str(raw_actions.dtype),
                 "raw_action_sha256": array_sha256(raw_actions),
@@ -857,6 +881,7 @@ def run_pi05_closed_loop(
         "real_robot_command_sent": False,
         "policy_checkpoint_id": args.policy_checkpoint_id,
         "policy_noise_seed": args.policy_noise_seed,
+        "simulation_seed": CONFIGURED_SIMULATION_SEED,
         "prompt": args.episode_prompt,
         "action_chunks": action_chunks,
         "executed_actions": executed_actions,
@@ -873,6 +898,14 @@ def run_pi05_closed_loop(
             "policy_gripper_open_threshold": args.policy_gripper_open_threshold,
             "policy_noise_seed": args.policy_noise_seed,
             "policy_chunk_seed_rule": "case_seed + chunk_index",
+            "simulation_seed": CONFIGURED_SIMULATION_SEED,
+        },
+        "simulation_determinism": {
+            "seed": CONFIGURED_SIMULATION_SEED,
+            "python_hash_seed": os.environ.get("PYTHONHASHSEED"),
+            "torch_deterministic_algorithms": args.pi05_closed_loop,
+            "replicator_global_seed": replicator.get_global_seed(),
+            "physx_enhanced_determinism": args.pi05_closed_loop,
         },
         "deterministic_sampling": {
             "mode": POLICY_SAMPLING_MODE,
@@ -1365,6 +1398,9 @@ def main() -> int:
         sim_utils.SimulationCfg(
             dt=1.0 / 240.0,
             device=args.device,
+            physx=sim_utils.PhysxCfg(
+                enable_enhanced_determinism=args.pi05_closed_loop,
+            ),
             physics_material=sim_utils.RigidBodyMaterialCfg(
                 static_friction=1.5,
                 dynamic_friction=1.2,
@@ -1582,6 +1618,7 @@ def main() -> int:
                 "policy_noise_seed": (
                     args.policy_noise_seed if args.pi05_closed_loop else None
                 ),
+                "simulation_seed": CONFIGURED_SIMULATION_SEED,
                 "images_recorded": args.record_images,
                 "robot_base_position_m": robot_base_position.tolist(),
                 "source_block_position_m": source_block_position.tolist(),

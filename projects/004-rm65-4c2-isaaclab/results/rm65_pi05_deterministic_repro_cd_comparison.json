@@ -1,0 +1,91 @@
+{
+  "status": "fail",
+  "validation_kind": "rm65_pi05_deterministic_simulation_comparison",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "checks": {
+    "checkpoint_matches": true,
+    "policy_noise_seed_matches": true,
+    "simulation_seed_present_and_matches": true,
+    "simulation_determinism_config_matches": true,
+    "chunk_count_matches": false,
+    "noise_hashes_bit_exact": false,
+    "observation_hashes_complete": true,
+    "observation_hashes_bit_exact": false,
+    "raw_action_hashes_bit_exact": false,
+    "safe_action_hashes_bit_exact": false,
+    "task_status_matches": false,
+    "task_metrics_bit_exact": false
+  },
+  "failed_checks": [
+    "chunk_count_matches",
+    "noise_hashes_bit_exact",
+    "observation_hashes_bit_exact",
+    "raw_action_hashes_bit_exact",
+    "safe_action_hashes_bit_exact",
+    "task_status_matches",
+    "task_metrics_bit_exact"
+  ],
+  "first_divergence": {
+    "noise_sha256_chunk": 58,
+    "observation_sha256_chunk_by_field": {
+      "joint_position": 1,
+      "gripper_position": 1,
+      "external_image": 0,
+      "wrist_image": 0
+    },
+    "raw_action_sha256_chunk": 0,
+    "safe_action_sha256_chunk": 0
+  },
+  "first_run": {
+    "status": "fail",
+    "action_chunks": 80,
+    "policy_noise_seed": 260924000,
+    "simulation_seed": 360924000
+  },
+  "second_run": {
+    "status": "pass",
+    "action_chunks": 58,
+    "policy_noise_seed": 260924000,
+    "simulation_seed": 360924000
+  },
+  "metrics": {
+    "source_to_target_xy_distance_m": {
+      "first": 0.17894496023654938,
+      "second": 0.16882069408893585,
+      "exact_match": false,
+      "absolute_delta": 0.010124266147613525
+    },
+    "block_lift_height_m": {
+      "first": 0.04213064908981323,
+      "second": 0.03988075256347656,
+      "exact_match": false,
+      "absolute_delta": 0.00224989652633667
+    },
+    "final_target_xy_error_m": {
+      "first": 0.048911913380868324,
+      "second": 0.041517615005641995,
+      "exact_match": false,
+      "absolute_delta": 0.00739429837522633
+    },
+    "final_target_position_error_m": {
+      "first": 0.05005713330811396,
+      "second": 0.04151761500654733,
+      "exact_match": false,
+      "absolute_delta": 0.008539518301566629
+    },
+    "post_release_drift_m": {
+      "first": 0.0006923757027834654,
+      "second": 0.0004858816391788423,
+      "exact_match": false,
+      "absolute_delta": 0.00020649406360462308
+    },
+    "final_gripper_normalized": {
+      "first": 0.2177139238126016,
+      "second": 0.09945624997850099,
+      "exact_match": false,
+      "absolute_delta": 0.11825767383410062
+    }
+  },
+  "interpretation": "PASS requires bit-exact noise, observations, raw/safe actions, task status, and metrics. A failed comparison is diagnostic evidence and must not be reported as task success."
+}

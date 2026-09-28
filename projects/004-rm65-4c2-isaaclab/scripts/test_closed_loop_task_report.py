@@ -19,12 +19,19 @@ from openpi_extension.deterministic_policy import policy_sampling_evidence
 def main() -> int:
     checkpoint_id = "rm65_scripted_v1_lora_30k/29999"
     policy_noise_seed = 8000
+    simulation_seed = 7000
     chunks = []
     for chunk_index in range(12):
         chunks.append(
             {
                 "chunk_index": chunk_index,
                 **policy_sampling_evidence(policy_noise_seed + chunk_index, 10, 32),
+                "observation_sha256": {
+                    "joint_position": "3" * 64,
+                    "gripper_position": "4" * 64,
+                    "external_image": "5" * 64,
+                    "wrist_image": "6" * 64,
+                },
                 "raw_action_shape": [10, 7],
                 "raw_action_dtype": "float32",
                 "raw_action_sha256": "1" * 64,
@@ -41,6 +48,7 @@ def main() -> int:
         "real_robot_command_sent": False,
         "policy_checkpoint_id": checkpoint_id,
         "policy_noise_seed": policy_noise_seed,
+        "simulation_seed": simulation_seed,
         "action_chunks": 12,
         "executed_actions": 120,
         "source_to_target_xy_distance_m": 0.2,
@@ -66,23 +74,33 @@ def main() -> int:
             "noise_dtype": "float32",
             "chunks": chunks,
         },
+        "simulation_determinism": {
+            "seed": simulation_seed,
+            "python_hash_seed": str(simulation_seed),
+            "torch_deterministic_algorithms": True,
+            "replicator_global_seed": simulation_seed,
+            "physx_enhanced_determinism": True,
+        },
     }
     assert validate_closed_loop_task_report(
         report,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "pass"
     wrong_checkpoint = dict(report, policy_checkpoint_id="other/1")
     assert validate_closed_loop_task_report(
         wrong_checkpoint,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
     false_status = dict(report, status="fail")
     assert validate_closed_loop_task_report(
         false_status,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
     incomplete = dict(report)
     incomplete.pop("executed_actions")
@@ -90,12 +108,21 @@ def main() -> int:
         incomplete,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
     wrong_seed = dict(report, policy_noise_seed=policy_noise_seed + 1)
     assert validate_closed_loop_task_report(
         wrong_seed,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
+    )["status"] == "blocked"
+    wrong_simulation_seed = dict(report, simulation_seed=simulation_seed + 1)
+    assert validate_closed_loop_task_report(
+        wrong_simulation_seed,
+        expected_checkpoint_id=checkpoint_id,
+        expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
     tampered_sampling = dict(report)
     tampered_chunks = [dict(chunk) for chunk in chunks]
@@ -107,6 +134,7 @@ def main() -> int:
         tampered_sampling,
         expected_checkpoint_id=checkpoint_id,
         expected_policy_noise_seed=policy_noise_seed,
+        expected_simulation_seed=simulation_seed,
     )["status"] == "blocked"
     print(
         json.dumps(
@@ -116,6 +144,7 @@ def main() -> int:
                 "failed_task_blocked": True,
                 "missing_execution_evidence_blocked": True,
                 "wrong_policy_noise_seed_blocked": True,
+                "wrong_simulation_seed_blocked": True,
                 "tampered_noise_hash_blocked": True,
             },
             indent=2,

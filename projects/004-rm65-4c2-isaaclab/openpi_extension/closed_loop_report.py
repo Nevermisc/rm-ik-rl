@@ -54,6 +54,10 @@ def _deterministic_sampling_valid(
             return False
         if (
             chunk.get("chunk_index") != chunk_index
+            or not isinstance(chunk.get("observation_sha256"), dict)
+            or set(chunk["observation_sha256"])
+            != {"joint_position", "gripper_position", "external_image", "wrist_image"}
+            or not all(_sha256_string(value) for value in chunk["observation_sha256"].values())
             or chunk.get("raw_action_shape") != [10, 7]
             or chunk.get("raw_action_dtype") != "float32"
             or not _sha256_string(chunk.get("raw_action_sha256"))
@@ -67,8 +71,27 @@ def _deterministic_sampling_valid(
     return True
 
 
+def _simulation_determinism_valid(
+    report: dict[str, Any], expected_simulation_seed: int
+) -> bool:
+    evidence = report.get("simulation_determinism")
+    return bool(
+        isinstance(evidence, dict)
+        and report.get("simulation_seed") == expected_simulation_seed
+        and evidence.get("seed") == expected_simulation_seed
+        and evidence.get("python_hash_seed") == str(expected_simulation_seed)
+        and evidence.get("torch_deterministic_algorithms") is True
+        and evidence.get("replicator_global_seed") == expected_simulation_seed
+        and evidence.get("physx_enhanced_determinism") is True
+    )
+
+
 def validate_closed_loop_task_report(
-    report: dict[str, Any], *, expected_checkpoint_id: str, expected_policy_noise_seed: int
+    report: dict[str, Any],
+    *,
+    expected_checkpoint_id: str,
+    expected_policy_noise_seed: int,
+    expected_simulation_seed: int,
 ) -> dict[str, Any]:
     source_distance = _number(report.get("source_to_target_xy_distance_m"))
     lift_height = _number(report.get("block_lift_height_m"))
@@ -101,6 +124,11 @@ def validate_closed_loop_task_report(
         "deterministic_sampling_verified": _deterministic_sampling_valid(
             report, expected_policy_noise_seed
         ),
+        "simulation_seed_matches": report.get("simulation_seed")
+        == expected_simulation_seed,
+        "simulation_determinism_verified": _simulation_determinism_valid(
+            report, expected_simulation_seed
+        ),
         "action_chunks_positive": isinstance(report.get("action_chunks"), int)
         and report["action_chunks"] > 0,
         "executed_actions_positive": isinstance(report.get("executed_actions"), int)
@@ -123,6 +151,7 @@ def validate_closed_loop_task_report(
         "execution_verified": not failed,
         "expected_checkpoint_id": expected_checkpoint_id,
         "expected_policy_noise_seed": expected_policy_noise_seed,
+        "expected_simulation_seed": expected_simulation_seed,
         "checks": checks,
         "failed_checks": failed,
     }

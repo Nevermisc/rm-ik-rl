@@ -1,0 +1,2979 @@
+{
+  "status": "fail",
+  "evaluation_kind": "isaaclab_pi0.5_closed_loop",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "plan": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/config/rm65_pi05_evaluation_plan_deterministic_v1.json",
+  "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+  "policy_checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
+  "repo_id": "local/rm65_sim_policy_train",
+  "gripper_open_threshold_normalized": 0.2,
+  "deterministic_sampling": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "case_seed_source": "evaluation_plan",
+    "chunk_seed_rule": "case_seed + chunk_index",
+    "resume_requires_matching_seed": true,
+    "simulation_seed_source": "evaluation_plan",
+    "resume_requires_matching_simulation_seed": true
+  },
+  "planned_case_count": 1,
+  "episode_count": 1,
+  "success_count": 0,
+  "success_rate": 0.0,
+  "gate": {
+    "minimum_episode_count": 20,
+    "minimum_success_rate": 0.8
+  },
+  "cases": [
+    {
+      "case_id": "eval_000",
+      "policy_noise_seed": 260924000,
+      "simulation_seed": 360924000,
+      "runner_returncode": 2,
+      "timed_out": false,
+      "report": {
+        "status": "fail",
+        "simulation_only": true,
+        "pi05_used": true,
+        "expert": null,
+        "real_robot_command_sent": false,
+        "policy_checkpoint_id": "rm65_policy_window_v2_lora_30k/29999",
+        "policy_noise_seed": 260924000,
+        "simulation_seed": 360924000,
+        "prompt": "pick up the block and place it on the target",
+        "action_chunks": 80,
+        "executed_actions": 400,
+        "policy_action_horizon": 10,
+        "controller_config": {
+          "policy_max_action_chunks": 80,
+          "policy_execute_actions_per_chunk": 5,
+          "record_stride_steps": 12,
+          "physics_dt_s": 0.004166666666666667,
+          "executed_action_hold_seconds": 0.05,
+          "success_candidate_required_consecutive_chunks": 3,
+          "policy_gripper_open_threshold": 0.2,
+          "policy_noise_seed": 260924000,
+          "policy_chunk_seed_rule": "case_seed + chunk_index",
+          "simulation_seed": 360924000
+        },
+        "simulation_determinism": {
+          "seed": 360924000,
+          "python_hash_seed": "360924000",
+          "torch_deterministic_algorithms": true,
+          "replicator_global_seed": 360924000,
+          "physx_enhanced_determinism": true
+        },
+        "deterministic_sampling": {
+          "mode": "explicit_numpy_gaussian_noise_v1",
+          "case_seed": 260924000,
+          "chunk_seed_rule": "case_seed + chunk_index",
+          "noise_shape": [
+            10,
+            32
+          ],
+          "noise_dtype": "float32",
+          "server_metadata": {
+            "robot": "RM65-B",
+            "gripper": "4C2",
+            "model": "pi0.5",
+            "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_policy_window_v2_lora_30k/29999",
+            "repo_id": "local/rm65_sim_policy_train",
+            "action_semantics": "six absolute joint targets plus normalized gripper target",
+            "sampling_mode": "explicit_numpy_gaussian_noise_v1",
+            "deterministic_seed_required": true,
+            "model_action_horizon": 10,
+            "model_action_dim": 32
+          },
+          "chunks": [
+            {
+              "chunk_index": 0,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924000,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ff16bb21aec439eac9659703153d5d767ab84a1421494968f6d749f0e2389491",
+              "observation_sha256": {
+                "joint_position": "63d15344062eb609771c9075aab681ed4ef3c8dff98bf37f4c8e7c41d1bae2a2",
+                "gripper_position": "8ea8a3ad7c7c770f8dd3ec4c8089748cb90b8bb1d0ebb4fcf4f89e41aa8c400e",
+                "external_image": "46f57f0a0259cc63a69f9bf234319e5ca4f5d67c7d1848094b6b733038af9123",
+                "wrist_image": "30cd2b149e3252d4066f2f61b5b8bf63dc5e79c4b604494fbf8d2b541b373a91"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "e8c4131dfd9b3150102d7d4c0055cb6157e44eab895b1237052a9110baee0657",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "71622c0da0e5517b171ac3b7f66bfe16b2be9b7417253003f2250df5a48b3a21",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 1,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924001,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "b83963494ea54fd1f35e780655a8d7f43eab074a19f9cebb455f5d970192b849",
+              "observation_sha256": {
+                "joint_position": "9f694172d1c17211c84cf8702ffce010c77ec23d4d0a0a185b9782af97424cdc",
+                "gripper_position": "40822af07e5d32b17ebdea58e4421ea349bf12228fa67f37359552099e50debc",
+                "external_image": "26a9b3eb9e1da6f128fadccb0a5f308bcc814b808fe8f01eacd51f24324f72eb",
+                "wrist_image": "8f99b33bd9c78d02b464d1f975d5d5f1b37b3aa7105d98278294d70fe707b200"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "bb3034423b13d6b01995d7f345875da312c97dd005566477127e7a1f3f04e4db",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "dd352d3165ad52a6327c38f1f71afec71bad4cda1446c2524a5f392bdb064da3",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 2,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924002,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ddffa2e95c4296babe7623805620eb573a8f41a25088193caf5ac25dc8215e73",
+              "observation_sha256": {
+                "joint_position": "85cf3f703f8bf774f31e37e8f3471162e45da1764606c842f98b0fbc87b2a73e",
+                "gripper_position": "09b552454740ea3b5428302e7123d0a4359ac62f40cd29ab9ab1f9ce3826e188",
+                "external_image": "114f7a126c77d8704fba98b53f2650f6257fd0a51ba9154a502e5c2803618442",
+                "wrist_image": "a99b30be7308db78a3ea4902fbaf4f7dc7c3d0458e439943119a9c0350308032"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "25bf332d6fda3688a3dc922ef4573fd4579d14f34e4fd3619eafe9f1b0e6d63d",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "9526399c3cedb770b5b6ef6b3470c7daa46e8f0e823e4543dcc4d0fccaa8aec7",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 3,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924003,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "51828abaa1dbcb483cc5343c7b07629f689ff52b40c8b613ed0dcee583634c26",
+              "observation_sha256": {
+                "joint_position": "6758158ecec010437edb722d4bf6a80066dddd8fafeb6c9b0f39b9d71b829d85",
+                "gripper_position": "43a374a24248a302bc0f1e65a1401665e5c0bd61d0d4f20a02188214024add46",
+                "external_image": "d02ed5ce255dce57e018d8203e29be687a7ea7807cc29198fe37acc0bdc483ba",
+                "wrist_image": "101ce7d6307641d71a8a3dedbb1eab7c1b01b83dc35f9e7e5e4f5802e4552d7e"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "3bab4c385e7ec96eea3773dc2622e6c5ae899199743594069574298ff065c82d",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "18bbe3cabc3102a82528b8aeae5e1243f4bfde74b109c6b196f3b3d179939518",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 4,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924004,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "81dae109940236e90bfea1e48e329703ec10614ed99dc4b5cdec44d687eb30ba",
+              "observation_sha256": {
+                "joint_position": "cc04a0e6c9c24b596047f27d977c916309d4f02e9f778a0b2f85f1ca6ade37f3",
+                "gripper_position": "647f0185b213865d9d641a9ac457ea2d44c6a12b17440ea050b08a7052770f77",
+                "external_image": "5b59c40033602706360a35b39da2f0821d157b861ca8bdc4b6dfbdf840bb8c76",
+                "wrist_image": "59b859c3d1441b3f553fa5a71d637401576f03c0041329b2b0eb99da370fdebe"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "96dd05d8143b6f94481b74f890c3b339d4af8a3b54ede5227496dc616b8ac189",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "f8410933624c5392bfcd3df2e6406976bdb044493220e753708d79d493b3cfa3",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 5,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924005,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "b3e1ad290070753036f2bb75322937ab8e947256cc0171260dcde33a194fc80a",
+              "observation_sha256": {
+                "joint_position": "92098f117ab107fc7ffeed043dc8e07809ba53997552779c6458e5110f9869c5",
+                "gripper_position": "00abfd82b60f794abe4bd10846f7979d9bbe88c3eb623f2facde08738c5b932b",
+                "external_image": "28818fd6f68ae876c104cb0a8fc530221cf5cabfee5667c49b4663f46ca867af",
+                "wrist_image": "69a38424b1f9e76acb239c4b6f8587c006f5ed67fb62a780aab56602d8e76082"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "625bc1be88dfc61e35e049fa06c5cb7c7feecd6acf786654f54da637bebf4a0b",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "6e95a8c77e553cc98649c42400001af2dd0f6ff621d985487f477c997c3fb033",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 6,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924006,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ffde26f2e5ef6dad20002aa2497c420b55c1550ce05f8c9da12f9770474f3f96",
+              "observation_sha256": {
+                "joint_position": "83aaa22e97acdb284ebfdb8bc92c9987ca614c99b47d58bd3f46067a83c5ee2a",
+                "gripper_position": "bf462bae6b43a923074461010dc030da2b415871cfb917f65d07d7e8e6c6fd68",
+                "external_image": "e05acbd9198378cc3497014ccce89ede4b95623380c38f2fd243d670422cedf1",
+                "wrist_image": "19e682364b2b6701aa1c7f1f716708a22466184f9cb36ffae17617f84ce77cff"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "aefa6095e22ca9b10967bf2cf462c340ef4c1678e306c2b60cf48e1a44ed6809",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "6edf634b88fa31a452369adbb4888cf03e9a6b061a07a039d31577e3325b5a37",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 7,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924007,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "8514826202564d09ad602344e4aecea996e794adcbb757a520c91e0b0ad96f7c",
+              "observation_sha256": {
+                "joint_position": "172cbbb03092a9865f6504a0cf67ce07fd4decf80ab0896c9ca0f82239e4c7d2",
+                "gripper_position": "bd6056e0107827899e9cb2e1226d9d58ac800a3b06d97c427bac22a905844cf8",
+                "external_image": "18d5fb871bedf50c78df7aff37dbd84e0358430cc074f7fd2fb2631a4f464091",
+                "wrist_image": "8910fa23179e686b7d6307146d9e0ba1b16a7854d308d805402fdffd91007d99"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "564eac2690309b5b607c1641f512513042bf80a55b8a5dd50a4ac62bdd864832",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0cacf2fcf1d17044ea375aac4aa700a80166f6d4712a04a68caadb98c677e057",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 8,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924008,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "836147d3fc88e43ff623a33662e7865fa645b9e6fd880cb268e0f091569a3a61",
+              "observation_sha256": {
+                "joint_position": "2dd559268614e9d10ed660b4fd26ab62a6129e8ff3d35473860f8f59c87fc591",
+                "gripper_position": "ce37f2dc2801510fff86f3ef20b34242067cde32027cfe50a3026998b70c873d",
+                "external_image": "f6a8934bfae61560c654e8fa9b0db8d38dd74d8ebe389cdadf12f25e2990ee04",
+                "wrist_image": "fe9e2d0145e87d91fe509e4f859c6d7d6f0e02746acbf663cfade5b3117f0651"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "c9e6a77251e22235aa04dcde958e46a0653920a689304695b9fdec762b3dc525",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "de88c13ca6c35aebdf2bbaaf05d997dcd1f6aaa6f033b951ec8daf9fae92c361",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 9,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924009,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "8b6d6cf0507fe27078cee9b769387ed6082f39802c6e31878701ac639fd8ced2",
+              "observation_sha256": {
+                "joint_position": "6f1858dd4dcd0d3c7618c2ad835d72dc438e7e366141c7195fec0fe03f241f8d",
+                "gripper_position": "b14ae375dcad0fbc839e842ff87a8e20dbbb606daa47181e6f557fb0e450fa33",
+                "external_image": "1182a6cf05d5e9d38295821b0ff2e6d74625e50cfc1c86b190549c208ac30773",
+                "wrist_image": "a144aba3c54d82ae9840814f5626da480780e23639a428026d9af076e70ff71e"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "335106e940f477584bdcf56252d238980206993f9f3e2e22989977e89fd4d46c",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "282ea1e3adf7f7946faeb34c65c8b29a5487cbd64907e5eba47a4dae4d5e90f3",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 10,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924010,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "5782e375916245aa17a668c3ac325eaf3bdcdb133061a005f9b979158bbb7164",
+              "observation_sha256": {
+                "joint_position": "eccbab3d9746fbc1b20b3cb9209135277e0d1ac557e91f4ad15513974e2b3585",
+                "gripper_position": "6fe4110cb2d19151cc3a4a4fc8981c323d95812d4525b88159fb9ed4cf060a54",
+                "external_image": "f189dad5288e7dadf3d3f434a25ad536722af2af287fc933df02e2b89f435776",
+                "wrist_image": "21c1dfa50ffc4ad6dfd9a7d478fc2c7a30920d2f446055222717761f03b6d12c"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "fd01f27dd4604eda69b8a70e0ddeba05304344fafc48d63d017247174be5dbd5",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "bc26441a10d82c1da3273b7d7136f3cc03a0ff374089c95b9b7bba201de685b2",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 11,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924011,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "1c6facfbc613061a3c231a2283d39f19acf8c3674e4ff2d16a1ac24871cacf6f",
+              "observation_sha256": {
+                "joint_position": "3a0a735c033d3b0e5b0b9a327c1edc28df4b8d55eb214ebb8e709fec63a314dd",
+                "gripper_position": "2493de1b461fb8de70a913b0e069f91b5a12dd9d470fc917b7f36d7673573fa1",
+                "external_image": "92c3114d0cebfcce7109f2d034c16c01f5313bd298843be8edfbea7191c5ba79",
+                "wrist_image": "01954bff01574d36d8403a876b95bf06ca4c61ef0c6c5fd8d6c54cfe83fdfa8f"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "4cd403834a492a2b31076c06d9f3506c2dd2bb5b551a71cfe8425e37ceba4524",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "71396ff19ea67c34fc2af68dcd4ac4ecf82814cce9c055eb197308daf12e4aff",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 12,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924012,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "dd30d4aa518f3e89ef5c3f10dc0a7dc67016426d2cb75c4937657bcd21f0e97f",
+              "observation_sha256": {
+                "joint_position": "1b78fbfd8d04c12ae92a8d92a716ec9cbfed1bfc469f4f7011cbae6ae119318d",
+                "gripper_position": "8114179c3c635c9a4089e8646c71e75e014d0a22b6a2eebb9acd0602a6fc74e0",
+                "external_image": "df81d71138a6084fa5ef4acaf93dbf91d8ce9f043d4eb73f3e94bb256dd8797d",
+                "wrist_image": "646233683ba9b71c4fecb501dfa8f2fd9aa880bc257ec9fbde0d30cada43a3e9"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "3f5684f9e2f6741c37926ec1ad4cf56547002723c9d28c240dcaee00cff62154",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a534008d6f294883a50ea2389b2fa56957adb9acda2b52f3dfef94c942d24e4c",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 13,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924013,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "cba209ab51ef2b91827be78f803ee98b4517747c07b4bf359bb1bfb1baff1b4d",
+              "observation_sha256": {
+                "joint_position": "a9d5f1465f7cdd00ac06acc6cea23d092e3ff935ea0812983deb1acbd894aa50",
+                "gripper_position": "340af567f1d7f9161630a76f7a92e770d0ffcf8bb14c3cc1f84e804c01f05d3b",
+                "external_image": "c85fa6b02e5156912e13525a312a8df0e5acfa79e4425e06657afd3c490dd87a",
+                "wrist_image": "f0129af4996f4eae59ef95530ef625e45f2d2dde7740cc47aa219a55c87e4206"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "ccbe9065799d76c42cba0ab186539436665bf4642d0d28555efa8b3006130327",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "d3ec1ff4c6778b42fbb7350704aa68ae7c1fa2b7b58a242c00f5823d891a829e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 14,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924014,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "95785a37894d5a9d5e427eb3567ef47343ba32625d75f31d2ef2c1eaef936dfd",
+              "observation_sha256": {
+                "joint_position": "351e2a5f5bc2d92e96dd9c897960e4cd3728dbd8724c7385fd6b309a4bba7786",
+                "gripper_position": "2931d6b35d3de8b16da0b211fdcaea76120fd81225981740a6aaf20603dd1592",
+                "external_image": "67ea0b6bec6fd971a561c5b77bf0c164c31bcea9a9f5e6720e08ab0a6352b73a",
+                "wrist_image": "ee049ae7969543e2de32b9ceb591aa1b5ad9a67571d1508781269e1a735f4bd2"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "1418b535425774371f7f13d39e66bbc46149bce84f92b83da34fcde7ec6b5771",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "63289b2a74a30d17ac964f487f1bf598d7f4cc24b7f0a401f7f27b688d8e6635",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 15,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924015,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "5490c6f1b68d35e9d49703a0a32bd2c454541c3b0f490467616c670665a78d03",
+              "observation_sha256": {
+                "joint_position": "68c9b52807065684da556f9c376a1093b1933e02feae66219dbb78361056ec52",
+                "gripper_position": "4ba731c5eedfe784ab585e80f4e37d29a727ce3f71136c532d484b5692449c3b",
+                "external_image": "09ecc6186f68292820284d0cdd856320676f96e7802997077c6ea327bc3b85c6",
+                "wrist_image": "286d2ad5e9b41d8e82154d4ce4b4cbee2c121b072da24c67553da3447a8d2e63"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "57608badacbb2996be9bc0c21db465c9086316a89363bc6bf345db3960b95efc",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "ee6b16f34a4cd4a01bc2d61aebcb363fa679903ca4ab7bd3b0f10921642e5667",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 16,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924016,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "f2885b9e3d02984a5b6ef304a624a38d6e309495301c67807c4eaf83cf46968a",
+              "observation_sha256": {
+                "joint_position": "e64bace67707ffce1026d7ad83e4a8dabae4f51a909e1a60412944ac1479be31",
+                "gripper_position": "e1b27f42b0c568f055f66106b4d93abfab3179f5f10ef1afce16143b22310748",
+                "external_image": "b397e0fc9c7d2469a068b19f8c3d8bfde5c022f1566fdf1e6827cf9a5771a389",
+                "wrist_image": "bf19654c519ddf7d143adab10fe1bc160e7bf26117fa4b0ea552d76b1d7309dc"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "d59d2c66f75fe238fe9dc8b15fe738fc26954a84469320b61988c0bd9e5db654",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "c41e6db5861a950c7bda4f1f5983abb8308ea8fe3511ec5e28d50b24bddb7826",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 17,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924017,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "e31350a433c2d5b5941960da87d0ba1a665aa230b93b1973f5c72ba4de45c200",
+              "observation_sha256": {
+                "joint_position": "7529b4c1b6dd06b0b6d9d5333f4c10f3e9ec971511a815557d4a278459182a16",
+                "gripper_position": "813063704cc12e8f78cb809a55ac73604057cf44ffd0ae1f6353d73c428097c5",
+                "external_image": "37867ef1d415869d04c4856e6ec6f35b3eaee0d5bd075ccee8aa1951fee538a5",
+                "wrist_image": "cd1eab6639f7ff87d1e8998fddb48ccf726ad0975a1dda84a1b893a579344495"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "5d9aabfc810fb638cda04144f615bddcdd82e39356228d6a292fd53df745c027",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0104ac03ec78ff742bcb723de614f5d4fb051f4adbfe0a1c918c6e34f7bf4570",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 18,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924018,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "535a36a1bd670577a9397a2f376eb45c2493b21e9077769911a0f59557b72efe",
+              "observation_sha256": {
+                "joint_position": "a2b37994591aa8ee4051416e04907d3f2c0374b93b75675cd2bebd77a6a0ebca",
+                "gripper_position": "6e2426c68697c3fc2efc696acbacb058c95e87e49c3eff7e47117cc184d9412f",
+                "external_image": "6f2b2a4e148df7e20902353b81fbe2ae7235121436f919353d7a1890a4a5c6ba",
+                "wrist_image": "9e29663369baed759b7d61e60f57d11c602a7455b001ad6bd5660b889b1256cb"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "e6a510f9576dca745b344f93c5be4dc596dbd0fd340d67dcccb6734a23967175",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "e6a510f9576dca745b344f93c5be4dc596dbd0fd340d67dcccb6734a23967175",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 19,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924019,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "3bc8f4f67f9d3c2c6f822641c2f21dae52e63b67a4d06a58f5d189d8ce35af12",
+              "observation_sha256": {
+                "joint_position": "913cecacf0cd422a36331a308bc0d32dc30c674a8a4f1a63e152560833f4ee1c",
+                "gripper_position": "28a1cd2a4c171522ccc704dd2cd1b096d0e85f6613ed7a10d9b93505f04281dd",
+                "external_image": "bc504b74bca427570a726fbd21e2e65dac27c74d4cfce6b4c6052ae8c115cab1",
+                "wrist_image": "3575249b93cab636cc68f74402b737bd3ada29295ce341d39b5c226c849fe741"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "1bc9add3d7983d9ff85b00b0fc37393f38c9ebc1194765b96951750320599188",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "1bc9add3d7983d9ff85b00b0fc37393f38c9ebc1194765b96951750320599188",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 20,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924020,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "5c30e71c930a4417bb4409b92765bc53cf29382dbc9512ee783f7a55bcb1cc98",
+              "observation_sha256": {
+                "joint_position": "6a7f4dfd8836cf7c9d4e06820ae0ad8bf505788368e0f4cbc9d9fafa70a360dc",
+                "gripper_position": "8dc3febab181d4e893742bdab4fe8618a40f724e671876db58e31b6501b88147",
+                "external_image": "388195edad504d604e86dd07b8621c113d1d98d1cd2fe95b0b70dc75118836b3",
+                "wrist_image": "af62e681246f87fa57540c54e8b55bbbb884eb1e8dba0bcdeb3618dd1fadf5ee"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "f9b4d860aea6dce72467657d90f1428828421f66643750b7443fc17bcb259713",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "f9b4d860aea6dce72467657d90f1428828421f66643750b7443fc17bcb259713",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 21,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924021,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "8083266663cf91ecc9bcaa9056528f905334efa4a06d4af19cc0f0fc650c0d29",
+              "observation_sha256": {
+                "joint_position": "66615ed48248e2210a9f6ef2b1915a1d7721dee61a3f4b16bfec1a802c0c7323",
+                "gripper_position": "3b8ddecc2dea58f6ab36cb5986d98c4fd4c302fd440fb8b8ce21209353d1e7fd",
+                "external_image": "3a3774080f09f0a264183e66a2bcfc832ec9219ea614022928ae06f545ed691b",
+                "wrist_image": "1459bddb1ce6161f07eba0ee2743a8e5801cf57a3b77f5b5f2a32613e75489de"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "77f79ac3b5157200d3dc16538fe44e97db67d64c1e004e9688fa9ee246284354",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "77f79ac3b5157200d3dc16538fe44e97db67d64c1e004e9688fa9ee246284354",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 22,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924022,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "b447154459ce108fe156e33b014597c9b87bc1201089312651c8213282541e2f",
+              "observation_sha256": {
+                "joint_position": "4a0c9e3c36078f4ceb1a962b4a27a50e42c12d310a57cb93fdc6b906ed2dbd3c",
+                "gripper_position": "7abad58d1f2ee7fbe36f947ad237eb55e68161243b79a04229b0fb998d7156e4",
+                "external_image": "63384ebc90e0cad3ee6dbdc466924f8f5d7145b40285d59a5b8c8e8b48d237dc",
+                "wrist_image": "f72e527f44fcaf206046a26db68df3bb98152e20b998a7f9fe75a26f009fa8a6"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "98b2258abc38a9babd9cfd3a08386ec577d68bd069bf2abd809f096661e0b365",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "98b2258abc38a9babd9cfd3a08386ec577d68bd069bf2abd809f096661e0b365",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 23,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924023,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "0f686b4d5e7042b84feed8006f3f1ab13bc285cecc2891dc6b05fe0d38105d45",
+              "observation_sha256": {
+                "joint_position": "d655d3524e7368bdae30fbfe188047133b5fa62d1483752de7fcce3c2cbb154e",
+                "gripper_position": "1eb78703a21a95376600638daab6785c72ca052638e44cd8e465de0fa2d0edd9",
+                "external_image": "e1887235cf134a4f5b408bba7f38cd5a6e7619888b72a11247392215b789845c",
+                "wrist_image": "c3d92df02479bd27f6a0c681acb479d4c496a347c70a16703c469b705ff2adbf"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "7b891ca6fd7d5386448a94ded17c394963d45ea8239b6e514192bab090149164",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "7b891ca6fd7d5386448a94ded17c394963d45ea8239b6e514192bab090149164",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 24,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924024,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "d74d628a62ce2775d11fa321064bf5aa614f27de1ac6d6f7c1a8753c43f4bf2d",
+              "observation_sha256": {
+                "joint_position": "7be2fc69620e69f5c26ca0a7aa7801233893609bd3aad9ff987cf072e3594d3e",
+                "gripper_position": "1d0dc126f713f342dfa73511f6f9bb33653be4e8e6e3b5bc6c0c7ae6b9e2bc9f",
+                "external_image": "cc86d8e227884742549c17c06c2db9f94d75fe5a46f229a3ab00a1436c0828ff",
+                "wrist_image": "0c61403251e2e8d202ee6a51fdeb2260a4e7d81434c02ff511106ee10f45cac3"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "6b528da625cf848a69c2c6f9786a7eda0f36a205939a67672424056310c8ab65",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "6b528da625cf848a69c2c6f9786a7eda0f36a205939a67672424056310c8ab65",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 25,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924025,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "6b38e210dff916bb7e966d8ca78f51bac0bf3998d52916485e1b08bff53b01cb",
+              "observation_sha256": {
+                "joint_position": "54f69ec0e2d1acdbafed4a3e76cedc8e997e82e7f0f8c7e134f8bce58658be70",
+                "gripper_position": "9303f6e5ff5cfc64a1f0d8348987b857a9c797f7e0f994b12e25a6118528c5f7",
+                "external_image": "dff5f1339f79123e6910c8b2788e8747b80b6cb513abc47f226488a39f6eba64",
+                "wrist_image": "c4b9a09f7b483066bdab4a0f35f7ceecb9b7e05d27d242a6d04e0ac7f1ce2bcb"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "9e46c92b9550d55894e1d5b1651f4c8f8150d7e80f9830b80312f495d518b80a",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "9e46c92b9550d55894e1d5b1651f4c8f8150d7e80f9830b80312f495d518b80a",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 26,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924026,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "06939b1e17652bc8a1f4b1b70e9c9a456722c15026d59bb0653fd67ab0eede80",
+              "observation_sha256": {
+                "joint_position": "db69c9efe129a6a7f9002fe554218a8a9d8b2dc63b9de8a08065f7533e5f3f59",
+                "gripper_position": "d7c5a329ec47bd42c10065554ecc41541bc955536ba72d0de3baef47612034e4",
+                "external_image": "9b0e96af8ebf2e13aedacaf004b246513ac9485b7c0741293530b6afb41bb681",
+                "wrist_image": "01147385e393c8c7eaac5dd1fccb022af402982ef670cae5f45d01e2a1cbef96"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "c81217b7cfc18f2dd36b0fe87831bb9a529b99308a12ddcde1a6295b06fdd1f7",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "c81217b7cfc18f2dd36b0fe87831bb9a529b99308a12ddcde1a6295b06fdd1f7",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 27,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924027,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "44b2e14eac87acd787a680611e5d9d7bd879fade65ea0aa991cff68a6f7f446d",
+              "observation_sha256": {
+                "joint_position": "7f7a14b19567ae715fe469c8d31ceab07d8063c5639fb0b406da8ddac4100073",
+                "gripper_position": "9bfbe58edc895f9d181ea183c63aec45cb335660061f4162cab9567b0ec663b6",
+                "external_image": "37c71b5540850dfb57eefefd8f9fb620d47c19916e4e0dac71f4bf1b025b9bd3",
+                "wrist_image": "09f8d5668ff3518b36aecfc703195a7f15d8729625e020844a4f49ca109f25f5"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "753c3ba2141d50a88d8d1b7e2034a22191d73f70177f5149d816450c180c9e7b",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "753c3ba2141d50a88d8d1b7e2034a22191d73f70177f5149d816450c180c9e7b",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 28,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924028,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "4040e116351df0c5b5d63908428db52d4b4dee44ee116a120799359b00af82f2",
+              "observation_sha256": {
+                "joint_position": "1059b65cb75d3eb96755d9a57faa01664eaad9e1c6cefb4e26bb2da5841fe696",
+                "gripper_position": "86a432bce51ca5feb8720703aee7426956df9b6c70f44fdf70055d525b4f0162",
+                "external_image": "4386a0206545edbd1300a81ed02393a3bc3c30a4acee140de3e254d5fe3ba69e",
+                "wrist_image": "a32f395e7451f8d2655938537aeeaa3aa771dd9d46dcffa6961227b030483ace"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "a733016987845df1580f0a095d30a972ba2e71b082799241a5255e2df4bf08cf",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a733016987845df1580f0a095d30a972ba2e71b082799241a5255e2df4bf08cf",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 29,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924029,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "dd3c97ba6dcf35aa27d81c1270fb093854a645bde117a0ef301ab25903d7d7d3",
+              "observation_sha256": {
+                "joint_position": "a86e244f8ff809c34dae55315c440aa67c812fba718c4c0b7d1bac1716da7830",
+                "gripper_position": "30b37bb18284fd9883f1df694f3d2c5d8cbfb0b31f4ae301cd86907dde46c503",
+                "external_image": "d0b57362c9f156e3945f594ce3a7b2588f79a1d4611a8dd18e03cddadeaf6729",
+                "wrist_image": "c296ce28a8ef1542c9422800770c6320d993859939997640bd42de2d1b795bf6"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "5f0ef091b143ded7e2c8f6ff7d4c754a99546838b773f17bf223c1e0fbdfdca5",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "5f0ef091b143ded7e2c8f6ff7d4c754a99546838b773f17bf223c1e0fbdfdca5",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 30,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924030,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "c07187151207aa75a614234b4e4b8199ca88dab419413c882b8d877ed610babc",
+              "observation_sha256": {
+                "joint_position": "71da34a6de3430da9c065b286f07fcfcdf5d2ab313c770a843f857d4684374a5",
+                "gripper_position": "6f01897805528990bb32880346381909d9ae78072f296a34cc637566d2bfc9a5",
+                "external_image": "d18782d11428558fdfea52e5a60be1d04d99180abaedebb3076874007e4bb573",
+                "wrist_image": "369433ee1d977ff367b72b7a7403ddd2c5bb5658beec3b8201c2f11e62d70562"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "6b83231a444b1caccc14e975eeb95e60112aa6ee55f6bf6dd02e7cb006e90abf",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "6b83231a444b1caccc14e975eeb95e60112aa6ee55f6bf6dd02e7cb006e90abf",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 31,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924031,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9661a3773729457b8ed1a282bff2a1d18c661526122c5948c9b7e0f2f699e7e2",
+              "observation_sha256": {
+                "joint_position": "2b4a9e331ed4e8ca1a4275a4c2a25c684c40033a0bd6118810c5e2f3ef8f8d33",
+                "gripper_position": "a40e78a01fcc17efc8244f656e73f46830a91499cc267584252c86847cc21971",
+                "external_image": "36e8f8e48a7b4252f243d408682d8ea71ec4c4798c6384369c7b76860b0c21df",
+                "wrist_image": "95263b8379ffafb86c9573cb32fe91140d07be2419075d572f59823e37f25b57"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "c1d71b8707e5a6ea6299e1bb83cdc30e399d1f6fec8408e37a0d03a099cd547a",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "c1d71b8707e5a6ea6299e1bb83cdc30e399d1f6fec8408e37a0d03a099cd547a",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 32,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924032,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "82eec16f7e1d69942180cf2cb1fcb49462e9ea894707d4fa88293d05354f0e67",
+              "observation_sha256": {
+                "joint_position": "d812897c67e9abae6d30f7afb799cc3759f4da23eb7fd157ab5fa064d5124e16",
+                "gripper_position": "137944a344ae123820d2040571f753755317e1a48dc4d869a5e82733b435eede",
+                "external_image": "6a02f1d5038f7b37ab57f2fa3efdfb68069a9d790c636aec0b29394ce16d2d99",
+                "wrist_image": "92602357f98237335a14b8279d9ee38007c395f431063cf7d43b3fa20f23466a"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "87e44f0f8b90343d09dd06767401cac3dfe77ee776f9626f4ea909c0f3293c86",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "d692cec1b8eedecedfcb3fff9d5a48c587cf46b84fa25aaad5e533c2198ae115",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 33,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924033,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "4a2b9f46320740ff075d89ccd9594f716aa158136dab82d64ce46da47ce17bf8",
+              "observation_sha256": {
+                "joint_position": "911c4d321f4571ec22d522b4fc048dbfde63b62b91797c11b91fa9330086a114",
+                "gripper_position": "ce7064717aa088c91fd373e33525ac16ad83fe0befd421debb1b874c8d504913",
+                "external_image": "819c7fb0928645690e8f63443973b685c231b7fec40d49093b908ee3d8bc0d02",
+                "wrist_image": "374efacb4204521f6a9f3ddf643cc91ca24d8775fb9b4efe33d8c825ac3d93ad"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "3a380258275cd6df6d29aff9cbf80c732af49a8af7e2ccbb5a59222a5e33f1b0",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "3a380258275cd6df6d29aff9cbf80c732af49a8af7e2ccbb5a59222a5e33f1b0",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 34,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924034,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "fd0b5ca4eba97389e9fc95f0c8bf0eaf55c7680869d2aaa16067c73d10270b29",
+              "observation_sha256": {
+                "joint_position": "6b30afe7665c1d724a2e1cda5bed4757e4ac624f5b96c59017d9698bc2375b78",
+                "gripper_position": "3d170ed92a6e88de4baa239badb4f4938ff2edccf1cd1022cc117d8e282c4826",
+                "external_image": "acfa7ea71770131e1125c8e88ab27408e11e83070cc658b0aff0aa8367327d6f",
+                "wrist_image": "fb3d7366282b0bcd030478753a35e3078bac2543397725ba99e663c8785efa43"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "d06a48937c3c26a1e672afd8e2338b6312de86dd9cb1eb15f5de62f52395b483",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "d06a48937c3c26a1e672afd8e2338b6312de86dd9cb1eb15f5de62f52395b483",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 35,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924035,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "3a55b2b4f6d18d02ef90862e90f5cdfb8d0594035fa7ee2757f7e54ba6233b16",
+              "observation_sha256": {
+                "joint_position": "c0f6586e54ecd90ce6efe874b2de9cf68d834187755f622eb3161b884fe8dd48",
+                "gripper_position": "93cb1c950dbde6f6cf41141934261995915ca6a16ee313d3aeb5913fdf7bb5e5",
+                "external_image": "a6c2506e0caee09b8d3adc4a2978202abf8060da207f783f3da1d0a38a2958c8",
+                "wrist_image": "92978cee3e911b74ffa0965dcd6a3f3816ef9116ae03c64ae65b51c64d4dff8d"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "7aebfb273b8189bb5d080443835554b25781314798d6d99b40d3592655682b68",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "7aebfb273b8189bb5d080443835554b25781314798d6d99b40d3592655682b68",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 36,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924036,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "f14908690a0ceeb4575ae5d7f6f54fb10fe5885590027db5e617a6b14ec7bf71",
+              "observation_sha256": {
+                "joint_position": "d8f4a9542d0aff0d8914337459c90245be786439ca3bbb7046b6981b0e89fe60",
+                "gripper_position": "bf8aac9f4bdcb1ef9f6fff10170292e5c74fca89dfa9472c28ac26c0a9cc7dfa",
+                "external_image": "375387ef04206979d0aebf77e3fc6003196b0b5c217ea25f95f6b48022416b1f",
+                "wrist_image": "7c7e7c87407c6aeb6ea8cbbbce94b3c58052fcb510c4c895a989b4cc9ca36285"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "e222bb9ea8827c9462f150479c4bf319640c6eeefbe3334629313ad6fd8e5ccd",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "e222bb9ea8827c9462f150479c4bf319640c6eeefbe3334629313ad6fd8e5ccd",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 37,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924037,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "d78aa90fe901fae52e1f31ed1bffbe324c6f0ac9d985af94aabad360a8670651",
+              "observation_sha256": {
+                "joint_position": "3de6d0461a5902f063f8d866afdee3721800f46c26c2030ad2eafdaff2688421",
+                "gripper_position": "b730e619795b08afc2e32624636b67097637e21423b1e72af84a66ec5a58465d",
+                "external_image": "f729f0796b214db7b4f803246bde11745b18e0213cf4334b36ccd11057f965be",
+                "wrist_image": "4573156f4f5eb4a7cfca5ad74f00b13a124ffb661f7aef815319463994bfff6c"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "0a8834fc218423590a7127f57cbaeb7c453265d4341dd190c55ddccb90cc1d64",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0a8834fc218423590a7127f57cbaeb7c453265d4341dd190c55ddccb90cc1d64",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 38,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924038,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "797dd33e5a6e642a37d32bc3263bb0d4028326182c7b5056b9bbba04c3f09868",
+              "observation_sha256": {
+                "joint_position": "21df49e5f8e2de3601ecb9cebba9c08e36c04440cfdbc6c87da2be38b2cfecdb",
+                "gripper_position": "407e38a381cf9f8df3e0a715437cdfc29181963c9bbc61467624911b3e4cefc6",
+                "external_image": "68ad3e53179e664441944bce856b5789f40d9471bafe0a02321d56c8b59054d8",
+                "wrist_image": "aaa5b31bdc482de3e8f5441b9ac3b5ce79515420fc23b6ebf112c39f04605eda"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "6df5f553c93bef431bbe59279576f4a7b8f16f4eb0273ccb03aa44a82ff4d2da",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "6df5f553c93bef431bbe59279576f4a7b8f16f4eb0273ccb03aa44a82ff4d2da",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 39,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924039,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "a457111ebddeb04d9984b6a211f631749fa39418f318d875b089775578e3b859",
+              "observation_sha256": {
+                "joint_position": "e16c2cb4858d3d815461b672deaf8cd1e3991cbc6748c7c84f1b5fc80280445b",
+                "gripper_position": "de2b19a2d3385a4ee9890653cb68b275d874496ba58b4acb23e036162b3b67d8",
+                "external_image": "8f0143b9a65f1e99a95f8fd0e8a73ba7f13846e747dab1c9f69c8cbdb3085f3a",
+                "wrist_image": "2a6f85143ceec1027c709ad4c6e752fdabd0c907d41c6d0c80cead2e18807bd0"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "15a52eeb9c1daa36d76a957c5718fda3c3f2acf496b90fe88ab5a899ee8d4c58",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "15a52eeb9c1daa36d76a957c5718fda3c3f2acf496b90fe88ab5a899ee8d4c58",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 40,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924040,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9d80460ad95441fd3ae83e0f9e13f318e16f1d5ac82a9396ba759d24b711243b",
+              "observation_sha256": {
+                "joint_position": "4a1bd6df72744299d5a479b77cc8313c82df640acefa9662c2f3b2f0461e6816",
+                "gripper_position": "66ac1de7da877b7e895d4eb5f946dbe161362194a236637cd1ebdb00a692e99c",
+                "external_image": "a77613b7c40de0ce2f227a01fd80edfbc57dc276085afa53a51256e5bf9874f3",
+                "wrist_image": "7e13205df3052899da6947460b77d34beb5cef1af5163479722516c2e58f5a19"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "b9fd245dd8a16d08eaf7e996d3c7e1aed2a7dbb18360498b63c9190a6a025760",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "b9fd245dd8a16d08eaf7e996d3c7e1aed2a7dbb18360498b63c9190a6a025760",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 41,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924041,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "baa4dcf810bef0e6d3e9d967188ea0efee725dabe4bf0fee23df817df99250b3",
+              "observation_sha256": {
+                "joint_position": "7c1c36034cdfc44b4690659bf8cff60751ec90d7cee3756cb3d30778de80886a",
+                "gripper_position": "c9bacbdc1f4ccfa61beb7412f56ebd6bb9d467bcb308ff824c1ef72f0f0e9970",
+                "external_image": "724c2ed77f9e46d4e3640db52b8136a66de2856f681d32c517b6d2fde257eb7a",
+                "wrist_image": "4af91ec6bcf0bc7be0f97049e0fdc2c9001d19616a38650651c4efa36b291f65"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "eacfa1b41af5ec30a58b75a506b90ce29003544bc4fe66ed8804de6d09735aa5",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "eacfa1b41af5ec30a58b75a506b90ce29003544bc4fe66ed8804de6d09735aa5",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 42,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924042,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "8471a6d0f3c2ac903a72ece2f3de0fd04a7c726e1029ed808beb723d1fa34ebf",
+              "observation_sha256": {
+                "joint_position": "3b2182384dcf92df8cd0da9bfb24201c6b750395b4a5ef7bf8ab7f9189969c4c",
+                "gripper_position": "1367241e4a1b84678b39b82d52075ef32f6e38afd9e7308e9c933f5ff8f90323",
+                "external_image": "381173012001f7da1f2488273e401557d207b98b7f389f44a7ff0fa30cbf4e4e",
+                "wrist_image": "6db6e1debe150672b6ae7b062e8c521dbfa23fa9056be99a9fd0f7e288d5d73c"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "2db7a1504d0de0a8477ea9c4110d5e542025624bdb71536ecea8b2cbe6f92bd5",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "2db7a1504d0de0a8477ea9c4110d5e542025624bdb71536ecea8b2cbe6f92bd5",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 43,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924043,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "70f4550601448390c9697d539ec6e74523711a6b9c65b02b46545b7f635a0b3b",
+              "observation_sha256": {
+                "joint_position": "676facad90e8d4cc48f182cb968f31f3570ebbb56600af4c52a3df535c0d3932",
+                "gripper_position": "de887b313800b51b21998f4a1d20807e3cc83973abb5fa3c02b5f63cc0ffa606",
+                "external_image": "06856c8b6fb993b8970a5fedef0850150ad68e4845dfc24c9e63b622351e1492",
+                "wrist_image": "a13e9f7d0615d99f98b9b97c85c7f859a4e6f58eda1600ca7b15c00d9ff2191f"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "82505856164bd8554bdef351d1f18cb3763106b8ff9170a9ac45b15b54e09274",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "82505856164bd8554bdef351d1f18cb3763106b8ff9170a9ac45b15b54e09274",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 44,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924044,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "22ac5fad96bdf3715b94357126387457e584f24656f6dc830c50178497b50dd8",
+              "observation_sha256": {
+                "joint_position": "1f9340774755bff30566e8d4b087ea1cff62039cc79b336b50ef40c1bf8b617c",
+                "gripper_position": "442351af91ebad6f9a0263d286ffd0553558868b2420d85051ea8910d191fc31",
+                "external_image": "1c0d420d77439fa86a0415591fe1c18c96545b667dc3c71e0e3c4788f1a84dac",
+                "wrist_image": "7578d74031664e335c5a2e40fa0b7a384dfc6580e99d05c6c0618100227c9060"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "db0b446008c8dca560a510cff0b1435683f9c00a33c0a0f8df09dcfe90e71f1f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "db0b446008c8dca560a510cff0b1435683f9c00a33c0a0f8df09dcfe90e71f1f",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 45,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924045,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9ab4a38f0190096f52d93cafbb9d1f40f2e2cfffbe0c5fc3b69aceaad507d8eb",
+              "observation_sha256": {
+                "joint_position": "1abfcb98c405ba12ffc7b72440bac4aab57aaeb5633973f928020a575fbf851f",
+                "gripper_position": "ad819b2c7c2399db728750ad82696641ad153ea85f739cc545c0d375eef92750",
+                "external_image": "49711c92613387c9ea0f4b7bc5e32549375dae591fa4c888cd4c3f9e218fe509",
+                "wrist_image": "82e73056e0cd2227834ea269e18881c4c6d39a3760a636dddf8ae0146695e15b"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "05c56aa01637d7799c2ab6bb43495c534202c972efda374e15a699216a2ce4cc",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "17f640e422225c0b124d6f9b64c8c134939c8903f8b04c05567a5718602ccfc1",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 46,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924046,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "d5faaaae659a03fbd271433aa2cb3c264da5beaf609dc1ee38341cfdc0b957c7",
+              "observation_sha256": {
+                "joint_position": "c7476a80f0f33644f6b9516c27085f1f62713426ed4f1cf7228f1b2677182958",
+                "gripper_position": "82e6ff53d7c80c666402ffce037dd3b7d001bd069d4b649d52824f800215093c",
+                "external_image": "9e33d1223c4bcd98b32a440df975ee7bac7d32fc15697291ccd6fc17faa50281",
+                "wrist_image": "943c006241f969c7a8eb4da3e6d0945c799151126c759b81aa271e130581a1a6"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "8840d5c8f88d9926f27aaf18683d795b01d2d144fa427ccb3974e889ebbe3887",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "1d8b8f97e332ffd2916f405ace06aa1fedbb3d6e52a676cd32e3235b4f1b04b6",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 47,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924047,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "c81b67caff11b8657fe27c9f43897b075d6506f04a8dcbbd01d69488ed3dbb1f",
+              "observation_sha256": {
+                "joint_position": "84481facf0df4fbbd44b820a8c602e7bcfc3bbd8c3610f4ae5497f723d82d720",
+                "gripper_position": "955f413cec5bf09b3e6f88cb1b3f84f7807471979db0b0b64f3cb37b141fa886",
+                "external_image": "0bfb90e35d0d644ab507545da5b7f1bfdfa105c850fe5587c3319b776ba8ce24",
+                "wrist_image": "4bc14beac1660fab7f81fbad11ec0356f0b0cf9aa9a721224d8b1bd2609c88d7"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "8e6ef1dd2087c67c0006a5475f6e1093f94b8577d5c974af236e0599bf10d5f2",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "25f8b69c389ba7d25462d1b43c6aab210c70f65aa48ceaaaac71ac1f7c52c84e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 48,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924048,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "06307b67f5c8087ecb4df2349dea635b954ae437797fe05dbb2c91c0e0e0a401",
+              "observation_sha256": {
+                "joint_position": "66cac8f1c19009d1e87ba2f7d2ab9094c2da4b8e2302661fae3940b5df91ad07",
+                "gripper_position": "d01bad89ada51412934869366c81bf3643a0462bc00ad72b08902aa083b917bc",
+                "external_image": "7bfd2520f42815e05950a68c155473a098f1d593abaeda591d08f82b4c175d6f",
+                "wrist_image": "59e0be1d38b1d1a6e366b9cb1d574ef4fa674a6ec1b2fffbf606947686eba53c"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "45b9886b5a625b6dced3ae841a5f959ccc95eeb3b546ef2a485ac10631e9658a",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0e1345fb775174de007dd81bb737b62126cf06ae7eb7704d5a8fa5e676d9ec7a",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 49,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924049,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "5c82417a0440a5f684b7b9b5a7415558c4afaa39f8637ec86ed626577ef73a28",
+              "observation_sha256": {
+                "joint_position": "e5ce68f07dedef9b5e4b771d8eb38d557b10e5c4825e3b886a3b25e29f3cf7e6",
+                "gripper_position": "7b59a766a0668d1c94d09297bd1dc9ceb96f4ec2eb3ec42b83a0878b5c8bc5d5",
+                "external_image": "99a777608012a633d440aaccc7ae41178c28471452956b1aa26ef8b1d44c1829",
+                "wrist_image": "ffe651537257fa232167b53aa7f3f7a907d5dac820245a69c4b0f7d90acdd77b"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "54cc6c248ba3329fe3cbea8ddcd4f9d900185cebe32e82c56b854a9e29c6a3bd",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "54cc6c248ba3329fe3cbea8ddcd4f9d900185cebe32e82c56b854a9e29c6a3bd",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 50,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924050,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "5396bc3ea8b8a3b19c4f402536a011fa569c61168dde894a6abce647e3275594",
+              "observation_sha256": {
+                "joint_position": "808325a08b6800b59ba5d0ab698ae1ca00ecef29e54b29e4f9581cd01227bcc4",
+                "gripper_position": "925b9e4ce44d048907defc7ae0a47e3de95ff022ceefa170fba2a6998379a284",
+                "external_image": "226ce9e479a9d7940a2be5cc260f01d42ef8a41df1671b2c339513a8b78220a8",
+                "wrist_image": "f71ccdd4e82e6ee0b4d9ff32d79ddba0c0ef55f3fc4981944ef42786aaef234f"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "a9896e883a39eadd0a36a27030081902490bb0ae5335e0c63c33871101ef4e0f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a9896e883a39eadd0a36a27030081902490bb0ae5335e0c63c33871101ef4e0f",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 51,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924051,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "6d878b175d6eda6761c1876c0f670f166bad28b8e9d07d9c1fe6938825a08aa0",
+              "observation_sha256": {
+                "joint_position": "26f53a8ef39abb8994aa6d246a4544ed0b14dbab7efcb04e333427d54cded1c2",
+                "gripper_position": "10587e4071edd6bb0349d57b83db2ba5e8936e760153f94e27e48cdd55a86f57",
+                "external_image": "99a324e3f5a66ad20a26eaa2b01be25f75b0687f801c745e8b8257e36ea64136",
+                "wrist_image": "e34786089ab681d3e89f8e3c8cb236f56766b6f5e30c7a58f47f9efd6f75b8aa"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "45e3dc54b2a00e03d38b0dc3a86ea8b2e7e70009901d3edfea3a0fdf7c2ed26f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0c22abc64201006a78cc58a9e7363d4f3fe8af52edc8332fd9e4706517c81f76",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 52,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924052,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "25f57d21a57e79edcb48e45e3a7046e5e589a88bc44631b6ea486af21061e6ff",
+              "observation_sha256": {
+                "joint_position": "4d578374ae6c4feee776a7ed25c95e49b4f1956c01740508a2953d5cfc2eaf26",
+                "gripper_position": "ff59d7471817bd8218ff3a558d5874705a880579447bd41c6e949fc70ee507a2",
+                "external_image": "8244887c156e74eef3b52408564db68b53c41cb44b126235c9c581310e4aa0be",
+                "wrist_image": "ad6315e009d7e1c95cfc0428f3e02227bdd3938c793bae51772381fe6f3bff8f"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "9f59527dcddb0484a74451bd41cde4dbe5cac40b26bbaf81344a244e99bfaa7f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "508357a828ad582a8777a4a3ae7b312849014b62581bb455cac357525024e766",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 53,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924053,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ec6763f4e353bf126c11d23f78a35c3868e127a62d115263300b0e23161001e9",
+              "observation_sha256": {
+                "joint_position": "062c74ea8d464f84180d3f796d29e154bdd39a1279eb1e259a393ec9ad6fe486",
+                "gripper_position": "94921dff25fae730879ed892bd9f31c18955ff2d0b836e98faf04a1c78fc50ed",
+                "external_image": "b1525e2fa5056394c7ccbee1881ddc36893850e92e0537eea06bb11ef726686b",
+                "wrist_image": "d482c875c7c67187c4eb26b5cdd9d26b3d723518a548070349338349e414c564"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "0143a3cdbee61eec3c51c356c09d9d3c8d4add97b2ebd00f24f22cd950563027",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "ee14048af4206774906614e292581c4d4998313a9a700d7cb7411f6b14baf14e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 54,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924054,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "360bd083034dd705e98f1815efa47161031f934880b5a4e8463f3d9aad7c47f8",
+              "observation_sha256": {
+                "joint_position": "6139c09c4d1ab1ae5506dd4eef7e9112999a7e8921d635028c226199d8ed8a92",
+                "gripper_position": "7fc2a178df140cc907bce90eb71f2a6e05dbba3f1948dff69f67e0116fb77fdb",
+                "external_image": "96c13f22657b1fc95990144e08d9ea26d14794d0e618d1ae3cc8997b5e3f423a",
+                "wrist_image": "7a6fe4409720528f0cf55a66873ef73150e2e7b2e30429dd77a67144b4b16bac"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "8b2d057d14c660407d33d95726eed871885abeaee75a4fc479320887e69df63a",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "eb30a1af6b903756dd791dd27e582d1bc95846e4e45ae77e1a0cffdb4c27e47b",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 55,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924055,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "7da261f13208cc2d0b0b1aaaa68df9a7459c57cdac21ec1cea298221cac5f9c6",
+              "observation_sha256": {
+                "joint_position": "afac226296900fb09a04b16fb77ae06d7a6de3e9ee4e2271caefc7aab0e5bc36",
+                "gripper_position": "a4a4c508def821316699d7dc6dd7d6a68a185bfcf17ec631a46c42ad833e5356",
+                "external_image": "497c929bd3c718c5788d3043bcf26840b7e3783d8da03c66d7fbebba5d2fb43f",
+                "wrist_image": "426a39dc60935bad7a6a71388473cbcd0082aab2d07ddcc439b84134166facdd"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "82ee103ffe7a92b586556d3fc40ba7b7eaa23ee2c3a49c71d2228b2e93a4dccd",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "eb4f2cbe50f49626f8047603166750d28293fbab5552fb1d0835f047f5285def",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 56,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924056,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "1a16577594ec3a326ee3cf070811747a563a8b27a1f0746e9cc7ec04dadf7a01",
+              "observation_sha256": {
+                "joint_position": "f067355c0aa2ae4fe9e711b9147e47de8c222123714689d1d503d5f3fd01f6c0",
+                "gripper_position": "695bfdcd386e638bba163436b16cbbfc8c51e25a42f86a33acb4d401977a35cf",
+                "external_image": "ee84a8f70d74d251c3f21c1f852268ae1f41e126b8df0cda48fa4e1b1549c358",
+                "wrist_image": "f5a84d376516751454dd57269bb88f4ed7e543997b279ee872c337604f3d7f62"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "14ede7f6f5b2031a4c8a3d7e9f9a3a2a9597aad99c1dd66d98f0329fc7010646",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "2ce8c5f62cc6f53406ad626247f4e51c0baea4164e301706b8b7e2b21999e95d",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 57,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924057,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "2ae6b272faa7a993382bf7f87f02b963bfae60f91c4522bce3f7b8f7720bba16",
+              "observation_sha256": {
+                "joint_position": "829500e5e8168f2705c59765a3530ae8d3f4a83850366de258a6f1ae0344b4ea",
+                "gripper_position": "1381df6da5272f82457459831dd5e1d57c1ac23bd33e63d183e12560147597e2",
+                "external_image": "c4b275c113e42392e52ae5aa46ad66eafaf0fef85c7907fd95ca324fb30dd6e9",
+                "wrist_image": "aab59452a5acbbf0ac20f6fa5e8192c5da2c8d81abe26ac84110df4acc135836"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "69cb7d563a78749f34b21e469caecd659bb0e2548dfe42499dabe502359a8c26",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "aa215ed5224e26ccb24a5dfd5ee2ac01f5770220d6e6b6fdc5967ebffd1cc1b1",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 58,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924058,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "687deaaeefc9b899bbdc62810437436995e35f20302140bc6085d28a4a906537",
+              "observation_sha256": {
+                "joint_position": "f7b79e1b0cddca09b589c436fc3c88fe726fda73f039905b07e9a31747477cb2",
+                "gripper_position": "3c96f5295f4ed6ef4cef4e7cc1c332ad56b9449876672b86a7b68b80cdaa86e8",
+                "external_image": "19b14e1d516d7a9dd5a9f66c04671d779e083fb53f3943565d151e9438024263",
+                "wrist_image": "4da4830efbbf3980cc327270dd941b20bf170c693dea4c39e6ed46d08106da63"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "4b61e7f819966b36fbbd95bb5a1104b09fd99e202d6a0d3246f14aa8b1cb9822",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "00d3e69f6a19560b2e97e0772bf1dab2f5dd1e5bf38b47e5dadad9d0c480c96f",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 59,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924059,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "6523b3e467d778f89d57f72f394a6d28f2be6579af9aac7aef6cef00b785bb54",
+              "observation_sha256": {
+                "joint_position": "c2731c06adaf709497c40e19363f62995c8355402d9b8b58e052db108be57135",
+                "gripper_position": "20be271b296ecd26d6d13cd26e0b3acb499c0de717fe607877374242eff5e230",
+                "external_image": "13ebd3e8bc5e4d4768ce3b190cd6bc86ebe30c93ec327de9b9665ab43621199b",
+                "wrist_image": "43e396bda26387ad0cfa35ac403dc1cc62e0159cf2185e91cb81fa122cfd0fbf"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "9662f8c41de0db3f7a166f247d7e426cb7f51e86386e7e40c17f4fc0e29d14d8",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a544c1b48fd4e8a32c5075cdcda4173f2ece337cf8cb2a4820f30378711cd7ad",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 60,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924060,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "2e3c5ab4190ef7c88c46c64757eb3fbcd03de35bff2478e264e150322bc91711",
+              "observation_sha256": {
+                "joint_position": "c31d06c99911990e38da1628308e7f145c0d1a9b298907c66662659a892b2b7f",
+                "gripper_position": "8dc3024b7542c79bff3eb23d3e181113e691ae589dbd721b17c78b5bffa3c70d",
+                "external_image": "e52c60e0ea96e3543305c033684a1f3fea5f3f55415bf3304bb69701365585a3",
+                "wrist_image": "d4aac258295039e9ff0f7dbd5ee7cfef28560e392fa8a2795d7648a8f164f2d1"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "c36dc49cf1044c0aab28e0602078df6c69dd9f576b9b57922d519a347a45e172",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0d9b4d5514fb582c18417f94fae1b3be795860ebf44174dd97550337d26f612e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 61,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924061,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "083ced59d2c20b8b711a7e3ec71f1f431c82aec3b4d2af4a8f74e4c68875750f",
+              "observation_sha256": {
+                "joint_position": "6c2f806c6db54bc73c54242186b334c0c9a2a1c793007a8f0bca90176ce2879d",
+                "gripper_position": "ffa1cc2a583666ef768131a952dd05251d49c5d40cc0b81c67077cff59c96e33",
+                "external_image": "ac3dd7672fe68efdf9e401f2d4d60a19b4a3c9228d1e9ccaff9c6b29c77804ad",
+                "wrist_image": "0a3fba24e3e5bc5dcc21bf6cd0a8b0295d192afd55499a04a64df69fd0acbbc3"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "2992dcf012b204f82b87ab83cf2d11d93bc0021366226c5a8450847f523ac6d5",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "91fdf30829cd9b7016928d3b420e2cc5a2d1b96c40deea90c5da354a4c6ce8bf",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 62,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924062,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "37f38160ea407ad9fc84992770251f17b2e18b13dfa0e5b1d5d8f146a8aa2ca1",
+              "observation_sha256": {
+                "joint_position": "6615dfe8d6324dcebea39f61e132f8bd96cd31fd95e31f82fba7534a56572789",
+                "gripper_position": "0c36959c4a3e3d988895e15068944ac1cfbc12d814de1d14d42866a7f225f7e4",
+                "external_image": "c7035fd065d10f1030aec9d24eb46e45b4179c18e3acff3896af93c61070a1da",
+                "wrist_image": "67df1b479530baa5c8804d9fb61d4cd398ecddde0b7c1265c509cd795a23f4a4"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "52a13609d1f089d6439968f23614cd64d2ebe3097724d614cd3c03bdacacd5f4",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "c1db065b6895d3e902bca3fe37f70bbcecec927b3b690a0a4790bd9188976aee",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 63,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924063,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "44971194f9298efe3e40207e1d444e92eaca33a62382b113ee09ae6ee3685834",
+              "observation_sha256": {
+                "joint_position": "2e73ea36e715388983b7b6d1cab4c529d6dff13f05e5b6d86a2446e392c16133",
+                "gripper_position": "5c65ee518fefac2822f72ae634e462b84de75f98c4fbaa5d51962a16a109de4e",
+                "external_image": "a592fb84dced2530b2eb1a83b9ea64f41fe4674ef00b8acc50541132a3b383ee",
+                "wrist_image": "dcd6278d3d8b10fe284cb3c58d65be398298d8a5857111c49c4819929d8b861a"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "6e56595ff13bdd6cf29afbcf11475a4238e7abeff3dc5d71fcac419681e9609b",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "9517b5ef6c4de8a2ae97ce5e3a0705f1d4a7159e86770b1c6fb16e1093fcbf61",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 64,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924064,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ec58280cb5d0bab51557a940f2808153c63d6f4a6d23d388721ecf33511f598a",
+              "observation_sha256": {
+                "joint_position": "9fba6ce5eaf69539c990bcb7274e2872e517f9f9ab629190f8ecfb3027fc0c3d",
+                "gripper_position": "e806e5158e271455d1020c3fc3eb760555ae1748346ccac21d369781074e734f",
+                "external_image": "8dfd3337f55537ef9c496c6ee9807f4bcbc84039882268ed085faba8f7fe24bb",
+                "wrist_image": "cf00d874a9447dfb4eb4b19e07f69c41c4df60258a25410ad91cd7a942b1a59e"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "d40c8dcad601bb0c9ef91fc727439b2ad0ea2284557a5255c92d2ad1fee1c096",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "48c776cdef35487cc80dfc208c97b6c9926064bc5b62dc7df068c47c280e376e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 65,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924065,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "8238313f9f6b78f0a04c6ee58c40965dae77f4b40b9ec5a5ea8ef57b383fd791",
+              "observation_sha256": {
+                "joint_position": "d7d7584c6ecf8d273953890b86fbe3fa1da54cedff9ff5345618235b94b2535e",
+                "gripper_position": "5b9c2f0ec0076262738eb8b4c71f3b40c0056273e15a1a8a0c8094c6d6410a7f",
+                "external_image": "a2eb9c7e1f866b90fde78fbb5b439602bd5f6609f3c81bec0f950c6e878decbd",
+                "wrist_image": "e8dd87bc7689c93f1cd5adbc19245a221ea50e00ea43c298856cbdb4907c3658"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "bc36b1540ef3807ab60a478410a3ef0fa1a506b797ec0f4b451193057703ecfe",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "4243feef347fecd09c951692a8c292d7c1f9b977fe53f9b2a5a86da22fc40c9b",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 66,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924066,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "ca6289965b419f829d270e2fb51b8bf7202258fe2849d068a365b59e0cfe3fa9",
+              "observation_sha256": {
+                "joint_position": "ab691dd8b3010d0d69d41a49877c82d9447bda7f4f39cb25c287de3092bfc49b",
+                "gripper_position": "9f4fec5c5fe9a21511dba3dc2029b7d3f3235aeda56877d72d0e881fe5f2550e",
+                "external_image": "80e788ac42916897eb34b3c5cf12465efa8795d06113f4265e5a3c59e4ce3f5e",
+                "wrist_image": "c981dbd1b57f9944ee3ec39e7cc0bb96e18d23ec3e02038db8a9ac3b674ae9a0"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "411821708bdd62d98b34b91a0312f6c48a64a36d2081e08868afa32c18c00888",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "8ccdf7df602142d3aed86c33dcdee3528a3554a1e0087651a65cdda6ec08757a",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 67,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924067,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "a7e29bae0cfd8164e208dd3c563475d73f0f339535f93784f9aff4538a5ebaab",
+              "observation_sha256": {
+                "joint_position": "92b9bd9c4e37ec7a1f2c9bba84c4511fd56e4961a18bbb981832e3bedd861d1f",
+                "gripper_position": "28cfd45243f9dc4b92afbe5ee863b6106af56c7a350adb773c2cca2e4645fbba",
+                "external_image": "5159c2db4f787d6e1ac317f31994e5677cffcf7f4ba3ce59045b4e632ec76ff3",
+                "wrist_image": "e9f06f69e2d3da1ddd3c9178fd58f4e360644a47fc955e78703a09ad0d44bfb3"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "5c5e340cc2c19ebcd7c8af9df1007561c38332de32d5b431dee70796fde8e8fa",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a0fa70d8ef41694efdac6935f8b088b68366e14fb902f10cdafb0777f794275e",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 68,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924068,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9aaf80b824ca7326fbd1fbf06e73860c9c528922ec880568ec54fae8f63cb30c",
+              "observation_sha256": {
+                "joint_position": "996499fc236859c9c26c93d0258cc205023973ee3e20bb1ad580715fde3329fe",
+                "gripper_position": "f69fe0fec5bde96cf51d76af83d4e133b83666779614457669bac53532fda876",
+                "external_image": "27c8ac9af04ad01cc6f002b1bc02a3a6de57ef0228f0dca7b3b14e7a2608d1bb",
+                "wrist_image": "a62c69614fe11bee02f6a547592c12a93cbcc3a92c5c4ba4fd8545441c0956bc"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "1972400d1435fc3908309a8872576b692c6e26667463fcdcebd81e354eea57c4",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "96787a3b3e32bd946599ec071f20ae85f3f659b57b318efd5d37a9381a78456b",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 69,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924069,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "c44b327a3adc4c4fd4f0d8e1012cdf053943d39cac49f28e8b0b472929df0464",
+              "observation_sha256": {
+                "joint_position": "dc47c897c43cab3b17eeade3c23b0154e54e3578952785689770a1d43e67a11c",
+                "gripper_position": "2976b56ac845174577c12168ef9023fc6e6e412eca83145da56f4c359c824a70",
+                "external_image": "e3384d0cf5d6449ce4a482cb000d8d26af895bf1359665b8ff5098e68e0bde13",
+                "wrist_image": "7e467420268a82fed8c995229319bee834272b6fe411ad6ad87724c794bd8049"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "71bb8fe438cdb203680491b655fb4d42b3517ee3ffa60234675b85cb2a230323",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "fe2bdf44799be4cbc45afe1136faa86d6e22df062d0d7769f8599dd9b4e8a8fa",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 70,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924070,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "77ab49a5c82194a4ed48168902b53e947fbcaefe86fc7098dcc7b479970b2d2d",
+              "observation_sha256": {
+                "joint_position": "77c0922e60be19102db40169bc2ffd7f2e98fd7d8d49c7ca3616f8d4d97f353a",
+                "gripper_position": "82111c2abba17c093dc2c88c890f1bc3b252d72afb86a8cce420d9f08a3082bc",
+                "external_image": "c55470fef696db7460bc1df8d0b19c0baebafd86a9c93b874bb9d877fa9bf339",
+                "wrist_image": "d40dc4b2dfdb10d20fb7d2a0c75a77aa35bbc172af5c7c5a706a2353b616702f"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "00fa2a4731c80ddf62971958620c5c12b8fa9838bced306a7cedca5779f1649f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "a439b437b02e6b55d32ecea2e7e6db41a9ca1f2c2464c86e783b05f0242dcc28",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 71,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924071,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "09e18d4eb3edd85998cc55f80555dda3bdc400fab33b8911a7a9a8358dec58a7",
+              "observation_sha256": {
+                "joint_position": "88fd2b0771ffbb66e47fc075924ae22e9f5668b6b23f4abe37f97edd5ba320be",
+                "gripper_position": "cff4e5e1c2f6c74f96c855cbfb10d64d7bc85a87004fb9a194052d41e19cc3b2",
+                "external_image": "f80753c793a83d12eb6064bce3ef9012d2e3918bc0deb4c13329c23b4933a55b",
+                "wrist_image": "2df06e237452eff87b325639ab1e6b3877b938ca06533c3689121595dcdab427"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "08c8d3236c25651124253319cf0cd8732ce9361e08c1f7ba98f4bd141a4b985f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "2aaafa2c26ae792e045ca915e7d3037867df711cdc1160d99858d79d886996b8",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 72,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924072,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "d8109414faf4deac88af49a108c60e6a3199100062441d22a4ba42c21dd28955",
+              "observation_sha256": {
+                "joint_position": "72109c6e1b9a9b94c2bb249c9ebbc3173f3da75bdbb8ef5a50ef39b8afbcd14c",
+                "gripper_position": "86f27351f9a766df509cbafadf0c1f8d70e0e9d46be06e2147b54e509c8cffa0",
+                "external_image": "7de9ecc37d1e00c486b048d27824cc53093bce010c08556374fca6b6d5fc9763",
+                "wrist_image": "00f33a43068dde32b0e47f5e516b7f15e8591540390c40941d2a9066c9a697fa"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "0fe454a623bf109513ef41fe3bb8420af585d31ff36e8f241c9ecca4ffa956be",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0b662b5bc795942a8bb66c85be58c2a0719f21750df695bd780c76d02929b572",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 73,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924073,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "e9c0bcae76568276e34cdb7546aff3be2ded074869d777fc142ae841ba1047a2",
+              "observation_sha256": {
+                "joint_position": "702c4c73e75c26d4a977912533af91496f3287e21d6cb2ee89498751da91eafe",
+                "gripper_position": "07690846ed96a092bbb84954cf9ea067d42af5eaeded5b97910c2d640f53f836",
+                "external_image": "28a962873282ee824b92319abaf6d3a9264ad39ecb907226d25a1f1e6e922b5d",
+                "wrist_image": "af1acd715810c4c5079774d4d98e55403575ade6e3603db1b368a70d6927bdc2"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "38fc4f36fa8c574981b02ff2b921d19c81517bd4578f0550d090f8eac96c5215",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "0ed6ae3c37b07de21b4e33a221dc8130de8ac1f8408b8696065490c0e8e0dc62",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 74,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924074,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9a0e3da44c63f33036f609211505223f71a2db14c4305d091abee5d45a807b02",
+              "observation_sha256": {
+                "joint_position": "fe20673209253148ff72e90c4a500698e7a11112dc506b2ad981471d61be1084",
+                "gripper_position": "b628087a1a4bb482aef38a4caa0f2b62ff4f023bafd2ee0077bf19ce2aebb89a",
+                "external_image": "686104cf6b148926ca1dcad4c7d949bfc07396d7bd05a2e35c49b5f0ff9501a8",
+                "wrist_image": "12c9e50623d8cab0257ef45ffa78d1a2702da3cbff328c5f41b6bacd589999c2"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "b7e9ca87bdd615fff4a5b458e167e7eb24f7550013fde2794da3d28745c13b02",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "9d633eabcde3f3f9e81f79c0837a36ad9324e4905d8669c48a3db060c08b3e79",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 75,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924075,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "77a35c42769d4ef9fddd21bed9339e03ccdefd66c3505d339285db8184058c94",
+              "observation_sha256": {
+                "joint_position": "95aae32ac546896be52f3b78a4e330845c0fdb20db825000706f6369a218f93f",
+                "gripper_position": "cc98fd4c96293ceb1774801e32f3aad6c3f3efee3962979850a6c1eb5bfd5f4e",
+                "external_image": "bd03ff0e4ae602c835f6c9bf89b95ec27ef7e2e508cab2c788791aaa0e10d30c",
+                "wrist_image": "55da8d961d97a629a9b8472e4396c23736f8ce5462ebf08d2f548e286868823d"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "b13339fd78d8777cf04c8789e46a7e7bfffe59096ff08c9abfb2a2d247aa265e",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "8827e8d85f3b43df267e6f871fcdb923160d5495a331b127cc50323412fc267a",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 76,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924076,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "1a46682d6348456b10e32091e8248c46c3a1ee70e76f2f8aa9c071c024c4f9f2",
+              "observation_sha256": {
+                "joint_position": "f191cbbc9c9f40f234cbc961c81e6a16fdabd4f2c70a24d08c413fb23548f23a",
+                "gripper_position": "0f9190fbab24bbc02c5fe798fc8a742612c942c06d305690e7866033d66fc330",
+                "external_image": "8c8ff8744a7c43a1681ade06dcb14cce540fc6f0ce7fd4372379edb80ab6f971",
+                "wrist_image": "6a7bd1fadaafff0c4f5a96fba07d2c0e2eafa94df542d87b9758560c78c978d3"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "2bdb0b50b630ee0c93d2ff524bba16c1a3d2615e45633eb83c86201b70d98fb4",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "2d0c244c55316ad4506c106a3c8913077488e437971292b4e13cb46b43dc9fef",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 77,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924077,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "67ef318c582dd753205ef9287635a72b09cf3161f98a84d514d0e0840a8608f2",
+              "observation_sha256": {
+                "joint_position": "fe1527847549a0c93af1030e5c7e11894f16579c77d7450d896ed12933ab875a",
+                "gripper_position": "8711eaea9cbf619d2a94526c22ba5638a8d906b2dc51151561da0951de053829",
+                "external_image": "1e4369ecafdeedc71460991b4497732b025f0e431622f8fe713f89427b021c38",
+                "wrist_image": "f714beb350667cfd48cc75adf28e67dc08315c2aef3caa5626ef7de82245b300"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "11c31ce3d9da1297ad990d167b04dc3cce884bf608513c3147bbbdefcb9b4c30",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "b9cddebf17d60b8d2f7fe1a80062ab7119b001fdfe59a3edf3bac351c9cfbed0",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 78,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924078,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "67897269eb4723dcc42eb02b6e71e1c2a59d4182e788e4eb344268a3c2c6faec",
+              "observation_sha256": {
+                "joint_position": "8c15fbdeab53a999d7174e57ec398a99f73cec72d3d09dc712caa394b1e78384",
+                "gripper_position": "9d9f2d5fd6de672e3c4e08f0d3ec7db626c12d89e484cba89f39266cec7e94b4",
+                "external_image": "4261bcac5edf17790c5becaf790dbba7abe926166489916d4b06140524098320",
+                "wrist_image": "2a38d61429fd220d722d688361d8a18cb244e9d9502b60617bb01d3276379ee6"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "c8279d534a49d0c20b53ce31729daca4011b0ae826de09edd68b084eb27f4d8f",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "c8279d534a49d0c20b53ce31729daca4011b0ae826de09edd68b084eb27f4d8f",
+              "executed_action_count": 5
+            },
+            {
+              "chunk_index": 79,
+              "mode": "explicit_numpy_gaussian_noise_v1",
+              "seed": 260924079,
+              "shape": [
+                10,
+                32
+              ],
+              "dtype": "float32",
+              "noise_sha256": "9fd6cb16f049760c2eb7bacc35547edf1c31e73e9b1fcd7eb9ff62ac025bd912",
+              "observation_sha256": {
+                "joint_position": "2f87f13ad8397078e9b78fb77fb45530b1d234b429432e4c6530841b857dc635",
+                "gripper_position": "b9b70671aad75c05dbe856d795ee659e01dfb5cdf3c6cc5e2d64cb1826244714",
+                "external_image": "7927ba2eb120248122ad654e3633aa6632bfc01a707a5504dd9a4736e256abbd",
+                "wrist_image": "7c8f93f954ec69d788a843580801baee02dcd0aef69537017fee570a86b7526d"
+              },
+              "raw_action_shape": [
+                10,
+                7
+              ],
+              "raw_action_dtype": "float32",
+              "raw_action_sha256": "2587c4e8dfa6c9305fa6e904964fb3e49a30c6229085d035f2fdbc647380e169",
+              "safe_action_shape": [
+                10,
+                7
+              ],
+              "safe_action_dtype": "float32",
+              "safe_action_sha256": "b68536890af1b3d93731f900714f60314376cab616f1318942858064176e81e1",
+              "executed_action_count": 5
+            }
+          ]
+        },
+        "inference_latency_s": {
+          "first": 9.601448358036578,
+          "mean": 0.22325563126214548,
+          "maximum": 9.601448358036578
+        },
+        "guard_totals": {
+          "joint_limit_clamp_count": 0,
+          "joint_step_clamp_count": 170,
+          "gripper_clamp_count": 117
+        },
+        "low_level_release_postcondition": {
+          "applied": false,
+          "trigger": "three consecutive chunks with lift, target error below 0.05 m, actual gripper and executed gripper target below the calibrated threshold",
+          "open_threshold_normalized": 0.2,
+          "arm_target_latched_to_actual_rad": null,
+          "gripper_target_normalized": null,
+          "verification_settle_steps": 240,
+          "model_selected_release": false
+        },
+        "release_verification": {
+          "verified": false,
+          "required_consecutive_chunks": 3,
+          "open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.03825239191165549,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        },
+        "source_position_m": [
+          -0.22878648340702057,
+          -0.007503831293433905,
+          0.7454999685287476
+        ],
+        "target_position_m": [
+          -0.17759088205127566,
+          -0.14443243622765667,
+          0.6625
+        ],
+        "final_position_m": [
+          -0.13029617071151733,
+          -0.15690582990646362,
+          0.6731461882591248
+        ],
+        "source_to_target_xy_distance_m": 0.17894496023654938,
+        "block_lift_height_m": 0.04213064908981323,
+        "final_target_xy_error_m": 0.048911913380868324,
+        "final_target_position_error_m": 0.05005713330811396,
+        "post_release_drift_m": 0.0006923757027834654,
+        "final_gripper_normalized": 0.2177139238126016,
+        "all_states_finite": true,
+        "criteria": {
+          "source_to_target_xy_distance_m_gt": 0.12,
+          "block_lift_height_m_gt": 0.02,
+          "final_target_xy_error_m_lt": 0.05,
+          "final_target_position_error_m_lt": 0.05,
+          "post_release_drift_m_lt": 0.02,
+          "model_selected_release_verified": true
+        },
+        "episode": {
+          "directory": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_deterministic_repro_run_c/eval_000",
+          "frame_count": 439,
+          "validation": {
+            "status": "pass",
+            "format": "rm65_expert_episode_v1",
+            "frame_count": 439,
+            "duration_s": 21.9,
+            "images_recorded": true,
+            "phase_names": [
+              "SOURCE_SETTLE",
+              "PI05_CHUNK_000_ACTION_00",
+              "PI05_CHUNK_000_ACTION_01",
+              "PI05_CHUNK_000_ACTION_02",
+              "PI05_CHUNK_000_ACTION_03",
+              "PI05_CHUNK_000_ACTION_04",
+              "PI05_CHUNK_001_ACTION_00",
+              "PI05_CHUNK_001_ACTION_01",
+              "PI05_CHUNK_001_ACTION_02",
+              "PI05_CHUNK_001_ACTION_03",
+              "PI05_CHUNK_001_ACTION_04",
+              "PI05_CHUNK_002_ACTION_00",
+              "PI05_CHUNK_002_ACTION_01",
+              "PI05_CHUNK_002_ACTION_02",
+              "PI05_CHUNK_002_ACTION_03",
+              "PI05_CHUNK_002_ACTION_04",
+              "PI05_CHUNK_003_ACTION_00",
+              "PI05_CHUNK_003_ACTION_01",
+              "PI05_CHUNK_003_ACTION_02",
+              "PI05_CHUNK_003_ACTION_03",
+              "PI05_CHUNK_003_ACTION_04",
+              "PI05_CHUNK_004_ACTION_00",
+              "PI05_CHUNK_004_ACTION_01",
+              "PI05_CHUNK_004_ACTION_02",
+              "PI05_CHUNK_004_ACTION_03",
+              "PI05_CHUNK_004_ACTION_04",
+              "PI05_CHUNK_005_ACTION_00",
+              "PI05_CHUNK_005_ACTION_01",
+              "PI05_CHUNK_005_ACTION_02",
+              "PI05_CHUNK_005_ACTION_03",
+              "PI05_CHUNK_005_ACTION_04",
+              "PI05_CHUNK_006_ACTION_00",
+              "PI05_CHUNK_006_ACTION_01",
+              "PI05_CHUNK_006_ACTION_02",
+              "PI05_CHUNK_006_ACTION_03",
+              "PI05_CHUNK_006_ACTION_04",
+              "PI05_CHUNK_007_ACTION_00",
+              "PI05_CHUNK_007_ACTION_01",
+              "PI05_CHUNK_007_ACTION_02",
+              "PI05_CHUNK_007_ACTION_03",
+              "PI05_CHUNK_007_ACTION_04",
+              "PI05_CHUNK_008_ACTION_00",
+              "PI05_CHUNK_008_ACTION_01",
+              "PI05_CHUNK_008_ACTION_02",
+              "PI05_CHUNK_008_ACTION_03",
+              "PI05_CHUNK_008_ACTION_04",
+              "PI05_CHUNK_009_ACTION_00",
+              "PI05_CHUNK_009_ACTION_01",
+              "PI05_CHUNK_009_ACTION_02",
+              "PI05_CHUNK_009_ACTION_03",
+              "PI05_CHUNK_009_ACTION_04",
+              "PI05_CHUNK_010_ACTION_00",
+              "PI05_CHUNK_010_ACTION_01",
+              "PI05_CHUNK_010_ACTION_02",
+              "PI05_CHUNK_010_ACTION_03",
+              "PI05_CHUNK_010_ACTION_04",
+              "PI05_CHUNK_011_ACTION_00",
+              "PI05_CHUNK_011_ACTION_01",
+              "PI05_CHUNK_011_ACTION_02",
+              "PI05_CHUNK_011_ACTION_03",
+              "PI05_CHUNK_011_ACTION_04",
+              "PI05_CHUNK_012_ACTION_00",
+              "PI05_CHUNK_012_ACTION_01",
+              "PI05_CHUNK_012_ACTION_02",
+              "PI05_CHUNK_012_ACTION_03",
+              "PI05_CHUNK_012_ACTION_04",
+              "PI05_CHUNK_013_ACTION_00",
+              "PI05_CHUNK_013_ACTION_01",
+              "PI05_CHUNK_013_ACTION_02",
+              "PI05_CHUNK_013_ACTION_03",
+              "PI05_CHUNK_013_ACTION_04",
+              "PI05_CHUNK_014_ACTION_00",
+              "PI05_CHUNK_014_ACTION_01",
+              "PI05_CHUNK_014_ACTION_02",
+              "PI05_CHUNK_014_ACTION_03",
+              "PI05_CHUNK_014_ACTION_04",
+              "PI05_CHUNK_015_ACTION_00",
+              "PI05_CHUNK_015_ACTION_01",
+              "PI05_CHUNK_015_ACTION_02",
+              "PI05_CHUNK_015_ACTION_03",
+              "PI05_CHUNK_015_ACTION_04",
+              "PI05_CHUNK_016_ACTION_00",
+              "PI05_CHUNK_016_ACTION_01",
+              "PI05_CHUNK_016_ACTION_02",
+              "PI05_CHUNK_016_ACTION_03",
+              "PI05_CHUNK_016_ACTION_04",
+              "PI05_CHUNK_017_ACTION_00",
+              "PI05_CHUNK_017_ACTION_01",
+              "PI05_CHUNK_017_ACTION_02",
+              "PI05_CHUNK_017_ACTION_03",
+              "PI05_CHUNK_017_ACTION_04",
+              "PI05_CHUNK_018_ACTION_00",
+              "PI05_CHUNK_018_ACTION_01",
+              "PI05_CHUNK_018_ACTION_02",
+              "PI05_CHUNK_018_ACTION_03",
+              "PI05_CHUNK_018_ACTION_04",
+              "PI05_CHUNK_019_ACTION_00",
+              "PI05_CHUNK_019_ACTION_01",
+              "PI05_CHUNK_019_ACTION_02",
+              "PI05_CHUNK_019_ACTION_03",
+              "PI05_CHUNK_019_ACTION_04",
+              "PI05_CHUNK_020_ACTION_00",
+              "PI05_CHUNK_020_ACTION_01",
+              "PI05_CHUNK_020_ACTION_02",
+              "PI05_CHUNK_020_ACTION_03",
+              "PI05_CHUNK_020_ACTION_04",
+              "PI05_CHUNK_021_ACTION_00",
+              "PI05_CHUNK_021_ACTION_01",
+              "PI05_CHUNK_021_ACTION_02",
+              "PI05_CHUNK_021_ACTION_03",
+              "PI05_CHUNK_021_ACTION_04",
+              "PI05_CHUNK_022_ACTION_00",
+              "PI05_CHUNK_022_ACTION_01",
+              "PI05_CHUNK_022_ACTION_02",
+              "PI05_CHUNK_022_ACTION_03",
+              "PI05_CHUNK_022_ACTION_04",
+              "PI05_CHUNK_023_ACTION_00",
+              "PI05_CHUNK_023_ACTION_01",
+              "PI05_CHUNK_023_ACTION_02",
+              "PI05_CHUNK_023_ACTION_03",
+              "PI05_CHUNK_023_ACTION_04",
+              "PI05_CHUNK_024_ACTION_00",
+              "PI05_CHUNK_024_ACTION_01",
+              "PI05_CHUNK_024_ACTION_02",
+              "PI05_CHUNK_024_ACTION_03",
+              "PI05_CHUNK_024_ACTION_04",
+              "PI05_CHUNK_025_ACTION_00",
+              "PI05_CHUNK_025_ACTION_01",
+              "PI05_CHUNK_025_ACTION_02",
+              "PI05_CHUNK_025_ACTION_03",
+              "PI05_CHUNK_025_ACTION_04",
+              "PI05_CHUNK_026_ACTION_00",
+              "PI05_CHUNK_026_ACTION_01",
+              "PI05_CHUNK_026_ACTION_02",
+              "PI05_CHUNK_026_ACTION_03",
+              "PI05_CHUNK_026_ACTION_04",
+              "PI05_CHUNK_027_ACTION_00",
+              "PI05_CHUNK_027_ACTION_01",
+              "PI05_CHUNK_027_ACTION_02",
+              "PI05_CHUNK_027_ACTION_03",
+              "PI05_CHUNK_027_ACTION_04",
+              "PI05_CHUNK_028_ACTION_00",
+              "PI05_CHUNK_028_ACTION_01",
+              "PI05_CHUNK_028_ACTION_02",
+              "PI05_CHUNK_028_ACTION_03",
+              "PI05_CHUNK_028_ACTION_04",
+              "PI05_CHUNK_029_ACTION_00",
+              "PI05_CHUNK_029_ACTION_01",
+              "PI05_CHUNK_029_ACTION_02",
+              "PI05_CHUNK_029_ACTION_03",
+              "PI05_CHUNK_029_ACTION_04",
+              "PI05_CHUNK_030_ACTION_00",
+              "PI05_CHUNK_030_ACTION_01",
+              "PI05_CHUNK_030_ACTION_02",
+              "PI05_CHUNK_030_ACTION_03",
+              "PI05_CHUNK_030_ACTION_04",
+              "PI05_CHUNK_031_ACTION_00",
+              "PI05_CHUNK_031_ACTION_01",
+              "PI05_CHUNK_031_ACTION_02",
+              "PI05_CHUNK_031_ACTION_03",
+              "PI05_CHUNK_031_ACTION_04",
+              "PI05_CHUNK_032_ACTION_00",
+              "PI05_CHUNK_032_ACTION_01",
+              "PI05_CHUNK_032_ACTION_02",
+              "PI05_CHUNK_032_ACTION_03",
+              "PI05_CHUNK_032_ACTION_04",
+              "PI05_CHUNK_033_ACTION_00",
+              "PI05_CHUNK_033_ACTION_01",
+              "PI05_CHUNK_033_ACTION_02",
+              "PI05_CHUNK_033_ACTION_03",
+              "PI05_CHUNK_033_ACTION_04",
+              "PI05_CHUNK_034_ACTION_00",
+              "PI05_CHUNK_034_ACTION_01",
+              "PI05_CHUNK_034_ACTION_02",
+              "PI05_CHUNK_034_ACTION_03",
+              "PI05_CHUNK_034_ACTION_04",
+              "PI05_CHUNK_035_ACTION_00",
+              "PI05_CHUNK_035_ACTION_01",
+              "PI05_CHUNK_035_ACTION_02",
+              "PI05_CHUNK_035_ACTION_03",
+              "PI05_CHUNK_035_ACTION_04",
+              "PI05_CHUNK_036_ACTION_00",
+              "PI05_CHUNK_036_ACTION_01",
+              "PI05_CHUNK_036_ACTION_02",
+              "PI05_CHUNK_036_ACTION_03",
+              "PI05_CHUNK_036_ACTION_04",
+              "PI05_CHUNK_037_ACTION_00",
+              "PI05_CHUNK_037_ACTION_01",
+              "PI05_CHUNK_037_ACTION_02",
+              "PI05_CHUNK_037_ACTION_03",
+              "PI05_CHUNK_037_ACTION_04",
+              "PI05_CHUNK_038_ACTION_00",
+              "PI05_CHUNK_038_ACTION_01",
+              "PI05_CHUNK_038_ACTION_02",
+              "PI05_CHUNK_038_ACTION_03",
+              "PI05_CHUNK_038_ACTION_04",
+              "PI05_CHUNK_039_ACTION_00",
+              "PI05_CHUNK_039_ACTION_01",
+              "PI05_CHUNK_039_ACTION_02",
+              "PI05_CHUNK_039_ACTION_03",
+              "PI05_CHUNK_039_ACTION_04",
+              "PI05_CHUNK_040_ACTION_00",
+              "PI05_CHUNK_040_ACTION_01",
+              "PI05_CHUNK_040_ACTION_02",
+              "PI05_CHUNK_040_ACTION_03",
+              "PI05_CHUNK_040_ACTION_04",
+              "PI05_CHUNK_041_ACTION_00",
+              "PI05_CHUNK_041_ACTION_01",
+              "PI05_CHUNK_041_ACTION_02",
+              "PI05_CHUNK_041_ACTION_03",
+              "PI05_CHUNK_041_ACTION_04",
+              "PI05_CHUNK_042_ACTION_00",
+              "PI05_CHUNK_042_ACTION_01",
+              "PI05_CHUNK_042_ACTION_02",
+              "PI05_CHUNK_042_ACTION_03",
+              "PI05_CHUNK_042_ACTION_04",
+              "PI05_CHUNK_043_ACTION_00",
+              "PI05_CHUNK_043_ACTION_01",
+              "PI05_CHUNK_043_ACTION_02",
+              "PI05_CHUNK_043_ACTION_03",
+              "PI05_CHUNK_043_ACTION_04",
+              "PI05_CHUNK_044_ACTION_00",
+              "PI05_CHUNK_044_ACTION_01",
+              "PI05_CHUNK_044_ACTION_02",
+              "PI05_CHUNK_044_ACTION_03",
+              "PI05_CHUNK_044_ACTION_04",
+              "PI05_CHUNK_045_ACTION_00",
+              "PI05_CHUNK_045_ACTION_01",
+              "PI05_CHUNK_045_ACTION_02",
+              "PI05_CHUNK_045_ACTION_03",
+              "PI05_CHUNK_045_ACTION_04",
+              "PI05_CHUNK_046_ACTION_00",
+              "PI05_CHUNK_046_ACTION_01",
+              "PI05_CHUNK_046_ACTION_02",
+              "PI05_CHUNK_046_ACTION_03",
+              "PI05_CHUNK_046_ACTION_04",
+              "PI05_CHUNK_047_ACTION_00",
+              "PI05_CHUNK_047_ACTION_01",
+              "PI05_CHUNK_047_ACTION_02",
+              "PI05_CHUNK_047_ACTION_03",
+              "PI05_CHUNK_047_ACTION_04",
+              "PI05_CHUNK_048_ACTION_00",
+              "PI05_CHUNK_048_ACTION_01",
+              "PI05_CHUNK_048_ACTION_02",
+              "PI05_CHUNK_048_ACTION_03",
+              "PI05_CHUNK_048_ACTION_04",
+              "PI05_CHUNK_049_ACTION_00",
+              "PI05_CHUNK_049_ACTION_01",
+              "PI05_CHUNK_049_ACTION_02",
+              "PI05_CHUNK_049_ACTION_03",
+              "PI05_CHUNK_049_ACTION_04",
+              "PI05_CHUNK_050_ACTION_00",
+              "PI05_CHUNK_050_ACTION_01",
+              "PI05_CHUNK_050_ACTION_02",
+              "PI05_CHUNK_050_ACTION_03",
+              "PI05_CHUNK_050_ACTION_04",
+              "PI05_CHUNK_051_ACTION_00",
+              "PI05_CHUNK_051_ACTION_01",
+              "PI05_CHUNK_051_ACTION_02",
+              "PI05_CHUNK_051_ACTION_03",
+              "PI05_CHUNK_051_ACTION_04",
+              "PI05_CHUNK_052_ACTION_00",
+              "PI05_CHUNK_052_ACTION_01",
+              "PI05_CHUNK_052_ACTION_02",
+              "PI05_CHUNK_052_ACTION_03",
+              "PI05_CHUNK_052_ACTION_04",
+              "PI05_CHUNK_053_ACTION_00",
+              "PI05_CHUNK_053_ACTION_01",
+              "PI05_CHUNK_053_ACTION_02",
+              "PI05_CHUNK_053_ACTION_03",
+              "PI05_CHUNK_053_ACTION_04",
+              "PI05_CHUNK_054_ACTION_00",
+              "PI05_CHUNK_054_ACTION_01",
+              "PI05_CHUNK_054_ACTION_02",
+              "PI05_CHUNK_054_ACTION_03",
+              "PI05_CHUNK_054_ACTION_04",
+              "PI05_CHUNK_055_ACTION_00",
+              "PI05_CHUNK_055_ACTION_01",
+              "PI05_CHUNK_055_ACTION_02",
+              "PI05_CHUNK_055_ACTION_03",
+              "PI05_CHUNK_055_ACTION_04",
+              "PI05_CHUNK_056_ACTION_00",
+              "PI05_CHUNK_056_ACTION_01",
+              "PI05_CHUNK_056_ACTION_02",
+              "PI05_CHUNK_056_ACTION_03",
+              "PI05_CHUNK_056_ACTION_04",
+              "PI05_CHUNK_057_ACTION_00",
+              "PI05_CHUNK_057_ACTION_01",
+              "PI05_CHUNK_057_ACTION_02",
+              "PI05_CHUNK_057_ACTION_03",
+              "PI05_CHUNK_057_ACTION_04",
+              "PI05_CHUNK_058_ACTION_00",
+              "PI05_CHUNK_058_ACTION_01",
+              "PI05_CHUNK_058_ACTION_02",
+              "PI05_CHUNK_058_ACTION_03",
+              "PI05_CHUNK_058_ACTION_04",
+              "PI05_CHUNK_059_ACTION_00",
+              "PI05_CHUNK_059_ACTION_01",
+              "PI05_CHUNK_059_ACTION_02",
+              "PI05_CHUNK_059_ACTION_03",
+              "PI05_CHUNK_059_ACTION_04",
+              "PI05_CHUNK_060_ACTION_00",
+              "PI05_CHUNK_060_ACTION_01",
+              "PI05_CHUNK_060_ACTION_02",
+              "PI05_CHUNK_060_ACTION_03",
+              "PI05_CHUNK_060_ACTION_04",
+              "PI05_CHUNK_061_ACTION_00",
+              "PI05_CHUNK_061_ACTION_01",
+              "PI05_CHUNK_061_ACTION_02",
+              "PI05_CHUNK_061_ACTION_03",
+              "PI05_CHUNK_061_ACTION_04",
+              "PI05_CHUNK_062_ACTION_00",
+              "PI05_CHUNK_062_ACTION_01",
+              "PI05_CHUNK_062_ACTION_02",
+              "PI05_CHUNK_062_ACTION_03",
+              "PI05_CHUNK_062_ACTION_04",
+              "PI05_CHUNK_063_ACTION_00",
+              "PI05_CHUNK_063_ACTION_01",
+              "PI05_CHUNK_063_ACTION_02",
+              "PI05_CHUNK_063_ACTION_03",
+              "PI05_CHUNK_063_ACTION_04",
+              "PI05_CHUNK_064_ACTION_00",
+              "PI05_CHUNK_064_ACTION_01",
+              "PI05_CHUNK_064_ACTION_02",
+              "PI05_CHUNK_064_ACTION_03",
+              "PI05_CHUNK_064_ACTION_04",
+              "PI05_CHUNK_065_ACTION_00",
+              "PI05_CHUNK_065_ACTION_01",
+              "PI05_CHUNK_065_ACTION_02",
+              "PI05_CHUNK_065_ACTION_03",
+              "PI05_CHUNK_065_ACTION_04",
+              "PI05_CHUNK_066_ACTION_00",
+              "PI05_CHUNK_066_ACTION_01",
+              "PI05_CHUNK_066_ACTION_02",
+              "PI05_CHUNK_066_ACTION_03",
+              "PI05_CHUNK_066_ACTION_04",
+              "PI05_CHUNK_067_ACTION_00",
+              "PI05_CHUNK_067_ACTION_01",
+              "PI05_CHUNK_067_ACTION_02",
+              "PI05_CHUNK_067_ACTION_03",
+              "PI05_CHUNK_067_ACTION_04",
+              "PI05_CHUNK_068_ACTION_00",
+              "PI05_CHUNK_068_ACTION_01",
+              "PI05_CHUNK_068_ACTION_02",
+              "PI05_CHUNK_068_ACTION_03",
+              "PI05_CHUNK_068_ACTION_04",
+              "PI05_CHUNK_069_ACTION_00",
+              "PI05_CHUNK_069_ACTION_01",
+              "PI05_CHUNK_069_ACTION_02",
+              "PI05_CHUNK_069_ACTION_03",
+              "PI05_CHUNK_069_ACTION_04",
+              "PI05_CHUNK_070_ACTION_00",
+              "PI05_CHUNK_070_ACTION_01",
+              "PI05_CHUNK_070_ACTION_02",
+              "PI05_CHUNK_070_ACTION_03",
+              "PI05_CHUNK_070_ACTION_04",
+              "PI05_CHUNK_071_ACTION_00",
+              "PI05_CHUNK_071_ACTION_01",
+              "PI05_CHUNK_071_ACTION_02",
+              "PI05_CHUNK_071_ACTION_03",
+              "PI05_CHUNK_071_ACTION_04",
+              "PI05_CHUNK_072_ACTION_00",
+              "PI05_CHUNK_072_ACTION_01",
+              "PI05_CHUNK_072_ACTION_02",
+              "PI05_CHUNK_072_ACTION_03",
+              "PI05_CHUNK_072_ACTION_04",
+              "PI05_CHUNK_073_ACTION_00",
+              "PI05_CHUNK_073_ACTION_01",
+              "PI05_CHUNK_073_ACTION_02",
+              "PI05_CHUNK_073_ACTION_03",
+              "PI05_CHUNK_073_ACTION_04",
+              "PI05_CHUNK_074_ACTION_00",
+              "PI05_CHUNK_074_ACTION_01",
+              "PI05_CHUNK_074_ACTION_02",
+              "PI05_CHUNK_074_ACTION_03",
+              "PI05_CHUNK_074_ACTION_04",
+              "PI05_CHUNK_075_ACTION_00",
+              "PI05_CHUNK_075_ACTION_01",
+              "PI05_CHUNK_075_ACTION_02",
+              "PI05_CHUNK_075_ACTION_03",
+              "PI05_CHUNK_075_ACTION_04",
+              "PI05_CHUNK_076_ACTION_00",
+              "PI05_CHUNK_076_ACTION_01",
+              "PI05_CHUNK_076_ACTION_02",
+              "PI05_CHUNK_076_ACTION_03",
+              "PI05_CHUNK_076_ACTION_04",
+              "PI05_CHUNK_077_ACTION_00",
+              "PI05_CHUNK_077_ACTION_01",
+              "PI05_CHUNK_077_ACTION_02",
+              "PI05_CHUNK_077_ACTION_03",
+              "PI05_CHUNK_077_ACTION_04",
+              "PI05_CHUNK_078_ACTION_00",
+              "PI05_CHUNK_078_ACTION_01",
+              "PI05_CHUNK_078_ACTION_02",
+              "PI05_CHUNK_078_ACTION_03",
+              "PI05_CHUNK_078_ACTION_04",
+              "PI05_CHUNK_079_ACTION_00",
+              "PI05_CHUNK_079_ACTION_01",
+              "PI05_CHUNK_079_ACTION_02",
+              "PI05_CHUNK_079_ACTION_03",
+              "PI05_CHUNK_079_ACTION_04",
+              "PI05_SETTLE_A",
+              "PI05_SETTLE_B"
+            ],
+            "all_finite": true,
+            "errors": []
+          },
+          "evaluation_only": true
+        }
+      },
+      "reused": false,
+      "log": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_deterministic_repro_run_c/eval_000/runner.log",
+      "infrastructure_attempts": [
+        {
+          "attempt": 1,
+          "runner_returncode": 2,
+          "timed_out": false,
+          "log": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_deterministic_repro_run_c/eval_000/runner.log"
+        }
+      ]
+    }
+  ]
+}

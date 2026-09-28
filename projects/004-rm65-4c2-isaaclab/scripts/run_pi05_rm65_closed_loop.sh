@@ -5,13 +5,14 @@ project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 isaaclab_root="${ISAACLAB_ROOT:-$HOME/robot-learning/IsaacLab}"
 openpi_root="${OPENPI_ROOT:-$HOME/robot-learning/openpi}"
 rm65_root="${RM65_ROOT:-$HOME/robot-learning/rm-ik-rl}"
-checkpoint="${1:?usage: $0 CHECKPOINT [EPISODE_DIR] [TRANSFER_ANGLE] [SOURCE_X] [SOURCE_Y] [PROMPT] POLICY_NOISE_SEED}"
+checkpoint="${1:?usage: $0 CHECKPOINT [EPISODE_DIR] [TRANSFER_ANGLE] [SOURCE_X] [SOURCE_Y] [PROMPT] POLICY_NOISE_SEED SIMULATION_SEED}"
 episode_dir="${2:-datasets/rm65_pi05_eval/episode_000000}"
 transfer_angle="${3:-0.8}"
 source_offset_x="${4:-0.0}"
 source_offset_y="${5:-0.0}"
 episode_prompt="${6:-pick up the block and place it on the target}"
 policy_noise_seed="${7:-${POLICY_NOISE_SEED:-}}"
+simulation_seed="${8:-${SIMULATION_SEED:-}}"
 policy_port="${POLICY_PORT:-8000}"
 policy_server_mode="${POLICY_SERVER_MODE:-managed}"
 repo_id="${RM65_REPO_ID:-local/rm65_sim_train}"
@@ -20,6 +21,10 @@ server_log="$project_root/outputs/rm65_pi05_policy_server.log"
 
 if [[ ! "$policy_noise_seed" =~ ^[0-9]+$ ]]; then
   echo "ERROR: POLICY_NOISE_SEED must be a non-negative integer" >&2
+  exit 2
+fi
+if [[ ! "$simulation_seed" =~ ^[0-9]+$ ]]; then
+  echo "ERROR: SIMULATION_SEED must be a non-negative integer" >&2
   exit 2
 fi
 
@@ -34,6 +39,7 @@ export PYTHONPATH="$project_root:$openpi_root/packages/openpi-client/src${PYTHON
 # Reserve half of the 16 GB GPU for Isaac Sim. This is the same split that
 # passed the earlier Franka + pi0.5 closed-loop evaluation on this workstation.
 export XLA_PYTHON_CLIENT_MEM_FRACTION="${XLA_PYTHON_CLIENT_MEM_FRACTION:-0.50}"
+export PYTHONHASHSEED="$simulation_seed"
 
 if [[ "$policy_server_mode" == "managed" ]]; then
   if ss -ltn "sport = :$policy_port" | grep -q LISTEN; then
@@ -121,12 +127,14 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --policy-port "$policy_port" \
   --policy-checkpoint-id "$checkpoint_id" \
   --policy-noise-seed "$policy_noise_seed" \
+  --simulation-seed "$simulation_seed" \
   --headless \
   --enable_cameras
 
 python3 scripts/check_closed_loop_task_report.py \
   "$episode_dir/task_report.json" \
   --checkpoint-id "$checkpoint_id" \
-  --policy-noise-seed "$policy_noise_seed"
+  --policy-noise-seed "$policy_noise_seed" \
+  --simulation-seed "$simulation_seed"
 
 echo "RM65_PI05_EVALUATION_EPISODE=$episode_dir"

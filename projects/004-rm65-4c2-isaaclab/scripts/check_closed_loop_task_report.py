@@ -21,6 +21,7 @@ def main() -> int:
     parser.add_argument("report", type=Path)
     parser.add_argument("--checkpoint-id", required=True)
     parser.add_argument("--policy-noise-seed", type=int, required=True)
+    parser.add_argument("--simulation-seed", type=int, required=True)
     args = parser.parse_args()
     if not args.report.is_file():
         raise FileNotFoundError(f"closed-loop task report missing: {args.report}")
@@ -29,6 +30,7 @@ def main() -> int:
         report,
         expected_checkpoint_id=args.checkpoint_id,
         expected_policy_noise_seed=args.policy_noise_seed,
+        expected_simulation_seed=args.simulation_seed,
     )
     print(json.dumps(validation, indent=2))
     return 0 if validation["execution_verified"] else 2
