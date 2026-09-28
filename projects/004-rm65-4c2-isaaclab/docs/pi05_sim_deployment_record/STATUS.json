@@ -72,7 +72,20 @@
     "initial_raw_action_hash_matches": 0,
     "strict_repeatability_verified": false,
     "end_to_end_determinism_claim_supported": false,
-    "evidence": "results/rm65_pi05_repeatability_audit_outer4_v1.json"
+    "evidence": "results/rm65_pi05_repeatability_audit_outer4_v1.json",
+    "exact_initial_observation_pair": {
+      "case_id": "robust_042",
+      "outcome_match": true,
+      "reference_status": "fail",
+      "candidate_status": "fail",
+      "external_model_input_changed_pixels": 108,
+      "wrist_model_input_changed_pixels": 330,
+      "model_input_maximum_channel_difference": 1,
+      "first_executed_chunk_maximum_target_difference": 0.00045149982906877995,
+      "reference_lift_m": 0.00043147802352905273,
+      "candidate_lift_m": 0.03480672836303711,
+      "evidence": "results/rm65_pi05_exact_initial_observation_repeatability_robust042_v1.json"
+    }
   },
   "controller": {
     "policy_max_action_chunks": 120,

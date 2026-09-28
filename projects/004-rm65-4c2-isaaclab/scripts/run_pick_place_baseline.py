@@ -716,6 +716,7 @@ def run_pi05_closed_loop(
     minimum_observed_gripper_normalized = float("inf")
     minimum_executed_gripper_target = float("inf")
     policy_sampling_records = []
+    initial_policy_observation_images: tuple[np.ndarray, np.ndarray] | None = None
     server_metadata = client.get_server_metadata()
     try:
         expected_server_metadata = {
@@ -736,6 +737,14 @@ def run_pi05_closed_loop(
         for chunk_index in range(args.policy_max_action_chunks):
             chunk_seed = case_chunk_seed(args.policy_noise_seed, chunk_index)
             external_rgb, wrist_rgb = episode_capture._render_images(robot, cube)
+            if chunk_index == 0:
+                # Keep the exact arrays sent to the policy.  Episode recording
+                # performs another render tick, so its nearest PNG is not
+                # necessarily byte-identical to this observation.
+                initial_policy_observation_images = (
+                    external_rgb.copy(),
+                    wrist_rgb.copy(),
+                )
             current_arm = robot.data.joint_pos[0, arm_ids].detach().cpu().numpy().astype(np.float32)
             current_gripper = np.array(
                 [normalize_gripper(float(robot.data.joint_pos[0, gripper_master_id].item()))],
@@ -943,6 +952,33 @@ def run_pi05_closed_loop(
     validation = validate_episode(episode_recorder.output_dir, require_images=True)
     if validation["status"] != "pass":
         raise RuntimeError(f"pi0.5 evaluation episode failed validation: {validation}")
+    initial_policy_observation = None
+    if initial_policy_observation_images is not None:
+        from PIL import Image
+
+        observation_dir = episode_recorder.output_dir / "policy_observations"
+        observation_dir.mkdir(parents=True, exist_ok=True)
+        external_path = observation_dir / "chunk_000_external.png"
+        wrist_path = observation_dir / "chunk_000_wrist.png"
+        external_initial, wrist_initial = initial_policy_observation_images
+        Image.fromarray(external_initial).save(external_path)
+        Image.fromarray(wrist_initial).save(wrist_path)
+        initial_policy_observation = {
+            "chunk_index": 0,
+            "saved_after_control_completed": True,
+            "external_image": {
+                "path": str(external_path.relative_to(episode_recorder.output_dir)),
+                "shape": list(external_initial.shape),
+                "dtype": str(external_initial.dtype),
+                "sha256": array_sha256(external_initial),
+            },
+            "wrist_image": {
+                "path": str(wrist_path.relative_to(episode_recorder.output_dir)),
+                "shape": list(wrist_initial.shape),
+                "dtype": str(wrist_initial.dtype),
+                "sha256": array_sha256(wrist_initial),
+            },
+        }
     report = {
         "status": "pass" if passed else "fail",
         "simulation_only": True,
@@ -1000,6 +1036,7 @@ def run_pi05_closed_loop(
             "server_metadata": server_metadata,
             "chunks": policy_sampling_records,
         },
+        "initial_policy_observation": initial_policy_observation,
         "inference_latency_s": {
             "first": inference_latencies[0] if inference_latencies else None,
             "mean": float(np.mean(inference_latencies)) if inference_latencies else None,

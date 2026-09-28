@@ -1,0 +1,188 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_exact_initial_policy_observation_repeatability",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "reference_episode": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_a/robust_042",
+  "candidate_episode": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_b/robust_042",
+  "exact_capture_evidence_verified": true,
+  "model_preprocessing_applied": true,
+  "reference_status": "fail",
+  "candidate_status": "fail",
+  "outcome_match": true,
+  "chunk_zero_noise_hash_match": true,
+  "chunk_zero_raw_action_hash_match": false,
+  "images": {
+    "external": {
+      "render_480x640": {
+        "shape": [
+          480,
+          640,
+          3
+        ],
+        "exact_match": false,
+        "changed_pixel_count": 906,
+        "changed_pixel_fraction": 0.00294921875,
+        "mean_absolute_channel_difference": 0.0017513020833333332,
+        "maximum_absolute_channel_difference": 11,
+        "psnr_db": 74.51696871175581,
+        "pixels_with_max_channel_difference_ge_2": 12,
+        "pixels_with_max_channel_difference_ge_4": 3,
+        "pixels_with_max_channel_difference_ge_8": 1,
+        "changed_pixel_bbox_xyxy": [
+          190,
+          0,
+          434,
+          341
+        ]
+      },
+      "model_input_224x224": {
+        "shape": [
+          224,
+          224,
+          3
+        ],
+        "exact_match": false,
+        "changed_pixel_count": 108,
+        "changed_pixel_fraction": 0.002152423469387755,
+        "mean_absolute_channel_difference": 0.0010894982993197278,
+        "maximum_absolute_channel_difference": 1,
+        "psnr_db": 77.758538042082,
+        "pixels_with_max_channel_difference_ge_2": 0,
+        "pixels_with_max_channel_difference_ge_4": 0,
+        "pixels_with_max_channel_difference_ge_8": 0,
+        "changed_pixel_bbox_xyxy": [
+          66,
+          28,
+          151,
+          147
+        ]
+      }
+    },
+    "wrist": {
+      "render_480x640": {
+        "shape": [
+          480,
+          640,
+          3
+        ],
+        "exact_match": false,
+        "changed_pixel_count": 2851,
+        "changed_pixel_fraction": 0.009280598958333334,
+        "mean_absolute_channel_difference": 0.005375434027777778,
+        "maximum_absolute_channel_difference": 13,
+        "psnr_db": 70.41545189943102,
+        "pixels_with_max_channel_difference_ge_2": 14,
+        "pixels_with_max_channel_difference_ge_4": 4,
+        "pixels_with_max_channel_difference_ge_8": 2,
+        "changed_pixel_bbox_xyxy": [
+          0,
+          0,
+          411,
+          372
+        ]
+      },
+      "model_input_224x224": {
+        "shape": [
+          224,
+          224,
+          3
+        ],
+        "exact_match": false,
+        "changed_pixel_count": 330,
+        "changed_pixel_fraction": 0.006576849489795918,
+        "mean_absolute_channel_difference": 0.0034677933673469387,
+        "maximum_absolute_channel_difference": 1,
+        "psnr_db": 72.73027149253636,
+        "pixels_with_max_channel_difference_ge_2": 0,
+        "pixels_with_max_channel_difference_ge_4": 0,
+        "pixels_with_max_channel_difference_ge_8": 0,
+        "changed_pixel_bbox_xyxy": [
+          0,
+          32,
+          140,
+          150
+        ]
+      }
+    }
+  },
+  "executed_first_chunk_action_difference": {
+    "shape": [
+      5,
+      7
+    ],
+    "exact_match": false,
+    "mean_absolute_difference": 0.00015765757247468822,
+    "maximum_absolute_difference": 0.00045149982906877995,
+    "per_action_dimension_maximum_absolute_difference": [
+      0.0004286952316761017,
+      0.0001558363437652588,
+      0.0001990795135498047,
+      6.236322224140167e-05,
+      0.0003407001495361328,
+      0.0002605356276035309,
+      0.00045149982906877995
+    ]
+  },
+  "final_metrics": {
+    "reference": {
+      "block_lift_height_m": 0.00043147802352905273,
+      "final_target_position_error_m": 0.1579962620116118,
+      "final_gripper_normalized": 0.903587327527173,
+      "post_release_drift_m": 9.346994715997425e-07
+    },
+    "candidate": {
+      "block_lift_height_m": 0.03480672836303711,
+      "final_target_position_error_m": 0.02222355459032683,
+      "final_gripper_normalized": 0.8812209085232949,
+      "post_release_drift_m": 1.645886982259981e-07
+    }
+  },
+  "evidence_checks": {
+    "external": {
+      "reference": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_a/robust_042/policy_observations/chunk_000_external.png",
+        "sha256": "755f74a485433c9d7f670ac18069674242490a724905a8de745797c882c5e002",
+        "checks": {
+          "shape_matches": true,
+          "dtype_matches": true,
+          "saved_hash_matches": true,
+          "chunk_zero_hash_matches": true
+        }
+      },
+      "candidate": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_b/robust_042/policy_observations/chunk_000_external.png",
+        "sha256": "a99df428296c56bcce638e012c6dc021f246ba9f4f07eab78cc2a6937167656b",
+        "checks": {
+          "shape_matches": true,
+          "dtype_matches": true,
+          "saved_hash_matches": true,
+          "chunk_zero_hash_matches": true
+        }
+      }
+    },
+    "wrist": {
+      "reference": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_a/robust_042/policy_observations/chunk_000_wrist.png",
+        "sha256": "5e78e6863ffe13ff338bedf6767690a029310cda5025a0db9cda34c18f889288",
+        "checks": {
+          "shape_matches": true,
+          "dtype_matches": true,
+          "saved_hash_matches": true,
+          "chunk_zero_hash_matches": true
+        }
+      },
+      "candidate": {
+        "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_repeatability_exact_capture_b/robust_042/policy_observations/chunk_000_wrist.png",
+        "sha256": "d9f7fa4c679dfdaa2abf4fbe3731aeb336c9ebcd1958d99bdbe09db041fe7a7b",
+        "checks": {
+          "shape_matches": true,
+          "dtype_matches": true,
+          "saved_hash_matches": true,
+          "chunk_zero_hash_matches": true
+        }
+      }
+    }
+  },
+  "interpretation": "The exact policy images can differ by sparse low-amplitude pixels even when the initial proprioception and explicit noise seed match; closed-loop feedback can amplify the resulting action differences."
+}
