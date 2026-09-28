@@ -15,6 +15,13 @@
 - [01_IMPLEMENTATION_SUMMARY.md](01_IMPLEMENTATION_SUMMARY.md)：已经完成的技术工作及关键设计。
 - [02_EVIDENCE_INDEX.md](02_EVIDENCE_INDEX.md)：正式结果、诊断结果、Git 提交和复核方法。
 - [03_OPTIMIZATION_BACKLOG.md](03_OPTIMIZATION_BACKLOG.md)：按优先级整理的改进路线和验收标准。
+- [04_SYSTEM_ARCHITECTURE.md](04_SYSTEM_ARCHITECTURE.md)：策略、仿真、控制与证据链的整体结构。
+- [05_REPRODUCTION_RUNBOOK.md](05_REPRODUCTION_RUNBOOK.md)：从环境检查到正式评测和报告生成的操作手册。
+- [06_EVALUATION_PROTOCOL.md](06_EVALUATION_PROTOCOL.md)：开发集、确认集、成功条件和防止数据泄漏的规范。
+- [07_REAL_ROBOT_GATE_CHECKLIST.md](07_REAL_ROBOT_GATE_CHECKLIST.md)：真机前置条件和当前阻塞项。
+- [08_NEXT_EXPERIMENT_PLAN.md](08_NEXT_EXPERIMENT_PLAN.md)：下一阶段 60 条新种子评测和失败数据闭环计划。
+- [DECISIONS.md](DECISIONS.md)：关键工程决策及其理由。
+- [STATUS.json](STATUS.json)：便于程序读取的当前状态快照。
 - [CHANGELOG.md](CHANGELOG.md)：从本目录建立后持续追加的变更记录。
 
 ## 记录规则

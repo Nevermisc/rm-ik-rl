@@ -46,7 +46,8 @@
 - 已计算 RM65 专属归一化统计；第一次默认 π0.5 LoRA 训练因 16 GB 显存 OOM，随后把短指令 token 上限降至 64 并冻结 SigLIP 视觉塔，2 步 smoke test 和 20 步 benchmark 均通过。
 - v1 完成 30,000 步 LoRA 微调。20 条留出条件的 IsaacLab 闭环得到 12/20、成功率 60%，低于 80% 门槛；这是真实失败结果，不会通过重跑模型失败用例来抬高成功率。
 - v1 失败主要包括夹爪未张开、目标位置误差、目标 XY 误差、搬运距离或抬升不足。完整分类在 `results/rm65_pi05_eval_v1_failure_taxonomy.json`。
-- v2 使用 policy-window 训练视图减少静止等待标签，同时保持原始 episode、train/validation 划分、20 条评测计划和成功条件不变。训练与闭环结果以 `results/` 中的机器可读报告为准；没有报告前不宣称 v2 成功。
+- v2 使用 policy-window 训练视图减少静止等待标签，并完成确定性采样、仿真种子、释放监督器和独立确认集验证。开发计划达到 17/20（85%），只用于调参；未参与调参的全新策略/仿真种子确认集达到 **16/20（80%）**，恰好通过当前 20 条仿真门槛。4 个失败均为 `never_reached_target`，下一阶段重点是抓取与到达鲁棒性，而不是继续放宽释放阈值。
+- 当前结论、正式证据索引、复现方法和优化计划统一记录在 [`docs/pi05_sim_deployment_record/`](docs/pi05_sim_deployment_record/README.md)。
 
 最终验证数据：
 
@@ -94,7 +95,7 @@
 | RM65 transform 单元测试 | PASS |
 | 动作安全层单元测试 | PASS |
 | RM65 π0.5 v1 IsaacLab 闭环 | `12/20`，60%，未通过 80% 门槛 |
-| RM65 π0.5 v2 policy-window | 训练与 20 条闭环评测进行中，未提前宣称成功 |
+| RM65 π0.5 v2 policy-window 独立确认集 | `16/20`，80%，通过当前仿真门槛；样本量仍需扩大 |
 | 真实 RM65 动作 | 否 |
 
 ![外部相机观测](docs/images/external_rgb.png)
