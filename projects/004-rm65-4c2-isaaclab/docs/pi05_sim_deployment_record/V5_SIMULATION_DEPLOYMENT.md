@@ -2,6 +2,8 @@
 
 Scope: Isaac Lab simulation only. No real robot deployment is validated here.
 
+Current acceptance update: patched-runtime three-run replay is19/20,19/20,20/20 (58/60), but repeatability FAILS the frozen gate:90% consistency and2 flip conditions (required95%, at most1). The simulation deployment runs successfully in most trials, but full current-version acceptance remains incomplete. Do not substitute the historical pre-patch PASS below for this result.
+
 ## Validated artifact
 
 Run from `/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab` on the existing configured server. OpenPI environment: `/home/chengyu/robot-learning/openpi/.venv`. Model: `outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v5_lora_4k/3999`; dataset/normalization ID: `local/rm65_sim_failure_correction_v5_train`. Do not pair with another version's normalization. Training used 150 episodes and 4000 incremental steps from v4/5999.
