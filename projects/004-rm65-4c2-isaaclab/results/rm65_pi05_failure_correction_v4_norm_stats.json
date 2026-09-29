@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "repo_id": "local/rm65_sim_failure_correction_v4_train",
+  "dataset_frames": 35734,
+  "processed_frames": 35712,
+  "batch_size": 64,
+  "assets_base_dir": "/home/chengyu/robot-learning/openpi/assets",
+  "output_path": "/home/chengyu/robot-learning/openpi/assets/pi05_rm65_lora/local/rm65_sim_failure_correction_v4_train/norm_stats.json",
+  "sha256": "d21982d3a9235e54326901052d5b7288814c9bbe2699f9c16beae34bbe8c6708",
+  "keys": [
+    "actions",
+    "state"
+  ]
+}

@@ -527,6 +527,19 @@
 - Git/安全边界：只提交约百 KB 的 summary、group audit、manifest/gate 与日志；约 2.03 GB 原始纠正数据和 2.06 GB tar 不进入 Git。全程仿真，未发送真实机械臂命令。
 - 下一步：精确提交本条小型证据，然后显式运行 preparation `run`，生成新的 102-episode policy-window LeRobot repo、独立 norm stats 和 OpenPI batch validation；三者 PASS 后才运行 2-step smoke。
 
+### v4-fc-wip.045：102 条新训练集、norm stats 与训练 preflight 全部通过
+
+- Git 基线：`c585d3f`（36/36 纠正数据与两副本证据已推送）；状态：preparation `run` 完成并 exit 0，正式训练仍未启动。
+- 启动前检查：新目标 `/home/chengyu/.cache/huggingface/lerobot/local/rm65_sim_failure_correction_v4_train` 原先不存在，且没有并发 conversion、norm 或 `train_rm65_pi05.py` 进程；因此 `--overwrite` 只作用于新的派生目标，不可能覆盖 v3 repo。
+- 转换结果：repo id 为 `local/rm65_sim_failure_correction_v4_train`，102 episode 来源精确为基础 train 36 + v3 纠正 30 + v4 纠正 36；53,733 个原始同步帧经冻结 policy window 保留 35,734 个训练帧，conversion report 为 PASS。
+- 为什么仍保留三份原始根：policy-window repo 是可重建派生物；原始 episode 保存完整 hold/retreat/图像/物理轨迹，不能用转换后数据替代。新 v4 原始根已通过两副本门禁，旧两根在 v3 核心备份中也有第二副本。
+- Norm 结果：558 个 batch 全部处理完成，吞吐约 2 batch/s；dataset frames 35,734、实际统计 35,712、batch 64，keys 恰为 `actions/state`。新 asset 写入 OpenPI v4 repo 专属路径，SHA-256 为 `d21982d3a9235e54326901052d5b7288814c9bbe2699f9c16beae34bbe8c6708`。
+- OpenPI 数据门禁：实际加载一个 batch，model type 为 PI0.5、action horizon 10；三相机张量均为 `[1,224,224,3]`，padding 后 state `[1,32]`、actions `[1,10,32]`，RM65 padding 前 state/action 都是 7 维，报告 PASS。
+- 训练输入 gate：再次同时验证 v3 两副本、v4 原始两副本、36/36、9/9、102 条来源、policy window、norm 文件路径/内容 SHA 和 OpenPI 合同，所有 checks 为 true。
+- 训练 preflight：冻结 v3 `rm65_failure_correction_v3_lora_10k/9999/params` 存在；新 repo/norm/validation/gate 全部匹配；输出 `TRAINING_PREFLIGHT=PASS` 与 `TRAINING_NOT_STARTED=true`，因此本版本没有进行模型更新或写 checkpoint。
+- 安全/隔离：转换只生成新派生 repo 和 v4 专属 norm asset；未改原始 episode，未覆盖 v2/v3 checkpoint，未发送真实机械臂命令。
+- 下一步：提交 conversion/norm/OpenPI/training-gate 小型 JSON 与本条日志；随后运行独立 `rm65_failure_correction_v4_incremental_smoke` 两步训练，实际验证从 v3 恢复、前反向、数值有限和 checkpoint 保存。smoke PASS 后才允许正式 6000 步。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "a4ba3ca",
-  "working_version": "v4-fc-wip.044",
+  "git_baseline": "c585d3f",
+  "working_version": "v4-fc-wip.045",
   "committed": true,
-  "phase": "v4_collection_complete_backed_up_preparation_passed",
-  "current_action": "commit the 36-of-36 collection and verified two-copy evidence, then build the new 102-episode LeRobot dataset and normalization assets",
+  "phase": "v4_preparation_complete_training_preflight_passed",
+  "current_action": "commit the 102-episode conversion and training-input evidence, then run the isolated two-step v4 incremental-training smoke test",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -57,7 +57,21 @@
     "peak_lr": 2e-06,
     "decay_lr": 5e-07,
     "retained_intermediate_checkpoint_step": 4000,
-    "conversion_started": false,
+    "conversion_started": true,
+    "conversion_completed": true,
+    "training_started": false
+  },
+  "v4_preparation_result": {
+    "status": "pass",
+    "repo_id": "local/rm65_sim_failure_correction_v4_train",
+    "episode_count": 102,
+    "source_episode_counts": [36, 30, 36],
+    "source_frame_count": 53733,
+    "policy_window_frame_count": 35734,
+    "norm_processed_frame_count": 35712,
+    "norm_sha256": "d21982d3a9235e54326901052d5b7288814c9bbe2699f9c16beae34bbe8c6708",
+    "openpi_batch_validation": "pass",
+    "training_preflight": "pass",
     "training_started": false
   },
   "v4_collection_preservation": {
