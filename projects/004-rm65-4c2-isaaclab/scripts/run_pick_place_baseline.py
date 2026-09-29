@@ -978,7 +978,9 @@ def run_pi05_closed_loop(
     finally:
         client._ws.close()
 
-    hold(sim, robot, cube, state, 120, "PI05_SETTLE_A", episode_capture)
+    settle_a_skipped_for_safety = simulation_safety_abort_reason is not None
+    if not settle_a_skipped_for_safety:
+        hold(sim, robot, cube, state, 120, "PI05_SETTLE_A", episode_capture)
     settle_a = cube.data.root_pos_w[0].clone()
     source_np = settled_source_position.detach().cpu().numpy()
     settle_a_safety_check = evaluate_cube_workspace_safety(
@@ -992,7 +994,9 @@ def run_pi05_closed_loop(
     ):
         simulation_safety_abort_reason = settle_a_safety_check["reason"]
         simulation_safety_first_violation_stage = "verification_settle_a"
-    hold(sim, robot, cube, state, 120, "PI05_SETTLE_B", episode_capture)
+    settle_b_skipped_for_safety = simulation_safety_abort_reason is not None
+    if not settle_b_skipped_for_safety:
+        hold(sim, robot, cube, state, 120, "PI05_SETTLE_B", episode_capture)
     final_position = cube.data.root_pos_w[0].clone()
     final_np = final_position.detach().cpu().numpy()
     final_safety_check = evaluate_cube_workspace_safety(
@@ -1149,6 +1153,8 @@ def run_pi05_closed_loop(
             simulation_safety_first_violation_stage
         ),
         "post_control_simulation_safety_checks": {
+            "settle_a_skipped_for_safety": settle_a_skipped_for_safety,
+            "settle_b_skipped_for_safety": settle_b_skipped_for_safety,
             "settle_a": settle_a_safety_check,
             "settle_b_final": final_safety_check,
         },
