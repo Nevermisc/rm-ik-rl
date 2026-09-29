@@ -1,16 +1,16 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "d17358a",
-  "working_version": "v4-fc-wip.043",
+  "git_baseline": "a4ba3ca",
+  "working_version": "v4-fc-wip.044",
   "committed": true,
-  "phase": "v4_correction_collection_in_progress",
-  "current_action": "continue the 36-episode v4 scripted correction collection, then run full dataset health and all nine same-seed multi-RTX group gates",
+  "phase": "v4_collection_complete_backed_up_preparation_passed",
+  "current_action": "commit the 36-of-36 collection and verified two-copy evidence, then build the new 102-episode LeRobot dataset and normalization assets",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
-  "v4_correction_episode_count_last_observed": 19,
+  "v4_correction_episode_count_last_observed": 36,
   "v4_render_group_count_planned": 9,
-  "v4_render_group_count_verified": 4,
+  "v4_render_group_count_verified": 9,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
@@ -62,9 +62,25 @@
   },
   "v4_collection_preservation": {
     "spec_frozen": true,
-    "source_manifest_generated": false,
-    "independent_backup_verified": false,
-    "required_before_conversion": true
+    "source_manifest_generated": true,
+    "independent_backup_verified": true,
+    "required_before_conversion": true,
+    "asset_count": 1,
+    "file_count": 41076,
+    "total_bytes": 2027380849,
+    "tree_sha256": "51daeaef93c24a3501e2923ef9ca5d0c45d1a6be1cde0a13741a914e273ba52d",
+    "verified_copy_count": 2,
+    "backup_gate_status": "pass"
+  },
+  "v4_collection_result": {
+    "status": "pass",
+    "episode_count": 36,
+    "passed_episode_count": 36,
+    "total_frames": 20484,
+    "collection_plan_coverage": "pass",
+    "physical_groups_passed": 9,
+    "minimum_external_diverse_corresponding_frame_ratio": 0.9982425307557118,
+    "minimum_wrist_diverse_corresponding_frame_ratio": 1.0
   },
   "v4_evaluation_contract": {
     "script_ready": true,

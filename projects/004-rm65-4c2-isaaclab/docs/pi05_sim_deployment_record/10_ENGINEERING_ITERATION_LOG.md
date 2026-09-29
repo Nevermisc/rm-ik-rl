@@ -511,6 +511,22 @@
 - 安全边界：全部变更是配置、验证代码和仍在运行的 Isaac Lab scripted collection；没有转换、训练、评测或真实机械臂命令。v4 原始数据不会提交 Git。
 - 下一步：完成剩余 17 条并运行全量 36/36 + 9/9 门禁；数据停止写入后生成源 manifest，打包传到本机独立备份根，解包并重算 tree hash。两副本 PASS 后才运行 preparation。
 
+### v4-fc-wip.044：36 条 v4 纠正集与跨机器第二副本全部通过
+
+- Git 基线：`a4ba3ca`（v4 保存/评测合同已推送）；状态：scripted collection、全量数据门禁和两副本门禁均 PASS，preparation preflight PASS 且明确未启动转换。
+- 采集完成：主进程自然 exit 0，36/36 条一次成功，`newly_completed_count=36`、无复用、无选择性重试；总计 20,484 帧，summary 的 episode 健康、任务成功和 collection-plan coverage 全部 PASS。
+- 九组审计：9/9 `physical_group_id` 通过；每组四条共享各自显式 seed，动作、初始关节/夹爪、初始方块姿态和完整 observation/cube trajectory 都在冻结容差内，实际最大差均为 `0.0`。这证明脚本专家轨迹没有随着 RTX 重复漂移。
+- RTX 结果：8 个组的 external/wrist 对应帧差异率均为 `1.0`；`confirm_v3_015_angle_exact` 的 external 为 568/569=`0.9982425`，wrist 为 1.0。门禁按真实逐帧内容报告，而不是强行假定每一帧必不同。
+- 源 manifest：数据停止写入后逐文件哈希，得到 41,076 个文件、`2,027,380,849` bytes、tree SHA-256 `51daeaef93c24a3501e2923ef9ca5d0c45d1a6be1cde0a13741a914e273ba52d`；source manifest SHA-256 为 `508ef6c6dde2d6d05a1ae989b19ec609c79133ea668c720f548fcd3e4ffc4efe`。
+- 归档传输：远端不压缩 tar 为 `2,058,997,760` bytes，SHA-256 `e8df4afc839155b218c439a8033b20ef118dc04a711b63ffca2610447ff78d04`。zstd-1 只能缩到原始 tar 的 98.69%，因此未切换压缩格式。
+- 遇到的问题：首次 legacy SCP 在 656,474,112 bytes 处连接重置并报 `Broken pipe`；该部分文件未计为副本。改用 SFTP `reget` 从精确断点继续，最终 exit 0，并下载归档校验和源 manifest。
+- 安全解包：解包前检查 41,221 个 tar entry，全部位于预期数据前缀且无绝对路径/`..` 穿越，目标目录原先不存在；随后核对归档 SHA，再对解包文件重新计算 compact tree hash。
+- 第二副本：本机 `RM65_DATA_BACKUP_DO_NOT_GIT/v4_collection_2026_09_29` 的文件数、总字节和 tree SHA 与源端完全一致，`comparison_status=pass`、`matches_reference=true`，backup gate 为 PASS，`verified_copy_count=2`。远端源数据和 staging 均保留。
+- 回归：expert episode/collection/summary、LeRobot conversion input、v4 plan、manifest、backup gate、render-group gate、pipeline gate 共九项 PASS；训练配置测试首次因 OpenPI venv 启动时漏传 `PYTHONPATH=.` 而 import 失败，按实际训练环境补上后 PASS，不涉及代码/模型错误。
+- 准备门禁：`prepare_rm65_failure_correction_v4.sh preflight` 同时验证 v3 两副本、v4 两副本、36/36 与 9/9，输出 `PREPARATION_INPUTS=PASS` 和 `CONVERSION_NOT_STARTED=true`。
+- Git/安全边界：只提交约百 KB 的 summary、group audit、manifest/gate 与日志；约 2.03 GB 原始纠正数据和 2.06 GB tar 不进入 Git。全程仿真，未发送真实机械臂命令。
+- 下一步：精确提交本条小型证据，然后显式运行 preparation `run`，生成新的 102-episode policy-window LeRobot repo、独立 norm stats 和 OpenPI batch validation；三者 PASS 后才运行 2-step smoke。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

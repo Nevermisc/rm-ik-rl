@@ -1,0 +1,1385 @@
+{
+  "format": "rm65_v4_render_group_analysis_v1",
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "dataset_root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_expert_v1",
+  "selected_groups": null,
+  "episode_count": 36,
+  "physical_group_count": 9,
+  "passed_physical_group_count": 9,
+  "ungrouped_episodes": [],
+  "tolerances": {
+    "action_atol": 0.0,
+    "initial_atol": 1e-07,
+    "physical_atol": 1e-05
+  },
+  "collection_plan_coverage": {
+    "requested": true,
+    "status": "pass",
+    "missing_case_ids": [],
+    "unexpected_case_ids": [],
+    "metadata_mismatch_case_ids": []
+  },
+  "groups": [
+    {
+      "physical_group_id": "confirm_v3_000_angle_exact",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029001,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick up the block and place it on the target",
+        "transfer_joint_1_rad": 0.6625,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_exact"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "aaf9b7844aaaad04c0a957dd8275b7db4c4372460058c41ea1db5948da2ad060",
+          "aaf9b7844aaaad04c0a957dd8275b7db4c4372460058c41ea1db5948da2ad060",
+          "aaf9b7844aaaad04c0a957dd8275b7db4c4372460058c41ea1db5948da2ad060",
+          "aaf9b7844aaaad04c0a957dd8275b7db4c4372460058c41ea1db5948da2ad060"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "be9ccab76d9ad01166452bcc600c92999b374a7b11c14162b86da5414913f02b",
+            "358565760ce820080e58457d13a1ffb99624d470541b975e9bc4e86e393209d0",
+            "c9772ff698ba9109c0a110e58e1a66b4b750ea42556aed7676456df4bda5a4a1",
+            "63d5446831916c0cc4a6f9573a5ce67607c363f15bd5ec304808331a5332f2cd"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "6ace49fe16cdfde836f71eae9b85798239ee48f50decc9b6ab032e12594a8ac5",
+            "d4398155ed218debd1e816249943b61cb8e500f8ab7858ce66569926c7e3ef57",
+            "3cd3201a1925425e3069983233150637384b39251a55c646b6b1c968c87ae0c1",
+            "a94916f5fb1970b4dea0eaef12f08e19eaa084a44f693e71c7c9b3d994f6b249"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000004",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_exact_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000005",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_exact_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000006",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_exact_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000007",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_exact_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_000_angle_minus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029000,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick up the block and place it on the target",
+        "transfer_joint_1_rad": 0.65,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_minus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "0eaf25d12f3eb20b2f0a7b1c6d4f150cc11481cb847de1091e0466145fce275d",
+            "1bd1d923a7ef8ed4a6d31227dbaa1caa1c77fbfa02178f3977688240e51af640",
+            "2e8e50796789710874092df8096bdb3a7e3d1a340e712da1a3b498c84a5d6e20",
+            "c86e31431459175b891e8fed03d8a69c6bfbdcc4888064b4a807c06ee243af46"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "5030cd5a7a5defb9b6fae68d597d4f08a12dafe8e2e3dae82a1db071c653d2e4",
+            "5bd27c2d2e35cd2bcf93cab6dc1f226ddcdb3bf55e9dbdb7a385b73f59bff484",
+            "066ba2b0557b2afe7191084cd41ef96e59df6d446be4a333e651639e12b16f64",
+            "90b1fc56842561ea84a280c47a211a992b0a2879fe275a419cde0fc5b3feaaff"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000000",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000001",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000002",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000003",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_000_angle_plus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029002,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick up the block and place it on the target",
+        "transfer_joint_1_rad": 0.675,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_plus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "f23a77f1968abe8f344fdc35f6c768f7acebe7e0c0a4474ff7ee4b6e0acf9c7b",
+          "f23a77f1968abe8f344fdc35f6c768f7acebe7e0c0a4474ff7ee4b6e0acf9c7b",
+          "f23a77f1968abe8f344fdc35f6c768f7acebe7e0c0a4474ff7ee4b6e0acf9c7b",
+          "f23a77f1968abe8f344fdc35f6c768f7acebe7e0c0a4474ff7ee4b6e0acf9c7b"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "18d9e39da05ff55f7ff1e60e263a49293480bbc64f21547a877df55cb57e5063",
+            "013026ea40552d60e3758e08142fa6dd29fd0fe2627449793d5bc1a9fa3f868c",
+            "92b75a377ffb38b5b0ec70939852bc2e42ef42344ef0f35a27d6b085d5d50e98",
+            "1cb38fa52a4fbbabaddba306a728df6595daa8a319269293af07f67b59696211"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "57be078247b3d4811c8003d8d34ba6fc06dcbd24d48bfd34c6fa05de80a68fee",
+            "5222b27c8d8c7b935cb84c2d44d4f12f3fad8b9606e7f3208c6a50705fbe3529",
+            "cffc7db35ed9e3c3551305ae997d907db1fb10f20261c66af13e682896cce7ce",
+            "45e39c9845db423a5cc44bfad3eec487a2159222d48ce3134983d890bdb99d26"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000008",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_plus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000009",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_plus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000010",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_plus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000011",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_plus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_015_angle_exact",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029004,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "place the block on the target platform",
+        "transfer_joint_1_rad": 0.9125,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_exact"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "c78a847aa9838b001e8425e44d856ac0784629b14e9326f18b7814c05f2ad152",
+          "c78a847aa9838b001e8425e44d856ac0784629b14e9326f18b7814c05f2ad152",
+          "c78a847aa9838b001e8425e44d856ac0784629b14e9326f18b7814c05f2ad152",
+          "c78a847aa9838b001e8425e44d856ac0784629b14e9326f18b7814c05f2ad152"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 568,
+          "diverse_corresponding_frame_ratio": 0.9982425307557118,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "3e259fb42688832382e41143cfc640c72e93410482275a19fec02926260f0574",
+            "94bee782cf1658c4ae205596959536c8c0d6ab213e7a5d09771cc10443592f2f",
+            "ae98a711d92fcc0a32a0c6da0c54249278e3e537ece4ea36040e370cb5df676b",
+            "502c14471ca603cba2b0d49a8cb0637694fe0a60fa44ce423b72dd63f397e125"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "1cc94a6b3aaa61d311bb3046d2833b47def7408572f656368ab31389c14b3503",
+            "604d4d13e7bf3662a1e834aee682e3627da60d98c2230ec04dd08524bc7c242c",
+            "e1450f899f5d5a8cc8fee09dc763757a5d849b2aa710394cd0aa396389491909",
+            "14d4bd179832abea6306c2a3b540f0c4622a56b903c359765b17580b26c1b49e"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000016",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_exact_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000017",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_exact_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000018",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_exact_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000019",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_exact_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_015_angle_minus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029003,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "place the block on the target platform",
+        "transfer_joint_1_rad": 0.9,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_minus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "0a876e84dd3b56f9e45aa638ae6b718bd4b6815d19a92f8073ab888d60d63f3e",
+          "0a876e84dd3b56f9e45aa638ae6b718bd4b6815d19a92f8073ab888d60d63f3e",
+          "0a876e84dd3b56f9e45aa638ae6b718bd4b6815d19a92f8073ab888d60d63f3e",
+          "0a876e84dd3b56f9e45aa638ae6b718bd4b6815d19a92f8073ab888d60d63f3e"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "ff0fc865d7decb2c78b1d4277727b09edc9d0200dbd0f9c0624a60c5b151c88d",
+            "4e371c35909b780d43765b67398be7552ebec6a0e1302f347061f7f7b7f27d95",
+            "490d2a71a47115c7090dc7e5ee20aa17999d1a798332a24971c7702e1b34d6f1",
+            "0ddc75f4561c240fbe61138fd251b605445c388cd4f6b2036a2824a7c3b7d2e8"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "1fe82d35f085963d30556048be246253432d18a70f139e2a54ea9fe52de0442d",
+            "391ca658101b9eac2f5f428f4fa42dcfc45dd4ea921a3081bdf4ac0f2d44f6e6",
+            "3f9ac66e6817336589addf765288d85c7209be76fc006d10d36071c108f8554d",
+            "5e7f28bf8dd45afcd70997b8ffe8fcbee0da1d0e03d7249b85ff2fcbb0ea412c"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000012",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_minus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000013",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_minus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000014",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_minus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000015",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_minus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_015_angle_plus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029005,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "place the block on the target platform",
+        "transfer_joint_1_rad": 0.925,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_plus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "9eb8beaaced360198b64d0181cd72c198243b3ff1ac02431fe3e4df4ab41aad4",
+          "9eb8beaaced360198b64d0181cd72c198243b3ff1ac02431fe3e4df4ab41aad4",
+          "9eb8beaaced360198b64d0181cd72c198243b3ff1ac02431fe3e4df4ab41aad4",
+          "9eb8beaaced360198b64d0181cd72c198243b3ff1ac02431fe3e4df4ab41aad4"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "bafaad10821661e20613a176957e46ec73fe387ffac36d854b07e06d1786d910",
+            "0470f49704945aed0d137afdcdf8380f6a3b4aecdc885297d66bc4231e42b328",
+            "a905b19da5dd4af0e4425e2ba07d429866123d88ac836173fc1f84047736e25f",
+            "4aa49a65a0c922c28375f059541e657a2b379b434509309958ff265e4859055f"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "998d7a49e5fc27eea5a33c802cd87bbbf84653fe7376201ad2deefc427ed6c90",
+            "7976379cda5b34e7b4cc9f31f6b9ee8af543fb0a33a114e4439c11ec49ee2508",
+            "930f22702f1ee16af8a16c09c7eefd2946fc745870ffc37a37da9dbaa224174b",
+            "3ec800605068d54c3f261b6a1c44463c607aa2de81bc9d0bdaaccff0e30c4372"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000020",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_plus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000021",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_plus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000022",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_plus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000023",
+          "collection_case_id": "correction_v4_confirm_v3_015_angle_plus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_016_angle_exact",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029007,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick the block and put it at the target",
+        "transfer_joint_1_rad": 0.9125,
+        "source_offset_xy_m": [
+          -0.004,
+          0.009
+        ],
+        "physical_variant": "angle_exact"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "4c58b14bb7c0b2b31ba5fee48cfd231e70e661be624c4f5c374e6b5805805ce4",
+          "4c58b14bb7c0b2b31ba5fee48cfd231e70e661be624c4f5c374e6b5805805ce4",
+          "4c58b14bb7c0b2b31ba5fee48cfd231e70e661be624c4f5c374e6b5805805ce4",
+          "4c58b14bb7c0b2b31ba5fee48cfd231e70e661be624c4f5c374e6b5805805ce4"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "989744fa4ac29bc805052b721d1d7ebee02f5f26887f2c56e0fdfe915e2b61c1",
+            "b072d8e8e30b02406aab7d1c4c28ed63f6253e7099691b1176e7aa38a9f25bcb",
+            "f88c5986bde7c946f269b40cde817414ed58c5b82ccc63b9ac73ab4b454c966a",
+            "90ff40fb62f351ba5fa5545272b6a037d310f2141f6d6579f08dfac14875e765"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "262dadf4a07e8953565df85af98c19155cd33ddcf375e5c36405717641ae11f3",
+            "37df0e49498e67607237da1dc8fd7c0620d6f1d0927e2db46b9127d66dd65cbd",
+            "c86423e4b33a7ce18e12a1c7480f322a10a230606febde9575177846885ffcaa",
+            "872eb12862ee3f422ffe0844f27f37c4bf8dc8ab0040b658da8b6828171ee18a"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000028",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_exact_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000029",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_exact_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000030",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_exact_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000031",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_exact_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_016_angle_minus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029006,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick the block and put it at the target",
+        "transfer_joint_1_rad": 0.9,
+        "source_offset_xy_m": [
+          -0.004,
+          0.009
+        ],
+        "physical_variant": "angle_minus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "4405acdc0764ab82bf541410f863a6e34b630bde3239d0ebcf74887db1b8ee24",
+          "4405acdc0764ab82bf541410f863a6e34b630bde3239d0ebcf74887db1b8ee24",
+          "4405acdc0764ab82bf541410f863a6e34b630bde3239d0ebcf74887db1b8ee24",
+          "4405acdc0764ab82bf541410f863a6e34b630bde3239d0ebcf74887db1b8ee24"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "d3ce2db249e2f559d26097dda3e69ec34d62b74a9429160ebb85c0ec3552b906",
+            "eb2fa969664c7c0de992b91c58f924f037d81feef62f830976084ee2d67851ba",
+            "a504cb67454a740b49289c365fbd6f2026ffd409481599dccb6665b2e559bf2f",
+            "20dfb01d811894c5bebb7820ea75252cb1c5fd7fb02242bdce45099d2a69d75d"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "e9474502b2fa9c205ba6f1ae89d68f1f5b63a49ddcbc88e40b2947c0dc9bc14d",
+            "620589aa0e3a0c886371cf553ce1e8266a8b004f0a4f219260122f5d7ead3888",
+            "96888f78fb58e7b0c6559bcde25caf082c245b8dd518f80b52e661445829e3f3",
+            "d4b7293ec3f61045fb743213cec69973f3d5ce45b40c744c12c820080333c6cc"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000024",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_minus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000025",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_minus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000026",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_minus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000027",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_minus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    },
+    {
+      "physical_group_id": "confirm_v3_016_angle_plus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029008,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick the block and put it at the target",
+        "transfer_joint_1_rad": 0.925,
+        "source_offset_xy_m": [
+          -0.004,
+          0.009
+        ],
+        "physical_variant": "angle_plus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "ae0a36ef9e35e0cf6d2d1b37a37c0621b97f4d6d11a53749aa74910262dd6dd0",
+          "ae0a36ef9e35e0cf6d2d1b37a37c0621b97f4d6d11a53749aa74910262dd6dd0",
+          "ae0a36ef9e35e0cf6d2d1b37a37c0621b97f4d6d11a53749aa74910262dd6dd0",
+          "ae0a36ef9e35e0cf6d2d1b37a37c0621b97f4d6d11a53749aa74910262dd6dd0"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "22359e9b6c2932ace4aecd829b75267b4368f5849921fe78cf4d51fea3929069",
+            "35cbdcbbb7892fcde5e231bdb0576841cacaf307bf6152a569c7066449261ac6",
+            "edc8ebf469a7e2fba9baccb8750b282e28c0307314ca900e9cd938fbd344e051",
+            "a9bf9284a22a23eef228034a535069359e7dfda0782c646cbf387e1559abf99a"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "1d58c9f9618d38ab8722759f48acc13c2a350e5403d8224b44c8841f032ca6c5",
+            "4b99b6eca51a9d30f0b0bf2227b344cc840a7b14a7cd28e9511c6e7152055177",
+            "a0422f1e59abc9c4e1b25b8182ce900601ee1632e67a20b08968f3c338826d94",
+            "6a0d8653d198d78e398f004a247b500c4fb9a094180f04ab7dbff707a85e8840"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000032",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_plus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000033",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_plus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000034",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_plus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000035",
+          "collection_case_id": "correction_v4_confirm_v3_016_angle_plus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    }
+  ]
+}

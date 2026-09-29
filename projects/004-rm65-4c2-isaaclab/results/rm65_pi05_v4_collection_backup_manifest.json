@@ -1,0 +1,29 @@
+{
+  "schema": "rm65_data_preservation_manifest_v1",
+  "spec_id": "rm65_pi05_v4_collection_assets_2026_09_29",
+  "generated_at_utc": "2026-09-29T14:46:57.434443+08:00",
+  "location": "backup",
+  "inventory_status": "pass",
+  "comparison_status": "pass",
+  "asset_count": 1,
+  "total_bytes": 2027380849,
+  "assets": [
+    {
+      "asset_id": "failure_correction_v4_expert_v1",
+      "kind": "raw_training_dataset",
+      "priority": "critical",
+      "reproducibility": "source_of_truth_same_state_multi_rtx",
+      "root": "backup",
+      "relative_path": "datasets/rm65_pi05_failure_correction_v4_expert_v1",
+      "resolved_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\RM65_DATA_BACKUP_DO_NOT_GIT\\v4_collection_2026_09_29\\datasets\\rm65_pi05_failure_correction_v4_expert_v1",
+      "file_count": 41076,
+      "total_bytes": 2027380849,
+      "tree_sha256": "51daeaef93c24a3501e2923ef9ca5d0c45d1a6be1cde0a13741a914e273ba52d",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1",
+      "matches_reference": true
+    }
+  ],
+  "real_robot_command_sent": false,
+  "reference_manifest_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\RM65_DATA_BACKUP_DO_NOT_GIT\\v4_collection_2026_09_29\\rm65_pi05_v4_collection_source_manifest.json",
+  "reference_manifest_sha256": "508ef6c6dde2d6d05a1ae989b19ec609c79133ea668c720f548fcd3e4ffc4efe"
+}

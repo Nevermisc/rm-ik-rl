@@ -1,0 +1,26 @@
+{
+  "schema": "rm65_data_preservation_manifest_v1",
+  "spec_id": "rm65_pi05_v4_collection_assets_2026_09_29",
+  "generated_at_utc": "2026-09-29T06:17:46.334874+00:00",
+  "location": "source",
+  "inventory_status": "pass",
+  "comparison_status": "not_requested",
+  "asset_count": 1,
+  "total_bytes": 2027380849,
+  "assets": [
+    {
+      "asset_id": "failure_correction_v4_expert_v1",
+      "kind": "raw_training_dataset",
+      "priority": "critical",
+      "reproducibility": "source_of_truth_same_state_multi_rtx",
+      "root": "project",
+      "relative_path": "datasets/rm65_pi05_failure_correction_v4_expert_v1",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_expert_v1",
+      "file_count": 41076,
+      "total_bytes": 2027380849,
+      "tree_sha256": "51daeaef93c24a3501e2923ef9ca5d0c45d1a6be1cde0a13741a914e273ba52d",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    }
+  ],
+  "real_robot_command_sent": false
+}
