@@ -165,6 +165,9 @@ def main() -> int:
             raise ValueError("reference manifest spec_id does not match")
 
     report = build_manifest(spec, args.location, roots, reference)
+    if args.reference is not None:
+        report["reference_manifest_path"] = str(args.reference.resolve())
+        report["reference_manifest_sha256"] = file_sha256(args.reference)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"

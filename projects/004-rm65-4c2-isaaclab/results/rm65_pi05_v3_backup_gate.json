@@ -1,0 +1,23 @@
+{
+  "schema": "rm65_v3_backup_gate_v1",
+  "status": "pass",
+  "checks": {
+    "backup_schema": true,
+    "source_schema": true,
+    "same_spec_id": true,
+    "backup_location": true,
+    "backup_inventory_pass": true,
+    "backup_comparison_pass": true,
+    "nine_expected_assets": true,
+    "source_has_same_assets": true,
+    "all_assets_match_reference": true,
+    "total_bytes_match_frozen_inventory": true,
+    "reference_manifest_sha256": true,
+    "simulation_only_provenance": true
+  },
+  "asset_count": 9,
+  "total_bytes": 19561366749,
+  "source_manifest_sha256": "03ad9c2ebeecd8f2e651555c799f026d29c5d80de24defae4b4627a6059febf8",
+  "verified_copy_count": 2,
+  "real_robot_command_sent": false
+}

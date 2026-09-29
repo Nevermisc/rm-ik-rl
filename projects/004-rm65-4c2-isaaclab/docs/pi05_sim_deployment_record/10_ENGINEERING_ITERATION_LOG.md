@@ -457,6 +457,18 @@
 - 安全边界：本步只生成代码和计划，不启动训练、仿真采集或真实机械臂；不修改 v2/v3 checkpoint。
 - 下一步：远端执行 shell/Python 回归并精确提交；先完成和验证 v3 独立备份，再开始 v4 36 条 expert collection，并对每个 physical group 核对相同 seed/物理状态与不同 RTX 图像。
 
+### v4-fc-wip.040：v3 核心数据第二副本完成并通过两层校验
+
+- Git 基线：`a2167ed`（v4 纠正与全新确认计划已推送）；状态：第二副本 gate PASS，v4 数据采集门禁解除。
+- 归档传输：9 个 tar 全部复制到本机独立目录，逐项 SHA-256 与远端 `archives.sha256` 一致。首次默认 SFTP 的不完整文件已被 legacy SCP 的完整文件覆盖，没有把部分文件计入成功。
+- 解包验证：九项全部解包后，重新逐文件计算相对路径、字节数和文件 SHA-256 聚合 tree hash；`inventory_status=pass`、`comparison_status=pass`，9/9 与源端一致，总字节数精确为 `19,561,366,749`。
+- 副本位置：本机 `RM65_DATA_BACKUP_DO_NOT_GIT/v3_core_2026_09_29` 保存结构化恢复副本、原始归档、源 manifest、backup manifest 和 gate 报告；该目录不加入 Git。远端源数据和 staging 暂时保留，未执行删除。
+- 新增 gate：backup manifest 现在记录源 manifest SHA-256；`check_rm65_v3_backup_gate.py` 要求固定 9 个资产、固定总字节数、全部 `matches_reference=true`、源 manifest hash 一致和仿真来源声明。通过后 `verified_copy_count=2`，任一项损坏则回退为 1。
+- 最终 gate：`status=pass`，源 manifest SHA-256 为 `03ad9c2ebeecd8f2e651555c799f026d29c5d80de24defae4b4627a6059febf8`，两份可验证副本已建立。
+- Git 边界：只提交 compact source/backup manifest、gate JSON、校验代码和日志；约 19.56 GB 原始数据、约 19 GB tar 与 checkpoint 均不提交。
+- 安全边界：所有操作是文件复制、解包和哈希；没有执行真实机械臂命令，也没有覆盖 v2/v3 checkpoint。
+- 下一步：提交备份证明与 gate 代码，然后按已冻结 v4 计划启动 36 条 scripted expert 仿真采集；每组必须保持同 simulation seed，采集后核对物理状态一致和 RTX 图像差异。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

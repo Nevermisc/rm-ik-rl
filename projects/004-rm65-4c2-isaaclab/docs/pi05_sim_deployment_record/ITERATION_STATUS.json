@@ -1,17 +1,17 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "742122b",
-  "working_version": "v4-fc-wip.039",
+  "git_baseline": "a2167ed",
+  "working_version": "v4-fc-wip.040",
   "committed": true,
-  "phase": "v4_plans_preregistered_backup_in_progress",
-  "current_action": "validate and commit the v4 correction/fresh-confirmation plans while the independent v3 backup continues, then verify every copied archive and tree hash before collecting v4 data",
+  "phase": "v3_backup_verified_v4_collection_ready",
+  "current_action": "commit the verified two-copy backup evidence, then collect and validate the 36 preregistered v4 scripted correction episodes",
   "latest_confirmed_complete_episode_count": 30,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "finish the independent v3 backup, verify archive hashes and all nine extracted tree hashes",
-    "collect 36 scripted v4 correction episodes only after backup verification, preserving four same-seed RTX repeats for each of nine physical groups",
+    "collect and validate 36 scripted v4 correction episodes, preserving four same-seed RTX repeats for each of nine physical groups",
+    "convert the 36 base-train + 30 v3-correction + 36 v4-correction episodes into a new 102-episode LeRobot repo and recompute norm stats",
     "keep the newly preregistered v4 20-case confirmation plan untouched until v4 training is complete"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
@@ -25,6 +25,13 @@
     "repeatability_repeat_count": 3,
     "minimum_status_consistency_rate": 0.95,
     "maximum_outcome_flip_cases": 1
+  },
+  "data_preservation": {
+    "source_asset_count": 9,
+    "total_bytes": 19561366749,
+    "verified_copy_count": 2,
+    "backup_gate_status": "pass",
+    "raw_assets_committed_to_git": false
   },
   "real_robot_command_sent": false
 }
