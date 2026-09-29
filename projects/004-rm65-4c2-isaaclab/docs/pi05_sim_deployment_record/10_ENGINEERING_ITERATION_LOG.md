@@ -553,6 +553,20 @@
 - 安全边界：只进行了仿真数据上的离线模型训练，没有启动 Isaac 控制或真实机械臂；v2/v3 checkpoint 未修改。
 - 下一步：提交 smoke 小型报告与日志；再次确认正式目录不存在、无训练进程和训练 preflight PASS，然后启动 6000 步正式 v4 微调。监控有限数值、GPU/RAM、step 2000/4000/5999 保存和 step 4000 保留语义。
 
+### v4-fc-wip.047：6000 步 v4 正式增量训练完成并通过产物审计
+
+- Git 基线：`6176dbc`（v4 两步 smoke 证据已推送）；状态：正式训练自然 exit 0，`pi05_rm65_failure_correction_v4_6k.json` 为 PASS，尚未启动 v4 正式确认评测。
+- 准备做：从冻结 v3 `rm65_failure_correction_v3_lora_10k/9999/params` 启动独立 v4 生产目录的 6000 步微调；持续检查 loss/grad/param 有限性、2000/4000/5999 保存、4000 的永久保留语义和 v2/v3 不覆盖边界。
+- 实际合同：repo `local/rm65_sim_failure_correction_v4_train`，batch 1，warmup 300，学习率 `2e-6→5e-7`，`keep_period=4000`；最终候选为 `rm65_failure_correction_v4_lora_6k/5999`。训练报告中的 repo、初始参数、步数、学习率、保留周期和路径全部与冻结合同一致。
+- 数值稳定性：从 step 0 到 step 5999 的已观察 loss、梯度范数和参数范数全部为有限值；参数范数从约 `1803.9016` 平稳变化到 `1803.9023`。个别困难批次梯度约 2，但下一批立即恢复，没有持续梯度爆炸、NaN、OOM 或进程重启。
+- 中间保存：step 2000 首次完整保存后具有 params/metadata 且无临时目录；step 4000 保存完成后，Orbax 按 `max_to_keep` 删除 2000，并明确以 `keep_period=4000` 保留 4000。最终目录精确只含 4000 和 5999。
+- 遇到的问题：step 4000 的约 6.4 GiB 主状态与约 397.9 MiB 附加状态写盘降至约 29.8/1.8 MiB/s，异步保存耗时 `225.28 s`；进程一度处于 `folio_wait_bit_common`，但磁盘剩余约 2.2 TiB、无 OOM，随后原子改名成功并由后台线程报告无错误。没有把正常 I/O 等待误判成训练失败，也没有强杀正在提交的检查点。
+- 最终保存：step 5999 同步阻塞约 2.30 秒，异步完整保存 `73.13 s`；临时目录原子改名为 5999，后台线程无错误，训练器等待 finalize 完成后写出 PASS 报告并自然 exit 0。
+- 产物审计：4000 和 5999 均包含 params、train_state、assets 与 `_CHECKPOINT_METADATA`；全树 `orbax-checkpoint-tmp` 数量为 0，训练进程不存在。v2 `rm65_policy_window_v2_lora_30k/29999` 时间戳仍为 2026-09-19，v3 `rm65_failure_correction_v3_lora_10k/9999` 时间戳仍早于 v4，本次没有覆盖旧 checkpoint。
+- 可优化点：训练计算稳定在约 4.2–4.5 step/s，主要工程瓶颈不是 GPU 训练而是多 GiB checkpoint 的主机内存转移、写盘和保存后设备同步。后续可评估更快的 checkpoint 盘、减少 train_state 保存体积或降低非关键保存频率，但不能为了速度删除 step 4000 恢复点或跳过最终原子提交验证。
+- Git/数据边界：只提交 898-byte 训练报告、状态和日志；约 14 GiB 的 4000/5999 checkpoint 不提交 Git。报告明确 `simulation_only=true`、`real_robot_command_sent=false`，没有执行 Isaac 控制回路或真实机械臂命令。
+- 下一步：提交本条紧凑证据；执行冻结的 v4 evaluation preflight 与 offline 检查。二者 PASS 后只运行预注册全新 20 条的 run1，至少 18/20 才进入 run2/run3 重复性验证，不能用训练 loss 宣称部署完成。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "53ec2c0",
-  "working_version": "v4-fc-wip.046",
+  "git_baseline": "6176dbc",
+  "working_version": "v4-fc-wip.047",
   "committed": true,
-  "phase": "v4_incremental_smoke_passed_formal_training_ready",
-  "current_action": "commit the successful isolated smoke evidence, then start the preregistered 6000-step v4 production fine-tune in its new output directory",
+  "phase": "v4_formal_training_passed_evaluation_ready",
+  "current_action": "commit the audited formal-training evidence, then run the frozen v4 evaluation preflight and offline checks before the first fresh 20-case simulation confirmation",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "collect and validate 36 scripted v4 correction episodes, preserving four same-seed RTX repeats for each of nine physical groups",
-    "convert the 36 base-train + 30 v3-correction + 36 v4-correction episodes into a new 102-episode LeRobot repo and recompute norm stats",
-    "keep the newly preregistered v4 20-case confirmation plan untouched until v4 training is complete"
+    "commit the compact v4 formal-training report and this audited engineering-log update without adding checkpoint files",
+    "run the frozen v4 evaluation preflight and offline checkpoint/data-interface validation",
+    "run the preregistered fresh 20-case v4 confirmation once; require at least 18/20 before considering repeatability runs"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -59,7 +59,8 @@
     "retained_intermediate_checkpoint_step": 4000,
     "conversion_started": true,
     "conversion_completed": true,
-    "training_started": false
+    "training_started": true,
+    "training_completed": true
   },
   "v4_preparation_result": {
     "status": "pass",
@@ -72,7 +73,7 @@
     "norm_sha256": "d21982d3a9235e54326901052d5b7288814c9bbe2699f9c16beae34bbe8c6708",
     "openpi_batch_validation": "pass",
     "training_preflight": "pass",
-    "training_started": false
+    "training_started": true
   },
   "v4_training_smoke": {
     "status": "pass",
@@ -84,7 +85,26 @@
     "parameter_norm": 1803.9016,
     "checkpoint": "rm65_failure_correction_v4_incremental_smoke/1",
     "checkpoint_size_gib_approx": 5.4,
-    "formal_training_started": false
+    "formal_training_started": true,
+    "formal_training_completed": true
+  },
+  "v4_training_result": {
+    "status": "pass",
+    "repo_id": "local/rm65_sim_failure_correction_v4_train",
+    "initial_checkpoint": "rm65_failure_correction_v3_lora_10k/9999/params",
+    "num_train_steps": 6000,
+    "warmup_steps": 300,
+    "peak_lr": 2e-06,
+    "decay_lr": 5e-07,
+    "keep_period": 4000,
+    "retained_checkpoints": [4000, 5999],
+    "latest_checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
+    "checkpoint_tmp_count": 0,
+    "step_4000_async_save_seconds": 225.28,
+    "step_5999_async_save_seconds": 73.13,
+    "training_process_exited_zero": true,
+    "v2_v3_checkpoint_overwritten": false,
+    "real_robot_command_sent": false
   },
   "v4_collection_preservation": {
     "spec_frozen": true,
