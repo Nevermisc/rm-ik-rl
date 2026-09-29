@@ -1,0 +1,3 @@
+# .065 controlled Isaac settling diagnostic
+
+Baselineee09a13. Two natural replays did not activate the abort branch. Added isolated diagnose_abort_settling_isaac.py: execute actual production settling AST with a real Isaac cube and measured physics steps, injecting prior-abort/source conditions only in the diagnostic environment. Expected steps0/120/240 for existing abort/settle-A detection/normal. No policy or robot is loaded; this is narrower than end-to-end policy validation. Runtime controller unchanged. Validation pending remote run; all diagnostic results excluded from task success statistics.
