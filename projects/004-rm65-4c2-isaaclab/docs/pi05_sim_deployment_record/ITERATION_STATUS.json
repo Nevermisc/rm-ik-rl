@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "7810048",
-  "working_version": "v4-fc-wip.048",
+  "git_baseline": "ce1952d",
+  "working_version": "v4-fc-wip.049",
   "committed": true,
-  "phase": "v4_offline_validation_passed_fresh_run1_ready",
-  "current_action": "commit the v4 preflight and offline-validation evidence, then run the first preregistered fresh 20-case closed-loop simulation confirmation without normal-failure retries",
+  "phase": "v4_fresh_run1_failed_repeatability_diagnostics_next",
+  "current_action": "commit the complete 17-of-20 run1 and failure taxonomy, then run the unchanged run2 and run3 solely as repeatability diagnostics before designing any v5 correction",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the two compact offline reports and this engineering-log update without adding validation frames or checkpoint files",
-    "run the preregistered fresh 20-case v4 confirmation run1 exactly once, allowing retries only for missing valid infrastructure reports",
-    "require at least 18/20 run1 successes before treating v4 as a success candidate; preserve every failure as evidence"
+    "commit the compact run1 summary and failure taxonomy without adding the raw 20-episode evaluation dataset",
+    "run preregistered run2 and run3 with the same checkpoint, controller, plan, thresholds and seeds to measure RTX outcome flips, not to replace the failed first-run score",
+    "after 60 valid reports, freeze the v4 cases as development evidence and derive a v5 correction plan plus a new held-out confirmation plan"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -138,7 +138,11 @@
     "evaluation_started": true,
     "preflight_status": "pass",
     "offline_status": "pass",
-    "closed_loop_started": false
+    "closed_loop_started": true,
+    "first_run_status": "fail",
+    "first_run_success_count": 17,
+    "first_run_success_rate": 0.85,
+    "first_run_gate_passed": false
   },
   "v4_offline_evaluation_result": {
     "status": "pass",
@@ -154,6 +158,29 @@
     "horizon_gripper_mae": 0.004215415029913048,
     "simulation_action_executed": false,
     "task_success_claimed": false,
+    "real_robot_command_sent": false
+  },
+  "v4_run1_result": {
+    "status": "fail",
+    "planned_case_count": 20,
+    "valid_report_count": 20,
+    "missing_report_count": 0,
+    "success_count": 17,
+    "success_rate": 0.85,
+    "required_success_count": 18,
+    "required_success_rate": 0.9,
+    "failed_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
+    "failure_counts": {
+      "insufficient_displacement": 1,
+      "insufficient_lift": 3,
+      "post_release_drift": 2,
+      "release_not_verified": 3,
+      "simulation_out_of_bounds": 2,
+      "target_position_error": 3,
+      "target_xy_error": 3
+    },
+    "normal_model_failures_retried": false,
+    "raw_evaluation_dataset_committed_to_git": false,
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false

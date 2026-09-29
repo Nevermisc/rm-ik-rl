@@ -580,6 +580,21 @@
 - Git/数据边界：提交两份小型 JSON 和日志/状态，不提交 validation 图像、数据集或 checkpoint。
 - 下一步：精确提交本条证据，然后启动预注册 v4 run1 的 20 条全新仿真条件。正常模型失败不重试；只有缺失有效报告的基础设施失败才允许按 suite 恢复。
 
+### v4-fc-wip.049：首轮全新 20 条闭环确认完成但 17/20 未过门禁
+
+- Git 基线：`ce1952d`（v4 offline 证据已推送）；状态：run1 的 20/20 task report 完整，无基础设施缺失，suite 因成功率门禁未过而按设计 exit 1。
+- 准备做：以训练前冻结的 checkpoint `rm65_failure_correction_v4_lora_6k/5999`、repo、控制阈值、20 条计划和每条显式双种子运行唯一独立成功确认；普通模型失败不得重试。
+- 总结果：17/20=`85%`，低于预注册的 18/20=`90%`；gate 的 episode 数和全部报告存在性两项 PASS，只有 minimum success rate FAIL。失败为 `confirm_v4_010`、`011`、`015`，全部保留，未重试、未改阈值、未修改模型。
+- 失败分布：角度 `0.6875/0.7625 rad` 均 5/5；`0.8375 rad` 为 3/5，`0.9625 rad` 为 4/5。提示词 `place the block on the target platform` 为 2/4，`grasp the block and set it on the target` 为 3/4，其余三个 prompt 均 4/4。样本量很小，只用于定位，不把 prompt 相关性当因果结论。
+- `confirm_v4_010`：角度 0.8375、offset `(-0.011,0.001)`；最大抬升仅 `0.00594 m`，最大源点 XY 位移约 `0.0781 m`，未接近目标且未验证释放。末段方块跌出工作台，最终 z 约 `-5.607 m`，target position error `6.274 m`。
+- `confirm_v4_011`：角度 0.8375、offset `(-0.006,0.007)`；最大抬升 `0.01960 m`，未验证释放，随后触发 `cube_outside_workspace_envelope`，最终 z 约 `-10.590 m`，target position error `11.255 m`。
+- `confirm_v4_015`：角度 0.9625、offset `(-0.011,0.001)`；没有越界，方块移动约 `0.1534 m`，但最大抬升 `0.01969 m` 略低于 0.02 m，最小 target XY error 约 `0.0661 m`，终止时夹爪仍关闭且未满足连续两 chunk 释放条件。因此属于近目标但未收敛/未释放，不是全局物理崩溃。
+- 共同失败分类：三条均 `insufficient_lift + target_xy_error + target_position_error + release_not_verified`；010/011 另有 `simulation_out_of_bounds + post_release_drift`，010 还未达到最小位移。
+- 遇到的问题：010 最终位置已越界但 `simulation_safety_abort_reason=null`，而 011 正确标记 workspace abort。轨迹显示 010 在最后约 0.85 秒从目标高度以下 0.10 m 跌到 z<0，推测越界发生在 max-chunk 后 settle/报告窗口，当前在线 abort 只覆盖动作循环。这是诊断覆盖缺口，不能据此抹去任务失败；应在三次冻结评测完成后为最终 settle 增加相同越界标记。
+- 结论边界：run1 已确定 FAIL，v4 不能标记仿真部署完成。run2/run3 若执行，只用于判断相同条件在不同 RTX 渲染下是否翻转，不能取代或“择优覆盖”17/20 的首轮成绩。
+- Git/数据边界：提交 run1 summary、失败 taxonomy 和日志/状态；20 条原始图像、NPZ、runner log 与大 task report 保留在远端数据目录但不进 Git。全程仿真，`real_robot_command_sent=false`。
+- 下一步：先提交本条证据；不修改任何评测/控制代码，按同一计划执行 run2、run3。获得 60/60 报告后做 outcome matrix，再把 v4 全部条件永久降级为开发集，生成证据驱动 v5 纠正计划与另一组全新 held-out 最终确认条件。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

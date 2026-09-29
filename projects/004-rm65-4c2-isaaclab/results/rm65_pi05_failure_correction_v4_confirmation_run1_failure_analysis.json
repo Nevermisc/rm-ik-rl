@@ -1,0 +1,670 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_closed_loop_failure_taxonomy",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "simulation_bounds_m": {
+    "maximum_absolute_xy": 2.0,
+    "minimum_z": -1.0,
+    "maximum_z": 2.0
+  },
+  "planned_case_count": 20,
+  "valid_report_count": 20,
+  "success_count": 17,
+  "success_rate_over_valid_reports": 0.85,
+  "success_rate_ci95_wilson": [
+    0.6395811352592431,
+    0.9476312541037835
+  ],
+  "status_counts": {
+    "fail": 3,
+    "pass": 17
+  },
+  "failure_counts": {
+    "insufficient_displacement": 1,
+    "insufficient_lift": 3,
+    "post_release_drift": 2,
+    "release_not_verified": 3,
+    "simulation_out_of_bounds": 2,
+    "target_position_error": 3,
+    "target_xy_error": 3
+  },
+  "by_prompt": {
+    "grasp the block and set it on the target": {
+      "total": 4,
+      "passes": 3,
+      "success_rate": 0.75,
+      "success_rate_ci95_wilson": [
+        0.30064184258240184,
+        0.9544127391902995
+      ]
+    },
+    "move the block onto the target": {
+      "total": 4,
+      "passes": 4,
+      "success_rate": 1.0,
+      "success_rate_ci95_wilson": [
+        0.5101091635454027,
+        1.0
+      ]
+    },
+    "pick the block and put it at the target": {
+      "total": 4,
+      "passes": 4,
+      "success_rate": 1.0,
+      "success_rate_ci95_wilson": [
+        0.5101091635454027,
+        1.0
+      ]
+    },
+    "pick up the block and place it on the target": {
+      "total": 4,
+      "passes": 4,
+      "success_rate": 1.0,
+      "success_rate_ci95_wilson": [
+        0.5101091635454027,
+        1.0
+      ]
+    },
+    "place the block on the target platform": {
+      "total": 4,
+      "passes": 2,
+      "success_rate": 0.5,
+      "success_rate_ci95_wilson": [
+        0.15003898915214947,
+        0.8499610108478506
+      ]
+    }
+  },
+  "by_transfer_joint_1_rad": {
+    "0.69": {
+      "total": 5,
+      "passes": 5,
+      "success_rate": 1.0,
+      "success_rate_ci95_wilson": [
+        0.5655175352168251,
+        1.0
+      ]
+    },
+    "0.76": {
+      "total": 5,
+      "passes": 5,
+      "success_rate": 1.0,
+      "success_rate_ci95_wilson": [
+        0.5655175352168251,
+        1.0
+      ]
+    },
+    "0.84": {
+      "total": 5,
+      "passes": 3,
+      "success_rate": 0.6,
+      "success_rate_ci95_wilson": [
+        0.2307242812760128,
+        0.882379225767352
+      ]
+    },
+    "0.96": {
+      "total": 5,
+      "passes": 4,
+      "success_rate": 0.8,
+      "success_rate_ci95_wilson": [
+        0.37553462976252533,
+        0.9637758913675698
+      ]
+    }
+  },
+  "by_panel": {
+    "fresh_continuous_interpolation": {
+      "total": 20,
+      "passes": 17,
+      "success_rate": 0.85,
+      "success_rate_ci95_wilson": [
+        0.6395811352592431,
+        0.9476312541037835
+      ]
+    }
+  },
+  "cases": [
+    {
+      "case_id": "confirm_v4_000",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1827869564294815,
+        "block_lift_height_m": 0.06316560506820679,
+        "final_target_position_error_m": 0.0380415961327852,
+        "post_release_drift_m": 1.4901161193847656e-08,
+        "final_gripper_normalized": 0.07200745402733026,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.043833527089543425,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_001",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15161128342151642,
+        "block_lift_height_m": 0.04089939594268799,
+        "final_target_position_error_m": 0.019410568581618447,
+        "post_release_drift_m": 1.7737389725880348e-06,
+        "final_gripper_normalized": 0.052043046220878644,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04423933825051853,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_002",
+      "status": "pass",
+      "prompt": "grasp the block and set it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15196438133716583,
+        "block_lift_height_m": 0.050909996032714844,
+        "final_target_position_error_m": 0.009253509605564404,
+        "post_release_drift_m": 1.9147846614941955e-06,
+        "final_gripper_normalized": 0.0712718836144905,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04371634194616637,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_003",
+      "status": "pass",
+      "prompt": "place the block on the target platform",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15776081383228302,
+        "block_lift_height_m": 0.03855949640274048,
+        "final_target_position_error_m": 0.013851614020654745,
+        "post_release_drift_m": 0.0002504729782231152,
+        "final_gripper_normalized": 0.07309642313532747,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.043465076498902605,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_004",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.14799530804157257,
+        "block_lift_height_m": 0.042233049869537354,
+        "final_target_position_error_m": 0.006619285579083361,
+        "post_release_drift_m": 8.968166366685182e-05,
+        "final_gripper_normalized": 0.06830072988664483,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04523659631006979,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_005",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1625022292137146,
+        "block_lift_height_m": 0.025953352451324463,
+        "final_target_position_error_m": 0.017995882668280706,
+        "post_release_drift_m": 2.180329101975076e-05,
+        "final_gripper_normalized": 0.06924055818188397,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04547534219791435,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_006",
+      "status": "pass",
+      "prompt": "grasp the block and set it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15510137379169464,
+        "block_lift_height_m": 0.05729210376739502,
+        "final_target_position_error_m": 0.02126383268263482,
+        "post_release_drift_m": 5.20048388352734e-07,
+        "final_gripper_normalized": 0.0645675066578595,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04429650961319146,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_007",
+      "status": "pass",
+      "prompt": "place the block on the target platform",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.16053131222724915,
+        "block_lift_height_m": 0.03823542594909668,
+        "final_target_position_error_m": 0.006122040752650167,
+        "post_release_drift_m": 0.00010219500836683437,
+        "final_gripper_normalized": 0.06337563771043898,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04234348849065042,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_008",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15355509519577026,
+        "block_lift_height_m": 0.04032278060913086,
+        "final_target_position_error_m": 0.008099100670444209,
+        "post_release_drift_m": 0.00047149366582743824,
+        "final_gripper_normalized": 0.0712840198781449,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04639678952321841,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_009",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15928444266319275,
+        "block_lift_height_m": 0.044410884380340576,
+        "final_target_position_error_m": 0.013212824131209973,
+        "post_release_drift_m": 0.0004545699048321694,
+        "final_gripper_normalized": 0.0773895682627066,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.044960455398339066,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_010",
+      "status": "fail",
+      "prompt": "grasp the block and set it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "failures": [
+        "simulation_out_of_bounds",
+        "insufficient_displacement",
+        "insufficient_lift",
+        "target_xy_error",
+        "target_position_error",
+        "post_release_drift",
+        "release_not_verified"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.0813872218132019,
+        "block_lift_height_m": 0.005942165851593018,
+        "final_target_position_error_m": 6.274314596682609,
+        "post_release_drift_m": 4.336872100830078,
+        "final_gripper_normalized": 0.8430578805118627,
+        "release_verification": {
+          "verified": false,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04230260935132903,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_011",
+      "status": "fail",
+      "prompt": "place the block on the target platform",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "failures": [
+        "simulation_out_of_bounds",
+        "insufficient_lift",
+        "target_xy_error",
+        "target_position_error",
+        "post_release_drift",
+        "release_not_verified"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.17712923884391785,
+        "block_lift_height_m": 0.019602715969085693,
+        "final_target_position_error_m": 11.254863657814068,
+        "post_release_drift_m": 6.22309684753418,
+        "final_gripper_normalized": 0.4064683969310253,
+        "release_verification": {
+          "verified": false,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04132435673234091,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_012",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15160001814365387,
+        "block_lift_height_m": 0.04722994565963745,
+        "final_target_position_error_m": 0.027974069003925503,
+        "post_release_drift_m": 8.024520781191313e-08,
+        "final_gripper_normalized": 0.03876652934647709,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04348052030353877,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_013",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.17301368713378906,
+        "block_lift_height_m": 0.041499555110931396,
+        "final_target_position_error_m": 0.00981955116643683,
+        "post_release_drift_m": 0.0006747369188815355,
+        "final_gripper_normalized": 0.059110339666377604,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.0446376729907328,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_014",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.18446682393550873,
+        "block_lift_height_m": 0.04227358102798462,
+        "final_target_position_error_m": 0.017461706159300348,
+        "post_release_drift_m": 1.30462112792884e-05,
+        "final_gripper_normalized": 0.07573410093439797,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04611473121395001,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_015",
+      "status": "fail",
+      "prompt": "place the block on the target platform",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "failures": [
+        "insufficient_lift",
+        "target_xy_error",
+        "target_position_error",
+        "release_not_verified"
+      ],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.15340302884578705,
+        "block_lift_height_m": 0.019685089588165283,
+        "final_target_position_error_m": 0.06834741561712633,
+        "post_release_drift_m": 1.7203466995852068e-05,
+        "final_gripper_normalized": 0.8855375940400052,
+        "release_verification": {
+          "verified": false,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04395678467144167,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_016",
+      "status": "pass",
+      "prompt": "pick the block and put it at the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.19021382927894592,
+        "block_lift_height_m": 0.023335516452789307,
+        "final_target_position_error_m": 0.02034034927559874,
+        "post_release_drift_m": 1.1340557648509275e-06,
+        "final_gripper_normalized": 0.0604823403964842,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.043276572503106445,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_017",
+      "status": "pass",
+      "prompt": "pick up the block and place it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.20227807760238647,
+        "block_lift_height_m": 0.04197341203689575,
+        "final_target_position_error_m": 0.010375092725943834,
+        "post_release_drift_m": 1.832600560192077e-07,
+        "final_gripper_normalized": 0.0735652842962673,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04002971714631671,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_018",
+      "status": "pass",
+      "prompt": "move the block onto the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.1781383752822876,
+        "block_lift_height_m": 0.03726458549499512,
+        "final_target_position_error_m": 0.022670642758559185,
+        "post_release_drift_m": 6.442060112021863e-07,
+        "final_gripper_normalized": 0.010302377530949654,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.0187279839563921,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_019",
+      "status": "pass",
+      "prompt": "grasp the block and set it on the target",
+      "panel": "fresh_continuous_interpolation",
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "failures": [],
+      "metrics": {
+        "source_to_target_xy_distance_m": 0.20454049110412598,
+        "block_lift_height_m": 0.04852700233459473,
+        "final_target_position_error_m": 0.005412383416208863,
+        "post_release_drift_m": 6.006849844197859e-07,
+        "final_gripper_normalized": 0.06964161044600382,
+        "release_verification": {
+          "verified": true,
+          "required_consecutive_chunks": 2,
+          "policy_target_open_threshold_normalized": 0.12,
+          "actual_open_threshold_normalized": 0.2,
+          "minimum_observed_gripper_normalized": 0.04367467468184543,
+          "minimum_executed_gripper_target": 0.0,
+          "final_gripper_normalized_is_diagnostic_only": true
+        }
+      }
+    }
+  ]
+}
