@@ -567,6 +567,19 @@
 - Git/数据边界：只提交 898-byte 训练报告、状态和日志；约 14 GiB 的 4000/5999 checkpoint 不提交 Git。报告明确 `simulation_only=true`、`real_robot_command_sent=false`，没有执行 Isaac 控制回路或真实机械臂命令。
 - 下一步：提交本条紧凑证据；执行冻结的 v4 evaluation preflight 与 offline 检查。二者 PASS 后只运行预注册全新 20 条的 run1，至少 18/20 才进入 run2/run3 重复性验证，不能用训练 loss 宣称部署完成。
 
+### v4-fc-wip.048：v4 评测预检与离线推理门禁通过
+
+- Git 基线：`7810048`（v4 正式训练报告已推送）；状态：evaluation preflight 和 offline 均 exit 0/PASS，闭环 run1 尚未启动。
+- 准备做：在启动新 Isaac Lab 闭环前重新验证 checkpoint、repo、norm SHA、训练输入 gate、预注册计划和控制器阈值没有漂移；随后只在已存 validation 数据上检查模型可加载、动作维度/有限性和安全 guard。
+- 预检结果：训练报告仍精确匹配 6000 步、batch 1、warmup 300、`2e-6→5e-7`、`keep_period=4000`；最终 checkpoint id 为 `rm65_failure_correction_v4_lora_6k/5999`。norm 文件存在且 SHA 与冻结报告一致，20 条确认计划仍有 exactly 20 cases，成功门槛 18/20、重复次数 3、60/60 报告和最多 1 条翻转合同均未漂移。
+- 单帧 checkpoint 推理：从 5999 加载耗时 35.48 秒，首次推理 11.01 秒；输出 shape `[10,7]`、全部有限。guard 后无 joint-limit clamp、无 joint-step clamp，最大输出关节步长 `0.008745 rad`；有 1 次 gripper clamp，属于归一化动作到执行边界的预期保护。
+- Held-out 离线结果：validation 共 9 episode × 5 帧 = 45 样本，全部输出有限且维度正确。手臂 horizon MAE `0.005625 rad`、P95 绝对误差 `0.021963 rad`；夹爪 horizon MAE `0.004215`、P95 `0.008658`；首动作手臂平均 L2 误差 `0.012094 rad`。
+- 推理性能解释：第一样本包含约 9.54 秒 JIT/冷启动，之后大多数样本约 0.1 秒，因此总 mean `0.3085 s` 而 P95 `0.0992 s`；不能把首次编译耗时当成稳态闭环延迟，也不能忽略部署启动时需要 warm-up。
+- Guard 解释：45 样本全 horizon 累计 54 次 joint-step clamp 和 170 次 gripper clamp，说明 guard 在离线轨迹上确实参与约束；这不是任务失败，但闭环评测必须保留 guard，不得为了贴近标签而绕过安全限制。
+- 证据边界：offline 报告明确 `simulation_action_executed=false`、`task_success_claimed=false`、`real_robot_command_sent=false`。PASS 只证明模型/数据接口和数值健康，不证明抓取放置闭环成功。
+- Git/数据边界：提交两份小型 JSON 和日志/状态，不提交 validation 图像、数据集或 checkpoint。
+- 下一步：精确提交本条证据，然后启动预注册 v4 run1 的 20 条全新仿真条件。正常模型失败不重试；只有缺失有效报告的基础设施失败才允许按 suite 恢复。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

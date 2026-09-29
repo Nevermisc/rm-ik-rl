@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/5999",
+  "episode": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_scripted_v1/episode_000000",
+  "frame_index": 0,
+  "prompt": "pick up the block and place it on the target",
+  "load_seconds": 35.484775995020755,
+  "inference_seconds": 11.007858718978241,
+  "actions_shape": [
+    10,
+    7
+  ],
+  "all_actions_finite": true,
+  "first_raw_action": [
+    0.04227392002940178,
+    0.5359507203102112,
+    1.201114296913147,
+    0.03803345561027527,
+    2.184818983078003,
+    0.052687738090753555,
+    0.0013705928577110171
+  ],
+  "first_guarded_action": [
+    0.04227392002940178,
+    0.5359507203102112,
+    1.201114296913147,
+    0.03803345561027527,
+    2.184818983078003,
+    0.052687738090753555,
+    0.0013705928577110171
+  ],
+  "guard": {
+    "status": "pass",
+    "input_shape": [
+      10,
+      7
+    ],
+    "all_finite": true,
+    "joint_limit_margin_rad": 0.02,
+    "max_joint_step_rad": 0.05,
+    "joint_limit_clamp_count": 0,
+    "joint_step_clamp_count": 0,
+    "gripper_clamp_count": 1,
+    "maximum_output_step_rad": 0.008744955062866211
+  }
+}
