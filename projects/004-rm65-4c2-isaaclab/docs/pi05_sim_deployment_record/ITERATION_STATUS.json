@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "0cd249e",
-  "working_version": "v4-fc-wip.054",
-  "committed": true,
-  "phase": "v5_correction_and_heldout_plans_frozen_pipeline_next",
-  "current_action": "commit the validated v5 plan generator and frozen plans, then harden final-settle safety reporting and build fail-closed collection/preparation/training/evaluation entry points",
+  "git_baseline": "c888de0",
+  "working_version": "v4-fc-wip.055",
+  "committed": false,
+  "phase": "v5_post_settle_safety_reporting_hardened_pipeline_next",
+  "current_action": "validate and commit final-settle workspace safety reporting, then freeze fail-closed v5 collection, backup, preparation, training and evaluation entry points",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,8 +14,7 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the v5 generator, regression test, 48-case correction plan, fresh 20-case confirmation plan and compact validation report",
-    "add post-settle workspace-envelope reporting so a final fallen cube cannot retain a null safety reason",
+    "commit the tested post-settle workspace-envelope reporting change without altering controller behavior",
     "freeze v5 collection, 150-episode preparation, low-learning-rate 4000-step training and fresh-evaluation gates before collection"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
@@ -259,6 +258,17 @@
     "minimum_status_consistency_rate": 0.95,
     "maximum_outcome_flip_cases": 1,
     "collection_started": false,
+    "real_robot_command_sent": false
+  },
+  "post_settle_safety_reporting": {
+    "status": "pass",
+    "controller_behavior_changed": false,
+    "shared_online_and_post_settle_rule": true,
+    "verification_stages_checked": ["settle_a", "settle_b_final"],
+    "first_violation_stage_reported": true,
+    "non_finite_position_reported": true,
+    "workspace_escape_radius_m": 1.0,
+    "regression_test_status": "pass",
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 from openpi_extension.deterministic_policy import (
@@ -16,6 +17,45 @@ REQUIRED_OBSERVATION_SHA256_FIELDS = {
     "external_image",
     "wrist_image",
 }
+
+
+def evaluate_cube_workspace_safety(
+    cube_position: Any,
+    source_position: Any,
+    escape_radius_m: float,
+) -> dict[str, Any]:
+    """Classify a cube position against the simulation workspace envelope.
+
+    This helper is intentionally independent of Isaac Lab so the exact online
+    and post-settle rule can be regression-tested without launching a simulator.
+    """
+
+    try:
+        cube = tuple(float(value) for value in cube_position)
+        source = tuple(float(value) for value in source_position)
+        radius = float(escape_radius_m)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("cube/source positions and escape radius must be numeric") from exc
+    if len(cube) != 3 or len(source) != 3:
+        raise ValueError("cube and source positions must each contain three values")
+    if not math.isfinite(radius) or radius <= 0.0:
+        raise ValueError("escape radius must be finite and positive")
+    if not all(math.isfinite(value) for value in source):
+        raise ValueError("source position must be finite")
+    if not all(math.isfinite(value) for value in cube):
+        return {
+            "reason": "non_finite_cube_position",
+            "cube_source_displacement_m": None,
+        }
+    displacement = math.dist(cube, source)
+    return {
+        "reason": (
+            "cube_outside_workspace_envelope"
+            if displacement > radius
+            else None
+        ),
+        "cube_source_displacement_m": displacement,
+    }
 
 
 def _number(value: Any) -> float | None:

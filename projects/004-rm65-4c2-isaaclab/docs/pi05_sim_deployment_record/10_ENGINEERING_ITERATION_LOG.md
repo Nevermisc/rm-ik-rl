@@ -663,6 +663,18 @@
 - 安全边界：本版本只生成计划和验证代码，未采集、转换、训练、评测或发送真实机械臂命令。
 - 下一步：提交生成器、测试和冻结计划；修复最终 settle 越界漏标记，并在采集前实现 v5 collection→backup→150-episode preparation→4000-step low-LR training→fresh evaluation 的完整 fail-closed 入口。
 
+### v4-fc-wip.055：补齐动作结束后 settle 阶段的工作区安全诊断
+
+- Git 基线：`c888de0`（v5 纠正与全新确认计划已推送）；状态：纯函数安全规则、在线/settle 共用调用和回归测试本地 PASS，待远端复跑与提交。
+- 准备做：修复 v4 `confirm_v4_010` 暴露的诊断缺口——方块在最后动作 chunk 后的 240 physics-step 验证窗口跌出工作区，旧报告的 `simulation_safety_abort_reason` 仍可能为 null。此变更只补证据，不改变策略输入、动作、阈值、hold 步数或成功标准。
+- 原因：旧代码只在每个动作 chunk 后检查非有限位置与相对源点 1.0 m 的逃逸半径；`PI05_SETTLE_A/B` 后直接计算最终指标。因此越界若恰好发生在 max-chunk 后，结果虽然因巨大 target error 失败，却缺少统一安全原因，降低失败分类与后续纠正集审计质量。
+- 方法：把同一判定抽为不依赖 Isaac Lab 的 `evaluate_cube_workspace_safety`；在线 chunk、settle A、settle B/final 均调用它。保留首个 violation，不让后续更远的跌落覆盖原始发生阶段。
+- 新证据：报告增加 `simulation_safety_first_violation_stage` 和 `post_control_simulation_safety_checks`，后者分别记录 settle A 与最终位置的 reason/相对源点位移。若 settle 才首次越界，既有 `simulation_safety_abort_reason` 将明确写为 `cube_outside_workspace_envelope`；非有限位置写为 `non_finite_cube_position`。
+- 回归边界：测试覆盖工作区内、超过半径、NaN 位置、错误维度、非正半径和非有限源点；原有 checkpoint/双种子/采样哈希/安全中止 fail-closed 验证继续通过。
+- 兼容性：既有 v3/v4 报告保持冻结，不回写历史结果；v5 以后生成的新报告才包含新增字段。v4 的 17/20 首轮成绩与 60/60 重复性矩阵不变。
+- 安全边界：无 Isaac Lab 动作执行、无训练、无数据变更、无真实机械臂命令。
+- 下一步：远端 Python 编译和回归 PASS 后精确提交本版本；随后在开始 48 条 v5 采集前，冻结 collection→raw backup→150-episode preparation→4000-step low-LR training→全新 20×3 evaluation 的完整 fail-closed 入口。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

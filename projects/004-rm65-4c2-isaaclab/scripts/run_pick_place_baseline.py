@@ -243,6 +243,7 @@ from openpi_extension.expert_episode import (  # noqa: E402
 from openpi_extension.action_guard import guard_action_chunk  # noqa: E402
 from openpi_extension.closed_loop_report import (  # noqa: E402
     build_preflight_safety_failure_report,
+    evaluate_cube_workspace_safety,
 )
 from openpi_extension.deterministic_policy import (  # noqa: E402
     POLICY_NOISE_SEED_KEY,
@@ -730,6 +731,7 @@ def run_pi05_closed_loop(
     release_postcondition_applied = False
     release_postcondition_arm_target = None
     simulation_safety_abort_reason = None
+    simulation_safety_first_violation_stage = None
     minimum_observed_gripper_normalized = float("inf")
     minimum_executed_gripper_target = float("inf")
     policy_sampling_records = []
@@ -898,15 +900,22 @@ def run_pi05_closed_loop(
 
             current_cube = cube.data.root_pos_w[0].detach().cpu().numpy()
             target_error = float(np.linalg.norm(current_cube - target_block_position))
-            cube_source_displacement = float(
-                np.linalg.norm(
-                    current_cube - settled_source_position.detach().cpu().numpy()
-                )
+            online_safety_check = evaluate_cube_workspace_safety(
+                current_cube,
+                settled_source_position.detach().cpu().numpy(),
+                CUBE_WORKSPACE_ESCAPE_RADIUS_M,
             )
-            if not np.isfinite(current_cube).all():
-                simulation_safety_abort_reason = "non_finite_cube_position"
-            elif cube_source_displacement > CUBE_WORKSPACE_ESCAPE_RADIUS_M:
-                simulation_safety_abort_reason = "cube_outside_workspace_envelope"
+            cube_source_displacement = online_safety_check[
+                "cube_source_displacement_m"
+            ]
+            if (
+                simulation_safety_abort_reason is None
+                and online_safety_check["reason"] is not None
+            ):
+                simulation_safety_abort_reason = online_safety_check["reason"]
+                simulation_safety_first_violation_stage = (
+                    f"action_chunk_{chunk_index:03d}"
+                )
             actual_gripper_normalized = normalize_gripper(
                 float(robot.data.joint_pos[0, gripper_master_id].item())
             )
@@ -971,10 +980,32 @@ def run_pi05_closed_loop(
 
     hold(sim, robot, cube, state, 120, "PI05_SETTLE_A", episode_capture)
     settle_a = cube.data.root_pos_w[0].clone()
+    source_np = settled_source_position.detach().cpu().numpy()
+    settle_a_safety_check = evaluate_cube_workspace_safety(
+        settle_a.detach().cpu().numpy(),
+        source_np,
+        CUBE_WORKSPACE_ESCAPE_RADIUS_M,
+    )
+    if (
+        simulation_safety_abort_reason is None
+        and settle_a_safety_check["reason"] is not None
+    ):
+        simulation_safety_abort_reason = settle_a_safety_check["reason"]
+        simulation_safety_first_violation_stage = "verification_settle_a"
     hold(sim, robot, cube, state, 120, "PI05_SETTLE_B", episode_capture)
     final_position = cube.data.root_pos_w[0].clone()
-    source_np = settled_source_position.detach().cpu().numpy()
     final_np = final_position.detach().cpu().numpy()
+    final_safety_check = evaluate_cube_workspace_safety(
+        final_np,
+        source_np,
+        CUBE_WORKSPACE_ESCAPE_RADIUS_M,
+    )
+    if (
+        simulation_safety_abort_reason is None
+        and final_safety_check["reason"] is not None
+    ):
+        simulation_safety_abort_reason = final_safety_check["reason"]
+        simulation_safety_first_violation_stage = "verification_settle_b"
     final_target_xy_error = float(np.linalg.norm(final_np[:2] - target_block_position[:2]))
     final_target_position_error = float(np.linalg.norm(final_np - target_block_position))
     source_to_target_distance = float(np.linalg.norm(final_np[:2] - source_np[:2]))
@@ -1114,6 +1145,13 @@ def run_pi05_closed_loop(
             "gripper_clamp_count": total_gripper_clamps,
         },
         "simulation_safety_abort_reason": simulation_safety_abort_reason,
+        "simulation_safety_first_violation_stage": (
+            simulation_safety_first_violation_stage
+        ),
+        "post_control_simulation_safety_checks": {
+            "settle_a": settle_a_safety_check,
+            "settle_b_final": final_safety_check,
+        },
         "low_level_release_postcondition": {
             "applied": release_postcondition_applied,
             "trigger": (

@@ -14,12 +14,41 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from openpi_extension.closed_loop_report import (
     build_preflight_safety_failure_report,
+    evaluate_cube_workspace_safety,
     validate_closed_loop_task_report,
 )
 from openpi_extension.deterministic_policy import policy_sampling_evidence
 
 
 def main() -> int:
+    inside_workspace = evaluate_cube_workspace_safety(
+        [0.5, 0.0, 0.0], [0.0, 0.0, 0.0], 1.0
+    )
+    assert inside_workspace["reason"] is None
+    assert inside_workspace["cube_source_displacement_m"] == 0.5
+    outside_workspace = evaluate_cube_workspace_safety(
+        [0.0, 0.0, -1.01], [0.0, 0.0, 0.0], 1.0
+    )
+    assert outside_workspace["reason"] == "cube_outside_workspace_envelope"
+    non_finite_cube = evaluate_cube_workspace_safety(
+        [0.0, float("nan"), 0.0], [0.0, 0.0, 0.0], 1.0
+    )
+    assert non_finite_cube == {
+        "reason": "non_finite_cube_position",
+        "cube_source_displacement_m": None,
+    }
+    for invalid_args in (
+        ([0.0, 0.0], [0.0, 0.0, 0.0], 1.0),
+        ([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], 0.0),
+        ([0.0, 0.0, 0.0], [0.0, float("inf"), 0.0], 1.0),
+    ):
+        try:
+            evaluate_cube_workspace_safety(*invalid_args)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"invalid safety inputs accepted: {invalid_args}")
+
     checkpoint_id = "rm65_scripted_v1_lora_30k/29999"
     policy_noise_seed = 8000
     simulation_seed = 7000
@@ -236,6 +265,7 @@ def main() -> int:
                 "wrong_simulation_seed_blocked": True,
                 "tampered_noise_hash_blocked": True,
                 "simulation_safety_abort_blocked": True,
+                "online_and_post_settle_workspace_rule_tested": True,
                 "preflight_safety_failure_structured_and_blocked": True,
                 "scripted_preflight_mode_labeled_correctly": True,
             },
