@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "config_name": "pi05_rm65_lora",
+  "repo_id": "local/rm65_sim_failure_correction_v5_train",
+  "exp_name": "rm65_failure_correction_v5_incremental_smoke",
+  "batch_size": 1,
+  "num_train_steps": 2,
+  "initial_params_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/5999/params",
+  "warmup_steps": 1,
+  "peak_lr": 1e-06,
+  "decay_lr": 2.5e-07,
+  "keep_period": null,
+  "checkpoint_dir": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v5_incremental_smoke",
+  "latest_checkpoint": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v5_incremental_smoke/1"
+}
