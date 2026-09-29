@@ -595,6 +595,18 @@
 - Git/数据边界：提交 run1 summary、失败 taxonomy 和日志/状态；20 条原始图像、NPZ、runner log 与大 task report 保留在远端数据目录但不进 Git。全程仿真，`real_robot_command_sent=false`。
 - 下一步：先提交本条证据；不修改任何评测/控制代码，按同一计划执行 run2、run3。获得 60/60 报告后做 outcome matrix，再把 v4 全部条件永久降级为开发集，生成证据驱动 v5 纠正计划与另一组全新 held-out 最终确认条件。
 
+### v4-fc-wip.050：第二轮重复性诊断精确复现 17/20
+
+- Git 基线：`648302c`（run1 完整失败证据已推送）；状态：run2 的 20/20 报告完整，17/20=`85%`，失败仍为 `confirm_v4_010/011/015`，与 run1 的 20 个 outcome 全部一致。
+- 实验边界：run2 复用同一个 v4/5999 checkpoint、repo、控制阈值、20 条计划、policy noise seed、simulation seed 和确定性 chunk seed 规则；没有修改代码、模型或评测条件。允许变化的目标变量是 RTX 渲染随机性。
+- 重复性中间结果：40/40 有效报告，run1/run2 成功数都是 17；当前 status consistency `100%`、outcome flip case `0`。这说明失败并非一次性渲染偶然，但仍不能把“一致”误写成“成功”。
+- 稳定失败：010 两轮均低抬升后跌出工作台；011 两轮均跌出工作台；015 两轮均停在目标边缘且未完成释放。run2 中 010/011/015 的 target position error 分别约 `11.892/11.730/0.0551 m`，三条 `release_not_verified` 均继续存在。
+- 轨迹幅度变化：虽然 PASS/FAIL 未翻转，细指标受 RTX 闭环路径影响。015 的 lift 从 run1 `0.01969 m` 变为 run2 `0.02219 m`，跨过 0.02 m 子条件；最终误差从 `0.06835 m` 改善到 `0.05509 m`，但仍高于 0.05 m 且未释放。011 的 run2 最终夹爪为打开状态，但未在“已抬升且接近目标”的连续两 chunk 窗口内完成验证，随后方块越界。
+- 结论：010/011 是稳定的抓取/搬运失稳，015 是接近门槛的稳定未收敛；v5 应分别采集跌落前恢复/稳定抬升轨迹和目标边缘连续释放轨迹，而不是笼统增加图像增强。
+- Git 优化：suite 的 full summary 含逐条完整 task report，单份约 12 万行；run1 已保留一份完整结构化证据。run2 不再重复提交 full summary，只提交 compact failure taxonomy，完整 summary、task report、PNG、NPZ 和 runner log 保留远端且不进 Git。
+- 安全边界：run2 全程 Isaac Lab 仿真，`real_robot_command_sent=false`；普通失败未重试，run1 成绩仍固定为 17/20。
+- 下一步：提交本条 compact 证据；继续无改动运行 run3，随后用预注册分析器生成 20×3 matrix，要求 60/60 报告、至少 95% status consistency 且最多 1 个 flip。该重复性门禁即使 PASS，也不会覆盖 run1 成功门禁 FAIL。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

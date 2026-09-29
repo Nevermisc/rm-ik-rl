@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "ce1952d",
-  "working_version": "v4-fc-wip.049",
+  "git_baseline": "648302c",
+  "working_version": "v4-fc-wip.050",
   "committed": true,
-  "phase": "v4_fresh_run1_failed_repeatability_diagnostics_next",
-  "current_action": "commit the complete 17-of-20 run1 and failure taxonomy, then run the unchanged run2 and run3 solely as repeatability diagnostics before designing any v5 correction",
+  "phase": "v4_run2_complete_zero_flips_run3_next",
+  "current_action": "commit the compact run2 repeatability evidence, then run the unchanged third RTX repeat and build the preregistered 20-by-3 outcome matrix",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the compact run1 summary and failure taxonomy without adding the raw 20-episode evaluation dataset",
-    "run preregistered run2 and run3 with the same checkpoint, controller, plan, thresholds and seeds to measure RTX outcome flips, not to replace the failed first-run score",
-    "after 60 valid reports, freeze the v4 cases as development evidence and derive a v5 correction plan plus a new held-out confirmation plan"
+    "commit only the compact run2 failure taxonomy; keep its full 120k-line summary and raw 20-episode dataset out of Git",
+    "run preregistered run3 with the same checkpoint, controller, plan, thresholds and seeds",
+    "analyze all 60 reports for status consistency and outcome flips, then freeze v4 cases as development evidence before designing v5"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -181,6 +181,19 @@
     },
     "normal_model_failures_retried": false,
     "raw_evaluation_dataset_committed_to_git": false,
+    "real_robot_command_sent": false
+  },
+  "v4_repeatability_progress": {
+    "completed_run_count": 2,
+    "valid_report_count": 40,
+    "run_success_counts": [17, 17],
+    "run_success_rates": [0.85, 0.85],
+    "failed_case_ids_run1": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
+    "failed_case_ids_run2": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
+    "outcome_flip_case_count_so_far": 0,
+    "status_consistency_rate_so_far": 1.0,
+    "repeatability_gate_finalized": false,
+    "first_run_success_gate_remains_failed": true,
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false
