@@ -405,6 +405,20 @@
 - 安全边界：全程仅执行 Isaac Lab 仿真，`real_robot_command_sent=false`；没有覆盖 v2/v3 checkpoint。
 - 下一步：提交并推送 run2 小型证据，然后执行相同计划的 run3；三次全部完成后运行 `analyze`，要求 60/60 报告有效、状态一致率至少 95%、翻转 case 不超过 1 条。之后才能据重复性结果设计 v4 定向纠正集和全新预注册确认计划。
 
+### v3-fc-wip.036：建立数据集与 checkpoint 的跨机器保存合同
+
+- Git 基线：`9e2b7e1`（run2 紧凑证据已推送）；状态：保存工具与资产范围准备提交，run3 同时继续执行。
+- 准备做：解决“原始数据不应进入普通 Git，但只留在远端单盘又无法抗误删/磁盘故障”的恢复风险；在不干扰正在写入的 run3 前提下，先冻结 v3 核心资产范围和跨机器校验算法。
+- 资产盘点：基础专家数据约 `2.0 GiB`、失败纠正专家数据约 `1.7 GiB`、66 episode LeRobot 转换数据约 `2.0 GiB`；v2 起始 checkpoint 与 v3 最终 checkpoint 各约 `5.4 GiB`。run1/run2 原始评测分别约 `716/776 MiB`，run3 尚在写入，因此不能提前生成最终哈希。
+- 做了什么：新增 `build_data_preservation_manifest.py`，逐文件计算 SHA-256，再按相对路径、字节数和文件摘要生成紧凑 tree hash；新增跨目录复制一致、单文件内容变化必失败的回归测试。
+- 冻结范围：新增 v3 preservation spec，纳入两份原始训练集、转换数据、v2/v3 checkpoint、norm stats 和 run1/run2/run3 原始评测。每项同时声明优先级、可重建性、源路径和备份相对路径。
+- 文档合同：明确 Git 只保存代码、配置、日志和紧凑 manifest；原始数据/checkpoint 至少保留两份且第二份必须与源 manifest 比较为 PASS。文件数相同不等于备份有效。
+- 遇到的问题：现有 `hash_asset_tree.py` 会输出逐文件清单，数 GB 数据可能产生不适合 Git 的大型 JSON；而只记录目录大小又不能检测同大小内容损坏。
+- 怎么解决：新工具保留逐文件内容校验强度，但最终 JSON 每个资产只写文件数、总字节数和一个聚合 tree hash，避免把海量文件表提交 Git。
+- 验证：Python 编译、JSON 解析、`git diff --check` 和“相同副本 PASS/修改一个文件 FAIL”回归均通过。正式源 manifest 必须等 run3 完成并停止写入后再生成。
+- 安全边界：该更新只读取文件并计算哈希，不触发仿真动作或真实机械臂；不会覆盖 v2/v3 checkpoint，也不会把数据集/checkpoint 暂存进 Git。
+- 下一步：同步并提交保存工具；run3 完成后生成源 manifest，再把约 19 GiB v3 核心资产复制到独立本地备份根并逐项对照验证。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

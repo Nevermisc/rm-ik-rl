@@ -1,16 +1,17 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "f74f877",
-  "working_version": "v3-fc-wip.035",
+  "git_baseline": "9e2b7e1",
+  "working_version": "v3-fc-wip.036",
   "committed": true,
-  "phase": "failure_correction_repeatability_run2_complete",
-  "current_action": "commit and push the compact run2 repeatability evidence, then run the final same-plan run3 before computing the frozen 20x3 stability matrix",
+  "phase": "data_preservation_tooling_ready_run3_in_progress",
+  "current_action": "finish repeatability run3, then hash the stable v3 source assets and create a second verified copy without committing raw data or checkpoints to Git",
   "latest_confirmed_complete_episode_count": 30,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "run the final same-plan run3 strictly as repeatability evidence and analyze the frozen 20x3 outcome matrix",
+    "finish the final same-plan run3 and analyze the frozen 20x3 outcome matrix",
+    "generate the v3 source preservation manifest only after run3 stops writing, then create and verify a second copy",
     "build a v4 correction set for the three failed conditions, then preregister an entirely new held-out confirmation plan"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
