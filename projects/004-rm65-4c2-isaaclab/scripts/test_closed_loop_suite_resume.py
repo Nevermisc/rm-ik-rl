@@ -24,9 +24,14 @@ def write_report(
     historical_threshold: bool = False,
 ) -> None:
     report = {
+        "status": "pass",
         "policy_checkpoint_id": "experiment/29999",
         "pi05_used": True,
         "simulation_only": True,
+        "real_robot_command_sent": False,
+        "prompt": "move the block",
+        "transfer_joint_1_rad": 0.8,
+        "source_offset_xy_m": [0.002, -0.003],
     }
     if historical_threshold:
         report["criteria"] = {"final_gripper_normalized_lt": threshold}
@@ -47,28 +52,41 @@ def write_report(
 
 
 def main() -> int:
+    expected_contract = (
+        "experiment/29999", 0.12, 0.20, 120, False, 8000, 7000,
+        "move the block", 0.8, 0.002, -0.003,
+    )
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "task_report.json"
         write_report(path, 0.12, 0.20, 8000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8000, 7000) is not None
-        assert load_existing_report(path, "experiment/29999", 0.10, 0.20, 120, False, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.25, 120, False, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 80, False, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, True, 8000, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8001, 7000) is None
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 8000, 7001) is None
+        assert load_existing_report(path, *expected_contract) is not None
+        for index, wrong_value in (
+            (1, 0.10),
+            (2, 0.25),
+            (3, 80),
+            (4, True),
+            (5, 8001),
+            (6, 7001),
+            (7, "different prompt"),
+            (8, 0.81),
+            (9, 0.003),
+            (10, -0.004),
+        ):
+            wrong_contract = list(expected_contract)
+            wrong_contract[index] = wrong_value
+            assert load_existing_report(path, *wrong_contract) is None
 
         write_report(path, 0.12, 0.20, 9000, 7000, historical_threshold=True)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
+        assert load_existing_report(path, *expected_contract) is None
 
         write_report(path, None, None, 9000, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
+        assert load_existing_report(path, *expected_contract) is None
 
         write_report(path, 0.12, 0.20, None, 7000)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
+        assert load_existing_report(path, *expected_contract) is None
 
         write_report(path, 0.12, 0.20, 9000, None)
-        assert load_existing_report(path, "experiment/29999", 0.12, 0.20, 120, False, 9000, 7000) is None
+        assert load_existing_report(path, *expected_contract) is None
 
     plan_path = (
         Path(__file__).resolve().parents[1]
@@ -104,7 +122,7 @@ def main() -> int:
     )
     assert strict_below["passed"] is False
 
-    print(json.dumps({"status": "pass", "checks": 24}, indent=2))
+    print(json.dumps({"status": "pass", "checks": 28}, indent=2))
     return 0
 
 

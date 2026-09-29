@@ -254,6 +254,92 @@
 - 怎么确认：检查 OpenPI `train.py`，真正的调用门禁是 `step % config.save_interval == 0` 或最后一步；本次 config 的 `save_interval=2000`，因此不会每步写 6.8 GiB。内部 manager 的 1 只是允许每次显式 save 调用生效。
 - 下一步：持续监控到 step 2,000，确认首个 checkpoint 原子提交；同时观察进度恢复后实际吞吐和是否出现 NaN/OOM。完成 9,999 后核验正式 PASS 报告与最终 params。
 
+### v3-fc-wip.023：首个正式 checkpoint 原子提交并恢复训练
+
+- Git 基线：`e48994e`（正式训练运行记录已推送）；状态：训练运行中，本条待后续同步。
+- 做了什么：持续读取逐 step 指标至 step 2,000；确认 checkpoint 进入临时目录、写入 params/train_state/assets、完成跨处理器验证并原子重命名为正式 `2000` 目录。
+- 训练健康：step 0–2,000 可见 loss/grad norm 全部有限；warmup 后参数范数缓慢从 `1803.8978` 到约 `1803.8989`，没有 NaN、OOM 或突然跳变。checkpoint 完成后训练已恢复至至少 step 2,130，指标仍有限。
+- Checkpoint 性能：主线程阻塞传输 6.87 秒；6.4 GiB params 加约 397.9 MiB train state 的异步完整保存耗时 107.83 秒；Orbax 报告 `No errors found in background save thread` 并完成原子提交。
+- 遇到的问题：尝试另开只读 SSH 连接检查目录时，Tailscale 要求额外网页登录认证；当前已经认证且承载训练的长连接仍正常，不影响计算与保存。
+- 怎么处理：不中断主训练连接，不为并行状态查询冒险重启；继续通过该连接的训练日志验证 4,000/6,000/8,000/9,999 里程碑。若主连接意外断开，再把 Tailscale 认证作为明确外部阻断处理。
+- 下一步：继续到 step 4,000；检查第二次保存是否自动清理/替换旧 checkpoint，避免磁盘无界增长，并继续审计有限数值。
+
+### v3-fc-wip.024：第二个 checkpoint 通过并暴露单恢复点风险
+
+- Git 基线：`e48994e`；状态：训练运行中，本条待 Tailscale 新连接恢复后同步。
+- 做了什么：监控 step 2,000–4,000 的连续训练及第二次 checkpoint；step 4,000 前 loss/grad norm 持续有限，参数范数约 `1803.9000`。
+- 结果：step 4,000 checkpoint 的主线程阻塞传输约 4.14 秒，后台写盘约 1 分钟后完成 params/train_state/assets 验证和原子目录提交；训练同时继续并至少到 step 4,207，指标正常。
+- 遇到的问题：`max_to_keep=1` 使 CheckpointManager 在 4,000 临时目录尚未原子提交时开始删除旧 2,000 checkpoint。正常运行可控制磁盘，但断电窗口内可能暂时没有完整恢复点。
+- 为什么本轮不改：当前 TrainConfig 已在进程内冻结，修改磁盘脚本不会影响正在运行的 manager；中断重启只为改变保留数反而制造更大风险。
+- 后续怎么改：下一次正式训练把 checkpoint 保留数显式设为至少 2，并加测试/日志断言；本轮继续紧盯每次原子提交，不把临时目录当成可恢复 checkpoint。
+- 下一步：继续至 step 6,000 并确认第三次原子提交；完成前不启动评测或第二训练进程。
+
+### v3-fc-wip.025：step 6,000 checkpoint 通过，训练进入后 40%
+
+- Git 基线：`e48994e`；状态：训练运行中，本条待同步。
+- 做了什么：继续监控 step 4,000–6,000 的全部进度和抽样逐步指标；确认 step 6,000 checkpoint 的临时写入、handler commit、数组元数据验证及原子重命名。
+- 训练健康：step 6,000 前 loss/grad norm 仍全部有限，参数范数约 `1803.9009`；checkpoint 后至少恢复至 step 6,172，吞吐重新达到约 4.4 step/s。
+- Checkpoint 性能：主线程阻塞约 1.22 秒，后台写完约 6.8 GiB 数据约 53–54 秒，较 step 2,000 的 107.83 秒明显改善；保存期间训练短暂降到 1–3 step/s，完成后恢复。
+- 下一步：继续至 step 8,000 并完成倒数第二个周期 checkpoint；然后只剩最终 9,999 保存与 PASS 报告。
+
+### v3-fc-wip.026：step 8,000 checkpoint 通过，进入最终训练区间
+
+- Git 基线：`e48994e`；状态：训练运行中，本条待同步。
+- 做了什么：监控 step 6,000–8,000；确认一次约 74 秒的 checkpoint 后延迟页回写停顿会自行恢复，随后完成 step 8,000 checkpoint 全流程。
+- 训练健康：8,000 前逐步 loss/grad norm 均有限；参数范数约 `1803.9014`。checkpoint 后训练已恢复到至少 step 8,210，吞吐约 4.4 step/s。
+- Checkpoint 结果：step 8,000 异步完整保存耗时 54.56 秒，params/train_state/assets 原子提交完成且后台无错误；旧 step 6,000 删除完成。
+- 遇到的问题：step 6,890 附近出现约 74 秒无 checkpoint 进度停顿，随后恢复到 4.5 step/s；结合主机曾出现的 `folio_wait_bit_common`，判断为大 checkpoint 后延迟页回写/内存回收，而非数值或 GPU 故障。
+- 后续优化：除了保留两个 checkpoint，还应评估只保存可训练 LoRA/optimizer 子树或降低完整 checkpoint 频率，减少每次约 6.8 GiB 写盘和后续页回写抖动；任何格式变化都必须先验证 OpenPI restore 兼容性。
+- 下一步：完成剩余约 1,790 step，核验最终 `9999/params` 与正式 PASS 报告；训练进程完全退出前不启动模型加载评测。
+
+### v3-fc-wip.027：10k 正式纠正微调完成并通过产物门禁
+
+- Git 基线：`e48994e`；状态：训练已完成，本条与正式训练报告待同步提交。
+- 准备做：把最终 checkpoint 与结构化报告封存为可审计证据；随后按冻结顺序运行评测 preflight、offline 和全新条件 run1，不把训练集/旧评测集结果冒充最终成绩。
+- 做了什么：持续监控至 step 9,999，等待最终完整 checkpoint 原子提交、正式报告生成和训练进程自然退出；没有并行启动模型加载或仿真评测。
+- 最终训练数值：step 9,999 的 `loss=0.0018`、`grad_norm=0.1399`、`param_norm=1803.9016`，均为有限值；10,000 步计算用时约 42 分 55 秒。
+- Checkpoint 结果：最终约 6.8 GiB 完整 checkpoint 用时 52.20 秒完成后台保存和原子提交，最终参数目录为 `outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v3_lora_10k/9999/params`；训练进程清理后以 exit code 0 退出。
+- 报告门禁：`results/pi05_rm65_failure_correction_v3_10k.json` 为 `status=pass`，并记录 `num_train_steps=10000`、`batch_size=1`、warmup 500、峰值学习率 `5e-6`、衰减到 `1e-6`、最终 checkpoint `/9999`。
+- 安全边界：本阶段只有仿真训练与文件读写，`simulation_only=true`、`real_robot_command_sent=false`，没有连接或控制真实 RM65-B。
+- 遇到的问题：完整保存仍产生 52–108 秒 I/O 开销及偶发页回写停顿；`max_to_keep=1` 还会在新临时 checkpoint 提交前删除上一恢复点，存在单恢复点风险。
+- 后续优化：未来正式训练默认至少保留 2 个完整 checkpoint；是否改成 LoRA/optimizer 子树保存，必须先用独立 smoke 验证 OpenPI 恢复兼容性，不能直接改变当前可恢复格式。
+- 下一步：先只读核验正式 JSON 和 `9999/params`，精确提交小型报告与日志；之后执行 `evaluate_rm65_pi05_failure_correction_v3.sh preflight`、`offline`、`run1`。只有全新 20 条达到至少 18/20，且三次重复的一致率至少 95%、翻转不超过 1 条，才允许宣称通过最终确认门禁。
+
+### v3-fc-wip.028：把物理条件纳入正式评测断点复用合同
+
+- Git 基线：`e48994e`；状态：本地修复待远端测试与提交。
+- 准备做：在运行全新条件 run1 前静态审计断点续跑和三次重复分析，排除错误复用旧报告的可能性。
+- 遇到的问题：`load_existing_report` 已核对 checkpoint、控制阈值、策略种子和仿真种子，但没有核对 prompt、转移角和源 `(x,y)` 偏移；若计划文件意外漂移而 case id/种子不变，同名目录中的旧报告可能被复用。重复性分析也没有独立检查这三项物理条件。
+- 为什么做：正式确认集禁止选择性重试，但也不能把不同物理条件的报告当成同一试验。只冻结种子不足以完整定义一个评测 case。
+- 怎么解决：任务报告在正常结束和 IK 预检失败两条路径都显式保存 `prompt`、`transfer_joint_1_rad`、`source_offset_xy_m`；suite 恢复门禁要求状态为 pass/fail、仿真-only、未发真机指令，并逐值匹配这三个条件；三次重复矩阵也把它们列为每份报告的有效性检查。
+- 测试：扩展断点恢复测试，分别扰动 prompt、角度、x、y 并要求拒绝；扩展预检报告与重复矩阵测试，确保正常/失败报告都具备完整条件来源。
+- 安全边界：不改变冻结的 20 条条件、checkpoint、动作控制、门槛或随机种子，仅增强证据身份校验；仍为仿真-only。
+- 下一步：认证恢复后先在远端运行 Python 编译与三组回归测试，再同步正式训练证据并开始 staged evaluation。
+
+### v3-fc-wip.029：把正式训练与确认计划完整合同纳入评测 preflight
+
+- Git 基线：`e48994e`；状态：本地静态验证完成，待远端动态 preflight。
+- 准备做：继续审计 `evaluate_rm65_pi05_failure_correction_v3.sh preflight`，确保它验证的不只是“有 checkpoint 和 20 条 case”，而是训练、归一化资产和预注册门槛的完整冻结合同。
+- 遇到的问题：原 preflight 只检查训练报告 PASS、checkpoint id/repo id、20 条 case、90% 成功率、3 次重复和 95% 一致率；没有拒绝训练超参数漂移、norm asset 路径/内容漂移、确认计划验证报告失败、最大翻转数或控制器阈值变化。
+- 为什么做：正式 run1 一旦开始，其失败不能选择性重试。应在加载模型和创建第一个评测目录前，尽可能把可静态发现的配置错误全部 fail-closed。
+- 怎么解决：新增精确训练合同（config、实验名、10k、batch 1、warmup 500、`5e-6→1e-6`、simulation-only）、norm report/路径/SHA-256、确认计划验证报告全部 checks、首次独立确认语义、正常失败禁止重试、20/20 与 18/20 门槛、60 份报告、95% 一致率、最多 1 条翻转，以及冻结的控制阈值和哈希要求。
+- 验证：脚本结构保持先取得并核对最终 checkpoint，再执行静态合同门禁；本地将运行 shell 语法检查和差异检查，动态资产校验必须在 Tailscale 认证恢复后于远端执行。
+- 安全边界：只增强启动前只读校验，不改模型、计划内容、控制动作或结果判定，也不会触发真实机械臂。
+- 下一步：远端执行新增 preflight；任何一项漂移都停止，不创建 run1 数据目录。全部 PASS 后再做 offline inference。
+
+### v3-fc-wip.030：远端回归与完整评测 preflight 通过
+
+- Git 基线：`e48994e`；状态：代码与正式训练证据准备提交。
+- 准备做：先封存正式 10k 报告、评测来源加固和 preflight 结果，再加载 5.4 GiB 最终 checkpoint 做离线推理；不让尚未提交的代码与长时间评测混在同一不可追溯状态。
+- 做了什么：SSH 认证恢复后，只读核验正式训练报告 JSON、`rm65_failure_correction_v3_lora_10k/9999/params` 目录及 checkpoint 总体积约 5.4 GiB；同步 v3-fc-wip.028/.029 代码和日志到远端。
+- 回归结果：7 个相关 Python 文件编译通过；断点恢复 28 项、闭环任务报告回归、三次重复矩阵测试全部 PASS；评测 shell 语法、状态/训练 JSON 解析和 `git diff --check` 均通过。
+- 动态 preflight：`evaluate_rm65_pi05_failure_correction_v3.sh preflight` 返回 `RM65_FAILURE_CORRECTION_V3_EVALUATION_PREFLIGHT=PASS`。这同时证明训练合同、最终 checkpoint id、norm asset 路径/SHA、20 条预注册计划验证、18/20 成功门槛、60 份重复报告、95% 一致率、最多 1 条翻转和控制阈值均未漂移。
+- 遇到的问题：此前 Tailscale 要求额外网页登录，导致新 SSH 会话阻断数小时；认证恢复后无需接触或保存用户密码即可重新连接。
+- 怎么解决：把认证保留为用户亲自完成的一次性安全步骤；连接恢复后重新从只读产物检查开始，没有假定等待期间远端状态不变。
+- Git 边界：只提交 8 个代码/测试文件、2 个日志文件和正式训练小型 JSON；不暂存数据集、checkpoint、缓存或其他历史未跟踪结果。
+- 安全边界：所有检查均为仿真、文件和模型合同验证，`real_robot_command_sent=false`。
+- 下一步：运行 `offline`，要求单观测推理与 held-out imitation 全部生成有限、形状正确的动作；offline 只能证明模型可加载和推理，不能替代全新条件闭环 run1。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

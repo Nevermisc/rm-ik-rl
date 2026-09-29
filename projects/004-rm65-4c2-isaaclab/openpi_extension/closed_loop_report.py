@@ -32,6 +32,9 @@ def build_preflight_safety_failure_report(
     policy_noise_seed: int | None,
     simulation_seed: int,
     prompt: str,
+    transfer_joint_1_rad: float,
+    source_offset_x_m: float,
+    source_offset_y_m: float,
     policy_max_action_chunks: int,
     policy_execute_actions_per_chunk: int,
     record_stride_steps: int,
@@ -56,6 +59,8 @@ def build_preflight_safety_failure_report(
         "policy_noise_seed": policy_noise_seed if pi05_used else None,
         "simulation_seed": simulation_seed,
         "prompt": prompt,
+        "transfer_joint_1_rad": transfer_joint_1_rad,
+        "source_offset_xy_m": [source_offset_x_m, source_offset_y_m],
         "action_chunks": 0,
         "executed_actions": 0,
         "controller_config": {

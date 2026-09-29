@@ -19,6 +19,12 @@ def report(case: dict, status: str, image_suffix: str) -> dict:
         "policy_checkpoint_id": "checkpoint/1",
         "policy_noise_seed": case["policy_noise_seed"],
         "simulation_seed": case["simulation_seed"],
+        "prompt": case["prompt"],
+        "transfer_joint_1_rad": case["transfer_joint_1_rad"],
+        "source_offset_xy_m": [
+            case["source_offset_x_m"],
+            case["source_offset_y_m"],
+        ],
         "action_chunks": 1,
         "executed_actions": 5,
         "initial_policy_observation": {"chunk_index": 0},
@@ -48,8 +54,16 @@ def report(case: dict, status: str, image_suffix: str) -> dict:
 
 def main() -> int:
     cases = [
-        {"case_id": "stable", "policy_noise_seed": 1, "simulation_seed": 11},
-        {"case_id": "flip", "policy_noise_seed": 2, "simulation_seed": 12},
+        {
+            "case_id": "stable", "policy_noise_seed": 1, "simulation_seed": 11,
+            "prompt": "move the block", "transfer_joint_1_rad": 0.8,
+            "source_offset_x_m": 0.002, "source_offset_y_m": -0.003,
+        },
+        {
+            "case_id": "flip", "policy_noise_seed": 2, "simulation_seed": 12,
+            "prompt": "place the block", "transfer_joint_1_rad": 0.9,
+            "source_offset_x_m": -0.004, "source_offset_y_m": 0.006,
+        },
     ]
     plan = {
         "cases": cases,

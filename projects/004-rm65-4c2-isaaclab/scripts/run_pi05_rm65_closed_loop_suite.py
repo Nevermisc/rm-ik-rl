@@ -126,6 +126,10 @@ def load_existing_report(
     reset_renderer_accumulation: bool,
     policy_noise_seed: int,
     simulation_seed: int,
+    prompt: str,
+    transfer_joint_1_rad: float,
+    source_offset_x_m: float,
+    source_offset_y_m: float,
 ) -> dict | None:
     if not path.is_file():
         return None
@@ -133,9 +137,29 @@ def load_existing_report(
         report = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return None
+    if report.get("status") not in {"pass", "fail"}:
+        return None
     if report.get("policy_checkpoint_id") != checkpoint_id:
         return None
-    if report.get("pi05_used") is not True or report.get("simulation_only") is not True:
+    if (
+        report.get("pi05_used") is not True
+        or report.get("simulation_only") is not True
+        or report.get("real_robot_command_sent") is not False
+    ):
+        return None
+    if report.get("prompt") != prompt:
+        return None
+    try:
+        report_angle = float(report.get("transfer_joint_1_rad"))
+        report_offsets = [float(value) for value in report.get("source_offset_xy_m", [])]
+    except (TypeError, ValueError):
+        return None
+    if (
+        abs(report_angle - transfer_joint_1_rad) > 1e-9
+        or len(report_offsets) != 2
+        or abs(report_offsets[0] - source_offset_x_m) > 1e-9
+        or abs(report_offsets[1] - source_offset_y_m) > 1e-9
+    ):
         return None
     existing_threshold = report_gripper_open_threshold(report)
     if existing_threshold is None or abs(existing_threshold - gripper_open_threshold) > 1e-9:
@@ -326,6 +350,10 @@ def main() -> int:
                     args.reset_renderer_accumulation_before_policy_observation,
                     case_seed,
                     simulation_seed,
+                    case["prompt"],
+                    float(case["transfer_joint_1_rad"]),
+                    float(case["source_offset_x_m"]),
+                    float(case["source_offset_y_m"]),
                 )
                 if existing is not None:
                     print(f"[{position}/{len(cases)}] {case_id}: reuse {existing['status']}", flush=True)
@@ -395,6 +423,10 @@ def main() -> int:
                         args.reset_renderer_accumulation_before_policy_observation,
                         case_seed,
                         simulation_seed,
+                        case["prompt"],
+                        float(case["transfer_joint_1_rad"]),
+                        float(case["source_offset_x_m"]),
+                        float(case["source_offset_y_m"]),
                     )
                     if report is not None:
                         break

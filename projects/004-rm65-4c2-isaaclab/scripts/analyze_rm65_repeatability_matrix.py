@@ -44,6 +44,16 @@ def load_valid_report(
     if not path.is_file():
         return None, ["missing_report"]
     report = json.loads(path.read_text(encoding="utf-8"))
+    expected_offsets = [
+        float(case.get("source_offset_x_m")),
+        float(case.get("source_offset_y_m")),
+    ]
+    try:
+        report_angle = float(report.get("transfer_joint_1_rad"))
+        report_offsets = [float(value) for value in report.get("source_offset_xy_m", [])]
+    except (TypeError, ValueError):
+        report_angle = None
+        report_offsets = []
     checks = {
         "status": report.get("status") in {"pass", "fail"},
         "simulation_only": report.get("simulation_only") is True,
@@ -52,6 +62,14 @@ def load_valid_report(
         "checkpoint": report.get("policy_checkpoint_id") == checkpoint_id,
         "policy_noise_seed": report.get("policy_noise_seed") == case.get("policy_noise_seed"),
         "simulation_seed": report.get("simulation_seed") == case.get("simulation_seed"),
+        "prompt": report.get("prompt") == case.get("prompt"),
+        "transfer_joint_1_rad": report_angle is not None
+        and abs(report_angle - float(case.get("transfer_joint_1_rad"))) <= 1e-9,
+        "source_offset_xy_m": len(report_offsets) == 2
+        and all(
+            abs(actual - expected) <= 1e-9
+            for actual, expected in zip(report_offsets, expected_offsets, strict=True)
+        ),
         "action_chunks_positive": isinstance(report.get("action_chunks"), int)
         and report["action_chunks"] > 0,
         "executed_actions_positive": isinstance(report.get("executed_actions"), int)
