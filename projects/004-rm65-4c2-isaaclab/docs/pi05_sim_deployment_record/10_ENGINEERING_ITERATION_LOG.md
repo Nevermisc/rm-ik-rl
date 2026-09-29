@@ -340,6 +340,18 @@
 - 安全边界：所有检查均为仿真、文件和模型合同验证，`real_robot_command_sent=false`。
 - 下一步：运行 `offline`，要求单观测推理与 held-out imitation 全部生成有限、形状正确的动作；offline 只能证明模型可加载和推理，不能替代全新条件闭环 run1。
 
+### v3-fc-wip.031：最终 checkpoint 离线推理与 held-out imitation 通过
+
+- Git 基线：`79e66ce`（训练完成与评测来源加固已推送）；状态：offline 证据准备提交。
+- 准备做：在启动 Isaac Sim 全新条件 run1 前，实际加载最终 `9999` checkpoint，验证单帧推理、动作形状/有限性、安全 guard 和 held-out validation policy-window 误差。
+- 单帧结果：checkpoint 首次加载 `17.59 s`、首次推理 `10.97 s`，动作形状 `[10,7]` 且全部有限；关节限位和步长裁剪均为 0，夹爪范围裁剪 1 次，最大输出关节步长 `0.00875 rad`。
+- Held-out 结果：9 个 validation episode × 5 帧，共 45 个样本全部完成并返回 PASS；首次 JAX 推理 `9.59 s`，含编译后的平均推理 `0.310 s`，p95 `0.100 s`。
+- 误差：horizon arm MAE `0.00560 rad`、p95 `0.02060 rad`；gripper MAE `0.00615`、p95 `0.00809`；首动作手臂平均 L2 `0.01214 rad`、最大 `0.08006 rad`。
+- 安全 guard：45×10 个预测动作中累计 53 次关节步长裁剪和 173 次夹爪范围裁剪，无关节限位裁剪。offline PASS 只证明安全整形可用和输出数值健康；较多 gripper clamp 必须在闭环 run1 中观察是否影响释放时序。
+- 语义边界：`simulation_action_executed=false`、`real_robot_command_sent=false`、`task_success_claimed=false`。离线模仿误差不等于任务成功率，不能用来提前宣称部署完成。
+- 遇到的问题：首次下载证据时把脚本实际的 `rm65_pi05_...` 文件名前缀误写为 `pi05_rm65_...`，scp 因源文件不存在而失败；核对评测脚本变量后用正确文件名下载，没有改动或丢失远端结果。
+- 下一步：提交两个小型 offline JSON 和本条日志，然后启动冻结 20 条计划的 run1。run1 正常模型失败不得重试；只有缺少有效 task report 的基础设施失败可按脚本最多重试一次。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
