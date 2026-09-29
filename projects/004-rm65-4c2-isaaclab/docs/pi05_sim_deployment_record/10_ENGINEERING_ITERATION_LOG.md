@@ -621,6 +621,19 @@
 - 安全边界：三轮全部为 Isaac Lab 仿真，自动报告 `simulation_only=true`、`real_robot_command_sent=false`；没有启动真实机械臂命令。
 - 下一步：精确提交本条最终 v4 证据；在开始 v5 纠正采集前，为 v4/5999 checkpoint、norm 和三轮原始评测建立第二份校验副本。随后冻结 v5 的纠正采集计划、低学习率续训合同与全新 held-out 最终确认计划。
 
+### v4-fc-wip.052：冻结 v4 模型与三轮评测的六资产保存合同
+
+- Git 基线：`134ff26`（最终 v4 20×3 证据已推送）；状态：备份 spec、两副本 gate 和损坏副本测试已实现，尚未开始源哈希或传输。
+- 准备做：在把 v4 评测条件用于 v5 纠正之前，先保存能完整复盘“训练得到什么、三次实际发生什么”的关键资产；避免只在 Git 中留下摘要，而原始 checkpoint/trajectory 因后续清理丢失。
+- 六项范围：v4 recovery checkpoint 4000、final checkpoint 5999、冻结 norm stats、confirmation run1/run2/run3 原始目录。精确预盘点为 66,585 个文件、`14,081,286,311` bytes。
+- 为什么保留 4000：最终 5999 未过独立成功门禁，4000 是唯一冻结的中间恢复点，后续可用于离线比较或从更早增量状态继续；仅保留 5999 会丢失低成本回退能力。
+- 为什么不再复制 102-episode LeRobot repo：它约 3GB，但可由已经有两份验证副本的 base/v3/v4 原始训练数据和 Git 中的转换代码重建；norm stats 和 checkpoint 则属于冻结训练合同，必须直接保存。
+- 新 spec：`rm65_pi05_v4_release_preservation_assets.json` 为每项定义 source/backup 相对路径、优先级和可重建性；backup 根将使用本机 `RM65_DATA_BACKUP_DO_NOT_GIT/v4_release_2026_09_29`，不会进入 Git。
+- 新 gate：`check_rm65_v4_release_backup_gate.py` 要求固定 spec id、固定六个 asset id、精确 66,585 文件与 14,081,286,311 bytes、每项 tree hash 匹配、source manifest SHA 匹配和仿真 provenance；任一项损坏则 verified copy count 从 2 降为 1。
+- 回归：合成健康 manifest 必须 PASS；将任一资产 `matches_reference=false` 必须 FAIL。下一步还要在远端真实 source manifest 上动态验证精确盘点，静态预盘点不能代替逐文件 SHA。
+- 数据/Git 边界：只提交 spec、gate、test 与日志；约 14.08GB 资产、归档和本机副本均不进入 Git。没有真实机械臂命令。
+- 下一步：远端编译和单测 PASS 后提交本版本；随后生成 source manifest 和 source-manifest SHA，逐项归档并传到本机，安全解包后从本机文件重新计算 backup manifest，最后 gate PASS 才开始 v5 规划。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

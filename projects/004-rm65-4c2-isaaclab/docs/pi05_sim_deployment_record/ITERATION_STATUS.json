@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "75c4c3e",
-  "working_version": "v4-fc-wip.051",
+  "git_baseline": "134ff26",
+  "working_version": "v4-fc-wip.052",
   "committed": true,
-  "phase": "v4_repeatability_passed_success_gate_failed_v5_planning",
-  "current_action": "commit the finalized v4 20-by-3 evidence, preserve the v4 evaluation and checkpoint assets, then freeze all v4 cases as development-only inputs for a preregistered v5 correction workflow",
+  "phase": "v4_release_backup_contract_frozen_source_hash_next",
+  "current_action": "commit the frozen six-asset v4 release preservation contract and gate, then hash the source assets before any archive or v5 mutation",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit only the run3 compact taxonomy and finalized repeatability matrix; keep full run2/run3 summaries and raw episodes out of Git",
-    "create and verify an independent backup manifest for the v4 production checkpoint, norm asset and three raw evaluation runs before using them as v5 development evidence",
-    "generate a v5 correction plan from three stable failures plus one renderer-sensitive flip, and preregister another disjoint held-out confirmation plan before v5 training"
+    "commit the v4 release preservation spec, fail-closed gate and damaged-copy regression test",
+    "generate a six-asset source manifest for checkpoints 4000/5999, norm stats and three raw evaluation runs",
+    "archive, transfer, safely extract and independently rehash the assets before allowing v5 correction planning"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -217,6 +217,19 @@
     "renderer_sensitive_case_ids": ["confirm_v4_017"],
     "v4_cases_frozen_as_development_only": true,
     "real_robot_command_sent": false
+  },
+  "v4_release_preservation": {
+    "spec_frozen": true,
+    "asset_count": 6,
+    "file_count_expected": 66585,
+    "total_bytes_expected": 14081286311,
+    "includes_checkpoints": [4000, 5999],
+    "includes_norm_stats": true,
+    "includes_raw_evaluation_runs": [1, 2, 3],
+    "source_manifest_generated": false,
+    "independent_backup_verified": false,
+    "verified_copy_count": 1,
+    "raw_assets_committed_to_git": false
   },
   "real_robot_command_sent": false
 }
