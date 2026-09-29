@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "ba50e76",
-  "working_version": "v4-fc-wip.056",
+  "git_baseline": "4293f0f",
+  "working_version": "v4-fc-wip.057",
   "committed": false,
-  "phase": "v5_fail_closed_pipeline_validated_commit_then_first_group",
-  "current_action": "commit the remotely validated v5 pipeline and collection preflight, then collect the first four-episode physical group",
+  "phase": "v5_first_render_group_passed_remaining_collection_next",
+  "current_action": "commit the first four-episode group evidence, then resume the remaining 44 scripted-expert simulation episodes",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the remotely validated v5 gates, entry points and actual collection preflight result",
-    "run collection preflight and collect only the first four same-state RTX repeats",
-    "audit the first physical group before resuming the remaining 44 correction episodes"
+    "commit the passing first-group same-state multi-RTX audit",
+    "resume the remaining 44 correction episodes without recollecting the completed four",
+    "audit all 12 physical groups and build a source manifest before any conversion"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -297,7 +297,22 @@
     "remote_python_tests_passed": true,
     "remote_shell_syntax_passed": true,
     "actual_collection_preflight_passed": true,
-    "collection_started": false,
+    "collection_started": true,
+    "real_robot_command_sent": false
+  },
+  "v5_first_render_group_gate": {
+    "status": "pass",
+    "physical_group_id": "confirm_v4_010_angle_minus_0p0125",
+    "episode_count": 4,
+    "frame_count_per_episode": 569,
+    "shared_simulation_seed": 892029000,
+    "command_action_max_abs_difference": 0.0,
+    "initial_physical_state_consistency": "pass",
+    "physical_trajectory_consistency": "pass",
+    "external_diverse_corresponding_frame_ratio": 1.0,
+    "wrist_diverse_corresponding_frame_ratio": 1.0,
+    "collection_episode_count_last_observed": 4,
+    "remaining_episode_count": 44,
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false

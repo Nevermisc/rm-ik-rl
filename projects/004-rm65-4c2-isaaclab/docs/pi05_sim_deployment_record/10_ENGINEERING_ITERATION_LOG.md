@@ -691,6 +691,18 @@
 - 远端验证：Python 编译通过；v4 render-group 兼容回归、v5 plan、collection backup、pipeline gate、evaluation preflight、entrypoint 静态合同测试全部 PASS；五个 shell 入口 `bash -n` PASS。随后从 Git 中冻结的 v4 release source/backup manifest 重新计算两副本 gate，实际 v5 collection preflight PASS，并输出 `COLLECTION_NOT_STARTED=true`。
 - 下一步：精确提交本版本和实际 collection gate；随后运行 first-group 4 条而不是直接吞下 48 条。
 
+### v4-fc-wip.057：v5 首个同状态四 RTX 组通过审计
+
+- Git 基线：`4293f0f`（v5 fail-closed 流水线已推送）；状态：首组 4/4 scripted-expert 仿真 episode 采集成功，独立 same-state/multi-RTX 分析 PASS，剩余 44 条尚未启动。
+- 准备做：先只采计划最前四条 `confirm_v4_010_angle_minus_0p0125`，验证新 v5 元数据、同 seed 重复和 RTX 多样性实际成立；避免计划或 recorder 接口若有问题时一次生成 48 条错误数据。
+- 采集结果：episode 000000–000003 全部 `task status=pass`、`unassisted_full_task_complete=true`、episode validation PASS、training-ready；每条 569 帧、28.4 秒，进程 exit 0。四条共享 simulation seed `892029000`，全程 `pi05_used=false`、`real_robot_command_sent=false`。
+- 物理一致性：四条 command action 最大绝对差为精确 `0.0`；初始 joint/cube 状态 gate PASS，完整 observation-state 与 cube-pose 轨迹在冻结容差内 PASS；说明重复采的是同一物理专家轨迹，不是四条不同动作。
+- 渲染差异：external 和 wrist 两路在 569/569 个对应帧上均出现不同哈希，diverse ratio 都为 `1.0`；因此同物理状态确实产生了不同 RTX 渲染，而不是复制同一批 PNG。
+- 计划覆盖：组内四个 case id、render index 0–3、repeat count 4 和共享 seed 与预注册计划逐项匹配，group coverage PASS；只有这一个组选入审计，因此没有把尚未采集的 44 条误判为缺失。
+- 遇到的非阻断信息：headless 环境持续输出 GLFW/X Server 警告、CPU powersave 警告和低分辨率 DLSS 提示；Vulkan RTX 相机正常产生图像，四条任务和数据验证均通过，故不把这些基础设施警告误分类为 episode 失败。
+- 数据/Git 边界：原始 NPZ/PNG/task report 只留远端数据目录，不提交 Git；提交小型首组分析 JSON 与日志/状态。原始数据尚未达到两副本，禁止开始转换。
+- 下一步：提交本条证据；collection runner 将识别已经完成的 4 条并只采剩余 44 条。全部完成后必须做 12/12 组审计和 raw source manifest，再复制到第二存储并通过 backup gate。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
