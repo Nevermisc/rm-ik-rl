@@ -352,6 +352,32 @@
 - 遇到的问题：首次下载证据时把脚本实际的 `rm65_pi05_...` 文件名前缀误写为 `pi05_rm65_...`，scp 因源文件不存在而失败；核对评测脚本变量后用正确文件名下载，没有改动或丢失远端结果。
 - 下一步：提交两个小型 offline JSON 和本条日志，然后启动冻结 20 条计划的 run1。run1 正常模型失败不得重试；只有缺少有效 task report 的基础设施失败可按脚本最多重试一次。
 
+### v3-fc-wip.032：中止错误重试并修复正式报告来源合同
+
+- Git 基线：`775ea82`（offline 证据已推送）；状态：run1 已中止，修复与首结果恢复待验证。
+- 准备做：启动 20 条全新条件 run1，确保正常模型失败原样计入、只有真正缺失有效报告时才允许一次基础设施重试。
+- 首次正式结果：`confirm_v3_000` 第一次执行生成了完整 task report，模型结果为 FAIL；主要失败项为最终目标误差、最终夹爪未保持打开，仿真状态有限且未触发安全中止。该失败必须作为正式 outcome 保留。
+- 遇到的问题一：pi0.5 正常完成路径的 task report 没有 `transfer_joint_1_rad` 和 `source_offset_xy_m`；v3-fc-wip.028 只把字段加入了 IK 预检失败路径。suite 因此把有效 FAIL 错判为 missing report，并运行了唯一一次 infrastructure retry。
+- 后果：错误重试得到 PASS 并覆盖同目录 task report/episode 文件；该 PASS 违反“正常模型失败不得重试”，必须完整隔离且永不进入正式统计。suite 随后开始 case 1，已在其生成有效报告前中止；所有策略/Isaac Sim 进程均已退出。
+- 遇到的问题二：`_deterministic_sampling_valid` 要求 observation hash 键恰好等于四个图像/关节字段，但运行时已合法增加 cube、tool 和 camera pose 物理状态哈希，导致正常报告的 sampling 校验恒为 false。
+- 怎么解决代码：在 pi0.5 正常报告路径写入冻结物理条件；哈希验证改为“四个必需键必须为子集，且所有附加键也必须是合法 SHA-256”；测试加入物理状态扩展哈希并保持验证 PASS。
+- 怎么恢复证据：新增 fail-closed 恢复工具，只允许从首次 `runner.log` 中 `RM65_PI05_CLOSED_LOOP` 标记前提取原始 FAIL；核对 checkpoint、双种子、prompt 和冻结计划，记录 runner log/原报告 SHA，只补入缺失的角度/偏移字段且声明 `outcome_changed=false`。原 episode 已被错误重试覆盖的限制会显式写入报告。
+- 数据处置：包含第二次 PASS 和被覆盖 episode 的整个目录将移动到独立 excluded-retry 根；case 1 的无报告中断目录也移动保留。正式 run1 目录重建 case 0 的恢复 FAIL，并从 case 1 继续。
+- 监控脚本问题：首次状态查询因 PowerShell 先解释远端 `$()` 和 `/dev/null` 而出现本地路径错误，未影响仿真；后续改用单引号包裹远端命令。
+- 安全边界：无真实机械臂命令；中止是为了防止污染正式统计，不改变模型、计划、seed 或成功门槛。
+- 下一步：远端编译和回归通过后，隔离错误重试、恢复首个 FAIL、验证 suite 会复用该 FAIL 而不再运行 case 0，然后从 case 1 恢复。
+
+### v3-fc-wip.033：首个正式 FAIL 已恢复，错误重试 PASS 已隔离
+
+- Git 基线：`775ea82`；状态：修复与恢复已验证，准备提交后恢复 run1。
+- 远端验证：相关 Python 编译、闭环报告回归、28 项 resume 合同和 9 项恢复工具测试全部 PASS；`git diff --check` 通过。
+- 正式 case 0：从首次 `runner.log` 恢复的 outcome 为 FAIL，执行满 120 chunks；方块抬升 `0.04421 m`，最终 XY/三维目标误差均约 `0.06355 m`，释放后漂移 `0.0 m`，最终夹爪归一化值 `0.52718`，无仿真安全中止。它将作为 run1 的第 1 个失败计入 20 条成功率。
+- 恢复完整性：runner log SHA-256 为 `07706014de510e45da6b04a3219b2650e3d2a9e85457831bed7422d7d1561831`；提取的原始 report SHA-256 为 `5c4488a1a500c597598f4d80958be13343a2171bcb20ba8af0ae345b0fd309c3`。只从冻结 plan 补入角度和源偏移，`outcome_changed=false`。
+- 数据隔离：错误第二次 PASS 及其覆盖后的 episode 文件完整移动到 `datasets/rm65_pi05_failure_correction_v3_confirmation_run1_excluded/confirm_v3_000_invalid_retry_attempt_2`；case 1 的中断且无报告目录移动为 `confirm_v3_001_interrupted_no_report`。没有删除任何证据。
+- 恢复门禁：suite 的 `load_existing_report` 已实际接受正式恢复 FAIL；正式 run1 根只有这一个 task report，excluded 根只有错误重试 PASS，二者不会混淆。
+- 限制：首次 FAIL 对应的 episode 文件被错误重试覆盖，已无法恢复；报告和全部 chunk 哈希仍完整保存在首次 runner log 中。该限制显式写入 `formal_outcome_recovery`，不能声称首 episode 文件仍可复现。
+- 下一步：精确提交/推送 5 个代码测试文件与日志，不提交 run 数据；重新启动 run1 时 case 0 必须显示 `reuse fail`，case 1 才允许重新执行。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

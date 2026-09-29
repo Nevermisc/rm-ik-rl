@@ -1044,6 +1044,8 @@ def run_pi05_closed_loop(
         "policy_noise_seed": args.policy_noise_seed,
         "simulation_seed": CONFIGURED_SIMULATION_SEED,
         "prompt": args.episode_prompt,
+        "transfer_joint_1_rad": args.transfer_joint_1_rad,
+        "source_offset_xy_m": [args.source_offset_x_m, args.source_offset_y_m],
         "action_chunks": action_chunks,
         "executed_actions": executed_actions,
         "policy_action_horizon": int(len(raw_actions)) if action_chunks else None,

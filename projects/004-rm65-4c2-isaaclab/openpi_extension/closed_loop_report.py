@@ -10,6 +10,14 @@ from openpi_extension.deterministic_policy import (
 )
 
 
+REQUIRED_OBSERVATION_SHA256_FIELDS = {
+    "joint_position",
+    "gripper_position",
+    "external_image",
+    "wrist_image",
+}
+
+
 def _number(value: Any) -> float | None:
     try:
         result = float(value)
@@ -177,12 +185,12 @@ def _deterministic_sampling_valid(
         expected = policy_sampling_evidence(chunk_seed, 10, 32)
         if any(chunk.get(key) != value for key, value in expected.items()):
             return False
+        observation_hashes = chunk.get("observation_sha256")
         if (
             chunk.get("chunk_index") != chunk_index
-            or not isinstance(chunk.get("observation_sha256"), dict)
-            or set(chunk["observation_sha256"])
-            != {"joint_position", "gripper_position", "external_image", "wrist_image"}
-            or not all(_sha256_string(value) for value in chunk["observation_sha256"].values())
+            or not isinstance(observation_hashes, dict)
+            or not REQUIRED_OBSERVATION_SHA256_FIELDS.issubset(observation_hashes)
+            or not all(_sha256_string(value) for value in observation_hashes.values())
             or chunk.get("raw_action_shape") != [10, 7]
             or chunk.get("raw_action_dtype") != "float32"
             or not _sha256_string(chunk.get("raw_action_sha256"))

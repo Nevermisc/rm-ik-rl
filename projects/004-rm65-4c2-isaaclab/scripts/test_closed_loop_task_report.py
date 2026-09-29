@@ -34,6 +34,7 @@ def main() -> int:
                     "gripper_position": "4" * 64,
                     "external_image": "5" * 64,
                     "wrist_image": "6" * 64,
+                    "cube_position": "7" * 64,
                 },
                 "raw_action_shape": [10, 7],
                 "raw_action_dtype": "float32",
@@ -186,6 +187,8 @@ def main() -> int:
         failure_message="unsafe IK branch jump",
     )
     assert preflight_failure["status"] == "fail"
+    assert preflight_failure["transfer_joint_1_rad"] == 0.8
+    assert preflight_failure["source_offset_xy_m"] == [0.002, -0.003]
     assert preflight_failure["action_chunks"] == 0
     assert preflight_failure["preflight_failure"]["policy_inference_started"] is False
     assert validate_closed_loop_task_report(
