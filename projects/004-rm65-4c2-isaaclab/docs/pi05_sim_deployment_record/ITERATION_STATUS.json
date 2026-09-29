@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "58e544e",
-  "working_version": "v4-fc-wip.053",
+  "git_baseline": "0cd249e",
+  "working_version": "v4-fc-wip.054",
   "committed": true,
-  "phase": "v4_release_two_copy_gate_passed_v5_planning_ready",
-  "current_action": "commit the verified six-asset v4 release backup evidence, then freeze a v5 correction collection and a new disjoint held-out confirmation plan before any data collection or training",
+  "phase": "v5_correction_and_heldout_plans_frozen_pipeline_next",
+  "current_action": "commit the validated v5 plan generator and frozen plans, then harden final-settle safety reporting and build fail-closed collection/preparation/training/evaluation entry points",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the compact source manifest, backup manifest and two-copy gate without adding archives or extracted assets",
-    "derive a v5 correction plan from stable failures 010/011/015 and renderer-sensitive flip 017, including distinct recovery/release objectives",
-    "preregister another held-out confirmation plan disjoint from all v3/v4 training and confirmation conditions before v5 collection"
+    "commit the v5 generator, regression test, 48-case correction plan, fresh 20-case confirmation plan and compact validation report",
+    "add post-settle workspace-envelope reporting so a final fallen cube cannot retain a null safety reason",
+    "freeze v5 collection, 150-episode preparation, low-learning-rate 4000-step training and fresh-evaluation gates before collection"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -235,6 +235,31 @@
     "backup_gate_status": "pass",
     "verified_copy_count": 2,
     "raw_assets_committed_to_git": false
+  },
+  "v5_plan_contract": {
+    "status": "pass",
+    "source_v4_first_run_gate_passed": false,
+    "source_v4_repeatability_gate_passed": true,
+    "source_development_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015", "confirm_v4_017"],
+    "correction_case_count": 48,
+    "physical_group_count": 12,
+    "render_repeats_per_physical_group": 4,
+    "correction_focuses": [
+      "grasp_lift_stability",
+      "transport_workspace_retention",
+      "target_edge_release_convergence",
+      "cross_render_action_consistency"
+    ],
+    "fresh_confirmation_case_count": 20,
+    "fresh_confirmation_angles_rad": [0.70625, 0.79375, 0.86875, 0.9875],
+    "target_checkpoint": "rm65_failure_correction_v5_lora_4k/3999",
+    "target_repo_id": "local/rm65_sim_failure_correction_v5_train",
+    "first_run_minimum_success_count": 18,
+    "repeatability_required_reports": 60,
+    "minimum_status_consistency_rate": 0.95,
+    "maximum_outcome_flip_cases": 1,
+    "collection_started": false,
+    "real_robot_command_sent": false
   },
   "real_robot_command_sent": false
 }

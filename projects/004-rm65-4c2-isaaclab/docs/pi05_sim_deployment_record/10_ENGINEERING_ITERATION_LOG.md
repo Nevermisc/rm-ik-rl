@@ -648,6 +648,21 @@
 - 安全边界：所有操作是只读哈希、归档、传输和解包，`real_robot_command_sent=false`。
 - 下一步：提交本条 compact 证据；从三条稳定失败和一条翻转生成 v5 纠正采集计划，同时在训练前冻结又一套与既有条件不重合的 held-out 确认计划。修复 010 最终 settle 越界漏标记，但不改变已冻结 v4 结果。
 
+### v4-fc-wip.054：冻结证据驱动的 v5 纠正与全新确认计划
+
+- Git 基线：`0cd249e`（v4 release 两副本证据已推送）；状态：v5 plan generator、回归测试、48 条纠正计划、20 条全新确认计划和 validation report 均 PASS，尚未开始采集。
+- 选择规则：从 v4 20×3 matrix 自动选择所有非 `PASS/PASS/PASS` 条件，必须精确得到三个 `FAIL/FAIL/FAIL`（010/011/015）和一个 `PASS/PASS/FAIL`（017）；pattern 或 case id 漂移即 fail-closed。
+- 纠正规模：4 个源 case × `-0.0125/0/+0.0125 rad` 三个角度邻域 × 4 个同 seed RTX 重复 = 48 条；共 12 个物理组，每组动作与物理初态应相同、图像允许不同，simulation seed 从 `892029000` 独立分配。
+- 故障分工：010 标记 `grasp_lift_stability`，011 标记 `transport_workspace_retention`，015 标记 `target_edge_release_convergence`，017 标记 `cross_render_action_consistency`。这些标签进入每条 metadata，后续可按故障目标分别审计，而不是只看总 episode 数。
+- 数据泄漏边界：v4 的 20 条确认 case 全部 development-only，禁止再次作为独立成绩。v5 纠正仅消费其中 4 条非稳定成功条件及其角度邻域。
+- v5 全新确认：20 条由四个角度 `0.70625/0.79375/0.86875/0.9875` × 五个新 offset 组成，五种 prompt 各 4 次；policy seed 从 `692029000`、simulation seed 从 `792029000` 开始。
+- 隔离验证：新 20 条与 base/v3/v4/v5 correction 的 159 个计划 case 条件和角度不重合，五个 offset 也不出现在既有训练或 v3/v4 确认中；与 v3/v4 共 40 条确认条件及其双种子完全隔离。
+- 冻结控制合同：目标 repo `local/rm65_sim_failure_correction_v5_train`，目标 checkpoint `rm65_failure_correction_v5_lora_4k/3999`；控制器仍为 120 chunks、policy open threshold 0.12、actual open threshold 0.20、连续两 chunk release verification。
+- 评测门槛：首次全新 20 条仍须至少 18/20；run2/run3 只作重复性证据，要求 60/60 报告、至少 95% case 状态一致、最多 1 个 flip。普通失败不重试，基础设施重试必须以缺失有效报告为前提。
+- 回归：本地 Python 编译和 `RM65_V5_PLAN_TEST=PASS`；实际生成 validation 的 correction/confirmation 所有 checks 为 true。远端仍需复跑后才提交。
+- 安全边界：本版本只生成计划和验证代码，未采集、转换、训练、评测或发送真实机械臂命令。
+- 下一步：提交生成器、测试和冻结计划；修复最终 settle 越界漏标记，并在采集前实现 v5 collection→backup→150-episode preparation→4000-step low-LR training→fresh evaluation 的完整 fail-closed 入口。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
