@@ -26,6 +26,7 @@
       "physical_group_seeds_unique": true,
       "four_failure_focuses_present": true,
       "source_patterns_preserved": true,
+      "expert_feasibility_adjustment_declared": true,
       "angles_within_expert_range": true
     },
     "case_count": 48,

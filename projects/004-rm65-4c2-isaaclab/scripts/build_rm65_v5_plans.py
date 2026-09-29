@@ -12,7 +12,10 @@ from typing import Any
 from build_rm65_v4_plans import PLAN_FORMAT, PROMPTS, condition
 
 
-CORRECTION_ANGLE_DELTAS_RAD = (-0.0125, 0.0, 0.0125)
+DEFAULT_CORRECTION_ANGLE_DELTAS_RAD = (-0.0125, 0.0, 0.0125)
+CORRECTION_ANGLE_DELTAS_BY_CASE = {
+    "confirm_v4_010": (-0.0125, 0.0, 0.0075),
+}
 RENDER_REPEATS_PER_PHYSICAL_CONDITION = 4
 CORRECTION_SIMULATION_SEED_START = 892029000
 CONFIRMATION_ANGLES_RAD = (0.70625, 0.79375, 0.86875, 0.9875)
@@ -32,6 +35,19 @@ CORRECTION_FOCUS_BY_CASE = {
     "confirm_v4_015": "target_edge_release_convergence",
     "confirm_v4_017": "cross_render_action_consistency",
 }
+
+
+def correction_angle_deltas(case_id: str) -> tuple[float, ...]:
+    return CORRECTION_ANGLE_DELTAS_BY_CASE.get(
+        case_id, DEFAULT_CORRECTION_ANGLE_DELTAS_RAD
+    )
+
+
+def angle_variant(angle_delta: float) -> str:
+    if angle_delta == 0.0:
+        return "angle_exact"
+    token = f"{abs(angle_delta):.4f}".split(".", 1)[1].rstrip("0")
+    return f"angle_{'minus' if angle_delta < 0 else 'plus'}_0p{token}"
 
 
 def selected_development_cases(
@@ -68,12 +84,8 @@ def build_correction_plan(
     selected = selected_development_cases(source_plan, repeatability)
     cases: list[dict[str, Any]] = []
     for source, statuses in selected:
-        for angle_delta in CORRECTION_ANGLE_DELTAS_RAD:
-            variant = (
-                "angle_exact"
-                if angle_delta == 0
-                else f"angle_{'minus' if angle_delta < 0 else 'plus'}_0p0125"
-            )
+        for angle_delta in correction_angle_deltas(source["case_id"]):
+            variant = angle_variant(angle_delta)
             physical_group_id = f"{source['case_id']}_{variant}"
             physical_group_index = len(cases) // RENDER_REPEATS_PER_PHYSICAL_CONDITION
             simulation_seed = CORRECTION_SIMULATION_SEED_START + physical_group_index
@@ -117,7 +129,18 @@ def build_correction_plan(
         "source_v4_development_case_ids": [
             case["case_id"] for case in source_plan.get("cases", [])
         ],
-        "angle_deltas_rad": list(CORRECTION_ANGLE_DELTAS_RAD),
+        "default_angle_deltas_rad": list(DEFAULT_CORRECTION_ANGLE_DELTAS_RAD),
+        "angle_deltas_rad_by_source_case": {
+            case_id: list(correction_angle_deltas(case_id))
+            for case_id in CORRECTION_FOCUS_BY_CASE
+        },
+        "expert_feasibility_adjustment": {
+            "case_id": "confirm_v4_010",
+            "rejected_angle_rad": 0.85,
+            "replacement_angle_rad": 0.845,
+            "evidence": "results/rm65_pi05_failure_correction_v5_expert_boundary_probe.json",
+            "reason": "0.85 rad scripted expert final XY error 0.0502217 m exceeded 0.05 m; 0.845 rad passed at 0.0092462 m",
+        },
         "render_repeats_per_physical_condition": RENDER_REPEATS_PER_PHYSICAL_CONDITION,
         "simulation_seed_contract": (
             "all render repeats in one physical group share one explicit seed"
@@ -182,6 +205,18 @@ def validate_correction_plan(plan: dict[str, Any]) -> dict[str, Any]:
         == set(CORRECTION_FOCUS_BY_CASE.values()),
         "source_patterns_preserved": patterns
         == Counter({"fail/fail/fail": 36, "pass/pass/fail": 12}),
+        "expert_feasibility_adjustment_declared": plan.get(
+            "expert_feasibility_adjustment", {}
+        ).get("case_id")
+        == "confirm_v4_010"
+        and plan.get("expert_feasibility_adjustment", {}).get(
+            "rejected_angle_rad"
+        )
+        == 0.85
+        and plan.get("expert_feasibility_adjustment", {}).get(
+            "replacement_angle_rad"
+        )
+        == 0.845,
         "angles_within_expert_range": all(
             0.60 <= case["transfer_joint_1_rad"] <= 1.00 for case in cases
         ),

@@ -39,11 +39,40 @@
     "confirm_v4_018",
     "confirm_v4_019"
   ],
-  "angle_deltas_rad": [
+  "default_angle_deltas_rad": [
     -0.0125,
     0.0,
     0.0125
   ],
+  "angle_deltas_rad_by_source_case": {
+    "confirm_v4_010": [
+      -0.0125,
+      0.0,
+      0.0075
+    ],
+    "confirm_v4_011": [
+      -0.0125,
+      0.0,
+      0.0125
+    ],
+    "confirm_v4_015": [
+      -0.0125,
+      0.0,
+      0.0125
+    ],
+    "confirm_v4_017": [
+      -0.0125,
+      0.0,
+      0.0125
+    ]
+  },
+  "expert_feasibility_adjustment": {
+    "case_id": "confirm_v4_010",
+    "rejected_angle_rad": 0.85,
+    "replacement_angle_rad": 0.845,
+    "evidence": "results/rm65_pi05_failure_correction_v5_expert_boundary_probe.json",
+    "reason": "0.85 rad scripted expert final XY error 0.0502217 m exceeded 0.05 m; 0.845 rad passed at 0.0092462 m"
+  },
   "render_repeats_per_physical_condition": 4,
   "simulation_seed_contract": "all render repeats in one physical group share one explicit seed",
   "case_count": 48,
@@ -188,69 +217,69 @@
       "simulation_seed": 892029001
     },
     {
-      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0125_render_1",
+      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0075_render_1",
       "episode_index": 8,
       "split": "train",
-      "transfer_joint_1_rad": 0.85,
+      "transfer_joint_1_rad": 0.845,
       "source_offset_x_m": -0.011,
       "source_offset_y_m": 0.001,
       "prompt": "grasp the block and set it on the target",
       "source_evaluation_case_id": "confirm_v4_010",
       "source_outcome_pattern": "fail/fail/fail",
       "correction_focus": "grasp_lift_stability",
-      "physical_group_id": "confirm_v4_010_angle_plus_0p0125",
-      "physical_variant": "angle_plus_0p0125",
+      "physical_group_id": "confirm_v4_010_angle_plus_0p0075",
+      "physical_variant": "angle_plus_0p0075",
       "render_repeat_index": 0,
       "render_repeat_count": 4,
       "simulation_seed": 892029002
     },
     {
-      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0125_render_2",
+      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0075_render_2",
       "episode_index": 9,
       "split": "train",
-      "transfer_joint_1_rad": 0.85,
+      "transfer_joint_1_rad": 0.845,
       "source_offset_x_m": -0.011,
       "source_offset_y_m": 0.001,
       "prompt": "grasp the block and set it on the target",
       "source_evaluation_case_id": "confirm_v4_010",
       "source_outcome_pattern": "fail/fail/fail",
       "correction_focus": "grasp_lift_stability",
-      "physical_group_id": "confirm_v4_010_angle_plus_0p0125",
-      "physical_variant": "angle_plus_0p0125",
+      "physical_group_id": "confirm_v4_010_angle_plus_0p0075",
+      "physical_variant": "angle_plus_0p0075",
       "render_repeat_index": 1,
       "render_repeat_count": 4,
       "simulation_seed": 892029002
     },
     {
-      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0125_render_3",
+      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0075_render_3",
       "episode_index": 10,
       "split": "train",
-      "transfer_joint_1_rad": 0.85,
+      "transfer_joint_1_rad": 0.845,
       "source_offset_x_m": -0.011,
       "source_offset_y_m": 0.001,
       "prompt": "grasp the block and set it on the target",
       "source_evaluation_case_id": "confirm_v4_010",
       "source_outcome_pattern": "fail/fail/fail",
       "correction_focus": "grasp_lift_stability",
-      "physical_group_id": "confirm_v4_010_angle_plus_0p0125",
-      "physical_variant": "angle_plus_0p0125",
+      "physical_group_id": "confirm_v4_010_angle_plus_0p0075",
+      "physical_variant": "angle_plus_0p0075",
       "render_repeat_index": 2,
       "render_repeat_count": 4,
       "simulation_seed": 892029002
     },
     {
-      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0125_render_4",
+      "case_id": "correction_v5_confirm_v4_010_angle_plus_0p0075_render_4",
       "episode_index": 11,
       "split": "train",
-      "transfer_joint_1_rad": 0.85,
+      "transfer_joint_1_rad": 0.845,
       "source_offset_x_m": -0.011,
       "source_offset_y_m": 0.001,
       "prompt": "grasp the block and set it on the target",
       "source_evaluation_case_id": "confirm_v4_010",
       "source_outcome_pattern": "fail/fail/fail",
       "correction_focus": "grasp_lift_stability",
-      "physical_group_id": "confirm_v4_010_angle_plus_0p0125",
-      "physical_variant": "angle_plus_0p0125",
+      "physical_group_id": "confirm_v4_010_angle_plus_0p0075",
+      "physical_variant": "angle_plus_0p0075",
       "render_repeat_index": 3,
       "render_repeat_count": 4,
       "simulation_seed": 892029002

@@ -714,6 +714,18 @@
 - 安全/Git 边界：提交审计代码、测试和日志；将来的 tar、解包数据和 manifest 中的大资产仍不进入 Git。无真实机械臂命令。
 - 下一步：远端复跑审计单测并提交；继续监控采集。48/48 完成后先做 12/12 组审计和 source manifest，再创建静态归档，绝不对仍在写入的数据目录打包。
 
+### v4-fc-wip.059：scripted expert 的 0.85 rad 边界失败被显式重规划
+
+- Git 基线：`e1d91a3`（tar 解包前审计已推送）；状态：formal v5 已完成 8 条。episode 000008 在 expert post-run gate 被正确阻断，失败数据已保留到 rejected 目录；同条件 0.845 rad 诊断 PASS，待更新计划后恢复。
+- 遇到的问题：原计划 `confirm_v4_010_angle_plus_0p0125` 为 0.85 rad。该条所有数组/图像格式和有限性验证 PASS，抬升 `0.039591 m`、release drift `0.008222 m` 均正常，但最终 target XY error `0.0502217 m`，比 expert 的 0.05 m 成功阈值高 `0.0002217 m`，因此 task report 正确为 FAIL，runner 没有把它计入训练。
+- 分类：这是 scripted expert 在该角度/offset 的几何边界不可行，不是 RTX 随机失败，也不是基础设施中断。相同 seed 下重复 0.85 只会复现不合格标签，所以不允许用重试掩盖。
+- 证据保留：失败目录从 formal dataset 移到 `rm65_pi05_failure_correction_v5_rejected_attempts/episode_000008_angle_0p85`，没有删除；它明确 `included_in_training=false`。formal dataset 仍只有 episode 000000–000007 八条健康数据。
+- 诊断方法：保持 offset `(-0.011,0.001)`、prompt 和 simulation seed `892029002` 不变，只把角度从 0.85 降到 0.845 rad。诊断结果 PASS，final target XY error `0.0092462 m`、drift `0.0070659 m`、lift 不变为 `0.039591 m`，有充足阈值余量。
+- 计划修正：只把 010 的正向邻域从 `+0.0125` 改为 `+0.0075 rad`，四个 render repeat 仍使用 episode index 8–11 和同一个 seed；其他 11 个物理组不变。generator 现在显式声明 case-specific deltas 与 probe evidence，回归要求新组精确为四条 0.845 且不得残留 0.85。
+- 数据泄漏边界：v5 全新 20 条 confirmation 没有改变；0.85 rejected attempt 和 0.845 probe 都不作为训练 episode，正式四重复会在计划提交后重新采。因修改发生在训练和最终确认之前，不构成用 held-out v5 结果调参。
+- 安全/Git 边界：提交 generator、重新生成的 correction plan/validation、小型 probe JSON 与日志；rejected/probe 原始数据不进 Git。全程 scripted Isaac Lab，`pi05_used=false`、`real_robot_command_sent=false`。
+- 下一步：远端重生成计划并通过全部 disjointness/pipeline tests，精确提交；随后 runner 从 episode 8 恢复，已完成 0–7 不重采。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

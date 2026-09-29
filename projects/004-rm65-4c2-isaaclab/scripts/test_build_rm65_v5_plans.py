@@ -38,12 +38,25 @@ def main() -> int:
         [v3_confirmation, source],
     )
     selected = correction["source_failure_or_flip_case_ids"]
+    adjusted = [
+        case
+        for case in correction["cases"]
+        if case["source_evaluation_case_id"] == "confirm_v4_010"
+        and case["physical_variant"] == "angle_plus_0p0075"
+    ]
     passed = (
         correction_validation["status"] == "pass"
         and confirmation_validation["status"] == "pass"
         and set(selected) == set(CORRECTION_FOCUS_BY_CASE)
         and correction["case_count"] == 48
         and len({case["simulation_seed"] for case in correction["cases"]}) == 12
+        and len(adjusted) == 4
+        and {case["transfer_joint_1_rad"] for case in adjusted} == {0.845}
+        and not any(
+            case["source_evaluation_case_id"] == "confirm_v4_010"
+            and case["transfer_joint_1_rad"] == 0.85
+            for case in correction["cases"]
+        )
         and len(confirmation["cases"]) == 20
     )
     print("RM65_V5_PLAN_TEST=PASS" if passed else "RM65_V5_PLAN_TEST=FAIL")

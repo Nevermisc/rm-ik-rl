@@ -1,0 +1,45 @@
+{
+  "schema": "rm65_pi05_v5_expert_boundary_probe_v1",
+  "status": "pass",
+  "purpose": "replace one infeasible scripted-expert physical group before formal v5 training data completion",
+  "source_evaluation_case_id": "confirm_v4_010",
+  "shared_condition": {
+    "source_offset_xy_m": [-0.011, 0.001],
+    "prompt": "grasp the block and set it on the target",
+    "simulation_seed": 892029002
+  },
+  "rejected_attempt": {
+    "transfer_joint_1_rad": 0.85,
+    "task_status": "fail",
+    "block_lift_height_m": 0.03959101438522339,
+    "final_target_xy_error_m": 0.05022169570122048,
+    "final_target_position_error_m": 0.050221695701233214,
+    "post_release_drift_m": 0.008221957832574844,
+    "failure_margin_above_xy_threshold_m": 0.00022169570122047732,
+    "preserved_directory": "datasets/rm65_pi05_failure_correction_v5_rejected_attempts/episode_000008_angle_0p85",
+    "included_in_training": false
+  },
+  "replacement_probe": {
+    "transfer_joint_1_rad": 0.845,
+    "task_status": "pass",
+    "block_lift_height_m": 0.03959101438522339,
+    "final_target_xy_error_m": 0.009246243589677152,
+    "final_target_position_error_m": 0.009246243589746315,
+    "post_release_drift_m": 0.007065907586365938,
+    "directory": "datasets/rm65_pi05_failure_correction_v5_diagnostic_angle_0p845",
+    "included_in_training": false
+  },
+  "plan_change": {
+    "old_physical_variant": "angle_plus_0p0125",
+    "new_physical_variant": "angle_plus_0p0075",
+    "old_angle_rad": 0.85,
+    "new_angle_rad": 0.845,
+    "episode_indices": [8, 9, 10, 11],
+    "render_repeat_count": 4,
+    "simulation_seed_unchanged": 892029002,
+    "fresh_confirmation_plan_changed": false
+  },
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false
+}
