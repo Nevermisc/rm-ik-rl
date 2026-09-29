@@ -1,12 +1,16 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "a2167ed",
-  "working_version": "v4-fc-wip.040",
+  "git_baseline": "4ecbe40",
+  "working_version": "v4-fc-wip.041",
   "committed": true,
-  "phase": "v3_backup_verified_v4_collection_ready",
-  "current_action": "commit the verified two-copy backup evidence, then collect and validate the 36 preregistered v4 scripted correction episodes",
+  "phase": "v4_correction_collection_in_progress",
+  "current_action": "continue the 36-episode v4 scripted correction collection, then run full dataset health and all nine same-seed multi-RTX group gates",
   "latest_confirmed_complete_episode_count": 30,
+  "v4_correction_episode_count_planned": 36,
+  "v4_correction_episode_count_last_observed": 6,
+  "v4_render_group_count_planned": 9,
+  "v4_render_group_count_verified": 1,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
@@ -32,6 +36,15 @@
     "verified_copy_count": 2,
     "backup_gate_status": "pass",
     "raw_assets_committed_to_git": false
+  },
+  "v4_first_render_group_gate": {
+    "status": "pass",
+    "physical_group_id": "confirm_v3_000_angle_minus_0p0125",
+    "episode_count": 4,
+    "shared_simulation_seed": 891029000,
+    "exact_action_and_physical_trajectory_match": true,
+    "external_diverse_corresponding_frame_ratio": 1.0,
+    "wrist_diverse_corresponding_frame_ratio": 1.0
   },
   "real_robot_command_sent": false
 }

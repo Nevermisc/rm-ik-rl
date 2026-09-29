@@ -1,0 +1,179 @@
+{
+  "format": "rm65_v4_render_group_analysis_v1",
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "dataset_root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_expert_v1",
+  "selected_groups": [
+    "confirm_v3_000_angle_minus_0p0125"
+  ],
+  "episode_count": 4,
+  "physical_group_count": 1,
+  "passed_physical_group_count": 1,
+  "ungrouped_episodes": [],
+  "tolerances": {
+    "action_atol": 0.0,
+    "initial_atol": 1e-07,
+    "physical_atol": 1e-05
+  },
+  "collection_plan_coverage": {
+    "requested": true,
+    "status": "pass",
+    "missing_case_ids": [],
+    "unexpected_case_ids": [],
+    "metadata_mismatch_case_ids": []
+  },
+  "groups": [
+    {
+      "physical_group_id": "confirm_v3_000_angle_minus_0p0125",
+      "status": "pass",
+      "episode_count": 4,
+      "expected_render_repeat_count": 4,
+      "render_repeat_indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "render_repeat_count_valid": true,
+      "render_repeat_indices_valid": true,
+      "simulation_seed": 891029000,
+      "simulation_seed_valid": true,
+      "episode_health_valid": true,
+      "physical_condition": {
+        "status": "pass",
+        "prompt": "pick up the block and place it on the target",
+        "transfer_joint_1_rad": 0.65,
+        "source_offset_xy_m": [
+          -0.009,
+          -0.002
+        ],
+        "physical_variant": "angle_minus_0p0125"
+      },
+      "command_action_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 0.0,
+        "maximum_absolute_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "array_sha256": [
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2",
+          "84931076d6b050df79194951de778297c16bca1a0228ffa71413b4559f93f4e2"
+        ]
+      },
+      "initial_physical_state_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-07,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "physical_trajectory_consistency": {
+        "status": "pass",
+        "absolute_tolerance": 1e-05,
+        "observation_state_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "cube_pose_max_abs_difference_by_repeat": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rtx_image_diversity": {
+        "external": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "0eaf25d12f3eb20b2f0a7b1c6d4f150cc11481cb847de1091e0466145fce275d",
+            "1bd1d923a7ef8ed4a6d31227dbaa1caa1c77fbfa02178f3977688240e51af640",
+            "2e8e50796789710874092df8096bdb3a7e3d1a340e712da1a3b498c84a5d6e20",
+            "c86e31431459175b891e8fed03d8a69c6bfbdcc4888064b4a807c06ee243af46"
+          ]
+        },
+        "wrist": {
+          "status": "pass",
+          "frame_counts": [
+            569,
+            569,
+            569,
+            569
+          ],
+          "consistent_frame_count": true,
+          "unique_sequence_count": 4,
+          "diverse_corresponding_frame_count": 569,
+          "diverse_corresponding_frame_ratio": 1.0,
+          "maximum_unique_render_count_per_frame": 4,
+          "sequence_sha256": [
+            "5030cd5a7a5defb9b6fae68d597d4f08a12dafe8e2e3dae82a1db071c653d2e4",
+            "5bd27c2d2e35cd2bcf93cab6dc1f226ddcdb3bf55e9dbdb7a385b73f59bff484",
+            "066ba2b0557b2afe7191084cd41ef96e59df6d446be4a333e651639e12b16f64",
+            "90b1fc56842561ea84a280c47a211a992b0a2879fe275a419cde0fc5b3feaaff"
+          ]
+        }
+      },
+      "episodes": [
+        {
+          "episode": "episode_000000",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_1",
+          "render_repeat_index": 0,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000001",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_2",
+          "render_repeat_index": 1,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000002",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_3",
+          "render_repeat_index": 2,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        },
+        {
+          "episode": "episode_000003",
+          "collection_case_id": "correction_v4_confirm_v3_000_angle_minus_0p0125_render_4",
+          "render_repeat_index": 3,
+          "validation_status": "pass",
+          "task_status": "pass",
+          "frame_count": 569
+        }
+      ]
+    }
+  ]
+}

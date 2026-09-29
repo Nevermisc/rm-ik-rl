@@ -469,6 +469,20 @@
 - 安全边界：所有操作是文件复制、解包和哈希；没有执行真实机械臂命令，也没有覆盖 v2/v3 checkpoint。
 - 下一步：提交备份证明与 gate 代码，然后按已冻结 v4 计划启动 36 条 scripted expert 仿真采集；每组必须保持同 simulation seed，采集后核对物理状态一致和 RTX 图像差异。
 
+### v4-fc-wip.041：v4 纠正集开始采集，首个同状态多渲染组通过自动门禁
+
+- Git 基线：`4ecbe40`（v3 两副本备份证明已推送）；状态：36 条 v4 scripted-expert 采集运行中，本次代码与首组紧凑证据准备提交。
+- 准备做：执行预注册的 9 个物理组 × 4 次 RTX 重复；每完成一个组，不只检查任务 PASS，还必须证明四次共享物理条件和 simulation seed、动作/物理轨迹一致，同时两路对应帧确实来自不同渲染结果。
+- 做了什么：在备份 gate、36 条计划门禁、目标数据目录为空且没有残留仿真进程的前提下，启动 `rm65_pi05_failure_correction_v4_expert_v1` 采集；最近一次只读检查为 6/36 条完整 metadata，采集主进程仍健康运行。
+- 新增自动审计：`analyze_rm65_v4_render_groups.py` 按 `physical_group_id` 分组，核对 4 个重复索引、共享显式 seed、计划 provenance、episode/task 健康、固定 prompt/角度/偏移、动作数组、初始观测/方块姿态、完整观测/方块轨迹，以及 external/wrist 对应帧 SHA-256 多样性；支持 `--group` 在长采集期间先审计完整组。
+- 为什么做：目录数量和四个不同图片文件名不能证明“同一物理轨迹的不同 RTX 渲染”；反之，若动作或物理轨迹已经漂移，图像差异也不能归因于 renderer。该门禁把训练纠正集的核心实验变量显式化并 fail-closed。
+- 回归：新增合成 4-repeat 测试，健康组必须 PASS；篡改一个动作值后必须返回非零并明确使 action consistency FAIL。本地与远端 Python 编译和回归均 PASS。
+- 首组真实结果：`confirm_v3_000_angle_minus_0p0125` 的 4 条均为 569 帧并通过任务/episode 门禁；seed 均为 `891029000`，repeat index 为 0–3。动作、初始状态、初始方块姿态、完整 observation state 与 cube pose 轨迹的最大差异全部精确为 `0.0`。
+- RTX 差异：external 和 wrist 的 569/569 个对应帧均在四次运行间存在内容差异，两个视角各有 4 个唯一序列，diverse-frame ratio 都是 `1.0`。因此首组满足“物理轨迹相同、RTX 图像不同”的设计意图，默认 `1e-5` 轨迹容差没有掩盖实际漂移。
+- 遇到的问题：首次临时进度检查的 heredoc 结尾被 SSH/PowerShell 引号组合误解析，统计本身已输出但命令以 `NameError` 退出；没有修改远端文件。后续改用无 heredoc 的只读统计，采集未受影响。
+- 证据边界：提交审计代码、测试和小型 JSON；36 条原始 episode/PNG/NPZ 仍只保存在数据目录和后续独立备份中，不进入 Git。全程 Isaac Lab 仿真，`real_robot_command_sent=false`。
+- 下一步：让采集连续完成，结束后运行全量 dataset summary 与 9/9 group audit；若任一组失败，保留原始数据并先诊断，不用选择性重采覆盖。全部 PASS 后再把 36+30+36 条转换为新的 102-episode LeRobot repo 并重算 norm stats。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
