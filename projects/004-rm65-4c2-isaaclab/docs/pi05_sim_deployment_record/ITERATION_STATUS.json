@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "134ff26",
-  "working_version": "v4-fc-wip.052",
+  "git_baseline": "58e544e",
+  "working_version": "v4-fc-wip.053",
   "committed": true,
-  "phase": "v4_release_backup_contract_frozen_source_hash_next",
-  "current_action": "commit the frozen six-asset v4 release preservation contract and gate, then hash the source assets before any archive or v5 mutation",
+  "phase": "v4_release_two_copy_gate_passed_v5_planning_ready",
+  "current_action": "commit the verified six-asset v4 release backup evidence, then freeze a v5 correction collection and a new disjoint held-out confirmation plan before any data collection or training",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the v4 release preservation spec, fail-closed gate and damaged-copy regression test",
-    "generate a six-asset source manifest for checkpoints 4000/5999, norm stats and three raw evaluation runs",
-    "archive, transfer, safely extract and independently rehash the assets before allowing v5 correction planning"
+    "commit the compact source manifest, backup manifest and two-copy gate without adding archives or extracted assets",
+    "derive a v5 correction plan from stable failures 010/011/015 and renderer-sensitive flip 017, including distinct recovery/release objectives",
+    "preregister another held-out confirmation plan disjoint from all v3/v4 training and confirmation conditions before v5 collection"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -226,9 +226,14 @@
     "includes_checkpoints": [4000, 5999],
     "includes_norm_stats": true,
     "includes_raw_evaluation_runs": [1, 2, 3],
-    "source_manifest_generated": false,
-    "independent_backup_verified": false,
-    "verified_copy_count": 1,
+    "source_manifest_generated": true,
+    "source_manifest_sha256": "68bee34eb7c14130c9d2d0cb5c4d059892b3bc05dbbecffc04d9235010c41a06",
+    "archive_bytes": 14200432640,
+    "archive_sha256": "979c2f554aba3be5b27061addf51bc8367b13a025bfe05ae63c0cb1ccc1db2a0",
+    "safe_archive_entry_count": 66922,
+    "independent_backup_verified": true,
+    "backup_gate_status": "pass",
+    "verified_copy_count": 2,
     "raw_assets_committed_to_git": false
   },
   "real_robot_command_sent": false

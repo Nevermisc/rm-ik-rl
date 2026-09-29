@@ -634,6 +634,20 @@
 - 数据/Git 边界：只提交 spec、gate、test 与日志；约 14.08GB 资产、归档和本机副本均不进入 Git。没有真实机械臂命令。
 - 下一步：远端编译和单测 PASS 后提交本版本；随后生成 source manifest 和 source-manifest SHA，逐项归档并传到本机，安全解包后从本机文件重新计算 backup manifest，最后 gate PASS 才开始 v5 规划。
 
+### v4-fc-wip.053：v4 release 六资产跨机器第二副本验证完成
+
+- Git 基线：`58e544e`（v4 release 保存合同已推送）；状态：source manifest、归档传输、安全解包、本机独立 rehash 和两副本 gate 全部 PASS，v5 规划门禁解除。
+- 源清单：6 项合计 66,585 文件、`14,081,286,311` bytes；source manifest SHA-256 为 `68bee34eb7c14130c9d2d0cb5c4d059892b3bc05dbbecffc04d9235010c41a06`。
+- 逐资产 tree hash：checkpoint 4000 为 `0d03f572...419e5c8a`，checkpoint 5999 为 `86f89b33...cecbf07`，norm 为 `353dbe9c...f0398764`；run1/run2/run3 分别为 `0d029664...657a0ad`、`67b135a5...cef967e`、`e0ab63b2...e942e9`。
+- 归档方法：在远端 staging 建立六个只读 symlink，使用 `tar --dereference` 按 backup spec 路径打包；没有复制、改名或覆盖源资产。未压缩归档为 `14,200,432,640` bytes，SHA-256 `979c2f554aba3be5b27061addf51bc8367b13a025bfe05ae63c0cb1ccc1db2a0`。
+- 传输：直接使用 SFTP `reget` 到本机 `RM65_DATA_BACKUP_DO_NOT_GIT/v4_release_2026_09_29`，约 14.2GB 一次完成并 exit 0；本机文件大小和整包 SHA 与远端精确一致。批处理文件保留，可在未来中断时断点续传。
+- 安全解包：tar 共 66,922 entries，其中 66,585 个普通文件；非法绝对/`..` 路径 0、链接或设备等特殊 entry 0，顶层只含 `checkpoints/evaluations/openpi_assets`。目标三个目录原先均不存在，审计 PASS 后才解包。
+- 独立文件级复核：本机从解包后的 66,585 文件重新计算每项 SHA 聚合 tree hash；backup manifest 的 `comparison_status=pass`，六项全部 `matches_reference=true`，总文件数和字节数与源端一致。
+- 最终 gate：所有 14 个 fail-closed checks 为 true，`status=pass`、`verified_copy_count=2`。源端数据、远端 staging、归档、本机归档和解包副本均暂时保留，没有清理。
+- Git/数据边界：只提交 source/backup manifest、gate 和日志/状态；14.2GB tar、14.08GB 解包内容、checkpoint、PNG、NPZ、task report 与 runner log 均不进入 Git。
+- 安全边界：所有操作是只读哈希、归档、传输和解包，`real_robot_command_sent=false`。
+- 下一步：提交本条 compact 证据；从三条稳定失败和一条翻转生成 v5 纠正采集计划，同时在训练前冻结又一套与既有条件不重合的 held-out 确认计划。修复 010 最终 settle 越界漏标记，但不改变已冻结 v4 结果。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

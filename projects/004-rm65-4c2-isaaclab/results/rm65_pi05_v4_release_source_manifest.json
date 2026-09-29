@@ -1,0 +1,91 @@
+{
+  "schema": "rm65_data_preservation_manifest_v1",
+  "spec_id": "rm65_pi05_v4_release_assets_2026_09_29",
+  "generated_at_utc": "2026-09-29T09:39:50.734101+00:00",
+  "location": "source",
+  "inventory_status": "pass",
+  "comparison_status": "not_requested",
+  "asset_count": 6,
+  "total_bytes": 14081286311,
+  "assets": [
+    {
+      "asset_id": "failure_correction_v4_checkpoint_4000",
+      "kind": "training_recovery_checkpoint",
+      "priority": "high",
+      "reproducibility": "expensive_to_rebuild",
+      "root": "project",
+      "relative_path": "outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/4000",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/4000",
+      "file_count": 26,
+      "total_bytes": 5762728004,
+      "tree_sha256": "0d03f5723f86fcbba210d3748c733c8b72488e1b28d4f58e9308f748419e5c8a",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    },
+    {
+      "asset_id": "failure_correction_v4_checkpoint_5999",
+      "kind": "trained_checkpoint",
+      "priority": "critical",
+      "reproducibility": "expensive_to_rebuild",
+      "root": "project",
+      "relative_path": "outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/5999",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_failure_correction_v4_lora_6k/5999",
+      "file_count": 28,
+      "total_bytes": 5762892014,
+      "tree_sha256": "86f89b33f464cb26da591340daf35a0e3255295ca7b039d1950645867cecbf07",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    },
+    {
+      "asset_id": "failure_correction_v4_norm_stats",
+      "kind": "normalization_asset",
+      "priority": "critical",
+      "reproducibility": "rebuildable_but_training_contract_frozen",
+      "root": "openpi",
+      "relative_path": "assets/pi05_rm65_lora/local/rm65_sim_failure_correction_v4_train/norm_stats.json",
+      "resolved_path": "/home/chengyu/robot-learning/openpi/assets/pi05_rm65_lora/local/rm65_sim_failure_correction_v4_train/norm_stats.json",
+      "file_count": 1,
+      "total_bytes": 1854,
+      "tree_sha256": "353dbe9ce3a070119f89df9a8482fb99b895d29f9e1f4beb91039609f0398764",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    },
+    {
+      "asset_id": "failure_correction_v4_confirmation_run1",
+      "kind": "raw_evaluation_dataset",
+      "priority": "critical",
+      "reproducibility": "irreplaceable_independent_outcomes",
+      "root": "project",
+      "relative_path": "datasets/rm65_pi05_failure_correction_v4_confirmation_run1",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run1",
+      "file_count": 22700,
+      "total_bytes": 870941005,
+      "tree_sha256": "0d029664eef65c95923ad5ef67df2e8bdcb77d27742df8f2207b7410d657a0ad",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    },
+    {
+      "asset_id": "failure_correction_v4_confirmation_run2",
+      "kind": "raw_evaluation_dataset",
+      "priority": "high",
+      "reproducibility": "irreplaceable_render_outcomes",
+      "root": "project",
+      "relative_path": "datasets/rm65_pi05_failure_correction_v4_confirmation_run2",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run2",
+      "file_count": 21520,
+      "total_bytes": 823762420,
+      "tree_sha256": "67b135a590c965eeee496d6afc86367e588bf8978e3f6e36471a8519ccef967e",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    },
+    {
+      "asset_id": "failure_correction_v4_confirmation_run3",
+      "kind": "raw_evaluation_dataset",
+      "priority": "high",
+      "reproducibility": "irreplaceable_render_outcomes",
+      "root": "project",
+      "relative_path": "datasets/rm65_pi05_failure_correction_v4_confirmation_run3",
+      "resolved_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run3",
+      "file_count": 22310,
+      "total_bytes": 860961014,
+      "tree_sha256": "e0ab63b2e4f6fc594ca1d5bd68225dd3afa23669612372c273b2005049e942e9",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1"
+    }
+  ],
+  "real_robot_command_sent": false
+}

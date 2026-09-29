@@ -1,0 +1,26 @@
+{
+  "schema": "rm65_v4_release_backup_gate_v1",
+  "status": "pass",
+  "checks": {
+    "backup_schema": true,
+    "source_schema": true,
+    "frozen_spec_id": true,
+    "backup_location": true,
+    "source_location": true,
+    "backup_inventory_pass": true,
+    "source_inventory_pass": true,
+    "backup_comparison_pass": true,
+    "six_expected_assets": true,
+    "all_assets_match_reference": true,
+    "file_count_matches_frozen_inventory": true,
+    "total_bytes_match_frozen_inventory": true,
+    "reference_manifest_sha256": true,
+    "simulation_only_provenance": true
+  },
+  "asset_count": 6,
+  "file_count": 66585,
+  "total_bytes": 14081286311,
+  "source_manifest_sha256": "68bee34eb7c14130c9d2d0cb5c4d059892b3bc05dbbecffc04d9235010c41a06",
+  "verified_copy_count": 2,
+  "real_robot_command_sent": false
+}
