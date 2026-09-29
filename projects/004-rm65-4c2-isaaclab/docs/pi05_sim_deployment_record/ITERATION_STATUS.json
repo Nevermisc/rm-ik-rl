@@ -1,17 +1,17 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "775ea82",
-  "working_version": "v3-fc-wip.033",
+  "git_baseline": "dd084c3",
+  "working_version": "v3-fc-wip.034",
   "committed": true,
-  "phase": "failure_correction_run1_resume_ready",
-  "current_action": "commit and push the report repair, verify case 0 is reused as FAIL, and resume run1 from case 1",
+  "phase": "failure_correction_fresh_confirmation_failed",
+  "current_action": "commit and push the compact run1 evidence, then run repeatability-only run2 and run3 without treating them as new success trials",
   "latest_confirmed_complete_episode_count": 30,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "run evaluation preflight and offline validation against rm65_failure_correction_v3_lora_10k/9999",
-    "run one fresh-condition confirmation followed by two same-plan repeatability runs"
+    "run two same-plan repeats strictly as repeatability evidence and analyze outcome flips",
+    "build a v4 correction set for the three failed conditions, then preregister an entirely new held-out confirmation plan"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
