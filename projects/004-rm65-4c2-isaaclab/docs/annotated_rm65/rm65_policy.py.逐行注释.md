@@ -154,25 +154,25 @@ class RM65Inputs(transforms.DataTransformFn):
 # 【L0042】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `wrist_image`。右侧语法为：`_parse_image` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `data["observation/wrist_image"]`；其中 `data["observation/wrist_image"]` 的方括号表示先从 `data` 按键/索引 `"observation/wrist_image"` 取值。
 # 【项目含义】读取腕部相机图像并执行同样的布局和像素类型标准化。
         wrist_image = _parse_image(data["observation/wrist_image"])
-# 【L0043】语法拆解：`match self.model_type:` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0043】语法拆解：`match` 是 Python 3.10 起提供的模式匹配关键字；`self` 是当前 RM65Inputs 对象，点号从它读取创建对象时保存的 `model_type`；行末冒号打开匹配结构。程序会拿这个值依次与下面各个 `case` 模式比较，只执行第一个匹配分支。
 # 【项目含义】根据 OpenPI 模型类型选择它所认识的图像槽位名称。
         match self.model_type:
-# 【L0044】语法拆解：`case _model.ModelType.PI0 | _model.ModelType.PI05:` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0044】语法拆解：`case` 声明一个可匹配分支；`_model.ModelType.PI0` 和 `PI05` 是 ModelType 枚举的两个成员；这里的竖线 `|` 是“或模式”，表示匹配 PI0 或 PI05 都进入同一分支；末尾冒号打开该分支的缩进代码。
 # 【项目含义】PI0 和 PI0.5 在本项目中共用三个命名图像槽位，因此进入同一分支。
             case _model.ModelType.PI0 | _model.ModelType.PI05:
-# 【L0045】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `names`。右侧语法为：最外层圆括号用于组合表达式或创建元组；只有逗号存在时才构成元组。
+# 【L0045】语法拆解：等号先计算右边再保存到 `names`；最外层圆括号配合两个逗号创建三元素元组；每个引号包住一个普通字符串，三个字符串按从左到右的固定顺序保存，后面会与三张图和三个 mask 用 `zip` 一一配对。
 # 【项目含义】依次声明外部、左腕部、右腕部三个 π0.5 图像键；顺序必须与 images 和 image_masks 完全一致。
                 names = ("base_0_rgb", "left_wrist_0_rgb", "right_wrist_0_rgb")
-# 【L0046】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `images`。右侧语法为：最外层圆括号用于组合表达式或创建元组；只有逗号存在时才构成元组。
+# 【L0046】语法拆解：等号把右边三元素元组保存为 `images`；圆括号和逗号创建元组；`np.zeros_like(base_image)` 是函数调用，它创建与 base_image 相同 shape/dtype、但像素全为 0 的占位图。元组位置与上一行 names 的位置严格对应。
 # 【项目含义】把真实外部图、真实腕部图和一张同尺寸零图组成三元组；零图只是填满模型的第三个固定槽位。
                 images = (base_image, wrist_image, np.zeros_like(base_image))
-# 【L0047】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `image_masks`。右侧语法为：最外层圆括号用于组合表达式或创建元组；只有逗号存在时才构成元组。
+# 【L0047】语法拆解：等号把三个布尔常量组成的元组保存为 `image_masks`；`True` 表示对应图像槽有效，`False` 表示只是占位；这三个位置继续与 names、images 的位置一一对应。
 # 【项目含义】前两个 mask 为 true，告诉模型这两张是真实观测；第三个为 false，因此零图不会被当成第二台腕部相机。
                 image_masks = (np.True_, np.True_, np.False_)
-# 【L0048】语法拆解：`case _:` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0048】语法拆解：`case _` 是 match 的兜底分支；下划线 `_` 在模式匹配中表示任何尚未被前面 case 匹配的值，作用类似 if/elif 后面的 else；末尾冒号打开错误处理代码。
 # 【项目含义】捕获 PI0/PI05 之外的模型类型。
             case _:
-# 【L0049】语法拆解：`raise` 主动制造并抛出异常；后面的 `ValueError(f"unsupported model type for RM65: {self.model_type}")` 创建错误对象，当前正常流程随即停止。
+# 【L0049】语法拆解：`raise` 主动抛出异常；`ValueError(...)` 的圆括号创建错误对象；里面的 f-string 用 `{self.model_type}` 把实际模型类型写进报错文字，因此不支持的模型不会继续使用错误的相机字段。
 # 【项目含义】遇到没有定义 RM65 图像布局的模型时拒绝继续，防止字段悄悄错位。
                 raise ValueError(f"unsupported model type for RM65: {self.model_type}")
 # 【L0050】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
