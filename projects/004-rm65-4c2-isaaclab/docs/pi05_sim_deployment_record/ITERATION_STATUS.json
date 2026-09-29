@@ -1,16 +1,16 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "8e763a5",
-  "working_version": "v3-fc-wip.037",
+  "git_baseline": "b3ef34a",
+  "working_version": "v3-fc-wip.038",
   "committed": true,
-  "phase": "repeatability_gate_passed_formal_success_gate_failed",
-  "current_action": "commit the run3 and 20x3 compact evidence, then hash the now-stable v3 assets and create a second verified copy without committing raw data or checkpoints to Git",
+  "phase": "v3_source_manifest_complete_backup_in_progress",
+  "current_action": "copy the nine SHA-256-tagged v3 archives to the independent local backup root, then extract and verify every tree hash",
   "latest_confirmed_complete_episode_count": 30,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "generate the v3 source preservation manifest now that run3 has stopped writing, then create and verify a second copy",
+    "finish the independent v3 backup, verify archive hashes and all nine extracted tree hashes",
     "build a v4 correction set around stable case 15/16 failures and the renderer-sensitive case 0, then preregister a new held-out confirmation plan",
     "build a v4 correction set for the three failed conditions, then preregister an entirely new held-out confirmation plan"
   ],
