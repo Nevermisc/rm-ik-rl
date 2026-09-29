@@ -2,7 +2,7 @@
 
 这些文件由实验室电脑当前提交 `80f6af6743e9fb8a54fac8dd12ee7818828f37f7` 的源码快照生成。共覆盖 20 个核心程序、4659 行生产源码。
 
-逐行注释是**非执行学习副本**。当前为 v2“项目语义版”：每一条注释尽量回答“操作的 RM65/4C2/π0.5 对象是什么、Python/NumPy/Isaac/OpenPI 做了什么、结果接下来去哪里”，不再只写“这是条件分支/这是赋值”。生产源码位于 `rm65_source_snapshot/`，实验室电脑中的正式路径为：
+逐行注释是**非执行学习副本**。当前为 v3“零基础双层讲解版”：每一行先拆关键字、圆括号、方括号、冒号、点号、等号及求值顺序，再解释“操作的 RM65/4C2/π0.5 对象是什么、数据是什么 shape、从哪里来、接下来去哪里”。生产源码位于 `rm65_source_snapshot/`，实验室电脑中的正式路径为：
 
 ```text
 /home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab
@@ -10,6 +10,7 @@
 
 ## 推荐学习顺序
 
+0. [`00_PYTHON_NUMPY_ZERO_BASICS_ZH.md`](00_PYTHON_NUMPY_ZERO_BASICS_ZH.md)：先学习括号、字典、数组、shape、函数、类和完整数据流；
 1. [`rm65_policy.py.逐行注释.md`](rm65_policy.py.逐行注释.md)：模型输入输出翻译；
 2. [`expert_episode.py.逐行注释.md`](expert_episode.py.逐行注释.md)：一帧专家数据是什么；
 3. [`run_expert_collection_plan.py.逐行注释.md`](run_expert_collection_plan.py.逐行注释.md)：45 条轨迹怎样可恢复采集；
@@ -50,7 +51,7 @@
 actions = np.asarray(data["actions"])
 ```
 
-注释会解释为：`data["actions"]` 是当前训练样本的未来 RM65 动作序列，每步由六个绝对关节目标和一个归一化 4C2 夹爪目标组成；`np.asarray` 把 Python 列表或其他数组对象统一为 NumPy `ndarray`；完整一行把这个动作块取出并统一格式，随后进行七维 shape 校验，再进入 delta-action 和训练 transform。
+语法层会解释：最里面的字符串是字典键；`data[...]` 的方括号按键取值；`np` 是 NumPy 别名，点号取 `asarray`，圆括号表示调用；等号最后保存返回值。项目层会解释：`data["actions"]` 是当前训练样本的未来 RM65 动作序列，每步由六个绝对关节目标和一个归一化 4C2 夹爪目标组成；完整一行把动作块统一为 `ndarray`，随后进行七维 shape 校验，再进入 delta-action 和训练 transform。
 
 这是整套文档采用的标准。对于只有 `)`、`}` 的物理行，只能解释它闭合了哪一个结构；真正的数据语义会写在开始该表达式和各参数所在的行。
 

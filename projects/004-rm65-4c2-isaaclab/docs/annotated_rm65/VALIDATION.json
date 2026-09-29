@@ -1,18 +1,25 @@
 {
-  "format": "rm65_line_atlas_validation_v2",
+  "format": "rm65_line_atlas_validation_v3_zero_basics",
   "status": "pass",
   "files_checked": 20,
   "source_lines": 4659,
-  "annotation_markers": 4659,
+  "syntax_layers": 4659,
+  "semantic_layers": 4659,
   "source_hashes_match": true,
   "sequential_line_mapping": true,
   "banned_generic_phrase_occurrences": 0,
-  "user_example_semantics_check": true,
+  "teaching_examples": {
+    "call_syntax": true,
+    "joint_syntax": true,
+    "action_semantics": true
+  },
+  "zero_basics_guide_present": true,
   "files": [
     {
       "file": "build_combined_urdf.py",
       "source_lines": 305,
-      "annotation_markers": 305,
+      "syntax_layers": 305,
+      "semantic_layers": 305,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -21,7 +28,8 @@
     {
       "file": "import_combined_urdf.py",
       "source_lines": 90,
-      "annotation_markers": 90,
+      "syntax_layers": 90,
+      "semantic_layers": 90,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -30,7 +38,8 @@
     {
       "file": "run_pick_place_baseline.py",
       "source_lines": 2249,
-      "annotation_markers": 2249,
+      "syntax_layers": 2249,
+      "semantic_layers": 2249,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -39,7 +48,8 @@
     {
       "file": "expert_episode.py",
       "source_lines": 254,
-      "annotation_markers": 254,
+      "syntax_layers": 254,
+      "semantic_layers": 254,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -48,7 +58,8 @@
     {
       "file": "convert_expert_episodes_to_lerobot.py",
       "source_lines": 255,
-      "annotation_markers": 255,
+      "syntax_layers": 255,
+      "semantic_layers": 255,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -57,7 +68,8 @@
     {
       "file": "rm65_policy.py",
       "source_lines": 73,
-      "annotation_markers": 73,
+      "syntax_layers": 73,
+      "semantic_layers": 73,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -66,7 +78,8 @@
     {
       "file": "rm65_training_config.py",
       "source_lines": 106,
-      "annotation_markers": 106,
+      "syntax_layers": 106,
+      "semantic_layers": 106,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -75,7 +88,8 @@
     {
       "file": "train_rm65_pi05.py",
       "source_lines": 99,
-      "annotation_markers": 99,
+      "syntax_layers": 99,
+      "semantic_layers": 99,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -84,7 +98,8 @@
     {
       "file": "serve_rm65_policy.py",
       "source_lines": 58,
-      "annotation_markers": 58,
+      "syntax_layers": 58,
+      "semantic_layers": 58,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -93,7 +108,8 @@
     {
       "file": "action_guard.py",
       "source_lines": 68,
-      "annotation_markers": 68,
+      "syntax_layers": 68,
+      "semantic_layers": 68,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -102,7 +118,8 @@
     {
       "file": "closed_loop_report.py",
       "source_lines": 68,
-      "annotation_markers": 68,
+      "syntax_layers": 68,
+      "semantic_layers": 68,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -111,7 +128,8 @@
     {
       "file": "run_pi05_rm65_closed_loop.sh",
       "source_lines": 124,
-      "annotation_markers": 124,
+      "syntax_layers": 124,
+      "semantic_layers": 124,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -120,7 +138,8 @@
     {
       "file": "run_pi05_rm65_closed_loop_suite.py",
       "source_lines": 286,
-      "annotation_markers": 286,
+      "syntax_layers": 286,
+      "semantic_layers": 286,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -129,7 +148,8 @@
     {
       "file": "run_expert_collection_plan.py",
       "source_lines": 104,
-      "annotation_markers": 104,
+      "syntax_layers": 104,
+      "semantic_layers": 104,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -138,7 +158,8 @@
     {
       "file": "compute_rm65_norm_stats.py",
       "source_lines": 100,
-      "annotation_markers": 100,
+      "syntax_layers": 100,
+      "semantic_layers": 100,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -147,7 +168,8 @@
     {
       "file": "validate_rm65_checkpoint.py",
       "source_lines": 97,
-      "annotation_markers": 97,
+      "syntax_layers": 97,
+      "semantic_layers": 97,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -156,7 +178,8 @@
     {
       "file": "run_rm65_post_training_pipeline.sh",
       "source_lines": 158,
-      "annotation_markers": 158,
+      "syntax_layers": 158,
+      "semantic_layers": 158,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -165,7 +188,8 @@
     {
       "file": "grasp_geometry.py",
       "source_lines": 105,
-      "annotation_markers": 105,
+      "syntax_layers": 105,
+      "semantic_layers": 105,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -174,7 +198,8 @@
     {
       "file": "websocket_compat.py",
       "source_lines": 25,
-      "annotation_markers": 25,
+      "syntax_layers": 25,
+      "semantic_layers": 25,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
@@ -183,7 +208,8 @@
     {
       "file": "check_closed_loop_task_report.py",
       "source_lines": 35,
-      "annotation_markers": 35,
+      "syntax_layers": 35,
+      "semantic_layers": 35,
       "sequential_markers": true,
       "sha256_matches_manifest": true,
       "banned_generic_phrases": 0,
