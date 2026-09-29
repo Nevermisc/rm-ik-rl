@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "diagnostic_only": true,
+  "policy_used": false,
+  "real_robot_command_sent": false,
+  "limitation": "Actual settling block with real Isaac stepping; no robot/controller or natural escape reproduction.",
+  "cases": [
+    {
+      "case": "existing_abort",
+      "actual_physics_steps": 0,
+      "expected_steps": 0,
+      "passed": true,
+      "reason": "cube_outside_workspace_envelope"
+    },
+    {
+      "case": "settle_a_detection",
+      "actual_physics_steps": 120,
+      "expected_steps": 120,
+      "passed": true,
+      "reason": "cube_outside_workspace_envelope"
+    },
+    {
+      "case": "normal",
+      "actual_physics_steps": 240,
+      "expected_steps": 240,
+      "passed": true,
+      "reason": null
+    }
+  ]
+}
