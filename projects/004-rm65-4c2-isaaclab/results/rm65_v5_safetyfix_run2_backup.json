@@ -1,0 +1,29 @@
+{
+  "schema": "rm65_data_preservation_manifest_v1",
+  "spec_id": "rm65_v5_safetyfix_run2_20260930",
+  "generated_at_utc": "2026-09-29T20:19:10.987862+00:00",
+  "location": "backup",
+  "inventory_status": "pass",
+  "comparison_status": "pass",
+  "asset_count": 1,
+  "total_bytes": 841307014,
+  "assets": [
+    {
+      "asset_id": "v5_safetyfix_run2",
+      "kind": "raw_diagnostic",
+      "priority": "unspecified",
+      "reproducibility": "unspecified",
+      "root": "backup",
+      "relative_path": "datasets/rm65_pi05_v5_safetyfix_diagnostic_run2",
+      "resolved_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\RM65_DATA_BACKUP_DO_NOT_GIT\\v5_safetyfix_run2_2026_09_30\\datasets\\rm65_pi05_v5_safetyfix_diagnostic_run2",
+      "file_count": 21960,
+      "total_bytes": 841307014,
+      "tree_sha256": "22c8c55a13ce35115d76a09ada31d80bc3f49b56020da36eb64c8157120562d5",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1",
+      "matches_reference": true
+    }
+  ],
+  "real_robot_command_sent": false,
+  "reference_manifest_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\remote_work_7baaa1a\\project\\results\\rm65_v5_safetyfix_run2_source.json",
+  "reference_manifest_sha256": "cc13142145be4d04f610728dc3cc2c57db31d48dfbd6ff75127ae46aee8161a7"
+}
