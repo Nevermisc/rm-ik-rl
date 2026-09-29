@@ -540,6 +540,19 @@
 - 安全/隔离：转换只生成新派生 repo 和 v4 专属 norm asset；未改原始 episode，未覆盖 v2/v3 checkpoint，未发送真实机械臂命令。
 - 下一步：提交 conversion/norm/OpenPI/training-gate 小型 JSON 与本条日志；随后运行独立 `rm65_failure_correction_v4_incremental_smoke` 两步训练，实际验证从 v3 恢复、前反向、数值有限和 checkpoint 保存。smoke PASS 后才允许正式 6000 步。
 
+### v4-fc-wip.046：从 v3 恢复的两步增量训练 smoke 通过
+
+- Git 基线：`53ec2c0`（102 条转换、norm 和训练输入 gate 已推送）；状态：独立 smoke exit 0，正式 `rm65_failure_correction_v4_lora_6k` 目录仍不存在，6000 步尚未启动。
+- 隔离检查：启动前 smoke 路径与正式 v4 路径都不存在，GPU 无计算进程；smoke 使用独立 `rm65_failure_correction_v4_incremental_smoke`，即使失败也不会写正式目录或覆盖 v2/v3。
+- 实际恢复：从冻结 v3 `rm65_failure_correction_v3_lora_10k/9999/params` 读取约 6.4 GiB，49.29 秒完成；加载新 repo/norm 后 batch 为三相机 `[1,224,224,3]`、state `[1,32]`、actions `[1,10,32]`。
+- 数值结果：step 0 为 `loss=0.0060, grad_norm=0.3236, param_norm=1803.9016`；step 1 为 `loss=0.0039, grad_norm=0.2259, param_norm=1803.9016`。loss、梯度和参数范数全部有限，无 OOM/NaN/爆炸。
+- Checkpoint：step 1 的约 5.4 GiB checkpoint 完成 params/train_state/assets 写入、metadata commit 和临时目录原子重命名；异步完整保存 65.24 秒，后台无错误。最终 `1/params` 存在且没有残留 `*.orbax-checkpoint-tmp-*`。
+- 报告合同：`pi05_rm65_failure_correction_v4_smoke.json` 为 PASS，repo id、v3 initial params、2 步、batch 1、`2e-6→5e-7` 和独立 checkpoint 路径均正确，`real_robot_command_sent=false`。
+- 已知信息：ROCm/TPU backend 不可用提示与 XLA rematerialization 警告是当前 NVIDIA 单卡配置的已知日志；CUDA 训练、两次更新和完整保存均已成功，不能据这些提示误判失败。
+- 保留策略：smoke 的 `keep_period=null`，只验证一次完整保存；正式训练使用 `keep_period=4000`，从而保留 step 4000 与最终 5999 两个恢复点，而不是让 smoke 占用更多长期磁盘。
+- 安全边界：只进行了仿真数据上的离线模型训练，没有启动 Isaac 控制或真实机械臂；v2/v3 checkpoint 未修改。
+- 下一步：提交 smoke 小型报告与日志；再次确认正式目录不存在、无训练进程和训练 preflight PASS，然后启动 6000 步正式 v4 微调。监控有限数值、GPU/RAM、step 2000/4000/5999 保存和 step 4000 保留语义。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

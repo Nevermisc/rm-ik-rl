@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "c585d3f",
-  "working_version": "v4-fc-wip.045",
+  "git_baseline": "53ec2c0",
+  "working_version": "v4-fc-wip.046",
   "committed": true,
-  "phase": "v4_preparation_complete_training_preflight_passed",
-  "current_action": "commit the 102-episode conversion and training-input evidence, then run the isolated two-step v4 incremental-training smoke test",
+  "phase": "v4_incremental_smoke_passed_formal_training_ready",
+  "current_action": "commit the successful isolated smoke evidence, then start the preregistered 6000-step v4 production fine-tune in its new output directory",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -73,6 +73,18 @@
     "openpi_batch_validation": "pass",
     "training_preflight": "pass",
     "training_started": false
+  },
+  "v4_training_smoke": {
+    "status": "pass",
+    "num_train_steps": 2,
+    "step_0_loss": 0.006,
+    "step_0_grad_norm": 0.3236,
+    "step_1_loss": 0.0039,
+    "step_1_grad_norm": 0.2259,
+    "parameter_norm": 1803.9016,
+    "checkpoint": "rm65_failure_correction_v4_incremental_smoke/1",
+    "checkpoint_size_gib_approx": 5.4,
+    "formal_training_started": false
   },
   "v4_collection_preservation": {
     "spec_frozen": true,
