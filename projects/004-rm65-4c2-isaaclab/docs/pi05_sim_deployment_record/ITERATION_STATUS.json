@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "c888de0",
-  "working_version": "v4-fc-wip.055",
+  "git_baseline": "ba50e76",
+  "working_version": "v4-fc-wip.056",
   "committed": false,
-  "phase": "v5_post_settle_safety_reporting_hardened_pipeline_next",
-  "current_action": "validate and commit final-settle workspace safety reporting, then freeze fail-closed v5 collection, backup, preparation, training and evaluation entry points",
+  "phase": "v5_fail_closed_pipeline_validated_commit_then_first_group",
+  "current_action": "commit the remotely validated v5 pipeline and collection preflight, then collect the first four-episode physical group",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,8 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit the tested post-settle workspace-envelope reporting change without altering controller behavior",
-    "freeze v5 collection, 150-episode preparation, low-learning-rate 4000-step training and fresh-evaluation gates before collection"
+    "commit the remotely validated v5 gates, entry points and actual collection preflight result",
+    "run collection preflight and collect only the first four same-state RTX repeats",
+    "audit the first physical group before resuming the remaining 44 correction episodes"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -269,6 +270,34 @@
     "non_finite_position_reported": true,
     "workspace_escape_radius_m": 1.0,
     "regression_test_status": "pass",
+    "real_robot_command_sent": false
+  },
+  "v5_pipeline_contract": {
+    "status": "pass",
+    "collection_case_count": 48,
+    "first_collection_batch_case_count": 4,
+    "physical_group_count": 12,
+    "render_repeats_per_group": 4,
+    "raw_collection_backup_required_before_conversion": true,
+    "minimum_verified_raw_copy_count": 2,
+    "combined_training_episode_count": 150,
+    "source_episode_counts": [36, 30, 36, 48],
+    "repo_id": "local/rm65_sim_failure_correction_v5_train",
+    "initial_checkpoint": "rm65_failure_correction_v4_lora_6k/5999/params",
+    "target_checkpoint": "rm65_failure_correction_v5_lora_4k/3999",
+    "num_train_steps": 4000,
+    "batch_size": 1,
+    "warmup_steps": 200,
+    "peak_lr": 1e-06,
+    "decay_lr": 2.5e-07,
+    "save_interval": 2000,
+    "keep_period": 2000,
+    "fresh_confirmation_case_count": 20,
+    "repeatability_report_count": 60,
+    "remote_python_tests_passed": true,
+    "remote_shell_syntax_passed": true,
+    "actual_collection_preflight_passed": true,
+    "collection_started": false,
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false

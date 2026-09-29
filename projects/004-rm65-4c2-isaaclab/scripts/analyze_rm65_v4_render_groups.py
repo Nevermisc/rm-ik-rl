@@ -257,6 +257,11 @@ def main() -> int:
     parser.add_argument("--action-atol", type=float, default=0.0)
     parser.add_argument("--initial-atol", type=float, default=1e-7)
     parser.add_argument("--physical-atol", type=float, default=1e-5)
+    parser.add_argument(
+        "--report-format",
+        default="rm65_v4_render_group_analysis_v1",
+        help="Schema label for the generated analysis; computation is version-neutral.",
+    )
     args = parser.parse_args()
     for name in ("action_atol", "initial_atol", "physical_atol"):
         if getattr(args, name) < 0.0:
@@ -347,7 +352,7 @@ def main() -> int:
         and (args.plan is None or coverage["status"] == "pass")
     )
     report = {
-        "format": "rm65_v4_render_group_analysis_v1",
+        "format": args.report_format,
         "status": "pass" if passed else "fail",
         "simulation_only": True,
         "real_robot_command_sent": False,

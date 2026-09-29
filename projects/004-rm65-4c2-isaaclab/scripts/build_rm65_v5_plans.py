@@ -254,6 +254,8 @@ def build_confirmation_plan(
             "policy_gripper_open_threshold": 0.12,
             "actual_gripper_open_threshold": 0.20,
             "required_release_candidate_chunks": 2,
+            "cube_workspace_escape_radius_m": 1.0,
+            "post_control_workspace_safety_checks_required": True,
         },
         "repeatability_gate": {
             "required_reports": 60,
@@ -318,6 +320,14 @@ def validate_confirmation_plan(
         "three_repeats": plan.get("preregistration", {}).get("repeat_count") == 3,
         "ninety_five_percent_repeatability": plan.get("repeatability_gate", {}).get("minimum_status_consistency_rate") == 0.95,
         "expected_v5_checkpoint": plan.get("frozen_controller_contract", {}).get("checkpoint_id") == "rm65_failure_correction_v5_lora_4k/3999",
+        "post_control_safety_reporting_required": plan.get(
+            "frozen_controller_contract", {}
+        ).get("post_control_workspace_safety_checks_required")
+        is True
+        and plan.get("frozen_controller_contract", {}).get(
+            "cube_workspace_escape_radius_m"
+        )
+        == 1.0,
     }
     return {
         "status": "pass" if all(checks.values()) else "fail",

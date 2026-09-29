@@ -65,7 +65,8 @@
       "strict_ninety_percent_gate": true,
       "three_repeats": true,
       "ninety_five_percent_repeatability": true,
-      "expected_v5_checkpoint": true
+      "expected_v5_checkpoint": true,
+      "post_control_safety_reporting_required": true
     },
     "case_count": 20,
     "training_case_count_considered": 159,

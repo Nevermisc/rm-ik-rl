@@ -30,7 +30,9 @@
     "policy_max_action_chunks": 120,
     "policy_gripper_open_threshold": 0.12,
     "actual_gripper_open_threshold": 0.2,
-    "required_release_candidate_chunks": 2
+    "required_release_candidate_chunks": 2,
+    "cube_workspace_escape_radius_m": 1.0,
+    "post_control_workspace_safety_checks_required": true
   },
   "repeatability_gate": {
     "required_reports": 60,

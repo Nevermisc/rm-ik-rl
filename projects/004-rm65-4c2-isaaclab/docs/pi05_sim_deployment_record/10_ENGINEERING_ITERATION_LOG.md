@@ -675,6 +675,22 @@
 - 安全边界：无 Isaac Lab 动作执行、无训练、无数据变更、无真实机械臂命令。
 - 下一步：远端 Python 编译和回归 PASS 后精确提交本版本；随后在开始 48 条 v5 采集前，冻结 collection→raw backup→150-episode preparation→4000-step low-LR training→全新 20×3 evaluation 的完整 fail-closed 入口。
 
+### v4-fc-wip.056：采集前冻结 v5 全流程 fail-closed 合同
+
+- Git 基线：`ba50e76`（post-settle 安全诊断已推送）；状态：v5 collection/backup/preparation/training/evaluation 入口、单元回归、远端 shell 语法和真实资产采集预检全部 PASS，48 条采集尚未开始。
+- 准备做：在新增任何训练数据前，把“何时允许采、何时允许转、用什么模型续训、怎样判最终成绩”固化为代码；避免采集完成后再临时改变 episode 数、学习率、checkpoint 或评测条件。
+- 采集门禁：`collect_rm65_failure_correction_v5.sh` 必须先重算 v4 release 六资产的两副本 gate，再验证 v5 plans。支持 `first-group` 只采最前 4 条同物理 seed RTX 重复；该组通过动作/初态/物理轨迹一致性和双相机图像多样性审计后，才恢复余下 44 条。
+- 原始数据保存：新增 v5 单资产 preservation spec、source manifest/backup manifest 生成入口和独立 gate。转换前必须达到 `verified_copy_count=2`、逐树哈希一致、source-manifest SHA 一致；数据集和备份不进入 Git。
+- 准备合同：合并 base 36 + v3 correction 30 + v4 correction 36 + v5 correction 48 = 150 episodes，repo 固定为 `local/rm65_sim_failure_correction_v5_train`；必须启用 policy-window，重新计算专属 norm 并核对 norm 文件路径与 SHA。
+- 训练合同：只从冻结的 v4 final `rm65_failure_correction_v4_lora_6k/5999/params` 初始化；新输出目录为 `rm65_failure_correction_v5_lora_4k`，不得覆盖 v2/v3/v4。正式训练 4000 steps、batch 1、warmup 200、LR `1e-6→2.5e-7`、save interval 2000、keep period 2000，预期保留 2000 与 3999；先执行独立 2-step smoke。
+- 为什么进一步降学习率：v4 已有 85% 首轮成功率且重复性 95%，v5 的目标是修复 4 个证据驱动局部失效，不是重新学习整项任务。峰值从 `2e-6` 降到 `1e-6`、末值从 `5e-7` 降到 `2.5e-7`，降低 48 条定向纠正覆盖既有 102 条能力的风险。
+- 评测合同：训练前冻结的 v5 20 条条件仍要求 run1 至少 18/20；三轮共 60/60 报告、至少 95% 状态一致、最多 1 个 flip。评测预检额外要求 `.055` 的 settle A/B 工作区安全诊断合同，不允许新结果回到“最终越界但 reason 为 null”。
+- 故障注入回归：健康的 collection/prepare/train/evaluation fixture 全部 PASS；v5 source count 从 48 改为 47 会阻断训练；关闭 post-control safety requirement 会阻断评测；损坏备份的 `matches_reference` 会把两副本 gate 降为 FAIL。
+- 兼容性：same-state/multi-RTX 分析器新增显式 `--report-format`，默认仍保持 v4 schema，v5 调用产生 `rm65_v5_render_group_analysis_v1`，既有 v4 测试继续 PASS。
+- 安全/Git 边界：所有入口仅指向 Isaac Lab、数据、OpenPI 训练和离线/仿真评测；没有真实机械臂命令。只提交配置、脚本、小型 validation 和日志，不提交 dataset、norm 资产或 checkpoint。
+- 远端验证：Python 编译通过；v4 render-group 兼容回归、v5 plan、collection backup、pipeline gate、evaluation preflight、entrypoint 静态合同测试全部 PASS；五个 shell 入口 `bash -n` PASS。随后从 Git 中冻结的 v4 release source/backup manifest 重新计算两副本 gate，实际 v5 collection preflight PASS，并输出 `COLLECTION_NOT_STARTED=true`。
+- 下一步：精确提交本版本和实际 collection gate；随后运行 first-group 4 条而不是直接吞下 48 条。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
