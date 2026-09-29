@@ -703,6 +703,17 @@
 - 数据/Git 边界：原始 NPZ/PNG/task report 只留远端数据目录，不提交 Git；提交小型首组分析 JSON 与日志/状态。原始数据尚未达到两副本，禁止开始转换。
 - 下一步：提交本条证据；collection runner 将识别已经完成的 4 条并只采剩余 44 条。全部完成后必须做 12/12 组审计和 raw source manifest，再复制到第二存储并通过 backup gate。
 
+### v4-fc-wip.058：把 v5 备份归档的解包前安全审计变成代码
+
+- Git 基线：`b5ffd9b`（首个 v5 四重复组证据已推送）；状态：剩余 44 条后台采集已启动，新增 tar audit 与故障注入测试本地 PASS，不读取或修改正在写入的 episode。
+- 准备做：在原始数据采完并跨机器传输后，先验证 tar 内部结构再解包。v4 曾做过一次人工+临时脚本审计；v5 把相同原则固化为可重复、可回归的项目工具。
+- 检查范围：拒绝绝对路径、任何 `..`、required dataset prefix 之外的 entry、symlink/hardlink/device 等非普通文件与非目录 entry、重复规范化路径；普通文件数量和 tar payload 总字节必须与 source manifest 中指定 asset 精确一致。
+- 为什么在解包前检查：归档自身 SHA 一致只能证明传输无误，不能证明归档成员安全或范围正确；source tree hash 一致则需要解包后重算。顺序应为“整包 SHA→成员安全/盘点→解包到新目录→逐文件 rehash→两副本 gate”，不能跳步。
+- 测试：健康的双文件归档 PASS；含 `../escape.bin` 的 traversal 归档 FAIL；含绝对目标 symlink 的归档 FAIL；健康归档但期望文件数改错也 FAIL。审计器本身只读 tar、不会解包。
+- 采集并发边界：新增脚本不影响当前 Isaac Lab 进程，不改 expert、plan 或 recorder；当前后台采集沿用已提交的 `b5ffd9b` 数据合同。
+- 安全/Git 边界：提交审计代码、测试和日志；将来的 tar、解包数据和 manifest 中的大资产仍不进入 Git。无真实机械臂命令。
+- 下一步：远端复跑审计单测并提交；继续监控采集。48/48 完成后先做 12/12 组审计和 source manifest，再创建静态归档，绝不对仍在写入的数据目录打包。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
