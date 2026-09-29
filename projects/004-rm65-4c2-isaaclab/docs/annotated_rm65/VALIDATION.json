@@ -1,219 +1,374 @@
 {
-  "format": "rm65_line_atlas_validation_v3_zero_basics",
-  "status": "pass",
-  "files_checked": 20,
-  "source_lines": 4659,
-  "syntax_layers": 4659,
-  "semantic_layers": 4659,
-  "source_hashes_match": true,
-  "sequential_line_mapping": true,
-  "banned_generic_phrase_occurrences": 0,
-  "teaching_examples": {
-    "call_syntax": true,
-    "joint_syntax": true,
-    "action_semantics": true
-  },
-  "zero_basics_guide_present": true,
-  "files": [
+  "status": "PASS",
+  "source_commit": "0cd249e153b43ab880f3571d286013cadaf7331a",
+  "history_head": "0cd249e153b43ab880f3571d286013cadaf7331a",
+  "files": 20,
+  "source_lines": 5708,
+  "modules": 138,
+  "function_definitions": 77,
+  "production_sources_modified": false,
+  "history_files_modified_vs_head": [],
+  "errors": [],
+  "per_file": [
     {
       "file": "build_combined_urdf.py",
       "source_lines": 305,
-      "syntax_layers": 305,
-      "semantic_layers": 305,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 12,
+      "function_definitions": 7,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "import_combined_urdf.py",
       "source_lines": 90,
-      "syntax_layers": 90,
-      "semantic_layers": 90,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 6,
+      "function_definitions": 1,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "run_pick_place_baseline.py",
-      "source_lines": 2249,
-      "syntax_layers": 2249,
-      "semantic_layers": 2249,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 2609,
+      "modules": 23,
+      "function_definitions": 22,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "expert_episode.py",
       "source_lines": 254,
-      "syntax_layers": 254,
-      "semantic_layers": 254,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 6,
+      "function_definitions": 6,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "convert_expert_episodes_to_lerobot.py",
-      "source_lines": 255,
-      "syntax_layers": 255,
-      "semantic_layers": 255,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 313,
+      "modules": 10,
+      "function_definitions": 6,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "rm65_policy.py",
       "source_lines": 73,
-      "syntax_layers": 73,
-      "semantic_layers": 73,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 4,
+      "function_definitions": 3,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "rm65_training_config.py",
-      "source_lines": 106,
-      "syntax_layers": 106,
-      "semantic_layers": 106,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 117,
+      "modules": 5,
+      "function_definitions": 2,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "train_rm65_pi05.py",
-      "source_lines": 99,
-      "syntax_layers": 99,
-      "semantic_layers": 99,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 140,
+      "modules": 6,
+      "function_definitions": 2,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "serve_rm65_policy.py",
-      "source_lines": 58,
-      "syntax_layers": 58,
-      "semantic_layers": 58,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 71,
+      "modules": 5,
+      "function_definitions": 1,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "action_guard.py",
       "source_lines": 68,
-      "syntax_layers": 68,
-      "semantic_layers": 68,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 4,
+      "function_definitions": 1,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "closed_loop_report.py",
-      "source_lines": 68,
-      "syntax_layers": 68,
-      "semantic_layers": 68,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 319,
+      "modules": 6,
+      "function_definitions": 6,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "run_pi05_rm65_closed_loop.sh",
-      "source_lines": 124,
-      "syntax_layers": 124,
-      "semantic_layers": 124,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 159,
+      "modules": 5,
+      "function_definitions": 0,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "run_pi05_rm65_closed_loop_suite.py",
-      "source_lines": 286,
-      "syntax_layers": 286,
-      "semantic_layers": 286,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 517,
+      "modules": 11,
+      "function_definitions": 9,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "run_expert_collection_plan.py",
-      "source_lines": 104,
-      "syntax_layers": 104,
-      "semantic_layers": 104,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 136,
+      "modules": 6,
+      "function_definitions": 3,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "compute_rm65_norm_stats.py",
-      "source_lines": 100,
-      "syntax_layers": 100,
-      "semantic_layers": 100,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 112,
+      "modules": 5,
+      "function_definitions": 2,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "validate_rm65_checkpoint.py",
       "source_lines": 97,
-      "syntax_layers": 97,
-      "semantic_layers": 97,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 5,
+      "function_definitions": 2,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "run_rm65_post_training_pipeline.sh",
       "source_lines": 158,
-      "syntax_layers": 158,
-      "semantic_layers": 158,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 8,
+      "function_definitions": 0,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "grasp_geometry.py",
       "source_lines": 105,
-      "syntax_layers": 105,
-      "semantic_layers": 105,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 5,
+      "function_definitions": 2,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "websocket_compat.py",
       "source_lines": 25,
-      "syntax_layers": 25,
-      "semantic_layers": 25,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "modules": 3,
+      "function_definitions": 1,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     },
     {
       "file": "check_closed_loop_task_report.py",
-      "source_lines": 35,
-      "syntax_layers": 35,
-      "semantic_layers": 35,
-      "sequential_markers": true,
-      "sha256_matches_manifest": true,
-      "banned_generic_phrases": 0,
-      "pass": true
+      "source_lines": 40,
+      "modules": 3,
+      "function_definitions": 1,
+      "checks": {
+        "sha256_matches": true,
+        "all_lines_in_order": true,
+        "semantic_explanation_per_line": true,
+        "module_count_matches": true,
+        "function_card_per_definition": true,
+        "has_pipeline_position": true,
+        "has_problem_solution": true,
+        "has_revision_history": true,
+        "has_module_dataflow": true,
+        "has_module_summary": true
+      }
     }
   ]
 }

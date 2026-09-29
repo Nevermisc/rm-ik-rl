@@ -1,29 +1,93 @@
-# `import_combined_urdf.py` 逐行中文注释
+# `import_combined_urdf.py` 模块化零基础导读与逐行注释
 
-> 这是学习副本，不参与项目运行。生产源码没有被插入注释或改写。
+> 这是学习副本，不参与项目运行。它把同一份生产源码按模块重新排版；生产源码没有被插入注释或改写。
 
 - 仓库路径：`projects/004-rm65-4c2-isaaclab/scripts/import_combined_urdf.py`
+- 对应源码提交：`0cd249e153b43ab880f3571d286013cadaf7331a`
+- 生成快照时源码是否有未提交修改：`False`
 - 快照 SHA-256：`b61ed2e1eacffed6ec6dfe249376e762483307bcea1207470b1e2edf4cda844c`
 - 总行数：90
-- 程序作用：在 Isaac Sim 进程中把合成 URDF 导入为 USD，并检查关节和 articulation root。
-- 推荐读法：重点理解为什么必须先启动 AppLauncher，再导入 omni/pxr 模块。
 
-## 功能块地图
+## 1. 先把这个程序放进整个项目
 
-- 第 1-23 行：解析参数并启动 Isaac Sim 应用
-- 第 25-31 行：应用启动后才能导入的 Isaac/Omniverse 模块
-- 第 34-53 行：校验输入并设置 URDF 导入选项
-- 第 55-69 行：执行导入并重新打开 USD 检查物理对象
-- 第 70-84 行：写出导入报告
-- 第 87-90 行：无论成功失败都关闭 Isaac Sim
+- 所处阶段：机器人资产准备：把合并 URDF 转成 Isaac Sim 加载更稳定的 USD。
+- 输入：合并后的 RM65+4C2 URDF 和导入选项。
+- 输出：USD 文件以及重新打开后的 articulation/physics 校验。
+- 一句话作用：在 Isaac Sim 进程中把合成 URDF 导入为 USD，并检查关节和 articulation root。
 
-## 函数/类索引
+### 为什么要写它
+
+- 原先的问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。
+- 采用的解决办法：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+## 2. 本文件出现的基础概念
+
+- **dict**：字典：用键查找值，例如 `data["actions"]`。适合保存一条样本中名称不同的字段。
+- **tuple**：元组：有顺序、创建后不修改的一组值，例如六个关节名称。可以混合类型，不等同于 NumPy 数组。
+- **Path**：pathlib.Path：把文件路径当对象处理，使用 `/` 拼接目录，并提供 exists/read_text 等方法。
+- **argparse**：命令行参数解析：把 `--checkpoint` 等启动选项转换成 `args.checkpoint` 字段。
+- **JSON**：JSON：只含通用键值、列表、数字和字符串的文本格式；用于计划、metadata 和报告证据。
+- **URDF**：URDF：XML 机器人描述，记录 link、joint、几何、质量、惯量和父子关系。
+- **USD**：USD：Isaac Sim 原生场景/资产格式，承载已导入的 articulation 和物理属性。
+
+## 3. 有证据的修订日志
+
+下面只复述 Git 中确实修改过这个文件的提交。某个问题是否完全解决，还要看对应测试/报告，不能只凭提交标题判断。
+
+- `2026-09-15` `64c584a1` **Add RM65 and 4C2 Isaac Lab migration baseline**：建立 RM65+4C2 资产、策略接口和基础仿真迁移骨架。
+
+### 与上一版教学快照的源码差异
+
+- 当前源码与上一版教学快照一致。
+
+## 4. 模块地图
+
+- 模块 1｜第 1-24 行：解析参数并启动 Isaac Sim 应用
+- 模块 2｜第 25-33 行：应用启动后才能导入的 Isaac/Omniverse 模块
+- 模块 3｜第 34-54 行：校验输入并设置 URDF 导入选项
+- 模块 4｜第 55-69 行：执行导入并重新打开 USD 检查物理对象
+- 模块 5｜第 70-86 行：写出导入报告
+- 模块 6｜第 87-90 行：无论成功失败都关闭 Isaac Sim
+
+### 函数/类快速索引
 
 - `main()`：第 34-84 行
 
-## 逐行学习副本
+## 5. 按模块精读源码
 
-每个源码行前有两层解释：`【Lxxxx】语法拆解` 解释关键字、圆括号、方括号、冒号、点号、等号和求值顺序；`【项目含义】` 解释这一行操作的 RM65/4C2/π0.5 对象、数据形状、来源和后续去向。空行也保留，因为空行体现程序分段。
+阅读顺序固定为：先看模块为什么存在和数据怎样流动，再看新函数/API，最后逐行看语法与项目含义。这样不会把代码读成互不相干的句子。
+
+## 模块 1：解析参数并启动 Isaac Sim 应用（源码第 1-24 行）
+
+### 5.A 数据流位置
+
+- 上游：命令行/上游文件或调用者。
+- 本模块：解析参数并启动 Isaac Sim 应用。
+- 下游：处理结果继续交给模块 2“应用启动后才能导入的 Isaac/Omniverse 模块”。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“解析参数并启动 Isaac Sim 应用”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.C 本模块主要变量
+
+- `report`：机器可读实验报告字典。
+- `usd`：Isaac Sim 实际加载的 RM65+4C2 USD 资产路径。
+- `urdf`：Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径。
+- `description`：Lula 将规划关节组和末端 link 映射到 URDF 的 robot description YAML。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `argparse.ArgumentParser(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `parser.add_argument(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `AppLauncher.add_app_launcher_args(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `parser.parse_args(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
 
 ```python
 # 【L0001】语法拆解：`#!` 是 Linux 的 shebang 标记；后面的路径指定直接运行脚本时使用哪个解释器。
@@ -65,13 +129,13 @@ from isaaclab.app import AppLauncher
 # 【L0013】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `parser`。右侧语法为：`argparse` 是模块/对象，点号 `.` 从中取出 `ArgumentParser` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `description=__doc__`。
 # 【项目含义】得到 `parser`，它在本项目中表示本功能块中的 `parser` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `argparse.ArgumentParser(description=__doc__)`；`argparse` 表示本功能块中的 `argparse` 值；`ArgumentParser` 表示本功能块中的 `ArgumentParser` 值；`description` 表示Lula 将规划关节组和末端 link 映射到 URDF 的 robot description YAML。
 parser = argparse.ArgumentParser(description=__doc__)
-# 【L0014】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `parser.add_argument("--urdf", type`。右侧语法为：`Path, required=True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0014】语法拆解：`parser` 是模块/对象，点号 `.` 从中取出 `add_argument` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `"--urdf"`；第 2 个实参 `type=Path`；第 3 个实参 `required=True`。
 # 【项目含义】声明命令行参数 `--urdf`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--urdf", type=Path, required=True)
-# 【L0015】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `parser.add_argument("--usd", type`。右侧语法为：`Path, required=True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0015】语法拆解：`parser` 是模块/对象，点号 `.` 从中取出 `add_argument` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `"--usd"`；第 2 个实参 `type=Path`；第 3 个实参 `required=True`。
 # 【项目含义】声明命令行参数 `--usd`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--usd", type=Path, required=True)
-# 【L0016】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `parser.add_argument("--report", type`。右侧语法为：`Path)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0016】语法拆解：`parser` 是模块/对象，点号 `.` 从中取出 `add_argument` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `"--report"`；第 2 个实参 `type=Path`。
 # 【项目含义】声明命令行参数 `--report`；启动脚本可用它改变“解析参数并启动 Isaac Sim 应用”的配置，最终参数也会写入证据便于复现。
 parser.add_argument("--report", type=Path)
 # 【L0017】语法拆解：`parser.add_argument(` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
@@ -96,8 +160,37 @@ AppLauncher.add_app_launcher_args(parser)
 # 【项目含义】得到 `args`，它在本项目中表示解析后的命令行参数集合；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `parser.parse_args()`；`parser` 表示本功能块中的 `parser` 值；`parse_args` 表示本功能块中的 `parse_args` 值。
 args = parser.parse_args()
 # 【L0024】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“解析参数并启动 Isaac Sim 应用”中的逻辑段，让结构更容易看清。
 
+```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“解析参数并启动 Isaac Sim 应用”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。
+
+## 模块 2：应用启动后才能导入的 Isaac/Omniverse 模块（源码第 25-33 行）
+
+### 5.A 数据流位置
+
+- 上游：模块 1“解析参数并启动 Isaac Sim 应用”。
+- 本模块：应用启动后才能导入的 Isaac/Omniverse 模块。
+- 下游：处理结果继续交给模块 3“校验输入并设置 URDF 导入选项”。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“应用启动后才能导入的 Isaac/Omniverse 模块”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `AppLauncher(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
+
+```python
 # 【L0025】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `app_launcher`。右侧语法为：`AppLauncher` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `args`。
 # 【项目含义】得到 `app_launcher`，它在本项目中表示本功能块中的 `app_launcher` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `AppLauncher(args)`；`AppLauncher` 表示本功能块中的 `AppLauncher` 值。
 app_launcher = AppLauncher(args)
@@ -120,11 +213,67 @@ from isaacsim.core.utils.extensions import enable_extension  # noqa: E402
 # 【项目含义】从 `pxr` 引入 `Usd, UsdPhysics  # noqa: E402`。在这份程序里，`pxr` 用于项目或第三方模块；后续出现这些名字时调用的是这里的外部能力。
 from pxr import Usd, UsdPhysics  # noqa: E402
 # 【L0032】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“应用启动后才能导入的 Isaac/Omniverse 模块”中的逻辑段，让结构更容易看清。
 
 # 【L0033】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“应用启动后才能导入的 Isaac/Omniverse 模块”中的逻辑段，让结构更容易看清。
 
+```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“应用启动后才能导入的 Isaac/Omniverse 模块”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。
+
+## 模块 3：校验输入并设置 URDF 导入选项（源码第 34-54 行）
+
+### 5.A 数据流位置
+
+- 上游：模块 2“应用启动后才能导入的 Isaac/Omniverse 模块”。
+- 本模块：校验输入并设置 URDF 导入选项。
+- 下游：处理结果继续交给模块 4“执行导入并重新打开 USD 检查物理对象”。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“校验输入并设置 URDF 导入选项”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.C 本模块主要变量
+
+- `config`：RM65 π0.5 训练/推理使用的完整 OpenPI 配置。
+- `usd`：Isaac Sim 实际加载的 RM65+4C2 USD 资产路径。
+- `urdf`：Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `main(...)`：圆括号表示真正执行调用；项目自己定义或包装的函数；请结合本模块的函数卡和实际调用位置理解输入、处理和返回值。
+- `args.urdf.expanduser(...)`：圆括号表示真正执行调用；把路径开头的 `~` 展开成当前用户主目录。
+- `resolve(...)`：圆括号表示真正执行调用；把相对路径和 `..` 解析成规范绝对路径。
+- `args.usd.expanduser(...)`：圆括号表示真正执行调用；把路径开头的 `~` 展开成当前用户主目录。
+- `urdf.is_file(...)`：圆括号表示真正执行调用；检查路径是否存在且确实是普通文件。
+- `FileNotFoundError(...)`：圆括号表示真正执行调用；创建“需要的文件不存在”的异常。
+- `usd.parent.mkdir(...)`：圆括号表示真正执行调用；创建目录。
+- `enable_extension(...)`：圆括号表示真正执行调用；让 Isaac Sim 加载指定扩展；没有它就无法使用随后导入的 URDF 或 Lula API。
+- `simulation_app.update(...)`：圆括号表示真正执行调用；用当前仿真步的新数据刷新对象或字典，保证后续判断读取的是最新状态。
+- `omni.kit.commands.execute(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `RuntimeError(...)`：圆括号表示真正执行调用；创建“运行过程无法继续”的异常；配合 raise 把失败原因交给上层。
+
+### 5.E 本模块定义的新函数
+
+### 函数卡：`main()`（第 34-84 行）
+
+- 定义了什么：校验输入并设置 URDF 导入选项。`def` 只创建函数；实际调用时函数体才执行。
+- 输入：无显式参数。
+- 返回类型标注：`None`。
+- 函数体实际 return：没有显式值，默认返回 None。
+- 项目中的实际调用位置：`build_combined_urdf.py:305` 的 `main()`；`import_combined_urdf.py:88` 的 `main()`；`run_pick_place_baseline.py:2569` 的 `exit_code = main()`；`convert_expert_episodes_to_lerobot.py:313` 的 `raise SystemExit(main())`；`train_rm65_pi05.py:106` 的 `trainer.main(config)`
+
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
+
+```python
 # 【L0034】语法拆解：`def` 定义函数 `main`；第一对圆括号列出形参，逗号负责分隔：没有形参；`-> None` 表示返回类型提示；行末冒号打开函数体。
 # 【项目含义】定义函数 `main()`；调用者把参数交给它完成“校验输入并设置 URDF 导入选项”，后面的缩进代码是具体实现。
 def main() -> None:
@@ -140,7 +289,7 @@ def main() -> None:
 # 【L0038】语法拆解：`raise` 主动制造并抛出异常；后面的 `FileNotFoundError(urdf)` 创建错误对象，当前正常流程随即停止。
 # 【项目含义】主动抛出 `FileNotFoundError(urdf)` 并停止当前路径；说明当前输入违反“校验输入并设置 URDF 导入选项”要求，不能继续进入仿真、训练或评测。
         raise FileNotFoundError(urdf)
-# 【L0039】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `usd.parent.mkdir(parents`。右侧语法为：`True, exist_ok=True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0039】语法拆解：`usd.parent` 是模块/对象，点号 `.` 从中取出 `mkdir` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `parents=True`；第 2 个实参 `exist_ok=True`。
 # 【项目含义】调用 `mkdir`：创建目录；本行实际操作 `usd.parent.mkdir(parents=True, exist_ok=True)`。`usd` 表示Isaac Sim 实际加载的 RM65+4C2 USD 资产路径；`parent` 表示本功能块中的 `parent` 值。
     usd.parent.mkdir(parents=True, exist_ok=True)
 # 【L0040】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
@@ -186,8 +335,50 @@ def main() -> None:
 # 【项目含义】把 `config` 对象的 `parse_mimic` 配置成 `args.parse_mimic`。`config` 在这里表示RM65 π0.5 训练/推理使用的完整 OpenPI 配置；这个设置会影响“校验输入并设置 URDF 导入选项”。
     config.parse_mimic = args.parse_mimic
 # 【L0054】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“校验输入并设置 URDF 导入选项”中的逻辑段，让结构更容易看清。
 
+```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“校验输入并设置 URDF 导入选项”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。
+
+## 模块 4：执行导入并重新打开 USD 检查物理对象（源码第 55-69 行）
+
+### 5.A 数据流位置
+
+- 上游：模块 3“校验输入并设置 URDF 导入选项”。
+- 本模块：执行导入并重新打开 USD 检查物理对象。
+- 下游：处理结果继续交给模块 5“写出导入报告”。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“执行导入并重新打开 USD 检查物理对象”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.C 本模块主要变量
+
+- `joints`：六个 RM65 关节位置的一维 NumPy 数组。
+- `config`：RM65 π0.5 训练/推理使用的完整 OpenPI 配置。
+- `usd`：Isaac Sim 实际加载的 RM65+4C2 USD 资产路径。
+- `urdf`：Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `omni.kit.commands.execute(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `RuntimeError(...)`：圆括号表示真正执行调用；创建“运行过程无法继续”的异常；配合 raise 把失败原因交给上层。
+- `simulation_app.update(...)`：圆括号表示真正执行调用；用当前仿真步的新数据刷新对象或字典，保证后续判断读取的是最新状态。
+- `Usd.Stage.Open(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `stage.Traverse(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `prim.IsA(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `prim.HasAPI(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
+
+```python
 # 【L0055】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `status, imported_path`。右侧语法为：`omni.kit.commands.execute(` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
 # 【项目含义】把右侧返回的多个结果按位置拆给 `status, imported_path`；`status` 表示本功能块中的 `status` 值；`imported_path` 表示路径相关值。右侧的来源是：计算表达式 `omni.kit.commands.execute(`；`omni` 表示本功能块中的 `omni` 值；`kit` 表示本功能块中的 `kit` 值；`commands` 表示本功能块中的 `commands` 值。
     status, imported_path = omni.kit.commands.execute(
@@ -233,31 +424,72 @@ def main() -> None:
 # 【L0069】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `articulation_roots`。右侧语法为：最外层方括号创建列表；逗号分隔列表元素；若内部含 `for`，则是列表推导式。
 # 【项目含义】得到 `articulation_roots`，它在本项目中表示本功能块中的 `articulation_roots` 值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `[prim for prim in stage.Traverse() if prim.HasAPI(UsdPhysics.ArticulationRootAPI)]`；`prim` 表示本功能块中的 `prim` 值；`stage` 表示本功能块中的 `stage` 值；`Traverse` 表示本功能块中的 `Traverse` 值。
     articulation_roots = [prim for prim in stage.Traverse() if prim.HasAPI(UsdPhysics.ArticulationRootAPI)]
+```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“执行导入并重新打开 USD 检查物理对象”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。
+
+## 模块 5：写出导入报告（源码第 70-86 行）
+
+### 5.A 数据流位置
+
+- 上游：模块 4“执行导入并重新打开 USD 检查物理对象”。
+- 本模块：写出导入报告。
+- 下游：处理结果继续交给模块 6“无论成功失败都关闭 Isaac Sim”。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“写出导入报告”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.C 本模块主要变量
+
+- `report`：机器可读实验报告字典。
+- `joints`：六个 RM65 关节位置的一维 NumPy 数组。
+- `usd`：Isaac Sim 实际加载的 RM65+4C2 USD 资产路径。
+- `urdf`：Lula/Isaac 使用的 RM65 关节、link 和几何描述文件路径。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `prim.GetPath(...)`：圆括号表示真正执行调用；来自标准库、第三方库或当前对象的方法；圆括号中的值是传入参数，返回值会交给外层表达式或左侧变量。
+- `args.report.expanduser(...)`：圆括号表示真正执行调用；把路径开头的 `~` 展开成当前用户主目录。
+- `resolve(...)`：圆括号表示真正执行调用；把相对路径和 `..` 解析成规范绝对路径。
+- `report_path.parent.mkdir(...)`：圆括号表示真正执行调用；创建目录。
+- `report_path.write_text(...)`：圆括号表示真正执行调用；把文本写入磁盘文件。
+- `json.dumps(...)`：圆括号表示真正执行调用；把 Python 字典序列化成 JSON 文本。
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
+
+```python
 # 【L0070】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `report`。右侧语法为：`{` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
 # 【项目含义】得到 `report`，它在本项目中表示机器可读实验报告字典；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：把表达式 `{` 的结果保存下来，供当前功能块后续使用。
     report = {
-# 【L0071】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0071】语法拆解：这是字典键值对：`"status"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`"pass"` 是字符串；成对引号界定文字内容，本身不代表变量名。
 # 【项目含义】定义字典/JSON 字段 `status`，它表示本阶段的机器可读通过/失败状态；字段值来自 `"pass"`，因此保存/传递的是这个表达式当前计算出的结果。
         "status": "pass",
-# 【L0072】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0072】语法拆解：这是字典键值对：`"urdf"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`str` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `urdf`。
 # 【项目含义】定义字典/JSON 字段 `urdf`，它表示“写出导入报告”中的 `urdf` 数据；字段值来自 `str(urdf)`，因此保存/传递的是这个表达式当前计算出的结果。
         "urdf": str(urdf),
-# 【L0073】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0073】语法拆解：这是字典键值对：`"usd"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`str` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `usd`。
 # 【项目含义】定义字典/JSON 字段 `usd`，它表示“写出导入报告”中的 `usd` 数据；字段值来自 `str(usd)`，因此保存/传递的是这个表达式当前计算出的结果。
         "usd": str(usd),
-# 【L0074】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0074】语法拆解：这是字典键值对：`"imported_path"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`str` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `imported_path`。
 # 【项目含义】定义字典/JSON 字段 `imported_path`，它表示“写出导入报告”中的 `imported_path` 数据；字段值来自 `str(imported_path)`，因此保存/传递的是这个表达式当前计算出的结果。
         "imported_path": str(imported_path),
-# 【L0075】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0075】语法拆解：这是字典键值对：`"usd_joint_count"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`len` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `joints`。
 # 【项目含义】定义字典/JSON 字段 `usd_joint_count`，它表示“写出导入报告”中的 `usd_joint_count` 数据；字段值来自 `len(joints)`，因此保存/传递的是这个表达式当前计算出的结果。
         "usd_joint_count": len(joints),
-# 【L0076】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0076】语法拆解：这是字典键值对：`"parse_mimic"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`args` 是起始对象；每个点号 `.` 依次读取属性/成员：`parse_mimic`。
 # 【项目含义】定义字典/JSON 字段 `parse_mimic`，它表示“写出导入报告”中的 `parse_mimic` 数据；字段值来自 `args.parse_mimic`，因此保存/传递的是这个表达式当前计算出的结果。
         "parse_mimic": args.parse_mimic,
-# 【L0077】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0077】语法拆解：这是字典键值对：`"gripper_coupling"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：`"physx_mimic" if args.parse_mimic else "software_coupled_joint_targets"` 是字符串；成对引号界定文字内容，本身不代表变量名。
 # 【项目含义】定义字典/JSON 字段 `gripper_coupling`，它表示“写出导入报告”中的 `gripper_coupling` 数据；字段值来自 `"physx_mimic" if args.parse_mimic else "software_coupled_joint_targets"`，因此保存/传递的是这个表达式当前计算出的结果。
         "gripper_coupling": "physx_mimic" if args.parse_mimic else "software_coupled_joint_targets",
-# 【L0078】语法拆解：引号包住字典键，键后的冒号连接对应值；末尾逗号把这一键值对与下一个字段分开。
+# 【L0078】语法拆解：这是字典键值对：`"articulation_roots"` 是字符串键，键后的冒号 `:` 连接它的值；末尾逗号表示字典还有后续字段。值表达式从内向外执行：最外层方括号创建列表；逗号分隔列表元素；若内部含 `for`，则是列表推导式。
 # 【项目含义】定义字典/JSON 字段 `articulation_roots`，它表示“写出导入报告”中的 `articulation_roots` 数据；字段值来自 `[str(prim.GetPath()) for prim in articulation_roots]`，因此保存/传递的是这个表达式当前计算出的结果。
         "articulation_roots": [str(prim.GetPath()) for prim in articulation_roots],
 # 【L0079】语法拆解：右括号/花括号关闭前面某一行打开的函数调用、列表、字典或代码块；后面的逗号表示它仍是外层容器中的一个元素。
@@ -269,21 +501,51 @@ def main() -> None:
 # 【L0081】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `report_path`。右侧语法为：`args.report` 是模块/对象，点号 `.` 从中取出 `expanduser` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `).resolve(`。
 # 【项目含义】得到 `report_path`，它在本项目中表示报告、路径相关值；保存为当前作用域变量，供下面的步骤读取。这一行右侧的工作是：计算表达式 `args.report.expanduser().resolve()`；`report` 表示机器可读实验报告字典；`expanduser` 表示本功能块中的 `expanduser` 值；`resolve` 表示本功能块中的 `resolve` 值。
         report_path = args.report.expanduser().resolve()
-# 【L0082】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `report_path.parent.mkdir(parents`。右侧语法为：`True, exist_ok=True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0082】语法拆解：`report_path.parent` 是模块/对象，点号 `.` 从中取出 `mkdir` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `parents=True`；第 2 个实参 `exist_ok=True`。
 # 【项目含义】调用 `mkdir`：创建目录；本行实际操作 `report_path.parent.mkdir(parents=True, exist_ok=True)`。`report_path` 表示报告、路径相关值；`parent` 表示本功能块中的 `parent` 值。
         report_path.parent.mkdir(parents=True, exist_ok=True)
-# 【L0083】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `report_path.write_text(json.dumps(report, indent`。右侧语法为：表达式 `2) + "\n", encoding="utf-8")` 使用运算符 `+`, `-`；Python 先计算括号/索引/属性，再按运算符优先级组合结果。
+# 【L0083】语法拆解：`report_path` 是模块/对象，点号 `.` 从中取出 `write_text` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `json.dumps(report, indent=2) + "\n"`；第 2 个实参 `encoding="utf-8"`。
 # 【项目含义】调用 `json.dumps`：把 Python 字典序列化成 JSON 文本；本行实际操作 `report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")`。`report_path` 表示报告、路径相关值；`write_text` 表示本功能块中的 `write_text` 值。
         report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-# 【L0084】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `print(json.dumps(report, indent`。右侧语法为：`2), flush=True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0084】语法拆解：`print` 是被调用的函数/类名；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `json.dumps(report, indent=2)`；第 2 个实参 `flush=True`。
 # 【项目含义】把 `json.dumps(report, indent=2), flush=True` 的当前值/文字输出到终端；它用于观察“写出导入报告”进度，也给日志留下可搜索证据。
     print(json.dumps(report, indent=2), flush=True)
 # 【L0085】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“写出导入报告”中的逻辑段，让结构更容易看清。
 
 # 【L0086】语法拆解：这是空行，不执行任何运算；它只把相邻逻辑分段。
-# 【项目含义】空行：分隔“文件级连接或空白区域”中的逻辑段，让结构更容易看清。
+# 【项目含义】空行：分隔“写出导入报告”中的逻辑段，让结构更容易看清。
 
+```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“写出导入报告”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。
+
+## 模块 6：无论成功失败都关闭 Isaac Sim（源码第 87-90 行）
+
+### 5.A 数据流位置
+
+- 上游：模块 5“写出导入报告”。
+- 本模块：无论成功失败都关闭 Isaac Sim。
+- 下游：处理结果继续交给磁盘输出、仿真/训练框架或调用者。
+
+### 5.B 为什么需要这一组代码
+
+这一组负责“无论成功失败都关闭 Isaac Sim”。它服务于本文件要解决的总问题：IsaacLab 运行时反复直接解析 URDF 不利于稳定复现，导入选项错误还会丢失惯量、mimic 或固定基座设置。 这一组的处理结果会参与：显式设置 URDF importer 参数，执行导入后重新打开 USD 检查结果。
+
+### 5.D 本模块首次阅读要认识的调用
+
+- `main(...)`：圆括号表示真正执行调用；项目自己定义或包装的函数；请结合本模块的函数卡和实际调用位置理解输入、处理和返回值。
+- `simulation_app.close(...)`：圆括号表示真正执行调用；关闭仿真应用、文件或连接，释放 GPU、文件句柄或网络资源。
+
+### 5.F 这一模块的版本变化
+
+- 与上一版教学快照相比，这一模块没有源码变化。
+
+### 5.G 逐行精读
+
+```python
 # 【L0087】语法拆解：这是异常处理结构：`try` 包住可能失败的代码，`except` 接住错误，`finally` 无论成功失败都执行；冒号打开对应缩进块。
 # 【项目含义】开始执行可能抛错的“无论成功失败都关闭 Isaac Sim”操作；后面的 `except/finally` 会记录失败或释放仿真、文件、网络资源。
 try:
@@ -293,7 +555,11 @@ try:
 # 【L0089】语法拆解：这是异常处理结构：`try` 包住可能失败的代码，`except` 接住错误，`finally` 无论成功失败都执行；冒号打开对应缩进块。
 # 【项目含义】无论前面的仿真/服务调用成功还是抛错都运行这里，确保 Isaac Sim、WebSocket 或临时文件被正确收尾。
 finally:
-# 【L0090】语法拆解：等号 `=` 是赋值：先完整计算右边，再把结果绑定/写入左边 `simulation_app.close(skip_cleanup`。右侧语法为：`True)` 是当前表达式或参数；Python 会先求出其中更内层的括号、索引和函数调用，再把结果交给外层语句。
+# 【L0090】语法拆解：`simulation_app` 是模块/对象，点号 `.` 从中取出 `close` 函数或方法；圆括号表示执行调用，逗号把参数分开：第 1 个实参 `skip_cleanup=True`。
 # 【项目含义】对 `simulation_app` 调用 `close(skip_cleanup=True)`：关闭仿真应用、文件或连接，释放 GPU、文件句柄或网络资源。本行产生的修改/返回值服务于“无论成功失败都关闭 Isaac Sim”。
     simulation_app.close(skip_cleanup=True)
 ```
+
+### 5.H 模块小结
+
+读完后你应能回答：这一组怎样完成“无论成功失败都关闭 Isaac Sim”，它从哪里拿数据，又把什么交给下一模块。若不能回答，先回看 5.A 的三段数据流，再回到具体行。

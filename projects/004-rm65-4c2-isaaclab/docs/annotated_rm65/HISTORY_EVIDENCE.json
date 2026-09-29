@@ -1,0 +1,665 @@
+{
+  "head": "0cd249e153b43ab880f3571d286013cadaf7331a",
+  "files": {
+    "projects/004-rm65-4c2-isaaclab/scripts/build_combined_urdf.py": {
+      "exists": true,
+      "worktree_sha256": "26f85a801b78ef9caa9df59510fe8fabe987feb822a09a675a1aaf679bf2317a",
+      "head_sha256": "26f85a801b78ef9caa9df59510fe8fabe987feb822a09a675a1aaf679bf2317a",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "4a4794a51703e51062976838fd8bbf2d738f6b14",
+          "date": "2026-09-15",
+          "subject": "Advance natural-gravity RM65 grasp baseline"
+        },
+        {
+          "commit": "06b44e2ac9b0ef22d13ddde679ab19fda132350b",
+          "date": "2026-09-15",
+          "subject": "Validate RM65 4C2 contact transport"
+        },
+        {
+          "commit": "b1c1a72a4a7ce734f577fe9da446b7789b7507b0",
+          "date": "2026-09-15",
+          "subject": "Expand RM65 simulation validation"
+        },
+        {
+          "commit": "64c584a142a9e504ed72d1314c30f093f1e679de",
+          "date": "2026-09-15",
+          "subject": "Add RM65 and 4C2 Isaac Lab migration baseline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/import_combined_urdf.py": {
+      "exists": true,
+      "worktree_sha256": "b61ed2e1eacffed6ec6dfe249376e762483307bcea1207470b1e2edf4cda844c",
+      "head_sha256": "b61ed2e1eacffed6ec6dfe249376e762483307bcea1207470b1e2edf4cda844c",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "64c584a142a9e504ed72d1314c30f093f1e679de",
+          "date": "2026-09-15",
+          "subject": "Add RM65 and 4C2 Isaac Lab migration baseline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/run_pick_place_baseline.py": {
+      "exists": true,
+      "worktree_sha256": "b13981361fb8f254d94b08f33619ae2bfd0be99d4404c19c1cbeddea59554014",
+      "head_sha256": "b13981361fb8f254d94b08f33619ae2bfd0be99d4404c19c1cbeddea59554014",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "dd084c3befd1bbb4a54454f23b3c90b8dceee37a",
+          "date": "2026-09-29",
+          "subject": "Preserve RM65 formal failure provenance"
+        },
+        {
+          "commit": "79e66ceb0a1fd27b3a80b7787d8edeb22e90c746",
+          "date": "2026-09-29",
+          "subject": "Complete RM65 v3 training and harden evaluation provenance"
+        },
+        {
+          "commit": "41b8583409c3f17d0b198405778590fdb9b1d3ec",
+          "date": "2026-09-28",
+          "subject": "Handle scripted expert preflight failures"
+        },
+        {
+          "commit": "0264302fe64c34bf4418f5fa5ffb133c2f1791f2",
+          "date": "2026-09-28",
+          "subject": "Record RM65 pi0.5 repeatability gate"
+        },
+        {
+          "commit": "4427a005b354d72b19ee5957e17712d660b40522",
+          "date": "2026-09-28",
+          "subject": "Capture exact RM65 pi0.5 policy observation evidence"
+        },
+        {
+          "commit": "c707b7d4bdd585dfb927a99af052a72fbe01613e",
+          "date": "2026-09-28",
+          "subject": "Skip unused scripted IK in RM65 pi0.5 evaluation"
+        },
+        {
+          "commit": "98de44941184317f4a875e31f63f6c1eebe3db91",
+          "date": "2026-09-28",
+          "subject": "Fail closed on incomplete RM65 evaluation reports"
+        },
+        {
+          "commit": "009b15d16aa20ecf73dc4d1328c0ef96ad36cc39",
+          "date": "2026-09-28",
+          "subject": "Improve RM65 pi0.5 release supervision"
+        },
+        {
+          "commit": "5d113153f7c825c4a16df281e6af18455a1b65b2",
+          "date": "2026-09-28",
+          "subject": "Seed RM65 simulation and diagnose camera divergence"
+        },
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "66d5d71b51ae219dc8f85c97f78088668e4bc64f",
+          "date": "2026-09-19",
+          "subject": "Calibrate RM65 simulated release verification"
+        },
+        {
+          "commit": "10e444f58eebd6ccc34005f53a725651648ad3a4",
+          "date": "2026-09-19",
+          "subject": "Record RM65 closed-loop controller settings"
+        },
+        {
+          "commit": "66429003045c375ca1ee2264369210a29c3c4c40",
+          "date": "2026-09-19",
+          "subject": "Record RM65 pi0.5 v1 evaluation and harden camera startup"
+        },
+        {
+          "commit": "aff560c8ac39e85d3d31d53366b6c41e7246d0a5",
+          "date": "2026-09-19",
+          "subject": "Latch verified RM65 release postcondition"
+        },
+        {
+          "commit": "f18f8ca83ad16fa7e44e3fb3648f93eb50c7b47f",
+          "date": "2026-09-19",
+          "subject": "Fix Isaac websocket compatibility and enforce task reports"
+        },
+        {
+          "commit": "8225852201d72c122e55f4621e1672edbbce3df3",
+          "date": "2026-09-19",
+          "subject": "Add RM65 pi0.5 closed-loop evaluation"
+        },
+        {
+          "commit": "0edb9a0ba4926be3058c7f16be9dc412047244cb",
+          "date": "2026-09-19",
+          "subject": "Adapt RM65 approach and placement waypoints"
+        },
+        {
+          "commit": "c341170301463e06114bd0dcfbe60ad9cc5dc8f6",
+          "date": "2026-09-19",
+          "subject": "Keep RM65 IK trajectories on a continuous wrist branch"
+        },
+        {
+          "commit": "640f101412ddc5d066a46976ee25bfc831c5182d",
+          "date": "2026-09-17",
+          "subject": "Prepare expert diversity and lab PC migration"
+        },
+        {
+          "commit": "c6a87c23b1e2a9649067fe8526fb1fd7fa1e806f",
+          "date": "2026-09-17",
+          "subject": "Add RM65 expert episode data pipeline"
+        },
+        {
+          "commit": "073a3184b1defe4d47f3884a9a475cb2b9eee13e",
+          "date": "2026-09-16",
+          "subject": "Complete RM65 top-down full-gravity baseline"
+        },
+        {
+          "commit": "b388c7cd903fe777ec937207154e438743df5ace",
+          "date": "2026-09-16",
+          "subject": "Add top-down grasp pose candidate"
+        },
+        {
+          "commit": "820e3009a60b20eb219270c27c8d7271a238def3",
+          "date": "2026-09-15",
+          "subject": "Complete assisted RM65 place descent baseline"
+        },
+        {
+          "commit": "4a4794a51703e51062976838fd8bbf2d738f6b14",
+          "date": "2026-09-15",
+          "subject": "Advance natural-gravity RM65 grasp baseline"
+        },
+        {
+          "commit": "340abde8259cff315eb771f774d3a4221e1c78c5",
+          "date": "2026-09-15",
+          "subject": "Advance RM65 dynamic grasp baseline"
+        },
+        {
+          "commit": "651886eee1e339b576c33186a5f2dae8b4757277",
+          "date": "2026-09-15",
+          "subject": "Add assisted RM65 pick-place baseline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/expert_episode.py": {
+      "exists": true,
+      "worktree_sha256": "a2223a61169c0a1e22a66ab3d760a42c39110532fc2ff01e6f63bf058c150b1f",
+      "head_sha256": "a2223a61169c0a1e22a66ab3d760a42c39110532fc2ff01e6f63bf058c150b1f",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "c6a87c23b1e2a9649067fe8526fb1fd7fa1e806f",
+          "date": "2026-09-17",
+          "subject": "Add RM65 expert episode data pipeline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/convert_expert_episodes_to_lerobot.py": {
+      "exists": true,
+      "worktree_sha256": "e9fbfe6e748fa7526e6f7c99f294c3dc9450068323eeded0ae7385a7e205ac1d",
+      "head_sha256": "e9fbfe6e748fa7526e6f7c99f294c3dc9450068323eeded0ae7385a7e205ac1d",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "67d26c20102b73b074be2c69daae52ab49adbec4",
+          "date": "2026-09-28",
+          "subject": "Audit RM65 v3 training data provenance"
+        },
+        {
+          "commit": "a2f7ace32af167a1c3269a98ace8133218a5c034",
+          "date": "2026-09-28",
+          "subject": "Prepare RM65 pi0.5 failure-correction v3"
+        },
+        {
+          "commit": "1b21e1d1f6a62df965b717ef5c1aea05612b990c",
+          "date": "2026-09-19",
+          "subject": "Add optional RM65 policy-window dataset"
+        },
+        {
+          "commit": "82b3846f0c3d7748ff46919b793d245a2ca6c709",
+          "date": "2026-09-17",
+          "subject": "Add resumable RM65 expert collection plan"
+        },
+        {
+          "commit": "c6a87c23b1e2a9649067fe8526fb1fd7fa1e806f",
+          "date": "2026-09-17",
+          "subject": "Add RM65 expert episode data pipeline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/rm65_policy.py": {
+      "exists": true,
+      "worktree_sha256": "d24c658d7f7b35f84271b80e2bcff6d3548c9a1f9c1e3c24bc439a2095bf4783",
+      "head_sha256": "d24c658d7f7b35f84271b80e2bcff6d3548c9a1f9c1e3c24bc439a2095bf4783",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "64c584a142a9e504ed72d1314c30f093f1e679de",
+          "date": "2026-09-15",
+          "subject": "Add RM65 and 4C2 Isaac Lab migration baseline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/rm65_training_config.py": {
+      "exists": true,
+      "worktree_sha256": "604abbc01a0178beb92bb6aace6f946221688219e871383e4f12553d0c202036",
+      "head_sha256": "604abbc01a0178beb92bb6aace6f946221688219e871383e4f12553d0c202036",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "a2f7ace32af167a1c3269a98ace8133218a5c034",
+          "date": "2026-09-28",
+          "subject": "Prepare RM65 pi0.5 failure-correction v3"
+        },
+        {
+          "commit": "0f92fcd879c2f5e3771d9f1cf7e4e54f036415a5",
+          "date": "2026-09-19",
+          "subject": "Prepare RM65 data and low-memory pi0.5 training"
+        },
+        {
+          "commit": "2b2df45269acf5367d99b4e65ba4b07c31e52dd0",
+          "date": "2026-09-17",
+          "subject": "Prepare RM65 pi0.5 LoRA data config"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/train_rm65_pi05.py": {
+      "exists": true,
+      "worktree_sha256": "91e03f0179bc20735111fa02d91fe5a14de704a5858765552ac16c242bbb6f8e",
+      "head_sha256": "91e03f0179bc20735111fa02d91fe5a14de704a5858765552ac16c242bbb6f8e",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "d17358ad2a378acdb619628197333667b5c32664",
+          "date": "2026-09-29",
+          "subject": "Gate RM65 v4 preparation and training"
+        },
+        {
+          "commit": "a2f7ace32af167a1c3269a98ace8133218a5c034",
+          "date": "2026-09-28",
+          "subject": "Prepare RM65 pi0.5 failure-correction v3"
+        },
+        {
+          "commit": "0f92fcd879c2f5e3771d9f1cf7e4e54f036415a5",
+          "date": "2026-09-19",
+          "subject": "Prepare RM65 data and low-memory pi0.5 training"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/serve_rm65_policy.py": {
+      "exists": true,
+      "worktree_sha256": "d61a16101e6f58b032f269702aaf6337702cba5e1c51404903bb22c768939556",
+      "head_sha256": "d61a16101e6f58b032f269702aaf6337702cba5e1c51404903bb22c768939556",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "28aef62478118f84647c5494ef49732b3c0ef933",
+          "date": "2026-09-19",
+          "subject": "Propagate RM65 policy normalization repo id"
+        },
+        {
+          "commit": "8225852201d72c122e55f4621e1672edbbce3df3",
+          "date": "2026-09-19",
+          "subject": "Add RM65 pi0.5 closed-loop evaluation"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/action_guard.py": {
+      "exists": true,
+      "worktree_sha256": "9c21f07c778dab893c3b9836698df76b07588e6971806b2d88f571e06f7856e1",
+      "head_sha256": "9c21f07c778dab893c3b9836698df76b07588e6971806b2d88f571e06f7856e1",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "64c584a142a9e504ed72d1314c30f093f1e679de",
+          "date": "2026-09-15",
+          "subject": "Add RM65 and 4C2 Isaac Lab migration baseline"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/closed_loop_report.py": {
+      "exists": true,
+      "worktree_sha256": "4278f7aaad1b5ccaf2bd3cfa03f449bb7622d3fd8a320898adcbbddd5640cba0",
+      "head_sha256": "4278f7aaad1b5ccaf2bd3cfa03f449bb7622d3fd8a320898adcbbddd5640cba0",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "dd084c3befd1bbb4a54454f23b3c90b8dceee37a",
+          "date": "2026-09-29",
+          "subject": "Preserve RM65 formal failure provenance"
+        },
+        {
+          "commit": "79e66ceb0a1fd27b3a80b7787d8edeb22e90c746",
+          "date": "2026-09-29",
+          "subject": "Complete RM65 v3 training and harden evaluation provenance"
+        },
+        {
+          "commit": "41b8583409c3f17d0b198405778590fdb9b1d3ec",
+          "date": "2026-09-28",
+          "subject": "Handle scripted expert preflight failures"
+        },
+        {
+          "commit": "98de44941184317f4a875e31f63f6c1eebe3db91",
+          "date": "2026-09-28",
+          "subject": "Fail closed on incomplete RM65 evaluation reports"
+        },
+        {
+          "commit": "009b15d16aa20ecf73dc4d1328c0ef96ad36cc39",
+          "date": "2026-09-28",
+          "subject": "Improve RM65 pi0.5 release supervision"
+        },
+        {
+          "commit": "5d113153f7c825c4a16df281e6af18455a1b65b2",
+          "date": "2026-09-28",
+          "subject": "Seed RM65 simulation and diagnose camera divergence"
+        },
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "aff560c8ac39e85d3d31d53366b6c41e7246d0a5",
+          "date": "2026-09-19",
+          "subject": "Latch verified RM65 release postcondition"
+        },
+        {
+          "commit": "f18f8ca83ad16fa7e44e3fb3648f93eb50c7b47f",
+          "date": "2026-09-19",
+          "subject": "Fix Isaac websocket compatibility and enforce task reports"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/run_pi05_rm65_closed_loop.sh": {
+      "exists": true,
+      "worktree_sha256": "5b6a5e9622d8094d934ab59b702cd922254cee86a366ad231bfab761b16978ce",
+      "head_sha256": "5b6a5e9622d8094d934ab59b702cd922254cee86a366ad231bfab761b16978ce",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "0264302fe64c34bf4418f5fa5ffb133c2f1791f2",
+          "date": "2026-09-28",
+          "subject": "Record RM65 pi0.5 repeatability gate"
+        },
+        {
+          "commit": "009b15d16aa20ecf73dc4d1328c0ef96ad36cc39",
+          "date": "2026-09-28",
+          "subject": "Improve RM65 pi0.5 release supervision"
+        },
+        {
+          "commit": "5d113153f7c825c4a16df281e6af18455a1b65b2",
+          "date": "2026-09-28",
+          "subject": "Seed RM65 simulation and diagnose camera divergence"
+        },
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "66d5d71b51ae219dc8f85c97f78088668e4bc64f",
+          "date": "2026-09-19",
+          "subject": "Calibrate RM65 simulated release verification"
+        },
+        {
+          "commit": "28aef62478118f84647c5494ef49732b3c0ef933",
+          "date": "2026-09-19",
+          "subject": "Propagate RM65 policy normalization repo id"
+        },
+        {
+          "commit": "f18f8ca83ad16fa7e44e3fb3648f93eb50c7b47f",
+          "date": "2026-09-19",
+          "subject": "Fix Isaac websocket compatibility and enforce task reports"
+        },
+        {
+          "commit": "be75d24a758776f84b1e00fe54bcf0c58626ddcf",
+          "date": "2026-09-19",
+          "subject": "Add resumable RM65 pi0.5 simulation gate"
+        },
+        {
+          "commit": "8225852201d72c122e55f4621e1672edbbce3df3",
+          "date": "2026-09-19",
+          "subject": "Add RM65 pi0.5 closed-loop evaluation"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/run_pi05_rm65_closed_loop_suite.py": {
+      "exists": true,
+      "worktree_sha256": "5717e71972b04000d4a393d86edf117046fef29226bad1ee85848c6d49cc883c",
+      "head_sha256": "5717e71972b04000d4a393d86edf117046fef29226bad1ee85848c6d49cc883c",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "79e66ceb0a1fd27b3a80b7787d8edeb22e90c746",
+          "date": "2026-09-29",
+          "subject": "Complete RM65 v3 training and harden evaluation provenance"
+        },
+        {
+          "commit": "a2f7ace32af167a1c3269a98ace8133218a5c034",
+          "date": "2026-09-28",
+          "subject": "Prepare RM65 pi0.5 failure-correction v3"
+        },
+        {
+          "commit": "0264302fe64c34bf4418f5fa5ffb133c2f1791f2",
+          "date": "2026-09-28",
+          "subject": "Record RM65 pi0.5 repeatability gate"
+        },
+        {
+          "commit": "98de44941184317f4a875e31f63f6c1eebe3db91",
+          "date": "2026-09-28",
+          "subject": "Fail closed on incomplete RM65 evaluation reports"
+        },
+        {
+          "commit": "009b15d16aa20ecf73dc4d1328c0ef96ad36cc39",
+          "date": "2026-09-28",
+          "subject": "Improve RM65 pi0.5 release supervision"
+        },
+        {
+          "commit": "5d113153f7c825c4a16df281e6af18455a1b65b2",
+          "date": "2026-09-28",
+          "subject": "Seed RM65 simulation and diagnose camera divergence"
+        },
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "66d5d71b51ae219dc8f85c97f78088668e4bc64f",
+          "date": "2026-09-19",
+          "subject": "Calibrate RM65 simulated release verification"
+        },
+        {
+          "commit": "28aef62478118f84647c5494ef49732b3c0ef933",
+          "date": "2026-09-19",
+          "subject": "Propagate RM65 policy normalization repo id"
+        },
+        {
+          "commit": "66429003045c375ca1ee2264369210a29c3c4c40",
+          "date": "2026-09-19",
+          "subject": "Record RM65 pi0.5 v1 evaluation and harden camera startup"
+        },
+        {
+          "commit": "be75d24a758776f84b1e00fe54bcf0c58626ddcf",
+          "date": "2026-09-19",
+          "subject": "Add resumable RM65 pi0.5 simulation gate"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/run_expert_collection_plan.py": {
+      "exists": true,
+      "worktree_sha256": "503180aebc738113da16391541c93f1da4fb2b4f30579464d264f30060b56361",
+      "head_sha256": "503180aebc738113da16391541c93f1da4fb2b4f30579464d264f30060b56361",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "a2167ed7a4275d28613e35a19b1810ddc0285533",
+          "date": "2026-09-29",
+          "subject": "Preregister RM65 v4 correction and confirmation"
+        },
+        {
+          "commit": "82b3846f0c3d7748ff46919b793d245a2ca6c709",
+          "date": "2026-09-17",
+          "subject": "Add resumable RM65 expert collection plan"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/compute_rm65_norm_stats.py": {
+      "exists": true,
+      "worktree_sha256": "6c280572c1890377c18747afe9c3989787360cb08748d24575f7cf72b0a94e11",
+      "head_sha256": "6c280572c1890377c18747afe9c3989787360cb08748d24575f7cf72b0a94e11",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "a7c7b3d2ddf7b9be2fb4703af21288bb90ac34a6",
+          "date": "2026-09-29",
+          "subject": "Validate RM65 v3 correction training data"
+        },
+        {
+          "commit": "0f92fcd879c2f5e3771d9f1cf7e4e54f036415a5",
+          "date": "2026-09-19",
+          "subject": "Prepare RM65 data and low-memory pi0.5 training"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/validate_rm65_checkpoint.py": {
+      "exists": true,
+      "worktree_sha256": "cd9d1d36deb8729c8fcd4299c0c7d757292e4e2d078fcbceceb4d86e81622f4f",
+      "head_sha256": "cd9d1d36deb8729c8fcd4299c0c7d757292e4e2d078fcbceceb4d86e81622f4f",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "8225852201d72c122e55f4621e1672edbbce3df3",
+          "date": "2026-09-19",
+          "subject": "Add RM65 pi0.5 closed-loop evaluation"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/run_rm65_post_training_pipeline.sh": {
+      "exists": true,
+      "worktree_sha256": "480407f58a828a2df197f90e3d1167ebbaa22cfe99fcd08a81d77e7508051398",
+      "head_sha256": "480407f58a828a2df197f90e3d1167ebbaa22cfe99fcd08a81d77e7508051398",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "08ac497be062a5d6a40bccd96b02010fe9e0f3fb",
+          "date": "2026-09-19",
+          "subject": "Analyze expected RM65 evaluation failures"
+        },
+        {
+          "commit": "cd2019ea04af059a8d85b5f2beb99be00385d9f4",
+          "date": "2026-09-19",
+          "subject": "Preserve RM65 suite failure stage"
+        },
+        {
+          "commit": "697b1ebfd189bf9751bbfe6fcee0d65a33a06534",
+          "date": "2026-09-19",
+          "subject": "Compare RM65 policy iterations after evaluation"
+        },
+        {
+          "commit": "28aef62478118f84647c5494ef49732b3c0ef933",
+          "date": "2026-09-19",
+          "subject": "Propagate RM65 policy normalization repo id"
+        },
+        {
+          "commit": "7f1b2bf13bccefd68a54d33a86e96f12a62a8760",
+          "date": "2026-09-19",
+          "subject": "Automate policy-window checkpoint evaluation"
+        },
+        {
+          "commit": "9aeee65c104c57fccfbba61e2d7836cf2421fa11",
+          "date": "2026-09-19",
+          "subject": "Gate RM65 pipeline on held-out evaluation plan"
+        },
+        {
+          "commit": "27100d4ed7b951f6321ab5105b13def49d80eb49",
+          "date": "2026-09-19",
+          "subject": "Harden RM65 post-training pipeline supervision"
+        },
+        {
+          "commit": "6b182b4792dea8f756b38578223a9875ea94d10c",
+          "date": "2026-09-19",
+          "subject": "Automate post-training RM65 validation"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/grasp_geometry.py": {
+      "exists": true,
+      "worktree_sha256": "24d3e1733bbfa879e4c07ef0f3fecdb76f6a010d5e994154b5a06776922f43d0",
+      "head_sha256": "24d3e1733bbfa879e4c07ef0f3fecdb76f6a010d5e994154b5a06776922f43d0",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "073a3184b1defe4d47f3884a9a475cb2b9eee13e",
+          "date": "2026-09-16",
+          "subject": "Complete RM65 top-down full-gravity baseline"
+        },
+        {
+          "commit": "b388c7cd903fe777ec937207154e438743df5ace",
+          "date": "2026-09-16",
+          "subject": "Add top-down grasp pose candidate"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/openpi_extension/websocket_compat.py": {
+      "exists": true,
+      "worktree_sha256": "e691766070778e159598ef7bc26039daca43194e5614f006f35c4f6ec95cbb5f",
+      "head_sha256": "e691766070778e159598ef7bc26039daca43194e5614f006f35c4f6ec95cbb5f",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "f18f8ca83ad16fa7e44e3fb3648f93eb50c7b47f",
+          "date": "2026-09-19",
+          "subject": "Fix Isaac websocket compatibility and enforce task reports"
+        }
+      ]
+    },
+    "projects/004-rm65-4c2-isaaclab/scripts/check_closed_loop_task_report.py": {
+      "exists": true,
+      "worktree_sha256": "82e9137b6693406158def33570dd9f9abecb21834e79d336d00ada7ab250a677",
+      "head_sha256": "82e9137b6693406158def33570dd9f9abecb21834e79d336d00ada7ab250a677",
+      "modified_vs_head": false,
+      "working_diff": "",
+      "commits": [
+        {
+          "commit": "5d113153f7c825c4a16df281e6af18455a1b65b2",
+          "date": "2026-09-28",
+          "subject": "Seed RM65 simulation and diagnose camera divergence"
+        },
+        {
+          "commit": "203c9b9b4b7c14075a95421cc666e924067c6651",
+          "date": "2026-09-28",
+          "subject": "Make RM65 pi0.5 sampling deterministic"
+        },
+        {
+          "commit": "f18f8ca83ad16fa7e44e3fb3648f93eb50c7b47f",
+          "date": "2026-09-19",
+          "subject": "Fix Isaac websocket compatibility and enforce task reports"
+        }
+      ]
+    }
+  }
+}

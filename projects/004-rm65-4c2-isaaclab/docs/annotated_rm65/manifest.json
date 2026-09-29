@@ -1,147 +1,187 @@
 {
-  "format": "rm65_line_by_line_learning_atlas_v3_zero_basics",
+  "format": "rm65_structured_module_line_atlas_v4",
   "production_sources_modified": false,
-  "source_commit": "80f6af6743e9fb8a54fac8dd12ee7818828f37f7",
+  "source_commit": "0cd249e153b43ab880f3571d286013cadaf7331a",
   "files": [
     {
       "file": "build_combined_urdf.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/build_combined_urdf.py",
       "sha256": "26f85a801b78ef9caa9df59510fe8fabe987feb822a09a675a1aaf679bf2317a",
       "source_lines": 305,
-      "annotation_lines": 957
+      "modules": 12,
+      "function_cards": 7,
+      "annotation_lines": 1557
     },
     {
       "file": "import_combined_urdf.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/import_combined_urdf.py",
       "sha256": "b61ed2e1eacffed6ec6dfe249376e762483307bcea1207470b1e2edf4cda844c",
       "source_lines": 90,
-      "annotation_lines": 300
+      "modules": 6,
+      "function_cards": 1,
+      "annotation_lines": 565
     },
     {
       "file": "run_pick_place_baseline.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/run_pick_place_baseline.py",
-      "sha256": "f8fd5df9e3e9083398aaa914bd2260f5f2cec5bbba7a63988a15ae098cc56652",
-      "source_lines": 2249,
-      "annotation_lines": 6815
+      "sha256": "b13981361fb8f254d94b08f33619ae2bfd0be99d4404c19c1cbeddea59554014",
+      "source_lines": 2609,
+      "modules": 23,
+      "function_cards": 22,
+      "annotation_lines": 9229
     },
     {
       "file": "expert_episode.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/expert_episode.py",
       "sha256": "a2223a61169c0a1e22a66ab3d760a42c39110532fc2ff01e6f63bf058c150b1f",
       "source_lines": 254,
-      "annotation_lines": 798
+      "modules": 6,
+      "function_cards": 6,
+      "annotation_lines": 1143
     },
     {
       "file": "convert_expert_episodes_to_lerobot.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/convert_expert_episodes_to_lerobot.py",
-      "sha256": "508752a43b97645d9d83b152ef28f93ba344933827ad589d6ab9e4d0861583f1",
-      "source_lines": 255,
-      "annotation_lines": 802
+      "sha256": "e9fbfe6e748fa7526e6f7c99f294c3dc9450068323eeded0ae7385a7e205ac1d",
+      "source_lines": 313,
+      "modules": 10,
+      "function_cards": 6,
+      "annotation_lines": 1495
     },
     {
       "file": "rm65_policy.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/rm65_policy.py",
       "sha256": "d24c658d7f7b35f84271b80e2bcff6d3548c9a1f9c1e3c24bc439a2095bf4783",
       "source_lines": 73,
-      "annotation_lines": 251
+      "modules": 4,
+      "function_cards": 3,
+      "annotation_lines": 467
     },
     {
       "file": "rm65_training_config.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/rm65_training_config.py",
-      "sha256": "c98cf98d04863aeeff386434aab115523f43d332d6371b417f288e37866db0c6",
-      "source_lines": 106,
-      "annotation_lines": 349
+      "sha256": "604abbc01a0178beb92bb6aace6f946221688219e871383e4f12553d0c202036",
+      "source_lines": 117,
+      "modules": 5,
+      "function_cards": 2,
+      "annotation_lines": 630
     },
     {
       "file": "train_rm65_pi05.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/train_rm65_pi05.py",
-      "sha256": "865d163b72ad78ea01616e20cbec5b9f6655656f07cfe5224598a08b2964c50d",
-      "source_lines": 99,
-      "annotation_lines": 328
+      "sha256": "91e03f0179bc20735111fa02d91fe5a14de704a5858765552ac16c242bbb6f8e",
+      "source_lines": 140,
+      "modules": 6,
+      "function_cards": 2,
+      "annotation_lines": 736
     },
     {
       "file": "serve_rm65_policy.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/serve_rm65_policy.py",
-      "sha256": "32da7661073bff57741f51666778d3bf7bef5a3b858ded4b0c4083d2bb497513",
-      "source_lines": 58,
-      "annotation_lines": 203
+      "sha256": "d61a16101e6f58b032f269702aaf6337702cba5e1c51404903bb22c768939556",
+      "source_lines": 71,
+      "modules": 5,
+      "function_cards": 1,
+      "annotation_lines": 472
     },
     {
       "file": "action_guard.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/action_guard.py",
       "sha256": "9c21f07c778dab893c3b9836698df76b07588e6971806b2d88f571e06f7856e1",
       "source_lines": 68,
-      "annotation_lines": 233
+      "modules": 4,
+      "function_cards": 1,
+      "annotation_lines": 434
     },
     {
       "file": "closed_loop_report.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/closed_loop_report.py",
-      "sha256": "3d94299f24b1bcc9d75f5fa1666b03a478d382013beba62f82ddd93727b6f591",
-      "source_lines": 68,
-      "annotation_lines": 233
+      "sha256": "4278f7aaad1b5ccaf2bd3cfa03f449bb7622d3fd8a320898adcbbddd5640cba0",
+      "source_lines": 319,
+      "modules": 6,
+      "function_cards": 6,
+      "annotation_lines": 1329
     },
     {
       "file": "run_pi05_rm65_closed_loop.sh",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/run_pi05_rm65_closed_loop.sh",
-      "sha256": "9c0ec355574166b0d3464c45f2be7bcecff02d535c894eb2e0c53025baec01f6",
-      "source_lines": 124,
-      "annotation_lines": 397
+      "sha256": "5b6a5e9622d8094d934ab59b702cd922254cee86a366ad231bfab761b16978ce",
+      "source_lines": 159,
+      "modules": 5,
+      "function_cards": 0,
+      "annotation_lines": 715
     },
     {
       "file": "run_pi05_rm65_closed_loop_suite.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/run_pi05_rm65_closed_loop_suite.py",
-      "sha256": "adbbf3bde7718417363ff780a74e909adc02c8999df1d9badaa2ad5e6802eb61",
-      "source_lines": 286,
-      "annotation_lines": 894
+      "sha256": "5717e71972b04000d4a393d86edf117046fef29226bad1ee85848c6d49cc883c",
+      "source_lines": 517,
+      "modules": 11,
+      "function_cards": 9,
+      "annotation_lines": 2196
     },
     {
       "file": "run_expert_collection_plan.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/run_expert_collection_plan.py",
-      "sha256": "8547a7f9e86a0435e2fee003beefb1b8f6f0dd9cc206e5decee3c7c710226e10",
-      "source_lines": 104,
-      "annotation_lines": 342
+      "sha256": "503180aebc738113da16391541c93f1da4fb2b4f30579464d264f30060b56361",
+      "source_lines": 136,
+      "modules": 6,
+      "function_cards": 3,
+      "annotation_lines": 747
     },
     {
       "file": "compute_rm65_norm_stats.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/compute_rm65_norm_stats.py",
-      "sha256": "0945a17105f8419b8b11cf79bf5008ef6262c88bf0251417636ea600a855da68",
-      "source_lines": 100,
-      "annotation_lines": 331
+      "sha256": "6c280572c1890377c18747afe9c3989787360cb08748d24575f7cf72b0a94e11",
+      "source_lines": 112,
+      "modules": 5,
+      "function_cards": 2,
+      "annotation_lines": 635
     },
     {
       "file": "validate_rm65_checkpoint.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/validate_rm65_checkpoint.py",
       "sha256": "cd9d1d36deb8729c8fcd4299c0c7d757292e4e2d078fcbceceb4d86e81622f4f",
       "source_lines": 97,
-      "annotation_lines": 321
+      "modules": 5,
+      "function_cards": 2,
+      "annotation_lines": 590
     },
     {
       "file": "run_rm65_post_training_pipeline.sh",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/run_rm65_post_training_pipeline.sh",
       "sha256": "480407f58a828a2df197f90e3d1167ebbaa22cfe99fcd08a81d77e7508051398",
       "source_lines": 158,
-      "annotation_lines": 502
+      "modules": 8,
+      "function_cards": 0,
+      "annotation_lines": 794
     },
     {
       "file": "grasp_geometry.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/grasp_geometry.py",
       "sha256": "24d3e1733bbfa879e4c07ef0f3fecdb76f6a010d5e994154b5a06776922f43d0",
       "source_lines": 105,
-      "annotation_lines": 345
+      "modules": 5,
+      "function_cards": 2,
+      "annotation_lines": 560
     },
     {
       "file": "websocket_compat.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/openpi_extension/websocket_compat.py",
       "sha256": "e691766070778e159598ef7bc26039daca43194e5614f006f35c4f6ec95cbb5f",
       "source_lines": 25,
-      "annotation_lines": 102
+      "modules": 3,
+      "function_cards": 1,
+      "annotation_lines": 222
     },
     {
       "file": "check_closed_loop_task_report.py",
       "repo_path": "projects/004-rm65-4c2-isaaclab/scripts/check_closed_loop_task_report.py",
-      "sha256": "d34bde70e527666adfb72e8fb388f703163cb4ffdd97b91e7bbfdd5d57471766",
-      "source_lines": 35,
-      "annotation_lines": 132
+      "sha256": "82e9137b6693406158def33570dd9f9abecb21834e79d336d00ada7ab250a677",
+      "source_lines": 40,
+      "modules": 3,
+      "function_cards": 1,
+      "annotation_lines": 298
     }
   ]
 }
