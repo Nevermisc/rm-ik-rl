@@ -1,16 +1,16 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "4ecbe40",
-  "working_version": "v4-fc-wip.041",
+  "git_baseline": "37d36da",
+  "working_version": "v4-fc-wip.042",
   "committed": true,
   "phase": "v4_correction_collection_in_progress",
   "current_action": "continue the 36-episode v4 scripted correction collection, then run full dataset health and all nine same-seed multi-RTX group gates",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
-  "v4_correction_episode_count_last_observed": 6,
+  "v4_correction_episode_count_last_observed": 13,
   "v4_render_group_count_planned": 9,
-  "v4_render_group_count_verified": 1,
+  "v4_render_group_count_verified": 3,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
@@ -45,6 +45,20 @@
     "exact_action_and_physical_trajectory_match": true,
     "external_diverse_corresponding_frame_ratio": 1.0,
     "wrist_diverse_corresponding_frame_ratio": 1.0
+  },
+  "v4_pipeline_contract": {
+    "collection_gate_status": "pass",
+    "combined_training_episode_count": 102,
+    "source_episode_counts": [36, 30, 36],
+    "initial_checkpoint": "rm65_failure_correction_v3_lora_10k/9999/params",
+    "target_checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
+    "num_train_steps": 6000,
+    "warmup_steps": 300,
+    "peak_lr": 2e-06,
+    "decay_lr": 5e-07,
+    "retained_intermediate_checkpoint_step": 4000,
+    "conversion_started": false,
+    "training_started": false
   },
   "real_robot_command_sent": false
 }

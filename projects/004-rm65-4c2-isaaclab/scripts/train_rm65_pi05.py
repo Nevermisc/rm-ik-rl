@@ -38,6 +38,14 @@ def main() -> int:
     parser.add_argument("--num-train-steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--save-interval", type=int, default=1_000)
+    parser.add_argument(
+        "--keep-period",
+        type=int,
+        help=(
+            "Permanently retain checkpoints whose step is divisible by this period. "
+            "The latest checkpoint is retained independently."
+        ),
+    )
     parser.add_argument("--log-interval", type=int, default=10)
     parser.add_argument(
         "--initial-params-path",
@@ -63,6 +71,8 @@ def main() -> int:
         raise ValueError("step counts, batch size, and intervals must be positive")
     if not 0.0 < args.decay_lr <= args.peak_lr:
         raise ValueError("learning rates must satisfy 0 < decay-lr <= peak-lr")
+    if args.keep_period is not None and args.keep_period < 1:
+        raise ValueError("--keep-period must be positive")
     initial_params_path = args.initial_params_path
     if not initial_params_path.startswith("gs://"):
         initial_path = Path(initial_params_path).expanduser().resolve()
@@ -87,7 +97,7 @@ def main() -> int:
         assets_base_dir=str(openpi_root / "assets"),
         checkpoint_base_dir=str(checkpoint_base),
         save_interval=args.save_interval,
-        keep_period=None,
+        keep_period=args.keep_period,
         log_interval=args.log_interval,
         overwrite=args.overwrite,
         resume=args.resume,
@@ -114,6 +124,7 @@ def main() -> int:
         "warmup_steps": args.warmup_steps,
         "peak_lr": args.peak_lr,
         "decay_lr": args.decay_lr,
+        "keep_period": args.keep_period,
         "checkpoint_dir": str(config.checkpoint_dir),
         "latest_checkpoint": str(numeric_checkpoints[-1]),
     }

@@ -1,0 +1,33 @@
+{
+  "schema": "rm65_pi05_failure_correction_v4_pipeline_gate_v1",
+  "stage": "collection",
+  "status": "pass",
+  "checks": {
+    "backup_gate_pass": true,
+    "two_verified_v3_copies": true,
+    "backup_checks_all_pass": true,
+    "plans_validation_pass": true,
+    "correction_plan_36_cases_9_groups": true,
+    "confirmation_plan_20_cases": true,
+    "fresh_confirmation_checkpoint_frozen": true,
+    "plans_simulation_only": true
+  },
+  "training_contract": {
+    "repo_id": "local/rm65_sim_failure_correction_v4_train",
+    "episode_count": 102,
+    "source_episode_counts": {
+      "rm65_scripted_v1": 36,
+      "rm65_pi05_failure_correction_expert_v1": 30,
+      "rm65_pi05_failure_correction_v4_expert_v1": 36
+    },
+    "initial_checkpoint": "rm65_failure_correction_v3_lora_10k/9999/params",
+    "target_checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
+    "num_train_steps": 6000,
+    "batch_size": 1,
+    "warmup_steps": 300,
+    "peak_lr": 2e-06,
+    "decay_lr": 5e-07
+  },
+  "simulation_only": true,
+  "real_robot_command_sent": false
+}

@@ -483,6 +483,20 @@
 - 证据边界：提交审计代码、测试和小型 JSON；36 条原始 episode/PNG/NPZ 仍只保存在数据目录和后续独立备份中，不进入 Git。全程 Isaac Lab 仿真，`real_robot_command_sent=false`。
 - 下一步：让采集连续完成，结束后运行全量 dataset summary 与 9/9 group audit；若任一组失败，保留原始数据并先诊断，不用选择性重采覆盖。全部 PASS 后再把 36+30+36 条转换为新的 102-episode LeRobot repo 并重算 norm stats。
 
+### v4-fc-wip.042：冻结 102 条数据准备与低学习率续训合同
+
+- Git 基线：`37d36da`（首组多渲染审计已推送）；状态：采集最近只读检查为 13/36，前三个完整物理组均独立审计 PASS；转换与训练尚未启动。
+- 准备做：利用采集等待时间把 collection → preparation → training 三阶段入口做成可重复、fail-closed 的工程流程，避免采完后靠手工命令临时拼接数据或误用旧 norm/checkpoint。
+- 新增分阶段门禁：`check_rm65_v4_pipeline_gate.py` 在 collection 阶段要求 v3 两副本 gate 和 v4 预注册计划 PASS；prepare 阶段再要求 36/36 episode、计划覆盖完整和 9/9 同状态多渲染组 PASS；train 阶段再要求新 repo、102 条来源精确为基础 train 36 + v3 纠正 30 + v4 纠正 36、policy window、norm SHA 与 OpenPI 7 维 state/action 合同。
+- 可复现入口：新增 `collect_rm65_failure_correction_v4.sh`、`prepare_rm65_failure_correction_v4.sh` 和 `train_rm65_pi05_failure_correction_v4.sh`。默认模式均只做 preflight；显式 `run/start` 才会产生数据转换或训练副作用。采集恢复仍复用已经完整通过的 episode，不覆盖原始成功数据。
+- 训练合同：冻结 repo `local/rm65_sim_failure_correction_v4_train`；从 v3 `rm65_failure_correction_v3_lora_10k/9999/params` 初始化，正式实验写入独立 `rm65_failure_correction_v4_lora_6k`，6000 步、batch 1、warmup 300、学习率 `2e-6→5e-7`，预期最终 checkpoint `5999`。这不会覆盖 v2/v3。
+- 为什么降低学习率/步数：v4 是在已达到 85–90% 的 v3 上对三个证据驱动缺陷及邻域做增量纠正，不是从 v2 重新学习全任务；更小更新幅度降低 36 条定向样本反复训练导致遗忘原有稳定条件的风险。是否足够仍必须由全新 v4 确认集决定，不能由训练 loss 推断。
+- Checkpoint 改进：`train_rm65_pi05.py` 新增通用 `--keep-period`；v4 正式训练设置 4000，因此除最新最终点外保留 step 4000 恢复点。smoke 不永久保留中间点，避免无价值磁盘占用。
+- 回归与动态验证：合成门禁测试覆盖三阶段 PASS，并证明把 v3 纠正来源从 30 改成 29 会使 train gate FAIL；本地/远端 Python 编译、单测、三个 shell 的 `bash -n`、实际 collection preflight 和训练器 `--keep-period` 参数加载全部 PASS。
+- 真实采集进展：`confirm_v3_000` 的 minus/exact/plus 三个角度组均通过相同 seed、动作一致、物理轨迹一致和双相机 RTX 差异门禁；三个组双相机 diverse corresponding frame ratio 都是 `1.0`。
+- 安全与数据边界：collection preflight 重新计算 v3 backup gate；prepare/train 每次也重新核验或消费同一 gate。代码和紧凑 gate JSON 进入 Git，102 条转换数据、原始图像与 checkpoint 不进入 Git。没有真实机械臂命令。
+- 下一步：继续完成剩余 23 条；全量 summary/render gate 通过后先为新增 v4 原始纠正数据建立独立可校验副本，再执行 102 条转换、norm 统计和 OpenPI batch 门禁，最后只放行 2-step smoke。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。
