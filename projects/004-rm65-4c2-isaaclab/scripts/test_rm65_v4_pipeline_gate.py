@@ -8,6 +8,11 @@ from check_rm65_v4_pipeline_gate import EXPECTED_REPO_ID, validate_contracts
 
 def fixtures():
     backup = {"status": "pass", "verified_copy_count": 2, "checks": {"all": True}}
+    v4_backup = {
+        "status": "pass",
+        "verified_copy_count": 2,
+        "checks": {"all": True},
+    }
     plans = {
         "status": "pass",
         "real_robot_command_sent": False,
@@ -49,16 +54,17 @@ def fixtures():
         "expected_rm65_state_dim": 7,
         "expected_rm65_action_dim_before_padding": 7,
     }
-    return backup, plans, summary, render, conversion, norm, validation
+    return backup, v4_backup, plans, summary, render, conversion, norm, validation
 
 
 def main() -> int:
-    backup, plans, summary, render, conversion, norm, validation = fixtures()
+    backup, v4_backup, plans, summary, render, conversion, norm, validation = fixtures()
     collection = validate_contracts(stage="collection", backup=backup, plans=plans)
     prepare = validate_contracts(
         stage="prepare",
         backup=backup,
         plans=plans,
+        v4_collection_backup=v4_backup,
         summary=summary,
         render_groups=render,
     )
@@ -66,6 +72,7 @@ def main() -> int:
         stage="train",
         backup=backup,
         plans=plans,
+        v4_collection_backup=v4_backup,
         summary=summary,
         render_groups=render,
         conversion=conversion,
@@ -83,6 +90,7 @@ def main() -> int:
         stage="train",
         backup=backup,
         plans=plans,
+        v4_collection_backup=v4_backup,
         summary=summary,
         render_groups=render,
         conversion=damaged,

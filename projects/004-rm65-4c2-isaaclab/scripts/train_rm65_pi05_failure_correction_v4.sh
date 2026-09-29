@@ -9,6 +9,7 @@ initial_params="$project_root/outputs/openpi_checkpoints/pi05_rm65_lora/rm65_fai
 backup_manifest="$project_root/results/rm65_pi05_v3_backup_preservation_manifest.json"
 source_manifest="$project_root/results/rm65_pi05_v3_source_preservation_manifest.json"
 backup_gate="$project_root/results/rm65_pi05_v3_backup_gate.json"
+v4_collection_backup_gate="$project_root/results/rm65_pi05_v4_collection_backup_gate.json"
 plans_validation="$project_root/results/rm65_pi05_failure_correction_v4_plans_validation.json"
 v4_summary="$project_root/results/rm65_pi05_failure_correction_v4_expert_v1_summary.json"
 render_groups="$project_root/results/rm65_pi05_failure_correction_v4_render_groups.json"
@@ -76,6 +77,7 @@ python3 scripts/check_rm65_v4_pipeline_gate.py \
   --stage train \
   --backup-gate "$backup_gate" \
   --plans-validation "$plans_validation" \
+  --v4-collection-backup-gate "$v4_collection_backup_gate" \
   --expert-summary "$v4_summary" \
   --render-groups "$render_groups" \
   --conversion "$conversion_report" \

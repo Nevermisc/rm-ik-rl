@@ -1,16 +1,16 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "37d36da",
-  "working_version": "v4-fc-wip.042",
+  "git_baseline": "d17358a",
+  "working_version": "v4-fc-wip.043",
   "committed": true,
   "phase": "v4_correction_collection_in_progress",
   "current_action": "continue the 36-episode v4 scripted correction collection, then run full dataset health and all nine same-seed multi-RTX group gates",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
-  "v4_correction_episode_count_last_observed": 13,
+  "v4_correction_episode_count_last_observed": 19,
   "v4_render_group_count_planned": 9,
-  "v4_render_group_count_verified": 3,
+  "v4_render_group_count_verified": 4,
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
@@ -59,6 +59,21 @@
     "retained_intermediate_checkpoint_step": 4000,
     "conversion_started": false,
     "training_started": false
+  },
+  "v4_collection_preservation": {
+    "spec_frozen": true,
+    "source_manifest_generated": false,
+    "independent_backup_verified": false,
+    "required_before_conversion": true
+  },
+  "v4_evaluation_contract": {
+    "script_ready": true,
+    "fresh_confirmation_case_count": 20,
+    "first_run_minimum_pass_count": 18,
+    "repeatability_report_count": 60,
+    "minimum_status_consistency_rate": 0.95,
+    "maximum_outcome_flip_cases": 1,
+    "evaluation_started": false
   },
   "real_robot_command_sent": false
 }

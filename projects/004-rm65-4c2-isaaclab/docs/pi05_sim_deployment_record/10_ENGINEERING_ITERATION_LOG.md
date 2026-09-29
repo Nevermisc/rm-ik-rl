@@ -497,6 +497,20 @@
 - 安全与数据边界：collection preflight 重新计算 v3 backup gate；prepare/train 每次也重新核验或消费同一 gate。代码和紧凑 gate JSON 进入 Git，102 条转换数据、原始图像与 checkpoint 不进入 Git。没有真实机械臂命令。
 - 下一步：继续完成剩余 23 条；全量 summary/render gate 通过后先为新增 v4 原始纠正数据建立独立可校验副本，再执行 102 条转换、norm 统计和 OpenPI batch 门禁，最后只放行 2-step smoke。
 
+### v4-fc-wip.043：把新纠正集备份和全新确认评测纳入训练前合同
+
+- Git 基线：`d17358a`（v4 分阶段准备/训练入口已推送）；状态：采集最近只读检查为 19/36，4/9 个完整物理组已审计 PASS；本条实现备份/评测合同，但尚未生成最终 v4 源 manifest，也未启动评测。
+- 准备做：补齐“新产生的数据也必须跨机器保存”和“训练后只能跑预注册新条件”两端，防止 v4 原始纠正集仍是单盘风险，或训练完成后临时手拼评测命令造成计划漂移。
+- v4 保存范围：新增 `rm65_pi05_v4_collection_preservation_assets.json`，把 36 条同状态多 RTX 原始纠正 episode 单独定义为 critical source-of-truth；不重复复制已经通过 v3 两副本门禁的旧资产，降低冗余传输。
+- 两副本门禁：新增 `check_rm65_v4_collection_backup_gate.py`，要求源/备份 manifest 使用冻结 spec、唯一正确 asset id、逐文件聚合 tree hash 比较 PASS、总字节非零且相等、source manifest SHA 一致和仿真 provenance。回归证明 `matches_reference=false` 会把 verified copy count 从 2 降为 1。
+- 流程加固：v4 pipeline 的 prepare/train 阶段现在额外强制要求上述 v4 collection backup gate PASS 且 `verified_copy_count=2`；因此即使 36/36 数据健康，未完成跨机器校验也不能执行派生数据覆盖或训练。
+- 全新确认入口：新增 `evaluate_rm65_pi05_failure_correction_v4.sh`，模式为 `preflight/offline/run1/run2/run3/analyze`。preflight 精确核对训练 6000 步、低学习率、keep-period、训练输入 gate、norm SHA、checkpoint `...v4_lora_6k/5999`、新 repo 和预注册 20 条计划。
+- 评测统计边界：run1 是唯一独立成功确认，要求至少 18/20；run2/run3 只提供重复性证据，最终另需 60/60 报告有效、状态一致率至少 95%、最多 1 条 outcome flip。v3 的旧 20 条仍为 development-only，禁止回升为最终成绩。
+- 验证：本地/远端备份 gate 单测与 pipeline gate 单测 PASS；prepare/train shell 及 v4 evaluate shell 的远端 `bash -n` PASS。训练报告、checkpoint 和 norm 尚不存在，因此没有伪造动态 evaluation preflight 成功。
+- 实时组审计：新增完成的 `confirm_v3_015_angle_minus_0p0125` 组共享 seed `891029003`，动作/完整物理轨迹一致性和双相机 RTX 差异均 PASS；累计 4/9 组通过。
+- 安全边界：全部变更是配置、验证代码和仍在运行的 Isaac Lab scripted collection；没有转换、训练、评测或真实机械臂命令。v4 原始数据不会提交 Git。
+- 下一步：完成剩余 17 条并运行全量 36/36 + 9/9 门禁；数据停止写入后生成源 manifest，打包传到本机独立备份根，解包并重算 tree hash。两副本 PASS 后才运行 preparation。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

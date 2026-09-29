@@ -25,6 +25,7 @@ def validate_contracts(
     stage: str,
     backup: dict[str, Any],
     plans: dict[str, Any],
+    v4_collection_backup: dict[str, Any] | None = None,
     summary: dict[str, Any] | None = None,
     render_groups: dict[str, Any] | None = None,
     conversion: dict[str, Any] | None = None,
@@ -54,10 +55,21 @@ def validate_contracts(
     }
 
     if stage in {"prepare", "train"}:
+        v4_collection_backup = v4_collection_backup or {}
         summary = summary or {}
         render_groups = render_groups or {}
         checks.update(
             {
+                "v4_collection_backup_pass": v4_collection_backup.get("status")
+                == "pass",
+                "v4_collection_has_two_verified_copies": v4_collection_backup.get(
+                    "verified_copy_count"
+                )
+                == 2,
+                "v4_collection_backup_checks_all_pass": bool(
+                    v4_collection_backup.get("checks")
+                )
+                and all(v4_collection_backup.get("checks", {}).values()),
                 "v4_expert_summary_pass": summary.get("status") == "pass",
                 "v4_expert_36_of_36_pass": summary.get("episode_count") == 36
                 and summary.get("passed_episode_count") == 36,
@@ -139,6 +151,7 @@ def main() -> int:
     parser.add_argument("--stage", choices=("collection", "prepare", "train"), required=True)
     parser.add_argument("--backup-gate", type=Path, required=True)
     parser.add_argument("--plans-validation", type=Path, required=True)
+    parser.add_argument("--v4-collection-backup-gate", type=Path)
     parser.add_argument("--expert-summary", type=Path)
     parser.add_argument("--render-groups", type=Path)
     parser.add_argument("--conversion", type=Path)
@@ -148,9 +161,14 @@ def main() -> int:
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     if args.stage in {"prepare", "train"} and (
-        args.expert_summary is None or args.render_groups is None
+        args.v4_collection_backup_gate is None
+        or args.expert_summary is None
+        or args.render_groups is None
     ):
-        parser.error("prepare/train stages require --expert-summary and --render-groups")
+        parser.error(
+            "prepare/train stages require --v4-collection-backup-gate, "
+            "--expert-summary, and --render-groups"
+        )
     if args.stage == "train" and any(
         item is None
         for item in (args.conversion, args.norm, args.openpi_validation, args.norm_asset)
@@ -163,6 +181,7 @@ def main() -> int:
         stage=args.stage,
         backup=load(args.backup_gate) or {},
         plans=load(args.plans_validation) or {},
+        v4_collection_backup=load(args.v4_collection_backup_gate),
         summary=load(args.expert_summary),
         render_groups=load(args.render_groups),
         conversion=load(args.conversion),
