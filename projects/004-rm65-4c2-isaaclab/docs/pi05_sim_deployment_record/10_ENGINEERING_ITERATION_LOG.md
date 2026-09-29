@@ -443,6 +443,20 @@
 - 安全边界：源数据和 v2/v3 checkpoint 只读；远端 staging 新增 tar 但不覆盖源文件；没有执行真实机械臂命令。
 - 下一步：完成 9 个归档传输、归档 SHA 校验、解包和 9 项 tree-hash 比较；只有全部 PASS 后才把第二副本状态写为 verified。
 
+### v4-fc-wip.039：按 20×3 证据生成 v4 纠正集与全新确认计划
+
+- Git 基线：`742122b`（v3 源资产 manifest 已推送）；状态：v4 计划本地生成/回归通过，待远端验证提交；v3 第二副本仍在传输。
+- 准备做：把 run1–run3 证据转成明确训练纠正，而不是再堆普通 ColorJitter；同时在 v4 数据采集和训练前冻结一组全新的 held-out 条件，防止调参后挑选评测集。
+- 自动选择规则：从 20×3 matrix 选择所有非 `PASS/PASS/PASS` 条件，得到渲染敏感的 `confirm_v3_000`（`FAIL/PASS/PASS`）和稳定失败的 `015/016`（均 `FAIL/FAIL/FAIL`）。规则不靠手工挑结果。
+- v4 纠正计划：每个源条件取 `-0.0125/0/+0.0125 rad` 三个物理角度，共 9 个物理组；每组采集 4 个 RTX 重复，总计 36 条 scripted-expert 训练 episode。每组四条共享一个显式 simulation seed，确保方块、机械臂和相机物理初态一致，同时保留独立 RTX 渲染带来的视觉差异。
+- 采集链更新：`run_recorded_expert_demo.sh` 新增可选 simulation seed；collection runner 只在计划声明时传入，并把 physical group、render index、seed 和来源 outcome pattern 写入 metadata。旧计划未声明 seed 时命令保持兼容。
+- 数据治理：v3 的 20 条正式确认条件全部永久标记为 development-only，禁止再次用作独立最终成绩；v4 纠正训练只实际选取其中三条非稳定成功条件及邻域。
+- v4 全新确认：训练前预注册 20 条条件，角度为 `0.6875/0.7625/0.8375/0.9625 rad`，配 5 个新 offset、5 个均衡 prompt 和全新双种子；与 45 条基础计划、30 条 v3 纠正计划、36 条 v4 纠正计划以及旧 20 条确认条件均不重合，确认角度也从全部训练角度中 held out。
+- 冻结训练/评测合同：目标 checkpoint 为 `rm65_failure_correction_v4_lora_6k/5999`，repo 为 `local/rm65_sim_failure_correction_v4_train`；首次 20 条需至少 18/20，后两次只作重复性证据，仍要求 60/60 报告、95% 一致率、最多 1 条翻转。
+- 验证：Python 编译、旧 expert plan 兼容/seed 命令回归、v4 生成器测试、36 条纠正计划全部结构门禁和 20 条确认隔离门禁均 PASS。本机 Bash 入口不可用，因此 shell `bash -n` 必须在远端补做后才提交。
+- 安全边界：本步只生成代码和计划，不启动训练、仿真采集或真实机械臂；不修改 v2/v3 checkpoint。
+- 下一步：远端执行 shell/Python 回归并精确提交；先完成和验证 v3 独立备份，再开始 v4 36 条 expert collection，并对每个 physical group 核对相同 seed/物理状态与不同 RTX 图像。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

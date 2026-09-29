@@ -1,0 +1,90 @@
+{
+  "status": "pass",
+  "correction": {
+    "status": "pass",
+    "validation_kind": "rm65_pi05_failure_correction_v4_plan",
+    "checks": {
+      "format": true,
+      "plan_kind": true,
+      "simulation_only": true,
+      "no_real_robot_commands": true,
+      "training_only": true,
+      "three_evidence_selected_cases": true,
+      "all_twenty_v3_cases_development_only": true,
+      "confirmation_reuse_blocked": true,
+      "thirty_six_cases": true,
+      "unique_case_ids": true,
+      "contiguous_episode_indices": true,
+      "all_train_split": true,
+      "nine_physical_groups": true,
+      "four_render_repeats_per_group": true,
+      "group_physics_identical": true,
+      "group_render_indices_complete": true,
+      "group_simulation_seed_identical": true,
+      "physical_group_seeds_unique": true,
+      "angles_within_expert_range": true
+    },
+    "case_count": 36,
+    "physical_group_count": 9,
+    "selected_source_case_ids": [
+      "confirm_v3_000",
+      "confirm_v3_015",
+      "confirm_v3_016"
+    ]
+  },
+  "confirmation": {
+    "status": "pass",
+    "validation_kind": "rm65_pi05_failure_correction_v4_confirmation_plan",
+    "checks": {
+      "format": true,
+      "twenty_cases": true,
+      "unique_case_ids": true,
+      "unique_conditions": true,
+      "four_balanced_angles": true,
+      "five_balanced_prompts": true,
+      "conditions_held_out_from_all_training": true,
+      "angles_held_out_from_all_training": true,
+      "conditions_held_out_from_prior_evaluation": true,
+      "policy_seeds_held_out": true,
+      "simulation_seeds_held_out": true,
+      "created_before_training": true,
+      "v3_plan_development_only": true,
+      "strict_ninety_percent_gate": true,
+      "three_repeats": true,
+      "ninety_five_percent_repeatability": true,
+      "expected_v4_checkpoint": true
+    },
+    "case_count": 20,
+    "training_case_count_considered": 111,
+    "prior_evaluation_case_count_considered": 20,
+    "angles_rad": [
+      0.6875,
+      0.7625,
+      0.8375,
+      0.9625
+    ],
+    "offsets_m": [
+      [
+        -0.011,
+        0.001
+      ],
+      [
+        -0.006,
+        0.007
+      ],
+      [
+        0.001,
+        -0.011
+      ],
+      [
+        0.007,
+        0.006
+      ],
+      [
+        0.004,
+        -0.003
+      ]
+    ]
+  },
+  "real_robot_command_sent": false
+}

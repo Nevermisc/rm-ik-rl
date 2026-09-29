@@ -16,7 +16,9 @@ if str(PROJECT_ROOT) not in sys.path:
 from openpi_extension.expert_episode import validate_episode
 
 
-def completed_episode(directory: Path, case_id: str) -> bool:
+def completed_episode(
+    directory: Path, case_id: str, expected_simulation_seed: int | None = None
+) -> bool:
     if not (directory / "metadata.json").is_file() or not (
         directory / "task_report.json"
     ).is_file():
@@ -28,9 +30,32 @@ def completed_episode(directory: Path, case_id: str) -> bool:
         validation["status"] == "pass"
         and metadata.get("metadata", {}).get("task_success") is True
         and metadata.get("metadata", {}).get("collection_case_id") == case_id
+        and (
+            expected_simulation_seed is None
+            or metadata.get("metadata", {}).get("collection_simulation_seed")
+            == expected_simulation_seed
+        )
         and task.get("status") == "pass"
         and task.get("unassisted_full_task_complete") is True
     )
+
+
+def build_command(case: dict, directory: Path) -> list[str]:
+    command = [
+        "bash",
+        str(PROJECT_ROOT / "scripts/run_recorded_expert_demo.sh"),
+        str(directory),
+        str(case["transfer_joint_1_rad"]),
+        str(case["source_offset_x_m"]),
+        str(case["source_offset_y_m"]),
+        case["prompt"],
+    ]
+    simulation_seed = case.get("simulation_seed")
+    if simulation_seed is not None:
+        if not isinstance(simulation_seed, int) or simulation_seed < 0:
+            raise ValueError(f"invalid simulation_seed for {case.get('case_id')}")
+        command.append(str(simulation_seed))
+    return command
 
 
 def main() -> int:
@@ -55,33 +80,40 @@ def main() -> int:
     skipped = 0
     for case in cases:
         directory = args.dataset_root / f"episode_{case['episode_index']:06d}"
-        if completed_episode(directory, case["case_id"]):
+        if completed_episode(directory, case["case_id"], case.get("simulation_seed")):
             skipped += 1
             continue
         if directory.exists():
             raise RuntimeError(
                 f"existing episode is incomplete or belongs to another case: {directory}"
             )
-        command = [
-            "bash",
-            str(PROJECT_ROOT / "scripts/run_recorded_expert_demo.sh"),
-            str(directory),
-            str(case["transfer_joint_1_rad"]),
-            str(case["source_offset_x_m"]),
-            str(case["source_offset_y_m"]),
-            case["prompt"],
-        ]
+        command = build_command(case, directory)
         subprocess.run(command, cwd=PROJECT_ROOT, check=True)
         manifest_path = directory / "metadata.json"
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        manifest["metadata"].update(
-            {
-                "collection_case_id": case["case_id"],
-                "collection_split": case["split"],
-            }
-        )
+        collection_metadata = {
+            "collection_case_id": case["case_id"],
+            "collection_split": case["split"],
+        }
+        for key in (
+            "simulation_seed",
+            "physical_group_id",
+            "physical_variant",
+            "render_repeat_index",
+            "render_repeat_count",
+            "source_evaluation_case_id",
+            "source_outcome_pattern",
+        ):
+            if key in case:
+                metadata_key = (
+                    "collection_simulation_seed" if key == "simulation_seed" else key
+                )
+                collection_metadata[metadata_key] = case[key]
+        manifest["metadata"].update(collection_metadata)
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-        if not completed_episode(directory, case["case_id"]):
+        if not completed_episode(
+            directory, case["case_id"], case.get("simulation_seed")
+        ):
             raise RuntimeError(f"recorded episode failed post-run validation: {directory}")
         completed += 1
     report = {

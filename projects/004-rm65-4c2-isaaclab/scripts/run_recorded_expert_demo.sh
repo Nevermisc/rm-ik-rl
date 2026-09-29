@@ -9,6 +9,12 @@ transfer_angle="${2:-0.8}"
 source_offset_x="${3:-0.0}"
 source_offset_y="${4:-0.0}"
 episode_prompt="${5:-pick up the block and place it on the target}"
+simulation_seed="${6:-}"
+
+simulation_seed_args=()
+if [[ -n "$simulation_seed" ]]; then
+  simulation_seed_args=(--simulation-seed "$simulation_seed")
+fi
 
 cd "$project_root"
 mkdir -p outputs "$(dirname "$episode_dir")"
@@ -52,6 +58,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --place-descent-distance-m 0.13 \
   --place-waypoint-steps 180 \
   --unassisted-release \
+  "${simulation_seed_args[@]}" \
   --headless \
   --enable_cameras
 

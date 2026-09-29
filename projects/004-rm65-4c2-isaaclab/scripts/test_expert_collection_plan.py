@@ -18,7 +18,7 @@ for path in (PROJECT_ROOT, SCRIPTS_ROOT):
 
 from build_expert_collection_plan import ANGLES, OFFSETS, PROMPTS, build_plan
 from openpi_extension.expert_episode import EpisodeRecorder
-from run_expert_collection_plan import completed_episode
+from run_expert_collection_plan import build_command, completed_episode
 
 
 def main() -> int:
@@ -76,6 +76,11 @@ def main() -> int:
         "unique_case_ids": len({item["case_id"] for item in cases}) == len(cases),
         "resume_detected": resume_detected,
         "wrong_case_rejected": wrong_case_rejected,
+        "legacy_command_has_no_seed_argument": len(build_command(cases[0], Path("episode"))) == 7,
+        "seeded_command_appends_seed": build_command(
+            {**cases[0], "simulation_seed": 12345}, Path("episode")
+        )[-1]
+        == "12345",
     }
     passed = all(checks.values())
     print(json.dumps({"status": "pass" if passed else "fail", "checks": checks}, indent=2))

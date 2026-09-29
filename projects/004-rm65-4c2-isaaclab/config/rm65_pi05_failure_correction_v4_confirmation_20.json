@@ -1,0 +1,245 @@
+{
+  "format": "rm65_pi05_sim_evaluation_plan_deterministic_v1",
+  "description": "Preregistered fresh-condition confirmation for the RM65 pi0.5 v4 failure-correction checkpoint, frozen before v4 training.",
+  "evaluation_kind": "fresh_held_out_interpolation_after_v4_correction",
+  "preregistration": {
+    "created_at": "2026-09-29",
+    "created_before_v4_training": true,
+    "repeat_count": 3,
+    "first_run_is_independent_success_confirmation": true,
+    "later_runs_are_repeatability_evidence_not_new_success_trials": true,
+    "normal_model_failures_must_not_be_retried": true,
+    "infrastructure_retries_require_missing_valid_report": true,
+    "conditions_must_not_be_added_to_training_before_confirmation": true,
+    "v3_confirmation_plan_is_development_only": true
+  },
+  "gate": {
+    "minimum_episode_count": 20,
+    "minimum_success_rate": 0.9,
+    "require_all_planned_reports": true
+  },
+  "sampling_contract": {
+    "mode": "explicit_numpy_gaussian_noise_v1",
+    "chunk_seed_rule": "policy_noise_seed + chunk_index",
+    "prior_plan_seed_overlap": false
+  },
+  "frozen_controller_contract": {
+    "checkpoint_id": "rm65_failure_correction_v4_lora_6k/5999",
+    "repo_id": "local/rm65_sim_failure_correction_v4_train",
+    "policy_max_action_chunks": 120,
+    "policy_gripper_open_threshold": 0.12,
+    "actual_gripper_open_threshold": 0.2,
+    "required_release_candidate_chunks": 2
+  },
+  "repeatability_gate": {
+    "required_reports": 60,
+    "minimum_status_consistency_rate": 0.95,
+    "maximum_outcome_flip_cases": 1,
+    "require_initial_joint_hash_match": true,
+    "require_initial_gripper_hash_match": true,
+    "require_chunk_zero_noise_hash_match": true,
+    "image_and_action_hash_matches": "reported_but_not_required_until_renderer_fix"
+  },
+  "cases": [
+    {
+      "case_id": "confirm_v4_000",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029000,
+      "simulation_seed": 791029000,
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "confirm_v4_001",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029001,
+      "simulation_seed": 791029001,
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "confirm_v4_002",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029002,
+      "simulation_seed": 791029002,
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "confirm_v4_003",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029003,
+      "simulation_seed": 791029003,
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "confirm_v4_004",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029004,
+      "simulation_seed": 791029004,
+      "transfer_joint_1_rad": 0.6875,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "confirm_v4_005",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029005,
+      "simulation_seed": 791029005,
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "confirm_v4_006",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029006,
+      "simulation_seed": 791029006,
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "confirm_v4_007",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029007,
+      "simulation_seed": 791029007,
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "confirm_v4_008",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029008,
+      "simulation_seed": 791029008,
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "confirm_v4_009",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029009,
+      "simulation_seed": 791029009,
+      "transfer_joint_1_rad": 0.7625,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "confirm_v4_010",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029010,
+      "simulation_seed": 791029010,
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "prompt": "grasp the block and set it on the target"
+    },
+    {
+      "case_id": "confirm_v4_011",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029011,
+      "simulation_seed": 791029011,
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "confirm_v4_012",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029012,
+      "simulation_seed": 791029012,
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "confirm_v4_013",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029013,
+      "simulation_seed": 791029013,
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "confirm_v4_014",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029014,
+      "simulation_seed": 791029014,
+      "transfer_joint_1_rad": 0.8375,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "confirm_v4_015",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029015,
+      "simulation_seed": 791029015,
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": -0.011,
+      "source_offset_y_m": 0.001,
+      "prompt": "place the block on the target platform"
+    },
+    {
+      "case_id": "confirm_v4_016",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029016,
+      "simulation_seed": 791029016,
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": -0.006,
+      "source_offset_y_m": 0.007,
+      "prompt": "pick the block and put it at the target"
+    },
+    {
+      "case_id": "confirm_v4_017",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029017,
+      "simulation_seed": 791029017,
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.001,
+      "source_offset_y_m": -0.011,
+      "prompt": "pick up the block and place it on the target"
+    },
+    {
+      "case_id": "confirm_v4_018",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029018,
+      "simulation_seed": 791029018,
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.007,
+      "source_offset_y_m": 0.006,
+      "prompt": "move the block onto the target"
+    },
+    {
+      "case_id": "confirm_v4_019",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029019,
+      "simulation_seed": 791029019,
+      "transfer_joint_1_rad": 0.9625,
+      "source_offset_x_m": 0.004,
+      "source_offset_y_m": -0.003,
+      "prompt": "grasp the block and set it on the target"
+    }
+  ]
+}
