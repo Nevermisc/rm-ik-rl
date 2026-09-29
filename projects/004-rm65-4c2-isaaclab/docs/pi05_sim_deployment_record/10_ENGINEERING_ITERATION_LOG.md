@@ -607,6 +607,20 @@
 - 安全边界：run2 全程 Isaac Lab 仿真，`real_robot_command_sent=false`；普通失败未重试，run1 成绩仍固定为 17/20。
 - 下一步：提交本条 compact 证据；继续无改动运行 run3，随后用预注册分析器生成 20×3 matrix，要求 60/60 报告、至少 95% status consistency 且最多 1 个 flip。该重复性门禁即使 PASS，也不会覆盖 run1 成功门禁 FAIL。
 
+### v4-fc-wip.051：60/60 重复性门禁压线通过，但独立成功门禁仍失败
+
+- Git 基线：`75c4c3e`（run2 compact 证据已推送）；状态：run3 为 16/20，最终 20×3 自动矩阵生成成功，重复性 gate PASS，整体仿真部署 gate 仍 FAIL。
+- 三轮成绩：run1 `17/20=85%`、run2 `17/20=85%`、run3 `16/20=80%`；60/60 task report 有效，无缺失或无效报告。首轮低于预注册 18/20，因此无论后两轮如何，v4 都不能标记为部署完成。
+- 重复性结果：19/20 case 三轮状态一致，status consistency `95%`；outcome flip 恰为 1，满足“至少 95%、最多 1 flip”的冻结门槛。结果模式为 16 条 `PASS/PASS/PASS`、3 条 `FAIL/FAIL/FAIL`、1 条 `PASS/PASS/FAIL`。
+- 变量控制证据：20/20 case 的初始 joint、gripper、cube position/quaternion、wrist tool pose、wrist camera pose 和 chunk-zero noise hash 三轮匹配；external/wrist 图像 0/20 匹配，raw action 0/20 匹配。物理状态与随机噪声相同而图像/动作不同，符合隔离 RTX 渲染随机性的设计。
+- 三条稳定失败：`010/011/015` 均为 `FAIL/FAIL/FAIL`。010 三轮平均 lift 仅 `0.00688 m`，稳定未抓稳；011 平均 lift 约 `0.02034 m`，但目标/释放阶段不稳定；015 三轮 target XY error 范围 `0.05096–0.06608 m`，始终略高于 0.05 m 且未验证释放，是明确的目标边缘未收敛样本。
+- 唯一翻转：`017` 为 `PASS/PASS/FAIL`，角度 0.9625、offset `(0.001,-0.011)`、prompt 为 `pick up the block and place it on the target`。第三轮 lift 正常约 `0.04554 m`，但随后方块跌出工作区，最终 position error `11.979 m`、post-release drift `6.428 m`；同物理初态/同 noise 下仅 RTX 图像变化导致动作序列分叉。
+- 结论：v4 已把 v3 的随机翻转问题收敛到 1/20 并通过重复性上限，但成功率没有提升，仍有三条稳定失败和一条渲染敏感失败。下一版价值最高的是针对这四条构造不同类型纠正：010/011 强化安全抓稳/抬升与防跌落，015 强化目标边缘连续释放，017 增加同物理状态跨 RTX 一致性样本。
+- 数据泄漏边界：v4 的 20 条确认条件从现在起永久降级为 development-only，后续可用于 v5 纠正，但不得再次作为独立最终成绩；v5 必须在训练前冻结另一组与 v3/v4 训练和确认条件均不重合的 held-out 计划。
+- Git 优化：提交 run3 compact failure taxonomy 和 20×3 matrix；run2/run3 full summary、60 条 PNG/NPZ/大 task report/runner log 只保存在数据目录与待建独立备份，不进入 Git。
+- 安全边界：三轮全部为 Isaac Lab 仿真，自动报告 `simulation_only=true`、`real_robot_command_sent=false`；没有启动真实机械臂命令。
+- 下一步：精确提交本条最终 v4 证据；在开始 v5 纠正采集前，为 v4/5999 checkpoint、norm 和三轮原始评测建立第二份校验副本。随后冻结 v5 的纠正采集计划、低学习率续训合同与全新 held-out 最终确认计划。
+
 ## 已识别的优化方向
 
 - OpenPI 训练时已经默认启用非腕部相机的随机裁剪/缩放/小角度旋转，并对所有相机使用较强 ColorJitter。因此“再加一点普通图像增强”不是当前缺失功能。

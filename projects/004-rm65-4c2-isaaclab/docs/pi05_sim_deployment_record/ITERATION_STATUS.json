@@ -1,11 +1,11 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-29",
-  "git_baseline": "648302c",
-  "working_version": "v4-fc-wip.050",
+  "git_baseline": "75c4c3e",
+  "working_version": "v4-fc-wip.051",
   "committed": true,
-  "phase": "v4_run2_complete_zero_flips_run3_next",
-  "current_action": "commit the compact run2 repeatability evidence, then run the unchanged third RTX repeat and build the preregistered 20-by-3 outcome matrix",
+  "phase": "v4_repeatability_passed_success_gate_failed_v5_planning",
+  "current_action": "commit the finalized v4 20-by-3 evidence, preserve the v4 evaluation and checkpoint assets, then freeze all v4 cases as development-only inputs for a preregistered v5 correction workflow",
   "latest_confirmed_complete_episode_count": 30,
   "v4_correction_episode_count_planned": 36,
   "v4_correction_episode_count_last_observed": 36,
@@ -14,9 +14,9 @@
   "rejected_episode_attempt_count": 5,
   "expert_diagnostic_probe_count": 7,
   "next_actions": [
-    "commit only the compact run2 failure taxonomy; keep its full 120k-line summary and raw 20-episode dataset out of Git",
-    "run preregistered run3 with the same checkpoint, controller, plan, thresholds and seeds",
-    "analyze all 60 reports for status consistency and outcome flips, then freeze v4 cases as development evidence before designing v5"
+    "commit only the run3 compact taxonomy and finalized repeatability matrix; keep full run2/run3 summaries and raw episodes out of Git",
+    "create and verify an independent backup manifest for the v4 production checkpoint, norm asset and three raw evaluation runs before using them as v5 development evidence",
+    "generate a v5 correction plan from three stable failures plus one renderer-sensitive flip, and preregister another disjoint held-out confirmation plan before v5 training"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/10_ENGINEERING_ITERATION_LOG.md",
   "data_leakage_boundary": {
@@ -184,16 +184,38 @@
     "real_robot_command_sent": false
   },
   "v4_repeatability_progress": {
-    "completed_run_count": 2,
-    "valid_report_count": 40,
-    "run_success_counts": [17, 17],
-    "run_success_rates": [0.85, 0.85],
+    "completed_run_count": 3,
+    "valid_report_count": 60,
+    "run_success_counts": [17, 17, 16],
+    "run_success_rates": [0.85, 0.85, 0.8],
     "failed_case_ids_run1": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
     "failed_case_ids_run2": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
-    "outcome_flip_case_count_so_far": 0,
-    "status_consistency_rate_so_far": 1.0,
-    "repeatability_gate_finalized": false,
+    "failed_case_ids_run3": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015", "confirm_v4_017"],
+    "outcome_flip_case_count_so_far": 1,
+    "status_consistency_rate_so_far": 0.95,
+    "repeatability_gate_finalized": true,
+    "repeatability_gate_passed": true,
     "first_run_success_gate_remains_failed": true,
+    "real_robot_command_sent": false
+  },
+  "v4_final_evaluation_result": {
+    "overall_deployment_gate_passed": false,
+    "first_run_success_gate_passed": false,
+    "first_run_success_count": 17,
+    "first_run_success_rate": 0.85,
+    "repeatability_gate_passed": true,
+    "valid_report_count": 60,
+    "status_consistent_case_count": 19,
+    "status_consistency_rate": 0.95,
+    "outcome_flip_case_count": 1,
+    "outcome_patterns": {
+      "pass/pass/pass": 16,
+      "fail/fail/fail": 3,
+      "pass/pass/fail": 1
+    },
+    "stable_failure_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
+    "renderer_sensitive_case_ids": ["confirm_v4_017"],
+    "v4_cases_frozen_as_development_only": true,
     "real_robot_command_sent": false
   },
   "real_robot_command_sent": false

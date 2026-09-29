@@ -1,0 +1,1915 @@
+{
+  "status": "pass",
+  "analysis_kind": "rm65_pi05_repeatability_matrix_v1",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "run_count": 3,
+  "planned_case_count": 20,
+  "expected_report_count": 60,
+  "valid_report_count": 60,
+  "status_consistent_case_count": 19,
+  "status_consistency_rate": 0.95,
+  "outcome_flip_case_count": 1,
+  "chunk_zero_hash_match_case_counts": {
+    "joint_position": 20,
+    "gripper_position": 20,
+    "external_image": 0,
+    "wrist_image": 0,
+    "noise": 20,
+    "raw_action": 0
+  },
+  "chunk_zero_physical_state_hash_available_case_counts": {
+    "cube_position": 20,
+    "cube_quaternion": 20,
+    "wrist_tool_position": 20,
+    "wrist_tool_quaternion": 20,
+    "wrist_camera_eye": 20,
+    "wrist_camera_forward": 20
+  },
+  "chunk_zero_physical_state_hash_match_case_counts": {
+    "cube_position": 20,
+    "cube_quaternion": 20,
+    "wrist_tool_position": 20,
+    "wrist_tool_quaternion": 20,
+    "wrist_camera_eye": 20,
+    "wrist_camera_forward": 20
+  },
+  "exact_initial_policy_observation_case_count": 20,
+  "outcome_patterns": {
+    "fail/fail/fail": 3,
+    "pass/pass/fail": 1,
+    "pass/pass/pass": 16
+  },
+  "run_summaries": [
+    {
+      "run_index": 0,
+      "root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run1",
+      "valid_report_count": 20,
+      "success_count": 17,
+      "failure_count": 3,
+      "success_rate": 0.85
+    },
+    {
+      "run_index": 1,
+      "root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run2",
+      "valid_report_count": 20,
+      "success_count": 17,
+      "failure_count": 3,
+      "success_rate": 0.85
+    },
+    {
+      "run_index": 2,
+      "root": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_pi05_failure_correction_v4_confirmation_run3",
+      "valid_report_count": 20,
+      "success_count": 16,
+      "failure_count": 4,
+      "success_rate": 0.8
+    }
+  ],
+  "gate": {
+    "passed": true,
+    "checks": {
+      "all_reports_valid": true,
+      "required_report_count_met": true,
+      "minimum_status_consistency_rate_met": true,
+      "maximum_outcome_flip_cases_met": true,
+      "initial_joint_hash_match": true,
+      "initial_gripper_hash_match": true,
+      "chunk_zero_noise_hash_match": true,
+      "all_simulation_only": true,
+      "no_real_robot_commands": true
+    },
+    "config": {
+      "required_reports": 60,
+      "minimum_status_consistency_rate": 0.95,
+      "maximum_outcome_flip_cases": 1,
+      "require_initial_joint_hash_match": true,
+      "require_initial_gripper_hash_match": true,
+      "require_chunk_zero_noise_hash_match": true,
+      "image_and_action_hash_matches": "reported_but_not_required_until_renderer_fix"
+    }
+  },
+  "invalid_reports": [],
+  "cases": [
+    {
+      "case_id": "confirm_v4_000",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029000,
+      "simulation_seed": 791029000,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.06081142028172811,
+          "std": 0.0035444643985707487,
+          "minimum": 0.05580180883407593,
+          "maximum": 0.06346684694290161,
+          "range": 0.007665038108825684
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.02940878330568887,
+          "std": 0.006274000679875338,
+          "minimum": 0.023317402577948256,
+          "maximum": 0.03804159613276839,
+          "range": 0.014724193554820134
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.02940878330571155,
+          "std": 0.006274000679870961,
+          "minimum": 0.023317402577975682,
+          "maximum": 0.0380415961327852,
+          "range": 0.014724193554809521
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 1.4901161193847656e-08,
+          "std": 0.0,
+          "minimum": 1.4901161193847656e-08,
+          "maximum": 1.4901161193847656e-08,
+          "range": 0.0
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.05187437455089106,
+          "std": 0.014442138710577703,
+          "minimum": 0.03883169823988325,
+          "maximum": 0.07200745402733026,
+          "range": 0.03317575578744701
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_001",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029001,
+      "simulation_seed": 791029001,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04508882761001587,
+          "std": 0.005543580492276243,
+          "minimum": 0.04089939594268799,
+          "maximum": 0.05292230844497681,
+          "range": 0.012022912502288818
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.022846652308736125,
+          "std": 0.002539658900913662,
+          "minimum": 0.01941056852164322,
+          "maximum": 0.025470120707054195,
+          "range": 0.006059552185410974
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.022846652330181794,
+          "std": 0.0025396588743366037,
+          "minimum": 0.019410568581618447,
+          "maximum": 0.025470120707079304,
+          "range": 0.006059552125460856
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 1.568703623888723e-06,
+          "std": 1.1938054441000608e-06,
+          "minimum": 1.4901161193847656e-08,
+          "maximum": 2.917470737884287e-06,
+          "range": 2.902569576690439e-06
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.04977850325994179,
+          "std": 0.012059155065110067,
+          "minimum": 0.034007628184522506,
+          "maximum": 0.06328483537442423,
+          "range": 0.02927720718990172
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_002",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029002,
+      "simulation_seed": 791029002,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04855320851008097,
+          "std": 0.0016678326838757342,
+          "minimum": 0.04729318618774414,
+          "maximum": 0.050909996032714844,
+          "range": 0.003616809844970703
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.010921470511142001,
+          "std": 0.001189476441193097,
+          "minimum": 0.009253509605495296,
+          "maximum": 0.01194442482235788,
+          "range": 0.0026909152168625838
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.010950049100968804,
+          "std": 0.0012144780191279507,
+          "minimum": 0.009253509605564404,
+          "maximum": 0.012030160591713891,
+          "range": 0.002776650986149487
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 9.187572042416529e-07,
+          "std": 7.836147412147696e-07,
+          "minimum": 0.0,
+          "maximum": 1.9147846614941955e-06,
+          "range": 1.9147846614941955e-06
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06414399642016387,
+          "std": 0.011758106961508691,
+          "minimum": 0.04756949798909226,
+          "maximum": 0.07359060765690886,
+          "range": 0.0260211096678166
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_003",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029003,
+      "simulation_seed": 791029003,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.037064830462137856,
+          "std": 0.0011013823681916733,
+          "minimum": 0.03593796491622925,
+          "maximum": 0.03855949640274048,
+          "range": 0.0026215314865112305
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.010234280453420704,
+          "std": 0.003108102340656986,
+          "minimum": 0.006263063407343132,
+          "maximum": 0.013851614020608577,
+          "range": 0.007588550613265446
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.010234280455760724,
+          "std": 0.0031081023408922135,
+          "minimum": 0.0062630634074452365,
+          "maximum": 0.013851614020654745,
+          "range": 0.007588550613209509
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.00042916833869336796,
+          "std": 0.00035941934339850834,
+          "minimum": 0.00010641849075909704,
+          "maximum": 0.0009306135470978916,
+          "range": 0.0008241950563387945
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06624488070291362,
+          "std": 0.004957495759035611,
+          "minimum": 0.061531700839886086,
+          "maximum": 0.07309642313532747,
+          "range": 0.01156472229544138
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_004",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029004,
+      "simulation_seed": 791029004,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.037563840548197426,
+          "std": 0.003633715587987948,
+          "minimum": 0.03337055444717407,
+          "maximum": 0.042233049869537354,
+          "range": 0.008862495422363281
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.009242705686308776,
+          "std": 0.005448546171510374,
+          "minimum": 0.004280004751732871,
+          "maximum": 0.01682882673121235,
+          "range": 0.012548821979479478
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.00924270568740533,
+          "std": 0.005448546170984745,
+          "minimum": 0.0042800047518822834,
+          "maximum": 0.016828826731250347,
+          "range": 0.012548821979368064
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 2.9893887888950605e-05,
+          "std": 4.227634168461476e-05,
+          "minimum": 0.0,
+          "maximum": 8.968166366685182e-05,
+          "range": 8.968166366685182e-05
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06121256620208652,
+          "std": 0.010426734219194891,
+          "minimum": 0.04647055457782194,
+          "maximum": 0.06886641414179279,
+          "range": 0.022395859563970846
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_005",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029005,
+      "simulation_seed": 791029005,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.02597147226333618,
+          "std": 0.0012987904598141056,
+          "minimum": 0.024389922618865967,
+          "maximum": 0.027571141719818115,
+          "range": 0.0031812191009521484
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.020892110485119686,
+          "std": 0.004049379226699622,
+          "minimum": 0.017995882668245172,
+          "maximum": 0.02661867113355633,
+          "range": 0.008622788465311157
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.020892110485223464,
+          "std": 0.004049379226643814,
+          "minimum": 0.017995882668280706,
+          "maximum": 0.02661867113358035,
+          "range": 0.008622788465299645
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 7.301083681928351e-06,
+          "std": 1.0254690349740576e-05,
+          "minimum": 0.0,
+          "maximum": 2.180329101975076e-05,
+          "range": 2.180329101975076e-05
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.07228181340331517,
+          "std": 0.0021790945276859153,
+          "minimum": 0.06924055818188397,
+          "maximum": 0.07423343341474588,
+          "range": 0.004992875232861904
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_006",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029006,
+      "simulation_seed": 791029006,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.05254350105921427,
+          "std": 0.003660183615457815,
+          "minimum": 0.04838496446609497,
+          "maximum": 0.05729210376739502,
+          "range": 0.008907139301300049
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.015940251528531676,
+          "std": 0.003769573923651392,
+          "minimum": 0.013035265306299417,
+          "maximum": 0.021263832682471086,
+          "range": 0.00822856737617167
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.01594025152885484,
+          "std": 0.0037695739235540328,
+          "minimum": 0.013035265306348475,
+          "maximum": 0.02126383268263482,
+          "range": 0.008228567376286345
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.00026846345986086817,
+          "std": 0.0003792969956141084,
+          "minimum": 0.0,
+          "maximum": 0.0008048703311942518,
+          "range": 0.0008048703311942518
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06213712726714294,
+          "std": 0.001995742326508723,
+          "minimum": 0.059679189341605744,
+          "maximum": 0.0645675066578595,
+          "range": 0.0048883173162537555
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_007",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029007,
+      "simulation_seed": 791029007,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.03652685880661011,
+          "std": 0.004449301500706234,
+          "minimum": 0.030428051948547363,
+          "maximum": 0.04091709852218628,
+          "range": 0.010489046573638916
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.00673822365216242,
+          "std": 0.0010443330580602774,
+          "minimum": 0.005883909718283026,
+          "maximum": 0.008208720487515538,
+          "range": 0.002324810769232512
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.006739295742273496,
+          "std": 0.0010434567706901752,
+          "minimum": 0.005887125986576882,
+          "maximum": 0.00820872048759344,
+          "range": 0.0023215945010165587
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 3.41552337962033e-05,
+          "std": 4.811151290765188e-05,
+          "minimum": 0.0,
+          "maximum": 0.00010219500836683437,
+          "range": 0.00010219500836683437
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.067539136993173,
+          "std": 0.011564868112184202,
+          "minimum": 0.05592350670367996,
+          "maximum": 0.08331826656540005,
+          "range": 0.02739475986172009
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_008",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029008,
+      "simulation_seed": 791029008,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.040324389934539795,
+          "std": 0.0004387587120387781,
+          "minimum": 0.03978782892227173,
+          "maximum": 0.0408625602722168,
+          "range": 0.0010747313499450684
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.012918058376790047,
+          "std": 0.011552278812599025,
+          "minimum": 0.0018084413651479764,
+          "maximum": 0.028846633124290685,
+          "range": 0.02703819175914271
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.012918058386752883,
+          "std": 0.011552278808392179,
+          "minimum": 0.0018084413655015893,
+          "maximum": 0.028846633124312855,
+          "range": 0.027038191758811267
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.00045486354307892424,
+          "std": 0.0003647948896295163,
+          "minimum": 0.0,
+          "maximum": 0.0008930969634093344,
+          "range": 0.0008930969634093344
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.059449018081488635,
+          "std": 0.010727574582774754,
+          "minimum": 0.045311369131066204,
+          "maximum": 0.0712840198781449,
+          "range": 0.02597265074707869
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_009",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029009,
+      "simulation_seed": 791029009,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.043922742207845054,
+          "std": 0.0009899830536764635,
+          "minimum": 0.04254227876663208,
+          "maximum": 0.0448150634765625,
+          "range": 0.00227278470993042
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.007451764098132242,
+          "std": 0.004639637793202826,
+          "minimum": 0.0018514916765269695,
+          "maximum": 0.013212824131161573,
+          "range": 0.011361332454634603
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.00745177192090037,
+          "std": 0.00463962835081193,
+          "minimum": 0.0018515151446952404,
+          "maximum": 0.013212824131209973,
+          "range": 0.011361308986514733
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.0005058427632320672,
+          "std": 0.00043546282772437267,
+          "minimum": 0.0,
+          "maximum": 0.0010629583848640323,
+          "range": 0.0010629583848640323
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06799713092961983,
+          "std": 0.009406014665577986,
+          "minimum": 0.055143323247832374,
+          "maximum": 0.0773895682627066,
+          "range": 0.022246245014874225
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_010",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029010,
+      "simulation_seed": 791029010,
+      "report_count": 3,
+      "statuses": [
+        "fail",
+        "fail",
+        "fail"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.006880561510721843,
+          "std": 0.0007760544745109739,
+          "minimum": 0.005942165851593018,
+          "maximum": 0.007842659950256348,
+          "range": 0.00190049409866333
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.2518976386051535,
+          "std": 0.03733715269581896,
+          "minimum": 0.2059710424998345,
+          "maximum": 0.2974254061791761,
+          "range": 0.09145436367934162
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 6.126573658326919,
+          "std": 4.76860401665651,
+          "minimum": 0.21378155387606376,
+          "maximum": 11.891624824422083,
+          "range": 11.677843270546019
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 3.5914838309399784,
+          "std": 2.6777669656453713,
+          "minimum": 0.003365753684192896,
+          "maximum": 6.434213638305664,
+          "range": 6.430847884621471
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.8596629765681448,
+          "std": 0.023478182305246235,
+          "minimum": 0.8430578805118627,
+          "maximum": 0.892866140156123,
+          "range": 0.04980825964426028
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_011",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029011,
+      "simulation_seed": 791029011,
+      "report_count": 3,
+      "statuses": [
+        "fail",
+        "fail",
+        "fail"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.020338038603464764,
+          "std": 0.0005544850503090178,
+          "minimum": 0.019602715969085693,
+          "maximum": 0.020941615104675293,
+          "range": 0.0013388991355895996
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.1637862996394499,
+          "std": 0.05230851261078297,
+          "minimum": 0.09216788889117081,
+          "maximum": 0.21563835914702678,
+          "range": 0.12347047025585597
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 7.692930285881572,
+          "std": 5.376528817929146,
+          "minimum": 0.09431233970136467,
+          "maximum": 11.729614860129281,
+          "range": 11.635302520427917
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 4.20081897812391,
+          "std": 2.970970311881838,
+          "minimum": 0.00019872895791195333,
+          "maximum": 6.379161357879639,
+          "range": 6.378962628921727
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.42448091179529485,
+          "std": 0.35416962796018997,
+          "minimum": 3.181749584418762e-07,
+          "maximum": 0.8669740202799009,
+          "range": 0.8669737021049424
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_012",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029012,
+      "simulation_seed": 791029012,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.045275747776031494,
+          "std": 0.003166306145297915,
+          "minimum": 0.0408095121383667,
+          "maximum": 0.04778778553009033,
+          "range": 0.006978273391723633
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.020274914359330397,
+          "std": 0.012355866872920656,
+          "minimum": 0.0028406606484911367,
+          "maximum": 0.03001001343027102,
+          "range": 0.02716935278177988
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.020313082022938727,
+          "std": 0.012302012451690908,
+          "minimum": 0.0029551636333671485,
+          "maximum": 0.030010013431523524,
+          "range": 0.027054849798156377
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 9.234607271461452e-08,
+          "std": 6.870854223247305e-08,
+          "minimum": 1.4901161193847656e-08,
+          "maximum": 1.8189184913808276e-07,
+          "range": 1.669906879442351e-07
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.04100240551667406,
+          "std": 0.002897496446441868,
+          "minimum": 0.03876652934647709,
+          "maximum": 0.045094208393482806,
+          "range": 0.0063276790470057145
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_013",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029013,
+      "simulation_seed": 791029013,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04257684946060181,
+          "std": 0.001188002892511402,
+          "minimum": 0.041499555110931396,
+          "maximum": 0.04423201084136963,
+          "range": 0.0027324557304382324
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.004479159361307785,
+          "std": 0.003998553238135664,
+          "minimum": 0.0001987449857037757,
+          "maximum": 0.009819551165213946,
+          "range": 0.00962080617951017
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.004480936073169998,
+          "std": 0.003996651622779072,
+          "minimum": 0.00020407511988050267,
+          "maximum": 0.00981955116643683,
+          "range": 0.009615476046556328
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.0002375618823862169,
+          "std": 0.00030951740489076966,
+          "minimum": 0.0,
+          "maximum": 0.0006747369188815355,
+          "range": 0.0006747369188815355
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.06500156686025778,
+          "std": 0.006682651098494762,
+          "minimum": 0.059110339666377604,
+          "maximum": 0.07434693202807036,
+          "range": 0.015236592361692752
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_014",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029014,
+      "simulation_seed": 791029014,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04026726881663004,
+          "std": 0.001494275753481063,
+          "minimum": 0.038689374923706055,
+          "maximum": 0.04227358102798462,
+          "range": 0.0035842061042785645
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.01287101139762852,
+          "std": 0.003358456500094311,
+          "minimum": 0.009520681944387401,
+          "maximum": 0.01746170600929526,
+          "range": 0.007941024064907858
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.012871011447658495,
+          "std": 0.003358456568425237,
+          "minimum": 0.009520681944417256,
+          "maximum": 0.017461706159300348,
+          "range": 0.007941024214883092
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.0006896713593960158,
+          "std": 0.0008279335531906913,
+          "minimum": 1.30462112792884e-05,
+          "maximum": 0.0018555374117568135,
+          "range": 0.0018424912004775251
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.0687998254749357,
+          "std": 0.010485880610619025,
+          "minimum": 0.05398070967266325,
+          "maximum": 0.07668466581774584,
+          "range": 0.02270395614508259
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_015",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029015,
+      "simulation_seed": 791029015,
+      "report_count": 3,
+      "statuses": [
+        "fail",
+        "fail",
+        "fail"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.02049855391184489,
+          "std": 0.0011989514860979119,
+          "minimum": 0.019616901874542236,
+          "maximum": 0.02219367027282715,
+          "range": 0.002576768398284912
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.056979947723609446,
+          "std": 0.0065467799400571545,
+          "minimum": 0.050960828880803936,
+          "maximum": 0.06608197361126705,
+          "range": 0.015121144730463117
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.05813353374842359,
+          "std": 0.00741663777862439,
+          "minimum": 0.05096086369627464,
+          "maximum": 0.06834741561712633,
+          "range": 0.017386551920851694
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 7.928078448552848e-06,
+          "std": 7.054508033871124e-06,
+          "minimum": 1.0848209086589122e-07,
+          "maximum": 1.7203466995852068e-05,
+          "range": 1.7094984904986177e-05
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.6683913901132427,
+          "std": 0.3076693572381563,
+          "minimum": 0.23328146838039332,
+          "maximum": 0.8863551079193291,
+          "range": 0.6530736395389358
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_016",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029016,
+      "simulation_seed": 791029016,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.027336517969767254,
+          "std": 0.008068291569671378,
+          "minimum": 0.020082831382751465,
+          "maximum": 0.038591206073760986,
+          "range": 0.01850837469100952
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.017989524071519124,
+          "std": 0.00715511420817077,
+          "minimum": 0.008291592615609545,
+          "maximum": 0.025339706124646623,
+          "range": 0.01704811350903708
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.017991088710813924,
+          "std": 0.00715471966351375,
+          "minimum": 0.008293210732016956,
+          "maximum": 0.02533970612482608,
+          "range": 0.017046495392809124
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 2.027236898053767e-06,
+          "std": 9.263446840129543e-07,
+          "minimum": 1.1340557648509275e-06,
+          "maximum": 3.3037927096302155e-06,
+          "range": 2.169736944779288e-06
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.0662104773957835,
+          "std": 0.008720484794887597,
+          "minimum": 0.05961613072825305,
+          "maximum": 0.07853296106261325,
+          "range": 0.018916830334360195
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_017",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029017,
+      "simulation_seed": 791029017,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "fail"
+      ],
+      "status_consistent": false,
+      "outcome_flip": true,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04397165775299072,
+          "std": 0.0014886622401413363,
+          "minimum": 0.04197341203689575,
+          "maximum": 0.04554474353790283,
+          "range": 0.00357133150100708
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.5878767353579023,
+          "std": 0.7911364515397976,
+          "minimum": 0.01037509266017042,
+          "maximum": 1.70651563165636,
+          "range": 1.6961405389961897
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 4.011931442150442,
+          "std": 5.633359387609636,
+          "minimum": 0.010375092725943834,
+          "maximum": 11.978677021378054,
+          "range": 11.96830192865211
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 2.1426903729027535,
+          "std": 3.0302210426165317,
+          "minimum": 1.832600560192077e-07,
+          "maximum": 6.428070068359375,
+          "range": 6.428069885099319
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.21411416072376888,
+          "std": 0.23767559957588627,
+          "minimum": 0.019966500859729126,
+          "maximum": 0.5488106970153103,
+          "range": 0.5288441961555811
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_018",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029018,
+      "simulation_seed": 791029018,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.03525606791178385,
+          "std": 0.001429081365316348,
+          "minimum": 0.0340573787689209,
+          "maximum": 0.03726458549499512,
+          "range": 0.0032072067260742188
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.02656138911598942,
+          "std": 0.0027907646594303873,
+          "minimum": 0.022670642694467977,
+          "maximum": 0.02908045239033148,
+          "range": 0.006409809695863501
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.026561389676652777,
+          "std": 0.002790765115498399,
+          "minimum": 0.022670642758559185,
+          "maximum": 0.02908045400135207,
+          "range": 0.006409811242792884
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 5.378089485930104e-05,
+          "std": 7.332257428438505e-05,
+          "minimum": 6.442060112021863e-07,
+          "maximum": 0.00015746388817206025,
+          "range": 0.00015681968216085806
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.05694531830232267,
+          "std": 0.033130429020596174,
+          "minimum": 0.010302377530949654,
+          "maximum": 0.08410932011686997,
+          "range": 0.07380694258592033
+        }
+      }
+    },
+    {
+      "case_id": "confirm_v4_019",
+      "panel": "fresh_continuous_interpolation",
+      "policy_noise_seed": 691029019,
+      "simulation_seed": 791029019,
+      "report_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "status_consistent": true,
+      "outcome_flip": false,
+      "chunk_zero_hash_matches": {
+        "joint_position": true,
+        "gripper_position": true,
+        "external_image": false,
+        "wrist_image": false,
+        "noise": true,
+        "raw_action": false
+      },
+      "chunk_zero_physical_state_hashes": {
+        "cube_position": {
+          "available": true,
+          "match": true
+        },
+        "cube_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_position": {
+          "available": true,
+          "match": true
+        },
+        "wrist_tool_quaternion": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_eye": {
+          "available": true,
+          "match": true
+        },
+        "wrist_camera_forward": {
+          "available": true,
+          "match": true
+        }
+      },
+      "exact_initial_policy_observation_present": true,
+      "metrics": {
+        "block_lift_height_m": {
+          "count": 3,
+          "mean": 0.04409311215082804,
+          "std": 0.0031467573650230925,
+          "minimum": 0.041546642780303955,
+          "maximum": 0.04852700233459473,
+          "range": 0.0069803595542907715
+        },
+        "final_target_xy_error_m": {
+          "count": 3,
+          "mean": 0.005143330302231002,
+          "std": 0.0022080978509239307,
+          "minimum": 0.0023145039592935945,
+          "maximum": 0.007703103818748307,
+          "range": 0.005388599859454713
+        },
+        "final_target_position_error_m": {
+          "count": 3,
+          "mean": 0.00514333039820336,
+          "std": 0.002208097862517494,
+          "minimum": 0.0023145039595698904,
+          "maximum": 0.007703103818831324,
+          "range": 0.005388599859261434
+        },
+        "post_release_drift_m": {
+          "count": 3,
+          "mean": 0.00021101387274787461,
+          "std": 0.00020841361184550266,
+          "minimum": 6.006849844197859e-07,
+          "maximum": 0.0004949634894728661,
+          "range": 0.0004943628044884463
+        },
+        "final_gripper_normalized": {
+          "count": 3,
+          "mean": 0.07517838524026449,
+          "std": 0.0041585905877861715,
+          "minimum": 0.06964161044600382,
+          "maximum": 0.07966401087755413,
+          "range": 0.01002240043155031
+        }
+      }
+    }
+  ]
+}
