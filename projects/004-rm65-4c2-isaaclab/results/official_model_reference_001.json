@@ -1,0 +1,1405 @@
+{
+  "schema": "rm65_official_reference_audit_v1",
+  "physics_steps": 0,
+  "source_assets_modified": false,
+  "repository": "RealManRobot/rm_models",
+  "commit": "b63dddb20b7620d14cfff32678de60bb3a201ebc",
+  "downloads": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/LICENSE",
+      "git_blob_sha1": "473abff121607d030875c08486a3c51dce8f7496",
+      "sha256": "3b90eff737214780f85c57b20a69ae29abe05fc0b7053125c938367732776116",
+      "bytes": 556
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/base_link.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/base_link.STL",
+      "git_blob_sha1": "ac3155b64a317cb15d68cdefc892f87d70ade809",
+      "sha256": "a99f73338c90276cd7a90573714300c4a1383c5514d3a5e0671fb60b440ac5d4",
+      "bytes": 368984
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_1.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_1.STL",
+      "git_blob_sha1": "0820099123ba65b646423af48666bfdadbdd14e9",
+      "sha256": "008894df7deb20d9aec98b4dbc3ac8e12dbc31b90e6a8485542140eb0ab3ded5",
+      "bytes": 189684
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_2.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_2.STL",
+      "git_blob_sha1": "8cc9f695687be44c8ae4a25efa43bf0186329aa6",
+      "sha256": "d3a46b4b619bfd28d8948d5335f8bd62284ea0742ec4fb2b7ac5e5ab858d67f8",
+      "bytes": 368484
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_3.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_3.STL",
+      "git_blob_sha1": "949dc0fbdfc39c848e6d7bd782c9f1ebc022e62a",
+      "sha256": "5d903745e9369009ac064bc24c080d03f503b3386b8e14325a318cf8fde0959d",
+      "bytes": 185784
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_4.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_4.STL",
+      "git_blob_sha1": "bfaf4f981b33ea5677895fd49882be3dfa45fb99",
+      "sha256": "2fc93b2bc970eadca950afa3120129766e2bead60234c6d8752d3b223e407046",
+      "bytes": 184184
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_5.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_5.STL",
+      "git_blob_sha1": "3ed9d502a963f43e841a57d8e80d5f8880690b45",
+      "sha256": "f9d0216056f7e1512858033163b0415973e1db573a1fee5af1609171967c043f",
+      "bytes": 195784
+    },
+    {
+      "path": "RM65/urdf/RM65-B/meshes/link_6.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/meshes/link_6.STL",
+      "git_blob_sha1": "412c292a05bdb57c5409e9420f7955751df1569e",
+      "sha256": "a491f4471cf587b0a64c9c25424fd2b096b14f0028b67d0909233bf6f6a947df",
+      "bytes": 171684
+    },
+    {
+      "path": "RM65/urdf/RM65-B/urdf/RM65-B.urdf",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/RM65/urdf/RM65-B/urdf/RM65-B.urdf",
+      "git_blob_sha1": "f01e63d8f833b6590d463953bdd89dae791077bb",
+      "sha256": "ed7369cbbe8021534b241b15673454284d80ac6de5b93fa73f722db2ea9e9399",
+      "bytes": 8139
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link1.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link1.STL",
+      "git_blob_sha1": "e1297bb958e774c6f11464ee9b97ad9f5f8bd134",
+      "sha256": "d626d57cad00ce45637fc770c24659c10e1697c68869229fa3427802bc83fa56",
+      "bytes": 30284
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link2.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link2.STL",
+      "git_blob_sha1": "ad2238b800375ead81979ce1c8130574e34f2d6c",
+      "sha256": "a908071c33672578474038897eb8268a8ca534858a6b2e9fd682e22e40cbd6d4",
+      "bytes": 29884
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link3.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link3.STL",
+      "git_blob_sha1": "82e3221ab3cc99b765b70dac4af1ee2094c0a67d",
+      "sha256": "7fc3d839c23b4f845d4edf5d5704d81b4052b01805e70b3b11676c16a05a65ef",
+      "bytes": 29884
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link4.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link4.STL",
+      "git_blob_sha1": "78eefb9e914a23762f945f565e2856c15096d53c",
+      "sha256": "e9248937221d905666ffd4cd5e8df97c9e1e96e5fcc10d438a427c1c06974c41",
+      "bytes": 30284
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link5.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link5.STL",
+      "git_blob_sha1": "7cf9e3592ad15f591a40ea67f4794c91d21df4d8",
+      "sha256": "dc32d21cceffdd18eba238a6be09c89649eef3efc9e18ab4ba0b0ccdfdce6fb5",
+      "bytes": 52484
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link6.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_Link6.STL",
+      "git_blob_sha1": "19047483fd77304f637babba27ab18402fb8464b",
+      "sha256": "f41c4aab68f158b8574766f0a111473e162259deff0cea2958c43664dea3bc1e",
+      "bytes": 52484
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_baselink.STL",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/meshes/4C2_baselink.STL",
+      "git_blob_sha1": "579ad79f32cd530792ebfbe0062ce7b44d78f1e6",
+      "sha256": "7043a98a1c6bc26c43329427b7e20231fd8da27a20a1e939a6f206f869c93a61",
+      "bytes": 907184
+    },
+    {
+      "path": "thirdparty/Two-finger Electric Gripper.urdf/urdf/EG2-4C2.urdf",
+      "url": "https://raw.githubusercontent.com/RealManRobot/rm_models/b63dddb20b7620d14cfff32678de60bb3a201ebc/thirdparty/Two-finger%20Electric%20Gripper.urdf/urdf/EG2-4C2.urdf",
+      "git_blob_sha1": "62f3268ab2eb1df2d05b68eabba1f58c6b3b6e53",
+      "sha256": "3202654541035fcaf438677366adffea6247ecb542e7d8bcbb643494ffb0aa43",
+      "bytes": 9001
+    }
+  ],
+  "official_arm": {
+    "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/urdf/RM65-B.urdf",
+    "sha256": "ed7369cbbe8021534b241b15673454284d80ac6de5b93fa73f722db2ea9e9399",
+    "links": [
+      {
+        "name": "base_link",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/base_link.STL",
+        "mesh_sha256": "a99f73338c90276cd7a90573714300c4a1383c5514d3a5e0671fb60b440ac5d4",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 1.862,
+        "center_of_mass_m": [
+          -0.00049987,
+          -5.2709e-05,
+          0.060019
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          0.0008998313703728661,
+          0.0017046091600307423,
+          0.0017254394695963911
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 7378,
+          "bounds_m": [
+            [
+              -0.054999902844429016,
+              -0.054999906569719315,
+              -1.4212347965170125e-10
+            ],
+            [
+              0.059300001710653305,
+              0.054999902844429016,
+              0.13850000500679016
+            ]
+          ],
+          "surface_area_m2": 0.07252500007647315,
+          "degenerate_triangles": 1,
+          "non_two_manifold_edge_count": 3,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.00083804228200139,
+          "uniform_density_surface_centroid_m": [
+            -0.0004898411643893679,
+            -5.258160792779368e-05,
+            0.060031029321228495
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_1",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_1.STL",
+        "mesh_sha256": "008894df7deb20d9aec98b4dbc3ac8e12dbc31b90e6a8485542140eb0ab3ded5",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 1.51,
+        "center_of_mass_m": [
+          0.000941,
+          0.007803,
+          -0.10744
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.005440001907348627
+        ],
+        "principal_inertia_kg_m2": [
+          0.0016542928050549278,
+          0.0023388816914862802,
+          0.002664445503458793
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 3792,
+          "bounds_m": [
+            [
+              -0.04100004583597183,
+              -0.040999989956617355,
+              -0.10199999809265137
+            ],
+            [
+              0.041000042110681534,
+              0.06802824139595032,
+              0.040500082075595856
+            ]
+          ],
+          "surface_area_m2": 0.052399456868516686,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 1,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.000591749676521151,
+          "uniform_density_surface_centroid_m": [
+            -1.6038517390000324e-06,
+            0.02110923167368955,
+            -0.025212624548225017
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_2",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_2.STL",
+        "mesh_sha256": "d3a46b4b619bfd28d8948d5335f8bd62284ea0742ec4fb2b7ac5e5ab858d67f8",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 1.653,
+        "center_of_mass_m": [
+          0.183722,
+          0.000103,
+          -0.001665
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          0.0014509902769077854,
+          0.014495640047552265,
+          0.014713903675539956
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 7368,
+          "bounds_m": [
+            [
+              -0.04049999639391899,
+              -0.04050002992153168,
+              -0.06700009852647781
+            ],
+            [
+              0.2900000810623169,
+              0.040500033646821976,
+              0.04699999839067459
+            ]
+          ],
+          "surface_area_m2": 0.08984373654053618,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 3,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.0008611411993672928,
+          "uniform_density_surface_centroid_m": [
+            0.1522596453839189,
+            -2.9239981436818315e-06,
+            -0.006202363347034498
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_3",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_3.STL",
+        "mesh_sha256": "5d903745e9369009ac064bc24c080d03f503b3386b8e14325a318cf8fde0959d",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.726,
+        "center_of_mass_m": [
+          2.9e-05,
+          -0.090105,
+          0.004039
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          0.0003125654127100135,
+          0.0013508678244169544,
+          0.0013790597628730319
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 3714,
+          "bounds_m": [
+            [
+              -0.03400695323944092,
+              -0.12849999964237213,
+              -0.029000094160437584
+            ],
+            [
+              0.03400534391403198,
+              0.03399999812245369,
+              0.044999994337558746
+            ]
+          ],
+          "surface_area_m2": 0.03347769714578325,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.0002882752556570725,
+          "uniform_density_surface_centroid_m": [
+            1.4321171770222426e-06,
+            -0.05953118139089335,
+            0.010579036493622601
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_4",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_4.STL",
+        "mesh_sha256": "2fc93b2bc970eadca950afa3120129766e2bead60234c6d8752d3b223e407046",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.671,
+        "center_of_mass_m": [
+          7e-06,
+          -0.009486,
+          -0.008041
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          0.00042374737070691106,
+          0.0005549137732356775,
+          0.0006902288560574114
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 3682,
+          "bounds_m": [
+            [
+              -0.028999995440244675,
+              -0.05400000512599945,
+              -0.08149999380111694
+            ],
+            [
+              0.028999999165534973,
+              0.028999967500567436,
+              0.02850007824599743
+            ]
+          ],
+          "surface_area_m2": 0.029333999405574292,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.00023869528211256912,
+          "uniform_density_surface_centroid_m": [
+            -8.484303323259663e-07,
+            -0.018031094961072365,
+            -0.021567777719231167
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_5",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_5.STL",
+        "mesh_sha256": "f9d0216056f7e1512858033163b0415973e1db573a1fee5af1609171967c043f",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.647,
+        "center_of_mass_m": [
+          3.2e-05,
+          -0.083769,
+          0.002326
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          0.00025955126779928796,
+          0.0008340339981814232,
+          0.0008439477340192884
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 3914,
+          "bounds_m": [
+            [
+              -0.028606584295630455,
+              -0.11499999463558197,
+              -0.02849993109703064
+            ],
+            [
+              0.028604766353964806,
+              0.02847488410770893,
+              0.03999999165534973
+            ]
+          ],
+          "surface_area_m2": 0.028426691424977613,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 0.00021799868814098493,
+          "uniform_density_surface_centroid_m": [
+            1.0746814354982088e-06,
+            -0.05931837357222857,
+            0.0073800124844122465
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "link_6",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/RM65/urdf/RM65-B/meshes/link_6.STL",
+        "mesh_sha256": "a491f4471cf587b0a64c9c25424fd2b096b14f0028b67d0909233bf6f6a947df",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.104,
+        "center_of_mass_m": [
+          -0.000569,
+          0.00029,
+          -0.010569
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          3.0429979262440234e-05,
+          3.603999375952347e-05,
+          5.520002697803628e-05
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 3432,
+          "bounds_m": [
+            [
+              -0.028982752934098244,
+              -0.03665318340063095,
+              -0.028999999165534973
+            ],
+            [
+              0.039007946848869324,
+              0.03663063421845436,
+              2.381205455037616e-09
+            ]
+          ],
+          "surface_area_m2": 0.01352066062313944,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 6.492993636039565e-05,
+          "uniform_density_surface_centroid_m": [
+            0.0008141448545960727,
+            9.823596658303684e-06,
+            -0.012694276499715572
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      }
+    ],
+    "joints": [
+      {
+        "name": "joint_1",
+        "type": "revolute",
+        "parent": "base_link",
+        "child": "link_1",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0,
+            0.0,
+            0.2405
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -3.106,
+          "/@upper": 3.106,
+          "/@effort": 60.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "joint_2",
+        "type": "revolute",
+        "parent": "link_1",
+        "child": "link_2",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "/@rpy": [
+            1.5708,
+            -1.5708,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -2.2689,
+          "/@upper": 2.2689,
+          "/@effort": 60.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "joint_3",
+        "type": "revolute",
+        "parent": "link_2",
+        "child": "link_3",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.256,
+            0.0,
+            0.0
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            1.5708
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -2.356,
+          "/@upper": 2.356,
+          "/@effort": 30.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "joint_4",
+        "type": "revolute",
+        "parent": "link_3",
+        "child": "link_4",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0,
+            -0.21,
+            0.0
+          ],
+          "/@rpy": [
+            1.5708,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -3.106,
+          "/@upper": 3.106,
+          "/@effort": 10.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "joint_5",
+        "type": "revolute",
+        "parent": "link_4",
+        "child": "link_5",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "/@rpy": [
+            -1.5708,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -2.234,
+          "/@upper": 2.234,
+          "/@effort": 10.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "joint_6",
+        "type": "revolute",
+        "parent": "link_5",
+        "child": "link_6",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0,
+            -0.144,
+            0.0
+          ],
+          "/@rpy": [
+            1.5708,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -6.28,
+          "/@upper": 6.28,
+          "/@effort": 10.0,
+          "/@velocity": 3.14
+        },
+        "mimic": {
+          "": null
+        }
+      }
+    ],
+    "root_links": [
+      "base_link"
+    ],
+    "duplicate_link_names": false,
+    "multiply_parented_links": false
+  },
+  "official_gripper": {
+    "path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/urdf/EG2-4C2.urdf",
+    "sha256": "3202654541035fcaf438677366adffea6247ecb542e7d8bcbb643494ffb0aa43",
+    "links": [
+      {
+        "name": "4C2_baselink",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_baselink.STL",
+        "mesh_sha256": "7043a98a1c6bc26c43329427b7e20231fd8da27a20a1e939a6f206f869c93a61",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.072633,
+        "center_of_mass_m": [
+          1.5645e-05,
+          -4.1838e-06,
+          0.038
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.9329986558397368e-05,
+          5.0950012941563286e-05,
+          6.0883000500039375e-05
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 18142,
+          "bounds_m": [
+            [
+              -0.04500000551342964,
+              -0.012751013040542603,
+              -2.5448507745551296e-09
+            ],
+            [
+              0.044999998062849045,
+              0.012751013040542603,
+              0.09700000286102295
+            ]
+          ],
+          "surface_area_m2": 0.026909826563047863,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 5,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 7.267269383184071e-05,
+          "uniform_density_surface_centroid_m": [
+            1.6014952890385473e-05,
+            -4.297454542776221e-06,
+            0.038014467760224824
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link1",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link1.STL",
+        "mesh_sha256": "d626d57cad00ce45637fc770c24659c10e1697c68869229fa3427802bc83fa56",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0024292,
+        "center_of_mass_m": [
+          0.0087669,
+          0.009,
+          0.013992
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.1032885042036802e-07,
+          5.7398e-07,
+          6.67751149579632e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 604,
+          "bounds_m": [
+            [
+              -0.0037433088291436434,
+              -7.0361423354370345e-09,
+              -0.003747554263100028
+            ],
+            [
+              0.026014139875769615,
+              0.017999999225139618,
+              0.03933842480182648
+            ]
+          ],
+          "surface_area_m2": 0.002294730969477294,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 2.4294460507082758e-06,
+          "uniform_density_surface_centroid_m": [
+            0.008779823461329939,
+            0.009001049874530305,
+            0.014012717257557405
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link5",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link5.STL",
+        "mesh_sha256": "dc32d21cceffdd18eba238a6be09c89649eef3efc9e18ab4ba0b0ccdfdce6fb5",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0045068,
+        "center_of_mass_m": [
+          0.011864,
+          0.006,
+          0.011367
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.7440290919901313e-07,
+          5.320299999991976e-07,
+          5.393770908017892e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 1048,
+          "bounds_m": [
+            [
+              -0.0034829711075872183,
+              -0.0029999969992786646,
+              -0.004999998491257429
+            ],
+            [
+              0.017700012773275375,
+              0.015000002458691597,
+              0.02850000187754631
+            ]
+          ],
+          "surface_area_m2": 0.0025986957897939727,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 4.511866840282312e-06,
+          "uniform_density_surface_centroid_m": [
+            0.011874136670084157,
+            0.006000005927900607,
+            0.011358136667025495
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link2",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link2.STL",
+        "mesh_sha256": "a908071c33672578474038897eb8268a8ca534858a6b2e9fd682e22e40cbd6d4",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0038971,
+        "center_of_mass_m": [
+          0.0087435,
+          0.009,
+          0.013955
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.4022273559008745e-07,
+          6.230500000000001e-07,
+          7.378972644099126e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 596,
+          "bounds_m": [
+            [
+              -0.0037433053366839886,
+              -2.983026492486829e-09,
+              -0.0037475551944226027
+            ],
+            [
+              0.026014143601059914,
+              0.018000002950429916,
+              0.03933842107653618
+            ]
+          ],
+          "surface_area_m2": 0.002643031065324311,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 3.897346390892828e-06,
+          "uniform_density_surface_centroid_m": [
+            0.008751099595088577,
+            0.00900066369267351,
+            0.013966836585494365
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link3",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link3.STL",
+        "mesh_sha256": "7fc3d839c23b4f845d4edf5d5704d81b4052b01805e70b3b11676c16a05a65ef",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0038971,
+        "center_of_mass_m": [
+          -0.0087435,
+          0.009,
+          0.013955
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.4022273559008734e-07,
+          6.230499999999999e-07,
+          7.378972644099125e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 596,
+          "bounds_m": [
+            [
+              -0.02601414918899536,
+              -2.983026492486829e-09,
+              -0.0037475572898983955
+            ],
+            [
+              0.003743313020095229,
+              0.018000002950429916,
+              0.03933841735124588
+            ]
+          ],
+          "surface_area_m2": 0.0026430309930691688,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 3.8973418222925925e-06,
+          "uniform_density_surface_centroid_m": [
+            -0.008751150521456077,
+            0.009000663037457375,
+            0.013966805496416214
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link4",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link4.STL",
+        "mesh_sha256": "e9248937221d905666ffd4cd5e8df97c9e1e96e5fcc10d438a427c1c06974c41",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0024292,
+        "center_of_mass_m": [
+          -0.0087669,
+          0.009,
+          0.013992
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.1032885042036791e-07,
+          5.739799999999999e-07,
+          6.67751149579632e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 604,
+          "bounds_m": [
+            [
+              -0.02601413056254387,
+              -7.036028204510103e-09,
+              -0.0037475519347935915
+            ],
+            [
+              0.003743302309885621,
+              0.017999999225139618,
+              0.03933842480182648
+            ]
+          ],
+          "surface_area_m2": 0.002294731144390504,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 2.429447601637425e-06,
+          "uniform_density_surface_centroid_m": [
+            -0.008779819659152132,
+            0.008998925433288767,
+            0.014012716318696761
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      },
+      {
+        "name": "4C2_Link6",
+        "mesh": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/official_model_reference_001/thirdparty/Two-finger Electric Gripper.urdf/meshes/4C2_Link6.STL",
+        "mesh_sha256": "f41c4aab68f158b8574766f0a111473e162259deff0cea2958c43664dea3bc1e",
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "mass_kg": 0.0045068,
+        "center_of_mass_m": [
+          -0.011864,
+          0.006,
+          0.011367
+        ],
+        "com_outside_visual_aabb_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "principal_inertia_kg_m2": [
+          1.7440290919901324e-07,
+          5.320299999991975e-07,
+          5.393770908017892e-07
+        ],
+        "inertia_positive_definite": true,
+        "inertia_triangle_inequality": true,
+        "mesh_stats": {
+          "triangles": 1048,
+          "bounds_m": [
+            [
+              -0.01770000532269478,
+              -0.0029999969992786646,
+              -0.004999998491257429
+            ],
+            [
+              0.0034829643554985523,
+              0.015000002458691597,
+              0.02850000187754631
+            ]
+          ],
+          "surface_area_m2": 0.002598694069029076,
+          "degenerate_triangles": 0,
+          "non_two_manifold_edge_count": 0,
+          "inconsistent_edge_winding_count": 0,
+          "signed_volume_m3": 4.51186079337494e-06,
+          "uniform_density_surface_centroid_m": [
+            -0.011874134104632828,
+            0.0059999991940066074,
+            0.011358131028234193
+          ],
+          "centroid_is_uniform_density_diagnostic_not_true_mass_measurement": true
+        },
+        "visual_collision_differences": []
+      }
+    ],
+    "joints": [
+      {
+        "name": "4C2_Joint1",
+        "type": "revolute",
+        "parent": "4C2_baselink",
+        "child": "4C2_Link1",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            -0.04,
+            -0.009,
+            0.079
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": 0.0,
+          "/@upper": 0.82,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "": null
+        }
+      },
+      {
+        "name": "4C2_Joint5",
+        "type": "revolute",
+        "parent": "4C2_Link1",
+        "child": "4C2_Link5",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.0223,
+            0.003,
+            0.035591
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": 0.0,
+          "/@upper": 0.82,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "/tag": "mimic",
+          "/@joint": "4C2_Joint1"
+        }
+      },
+      {
+        "name": "4C2_Joint2",
+        "type": "revolute",
+        "parent": "4C2_baselink",
+        "child": "4C2_Link2",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            -0.03,
+            -0.009,
+            0.081
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": 0.0,
+          "/@upper": 0.82,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "/tag": "mimic",
+          "/@joint": "4C2_Joint1"
+        }
+      },
+      {
+        "name": "4C2_Joint3",
+        "type": "revolute",
+        "parent": "4C2_baselink",
+        "child": "4C2_Link3",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.03,
+            -0.009,
+            0.081
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -0.82,
+          "/@upper": 0.0,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "/tag": "mimic",
+          "/@joint": "4C2_Joint1",
+          "/@multiplier": -1.0,
+          "/@offset": 0.0
+        }
+      },
+      {
+        "name": "4C2_Joint4",
+        "type": "revolute",
+        "parent": "4C2_baselink",
+        "child": "4C2_Link4",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            0.04,
+            -0.009,
+            0.079
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": -0.82,
+          "/@upper": 0.0,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "/tag": "mimic",
+          "/@joint": "4C2_Joint1",
+          "/@multiplier": -1.0,
+          "/@offset": 0.0
+        }
+      },
+      {
+        "name": "4C2_Joint6",
+        "type": "revolute",
+        "parent": "4C2_Link4",
+        "child": "4C2_Link6",
+        "origin": {
+          "/tag": "origin",
+          "/@xyz": [
+            -0.0223,
+            0.003,
+            0.035591
+          ],
+          "/@rpy": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "axis": {
+          "/tag": "axis",
+          "/@xyz": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "limit": {
+          "/tag": "limit",
+          "/@lower": 0.0,
+          "/@upper": 0.82,
+          "/@effort": 1.0,
+          "/@velocity": 1.0
+        },
+        "mimic": {
+          "/tag": "mimic",
+          "/@joint": "4C2_Joint1"
+        }
+      }
+    ],
+    "root_links": [
+      "4C2_baselink"
+    ],
+    "duplicate_link_names": false,
+    "multiply_parented_links": false
+  },
+  "local_arm_sha256": "ed7369cbbe8021534b241b15673454284d80ac6de5b93fa73f722db2ea9e9399",
+  "local_gripper_sha256": "0292314231d6346efe9b2f906dad1c793bcd364e29083ea52ba982180d626107",
+  "arm_semantic_differences": [],
+  "gripper_link_names_local": [
+    "base_link",
+    "r_1",
+    "r_3",
+    "l_1",
+    "l_3",
+    "r_2_base",
+    "r_2",
+    "l_2_base",
+    "l_2"
+  ],
+  "gripper_link_names_official": [
+    "4C2_baselink",
+    "4C2_Link1",
+    "4C2_Link5",
+    "4C2_Link2",
+    "4C2_Link3",
+    "4C2_Link4",
+    "4C2_Link6"
+  ],
+  "limitations": [
+    "Official gripper reference is not automatically the users exact hardware revision.",
+    "Different frames/part topology require explicit registration; do not compare COM components blindly.",
+    "Official repository provenance does not certify dynamics or hardware calibration."
+  ]
+}

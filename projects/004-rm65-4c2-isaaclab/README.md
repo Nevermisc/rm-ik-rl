@@ -1,5 +1,7 @@
 # 004 - RM65 + 4C2 夹爪迁移到 Isaac Lab
 
+> 2026-09-30 最新审计：下文方块通过记录使用了由方块反推的附加碰撞垫，不代表原生 4C2 验收。当前以[源模型与正式部署流程审计](docs/pi05_sim_deployment_record/MODEL_SOURCE_AND_PIPELINE_AUDIT_ZH.md)及[迭代状态](docs/pi05_sim_deployment_record/ITERATION_STATUS.json)为准；旧记录仅保留用于追溯，不可直接作为新日用品采集入口。
+
 这个项目把实验室的 RM65-B 机械臂和 4C2 两指夹爪整理成一个可复现的 Isaac Lab 仿真资产，并建立后续接入 π0.5 所需的状态与动作接口。
 
 ## π0.5 接入原则

@@ -1,0 +1,5692 @@
+{
+  "schema": "rm65_imported_joint_frame_audit_v1",
+  "read_only": true,
+  "physics_steps": 0,
+  "urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "usd_audit_sha256": "bd847d0e4cbee08a86e397d071f6943943608993f540c5b3b420ebe4894d756b",
+  "assets": [
+    {
+      "path": "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/RM65-B.usd",
+      "usd_sha256": "fa2886b271026562eac3e2f79aeeef61f530a1be21b5e091b2ca1c9f1fa5bfb4",
+      "arm_only": true,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2.usd",
+      "usd_sha256": "82e3804ad083484cad0e436804b8e5ec4a96545db6a908f66a26aaa86fc5e591",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_contact_pads.usd",
+      "usd_sha256": "23ecff6cdff576fca3c1969af8448e1bfc27b534065523e625ca7297b429e7c1",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_nomimic.usd",
+      "usd_sha256": "35e417f1cf6464bfcb7a2dd1f5aa93ec6c4ebf6993cd84d35130269a61477cc1",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_physics_proxy.usd",
+      "usd_sha256": "5eb218fd905c0a07ab653c988727c7995bf7563db377ba11ebc9314eebeb8dbc",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_software.usd",
+      "usd_sha256": "4a8986b6023dae85157cf76967c3f08a85273e2f8e1bee8e3c9feec7bb5c6323",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_tip_collision.usd",
+      "usd_sha256": "89e6d0c8c05d687c082dd9fabdb6ef1d8bb7ddbcb2a14403afde539fd2b2553a",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_wide_pads.usd",
+      "usd_sha256": "3f4370cd6ee7dd6b9d959c53d2dd0ba78ed036ea51d154c6e0bac0df77939cfa",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              0.0,
+              0.9999999450937774
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "pass"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/native.usd",
+      "usd_sha256": "d58aaa416dacdcb5710417b4e0cb0f883c6418a3a52cbd3ada8004a622f6c446",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "fail"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v1/native.usd",
+      "usd_sha256": "da7fe39f63efbff73492364559b5d5c5d304052bac6bb7099515d29c6b30dcc7",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "fail"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v2/native.usd",
+      "usd_sha256": "da7fe39f63efbff73492364559b5d5c5d304052bac6bb7099515d29c6b30dcc7",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "fail"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v3/native.usd",
+      "usd_sha256": "2cf1e1dddaada3def3f135f0eca044c8c1840fe5adf39fc82506703115b85b51",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "fail"
+    },
+    {
+      "path": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v4/native.usd",
+      "usd_sha256": "2cf1e1dddaada3def3f135f0eca044c8c1840fe5adf39fc82506703115b85b51",
+      "arm_only": false,
+      "missing_joints": [],
+      "joints": [
+        {
+          "name": "joint_1",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "joint_2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.2689,
+              2.2689
+            ],
+            "imported_rad": [
+              -2.2688997980850734,
+              2.2688997980850734
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.2689,
+            -1.13445,
+            0.0,
+            1.1344499999999997,
+            2.2689
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 5.511625004166278e-08
+        },
+        {
+          "name": "joint_3",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.356,
+              2.356
+            ],
+            "imported_rad": [
+              -2.35599981311666,
+              2.35599981311666
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.356,
+            -1.178,
+            0.0,
+            1.178,
+            2.356
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_4",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -3.106,
+              3.106
+            ],
+            "imported_rad": [
+              -3.105999771936993,
+              3.105999771936993
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -3.106,
+            -1.553,
+            0.0,
+            1.553,
+            3.106
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_5",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -2.234,
+              2.234
+            ],
+            "imported_rad": [
+              -2.2339998709479123,
+              2.2339998709479123
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -2.234,
+            -1.117,
+            0.0,
+            1.117,
+            2.234
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "joint_6",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              -6.28,
+              6.28
+            ],
+            "imported_rad": [
+              -6.279999633883634,
+              6.279999633883634
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            -6.28,
+            -3.14,
+            0.0,
+            3.1399999999999997,
+            6.28
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 3.750061150498141e-09
+        },
+        {
+          "name": "tool_gripper_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              0.865
+            ],
+            "imported_rad": [
+              0.0,
+              0.8649999818008894
+            ],
+            "strict_equality": true
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.21625,
+            0.4325,
+            0.6487499999999999,
+            0.865
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_1_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_3_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_r_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_r_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "tool_l_2_base_joint",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 1.0643005098319339e-07
+        },
+        {
+          "name": "tool_l_2_joint",
+          "status": "fail",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "limits": false,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": {
+            "source_rad": [
+              0.0,
+              1.0
+            ],
+            "imported_rad": [
+              -0.17299999303122654,
+              1.0379999914768727
+            ],
+            "strict_equality": false
+          },
+          "sample_q_rad": [
+            0.0,
+            0.0,
+            0.25,
+            0.5,
+            0.75,
+            1.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        },
+        {
+          "name": "rm65_to_4c2",
+          "status": "pass",
+          "checks": {
+            "parent_link": true,
+            "child_link": true,
+            "type": true,
+            "position_frames": true,
+            "rotation_axis_and_direction": true
+          },
+          "limits": null,
+          "sample_q_rad": [
+            0.0
+          ],
+          "max_position_error_m": 0.0,
+          "max_rotation_matrix_abs_error": 0.0
+        }
+      ],
+      "status": "fail"
+    }
+  ],
+  "limitations": [
+    "Independent relative joint transforms at sampled angles, not runtime motion.",
+    "Mimic dynamics, self-collision, cooked shapes and real hardware remain separate gates."
+  ]
+}

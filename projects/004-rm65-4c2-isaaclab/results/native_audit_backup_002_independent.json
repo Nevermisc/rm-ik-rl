@@ -1,0 +1,17 @@
+{
+  "schema": "native_independent_backup_attestation_v1",
+  "verified_at": "2026-09-30T19:14:00+08:00",
+  "status": "pass",
+  "remote_report": "results/native_audit_backup_002.json",
+  "local_archive": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/native_audit_2026_09_30/rm65_native_20260930_002.tar",
+  "local_index": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/native_audit_2026_09_30/rm65_native_20260930_002.index.json",
+  "archive_sha256": "36d52032552b287de31baff173c862bffd3a172f2a78ff135e6c494c5b05ef34",
+  "source_index_sha256": "273d7a1660ecee39a610959688478d0be22dcebe1811c2715b7ec6ef834aa4ea",
+  "archive_bytes": 49684480,
+  "file_count": 89,
+  "windows_get_file_hash_matches_remote_archive_and_index": true,
+  "independent_copy_verified": true,
+  "extraction_restore_tested": false,
+  "raw_assets_committed_to_git": false,
+  "real_robot_command_sent": false
+}

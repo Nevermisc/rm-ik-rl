@@ -1,0 +1,7095 @@
+{
+  "schema": "native_collision_fidelity_v1",
+  "urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "source_mesh_sha256": {
+    "tool_r_1": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde",
+    "tool_r_2": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5",
+    "tool_l_1": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab",
+    "tool_l_2": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a"
+  },
+  "cooking_report_sha256": "ef43768565bcca30c1d3fba117bd392e3b8608446d39566f14b9b835bc915f45",
+  "samples": [
+    {
+      "q_rad": 0.0,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": []
+    },
+    {
+      "q_rad": 0.0,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": []
+    },
+    {
+      "q_rad": 0.3,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": []
+    },
+    {
+      "q_rad": 0.3,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": []
+    },
+    {
+      "q_rad": 0.65,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            118,
+            82
+          ],
+          "largest_axis_gap_m": 0.001367182276183057,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            92
+          ],
+          "largest_axis_gap_m": 0.0013801495124677599,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            84
+          ],
+          "largest_axis_gap_m": 0.0014119260141340073,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            101
+          ],
+          "largest_axis_gap_m": 0.0014203411307004282,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            93
+          ],
+          "largest_axis_gap_m": 0.0015338229854651025,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.001565599199074976,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            6
+          ],
+          "largest_axis_gap_m": 0.001769219767656878,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            82
+          ],
+          "largest_axis_gap_m": 0.001993620559397641,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            33
+          ],
+          "largest_axis_gap_m": 0.0019967677417367102,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.65,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            39,
+            76
+          ],
+          "largest_axis_gap_m": 0.0016603131916365366,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018744035280259842,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.7,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            118,
+            92
+          ],
+          "largest_axis_gap_m": 0.0011250556688705907,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            82
+          ],
+          "largest_axis_gap_m": 0.0012253517927269114,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            93
+          ],
+          "largest_axis_gap_m": 0.0012744555116293785,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            84
+          ],
+          "largest_axis_gap_m": 0.001300922475284516,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            101
+          ],
+          "largest_axis_gap_m": 0.001411167252629339,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            6
+          ],
+          "largest_axis_gap_m": 0.0015577831402706702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.001630136582609295,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            82
+          ],
+          "largest_axis_gap_m": 0.0017320482266559856,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            92
+          ],
+          "largest_axis_gap_m": 0.001742893915710593,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            82
+          ],
+          "largest_axis_gap_m": 0.0017755965780957006,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            33
+          ],
+          "largest_axis_gap_m": 0.0017794429999140118,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017826086020100579,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            50
+          ],
+          "largest_axis_gap_m": 0.001786565590941383,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            111
+          ],
+          "largest_axis_gap_m": 0.0017914206448678902,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            50
+          ],
+          "largest_axis_gap_m": 0.0018022250756753594,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            6
+          ],
+          "largest_axis_gap_m": 0.0018091964417210615,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            92
+          ],
+          "largest_axis_gap_m": 0.001823486563984289,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            44
+          ],
+          "largest_axis_gap_m": 0.0018307780490363218,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            101
+          ],
+          "largest_axis_gap_m": 0.0018373535632812549,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            47
+          ],
+          "largest_axis_gap_m": 0.001839816219421156,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            47
+          ],
+          "largest_axis_gap_m": 0.001839816219421156,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            33
+          ],
+          "largest_axis_gap_m": 0.001847985620030447,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            93
+          ],
+          "largest_axis_gap_m": 0.0018504243483354055,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            111
+          ],
+          "largest_axis_gap_m": 0.00187247667558757,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            84
+          ],
+          "largest_axis_gap_m": 0.001879246306778798,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            93
+          ],
+          "largest_axis_gap_m": 0.0018943291164573856,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            9
+          ],
+          "largest_axis_gap_m": 0.0018947122100657632,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            92
+          ],
+          "largest_axis_gap_m": 0.001929982884827805,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            6
+          ],
+          "largest_axis_gap_m": 0.0019320906837625995,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0019371883666244039,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            93
+          ],
+          "largest_axis_gap_m": 0.0019443939293711729,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            82
+          ],
+          "largest_axis_gap_m": 0.0019609373520845658,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            32
+          ],
+          "largest_axis_gap_m": 0.001977396391525714,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            32
+          ],
+          "largest_axis_gap_m": 0.0019798956684747987,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            6
+          ],
+          "largest_axis_gap_m": 0.0019810720732294645,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            93
+          ],
+          "largest_axis_gap_m": 0.001985660639902992,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            36
+          ],
+          "largest_axis_gap_m": 0.001992132915793657,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.7,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            2,
+            35
+          ],
+          "largest_axis_gap_m": 0.0017368531312700677,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            76
+          ],
+          "largest_axis_gap_m": 0.0017368531312700677,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            7
+          ],
+          "largest_axis_gap_m": 0.0017710275024721,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            7
+          ],
+          "largest_axis_gap_m": 0.0017723305830645367,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018362571195960804,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            78
+          ],
+          "largest_axis_gap_m": 0.0018654111524812333,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            87
+          ],
+          "largest_axis_gap_m": 0.0018654120063262697,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018937082779934833,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018937082779934833,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            44
+          ],
+          "largest_axis_gap_m": 0.001898702016313536,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            41
+          ],
+          "largest_axis_gap_m": 0.0019154481768593051,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            65
+          ],
+          "largest_axis_gap_m": 0.001921589641531947,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            3,
+            35
+          ],
+          "largest_axis_gap_m": 0.0019379518369819354,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            41
+          ],
+          "largest_axis_gap_m": 0.0019393921648906687,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            35
+          ],
+          "largest_axis_gap_m": 0.0019408767037049704,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            41
+          ],
+          "largest_axis_gap_m": 0.0019479532839550284,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            76
+          ],
+          "largest_axis_gap_m": 0.0019511962961073354,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            32
+          ],
+          "largest_axis_gap_m": 0.0019572996678591838,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            21
+          ],
+          "largest_axis_gap_m": 0.0019682825182895936,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            76
+          ],
+          "largest_axis_gap_m": 0.0019744676362618563,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            35
+          ],
+          "largest_axis_gap_m": 0.001979536907018145,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            64
+          ],
+          "largest_axis_gap_m": 0.0019899204758396793,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            76
+          ],
+          "largest_axis_gap_m": 0.0019998040156639016,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.75,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            118,
+            92
+          ],
+          "largest_axis_gap_m": 0.0009629811292441309,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            93
+          ],
+          "largest_axis_gap_m": 0.0009947453904053244,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            84
+          ],
+          "largest_axis_gap_m": 0.0011881929207897407,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            82
+          ],
+          "largest_axis_gap_m": 0.001326954749605938,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            6
+          ],
+          "largest_axis_gap_m": 0.0014480927582727829,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            82
+          ],
+          "largest_axis_gap_m": 0.0014489300780261005,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            92
+          ],
+          "largest_axis_gap_m": 0.0014552169643032298,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            101
+          ],
+          "largest_axis_gap_m": 0.001494563400621679,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            6
+          ],
+          "largest_axis_gap_m": 0.0015029056732056567,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            44
+          ],
+          "largest_axis_gap_m": 0.001521860704176009,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            33
+          ],
+          "largest_axis_gap_m": 0.0015393389018330678,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            93
+          ],
+          "largest_axis_gap_m": 0.0015412254825540178,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            111
+          ],
+          "largest_axis_gap_m": 0.001543044454762832,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            50
+          ],
+          "largest_axis_gap_m": 0.0015445491912972273,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            47
+          ],
+          "largest_axis_gap_m": 0.001547654313236932,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            47
+          ],
+          "largest_axis_gap_m": 0.001547654313236932,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            92
+          ],
+          "largest_axis_gap_m": 0.0015479419250178789,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            50
+          ],
+          "largest_axis_gap_m": 0.0015602094185192539,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            111
+          ],
+          "largest_axis_gap_m": 0.0015782113956368526,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            6
+          ],
+          "largest_axis_gap_m": 0.0015867310459580092,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0015885036128384378,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            92
+          ],
+          "largest_axis_gap_m": 0.0015898447440765642,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            82
+          ],
+          "largest_axis_gap_m": 0.0016043710238400205,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            82
+          ],
+          "largest_axis_gap_m": 0.0016164823953113139,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            111
+          ],
+          "largest_axis_gap_m": 0.0016169226596205177,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            93
+          ],
+          "largest_axis_gap_m": 0.0016190139773081674,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            60
+          ],
+          "largest_axis_gap_m": 0.0016356953557293274,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            33
+          ],
+          "largest_axis_gap_m": 0.0016576700550067595,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            9
+          ],
+          "largest_axis_gap_m": 0.0016711055078361264,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            16
+          ],
+          "largest_axis_gap_m": 0.0016751529207103683,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            36
+          ],
+          "largest_axis_gap_m": 0.0016927546360308299,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            96
+          ],
+          "largest_axis_gap_m": 0.0017053386906869528,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            92
+          ],
+          "largest_axis_gap_m": 0.001715356088888828,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            37
+          ],
+          "largest_axis_gap_m": 0.0017184306201557253,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017358860661978587,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.0017404870344958287,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017468106023272381,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            3
+          ],
+          "largest_axis_gap_m": 0.0017590375503380301,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            84
+          ],
+          "largest_axis_gap_m": 0.0017591618809622359,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            16
+          ],
+          "largest_axis_gap_m": 0.0017613172436747593,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            32
+          ],
+          "largest_axis_gap_m": 0.00177013099719283,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017710338437543494,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            32
+          ],
+          "largest_axis_gap_m": 0.0017887727442123108,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            111
+          ],
+          "largest_axis_gap_m": 0.001791518903615695,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            101
+          ],
+          "largest_axis_gap_m": 0.0018137653732070748,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            6
+          ],
+          "largest_axis_gap_m": 0.0018231596881577022,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            82
+          ],
+          "largest_axis_gap_m": 0.0018259926477111194,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            84
+          ],
+          "largest_axis_gap_m": 0.0018350250420139588,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            64
+          ],
+          "largest_axis_gap_m": 0.0018584840458883978,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            96
+          ],
+          "largest_axis_gap_m": 0.0018609234970405203,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            82
+          ],
+          "largest_axis_gap_m": 0.0018616614845126805,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            3
+          ],
+          "largest_axis_gap_m": 0.0018851473629743626,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            37
+          ],
+          "largest_axis_gap_m": 0.0018852953532815103,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            47
+          ],
+          "largest_axis_gap_m": 0.0018984758731541845,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            84
+          ],
+          "largest_axis_gap_m": 0.0019026061874335629,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            3
+          ],
+          "largest_axis_gap_m": 0.0019038423425632167,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            92
+          ],
+          "largest_axis_gap_m": 0.001921895802154329,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            16
+          ],
+          "largest_axis_gap_m": 0.0019277740953956221,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            6
+          ],
+          "largest_axis_gap_m": 0.001936404783797946,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            92
+          ],
+          "largest_axis_gap_m": 0.001944105439987423,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            5
+          ],
+          "largest_axis_gap_m": 0.001948081704661181,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            92
+          ],
+          "largest_axis_gap_m": 0.001957419480657009,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            93
+          ],
+          "largest_axis_gap_m": 0.0019585106651711995,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            101
+          ],
+          "largest_axis_gap_m": 0.001970038324126514,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            84
+          ],
+          "largest_axis_gap_m": 0.0019781413838090914,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            94
+          ],
+          "largest_axis_gap_m": 0.0019809088688570314,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            101
+          ],
+          "largest_axis_gap_m": 0.001982240824609058,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            84
+          ],
+          "largest_axis_gap_m": 0.0019867892350422106,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            44
+          ],
+          "largest_axis_gap_m": 0.0019982146409017673,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.75,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            2,
+            35
+          ],
+          "largest_axis_gap_m": 0.0014475660183336236,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            76
+          ],
+          "largest_axis_gap_m": 0.0014475660183336236,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            7
+          ],
+          "largest_axis_gap_m": 0.0015073342121601704,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            7
+          ],
+          "largest_axis_gap_m": 0.0015086372926693195,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            78
+          ],
+          "largest_axis_gap_m": 0.0015732489313050185,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            44
+          ],
+          "largest_axis_gap_m": 0.0016064014490363432,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            41
+          ],
+          "largest_axis_gap_m": 0.001615979434444928,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            64
+          ],
+          "largest_axis_gap_m": 0.0016175475194212113,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            64
+          ],
+          "largest_axis_gap_m": 0.0016271531673364426,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            35
+          ],
+          "largest_axis_gap_m": 0.0016339565887798502,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            41
+          ],
+          "largest_axis_gap_m": 0.0016399234225036308,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            87
+          ],
+          "largest_axis_gap_m": 0.0016467335704180228,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            41
+          ],
+          "largest_axis_gap_m": 0.001648484541534559,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            35
+          ],
+          "largest_axis_gap_m": 0.001662505158008351,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            21
+          ],
+          "largest_axis_gap_m": 0.0016646910753381483,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            124
+          ],
+          "largest_axis_gap_m": 0.0017196887723788246,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            90
+          ],
+          "largest_axis_gap_m": 0.0017284308943864013,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            83
+          ],
+          "largest_axis_gap_m": 0.001731231857937915,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            35
+          ],
+          "largest_axis_gap_m": 0.0017435705741417826,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            76
+          ],
+          "largest_axis_gap_m": 0.0017646783058327328,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            124
+          ],
+          "largest_axis_gap_m": 0.0017704815503647303,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            35
+          ],
+          "largest_axis_gap_m": 0.0017728112681718033,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            22
+          ],
+          "largest_axis_gap_m": 0.0017864659717093528,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            101
+          ],
+          "largest_axis_gap_m": 0.0017947419243066892,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            9
+          ],
+          "largest_axis_gap_m": 0.0018130446834133396,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            3,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018271381221380556,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            28
+          ],
+          "largest_axis_gap_m": 0.0018274175655657865,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            76
+          ],
+          "largest_axis_gap_m": 0.0018415787874074448,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            103
+          ],
+          "largest_axis_gap_m": 0.001853755918594685,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            53
+          ],
+          "largest_axis_gap_m": 0.0018542631238787077,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.001864780852252737,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            19
+          ],
+          "largest_axis_gap_m": 0.0018695726203154656,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            32
+          ],
+          "largest_axis_gap_m": 0.001882447633194624,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018883426339995242,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            64
+          ],
+          "largest_axis_gap_m": 0.00189010418694871,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            32
+          ],
+          "largest_axis_gap_m": 0.0018956096070871092,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            20
+          ],
+          "largest_axis_gap_m": 0.001895970996121453,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            65
+          ],
+          "largest_axis_gap_m": 0.0019005494907190484,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            21
+          ],
+          "largest_axis_gap_m": 0.001903889063327141,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            11
+          ],
+          "largest_axis_gap_m": 0.0019187813364336948,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            124
+          ],
+          "largest_axis_gap_m": 0.0019196997497108806,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            11
+          ],
+          "largest_axis_gap_m": 0.0019234155799912472,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            28
+          ],
+          "largest_axis_gap_m": 0.0019323409182936818,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            35
+          ],
+          "largest_axis_gap_m": 0.001943136143047683,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            76
+          ],
+          "largest_axis_gap_m": 0.001951316470335123,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            41
+          ],
+          "largest_axis_gap_m": 0.0019554869627530225,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            53
+          ],
+          "largest_axis_gap_m": 0.001973545375611424,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            126
+          ],
+          "largest_axis_gap_m": 0.001976217527078071,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.82,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            118,
+            92
+          ],
+          "largest_axis_gap_m": 0.0007117950473158816,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            93
+          ],
+          "largest_axis_gap_m": 0.0008695262518484508,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            84
+          ],
+          "largest_axis_gap_m": 0.0009889656916598974,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            82
+          ],
+          "largest_axis_gap_m": 0.001017725020800192,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            92
+          ],
+          "largest_axis_gap_m": 0.001026429998918471,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            60
+          ],
+          "largest_axis_gap_m": 0.0010732450461394677,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            16
+          ],
+          "largest_axis_gap_m": 0.001074888946702296,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            6
+          ],
+          "largest_axis_gap_m": 0.001079590577623843,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            82
+          ],
+          "largest_axis_gap_m": 0.0010832018580747282,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            111
+          ],
+          "largest_axis_gap_m": 0.0010930757686536535,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            111
+          ],
+          "largest_axis_gap_m": 0.0010965996864009953,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            47
+          ],
+          "largest_axis_gap_m": 0.0011043308036431526,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            47
+          ],
+          "largest_axis_gap_m": 0.0011043308036431526,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            6
+          ],
+          "largest_axis_gap_m": 0.0011142836413364082,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0011382272425840834,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            92
+          ],
+          "largest_axis_gap_m": 0.0011422936079720503,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            44
+          ],
+          "largest_axis_gap_m": 0.001165336869956797,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            33
+          ],
+          "largest_axis_gap_m": 0.0011660770955047237,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            50
+          ],
+          "largest_axis_gap_m": 0.0011687013788199418,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            50
+          ],
+          "largest_axis_gap_m": 0.0011843627583716237,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            3
+          ],
+          "largest_axis_gap_m": 0.0012252566331139025,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            93
+          ],
+          "largest_axis_gap_m": 0.001233755898317479,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            36
+          ],
+          "largest_axis_gap_m": 0.0012397791278496717,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            111
+          ],
+          "largest_axis_gap_m": 0.0012414802297691444,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            93
+          ],
+          "largest_axis_gap_m": 0.0012467048308232864,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            96
+          ],
+          "largest_axis_gap_m": 0.0012527626000139735,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            6
+          ],
+          "largest_axis_gap_m": 0.0012581923975592477,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            37
+          ],
+          "largest_axis_gap_m": 0.0012654525827377056,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            92
+          ],
+          "largest_axis_gap_m": 0.0012808923439753608,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            3
+          ],
+          "largest_axis_gap_m": 0.001298055923257338,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            16
+          ],
+          "largest_axis_gap_m": 0.001307256834841966,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            96
+          ],
+          "largest_axis_gap_m": 0.0013463536730987657,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            9
+          ],
+          "largest_axis_gap_m": 0.001358732233847082,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            92
+          ],
+          "largest_axis_gap_m": 0.0013743630387755765,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            36
+          ],
+          "largest_axis_gap_m": 0.001406183863596186,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            64
+          ],
+          "largest_axis_gap_m": 0.0014137384703327566,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            3
+          ],
+          "largest_axis_gap_m": 0.0014418237022962438,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            37
+          ],
+          "largest_axis_gap_m": 0.0014420807212067732,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            5
+          ],
+          "largest_axis_gap_m": 0.00144263553610674,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            111
+          ],
+          "largest_axis_gap_m": 0.0014546688394743573,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            92
+          ],
+          "largest_axis_gap_m": 0.0014650679939416378,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            5
+          ],
+          "largest_axis_gap_m": 0.0014702435089460064,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            93
+          ],
+          "largest_axis_gap_m": 0.001471073145190148,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            93
+          ],
+          "largest_axis_gap_m": 0.0014820896081647328,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            84
+          ],
+          "largest_axis_gap_m": 0.0015066581035194163,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            33
+          ],
+          "largest_axis_gap_m": 0.0015329724210473156,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            94
+          ],
+          "largest_axis_gap_m": 0.0015394315644580991,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            54,
+            94
+          ],
+          "largest_axis_gap_m": 0.0015396139733150627,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            84
+          ],
+          "largest_axis_gap_m": 0.0015497955330668473,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            101
+          ],
+          "largest_axis_gap_m": 0.0016009036135069578,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            84
+          ],
+          "largest_axis_gap_m": 0.0016014735699191596,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            60
+          ],
+          "largest_axis_gap_m": 0.0016106094775283908,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            82
+          ],
+          "largest_axis_gap_m": 0.0016191306196034275,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            27
+          ],
+          "largest_axis_gap_m": 0.0016197548171809073,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            6
+          ],
+          "largest_axis_gap_m": 0.001629584609406473,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            3
+          ],
+          "largest_axis_gap_m": 0.001648492725796799,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            82,
+            5
+          ],
+          "largest_axis_gap_m": 0.001649280583589513,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            82,
+            37
+          ],
+          "largest_axis_gap_m": 0.001649281100439548,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            93
+          ],
+          "largest_axis_gap_m": 0.0016547780876321888,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            32
+          ],
+          "largest_axis_gap_m": 0.001660192001306935,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            82
+          ],
+          "largest_axis_gap_m": 0.0016648224699219068,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            61
+          ],
+          "largest_axis_gap_m": 0.0016738248111172332,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            82
+          ],
+          "largest_axis_gap_m": 0.00168504662188345,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            119
+          ],
+          "largest_axis_gap_m": 0.0017012328351834055,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            5
+          ],
+          "largest_axis_gap_m": 0.0017071860836995328,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017289278460550749,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            84
+          ],
+          "largest_axis_gap_m": 0.001733208430797814,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            118
+          ],
+          "largest_axis_gap_m": 0.001735964912784868,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            6
+          ],
+          "largest_axis_gap_m": 0.0017437396130690203,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            118
+          ],
+          "largest_axis_gap_m": 0.0017501251603928986,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            32
+          ],
+          "largest_axis_gap_m": 0.0017515360089871146,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            9
+          ],
+          "largest_axis_gap_m": 0.001753967275817489,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            32,
+            9
+          ],
+          "largest_axis_gap_m": 0.0017539672822213387,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            82
+          ],
+          "largest_axis_gap_m": 0.0017552977506050949,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            47
+          ],
+          "largest_axis_gap_m": 0.0017599922999444531,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            119
+          ],
+          "largest_axis_gap_m": 0.0017655752690125814,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            5
+          ],
+          "largest_axis_gap_m": 0.001765581371324973,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            63
+          ],
+          "largest_axis_gap_m": 0.0017655818165122072,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            0
+          ],
+          "largest_axis_gap_m": 0.0017655819017923235,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            27
+          ],
+          "largest_axis_gap_m": 0.0017655819978408677,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            0
+          ],
+          "largest_axis_gap_m": 0.0017655820716423742,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            5
+          ],
+          "largest_axis_gap_m": 0.0017655822702392354,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017655822835772328,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            68,
+            0
+          ],
+          "largest_axis_gap_m": 0.001765582342850111,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            83
+          ],
+          "largest_axis_gap_m": 0.0017655823705889778,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            0
+          ],
+          "largest_axis_gap_m": 0.001765582638337218,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            37
+          ],
+          "largest_axis_gap_m": 0.0017655826979513928,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            0
+          ],
+          "largest_axis_gap_m": 0.0017655828090796244,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            0
+          ],
+          "largest_axis_gap_m": 0.0017655828090796244,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            27
+          ],
+          "largest_axis_gap_m": 0.0017655828882199714,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            48,
+            3
+          ],
+          "largest_axis_gap_m": 0.0017655829511334098,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            0
+          ],
+          "largest_axis_gap_m": 0.001765582979121244,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            0
+          ],
+          "largest_axis_gap_m": 0.001765582979121244,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            39
+          ],
+          "largest_axis_gap_m": 0.001765583033782242,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            63
+          ],
+          "largest_axis_gap_m": 0.0017655830653531962,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            83
+          ],
+          "largest_axis_gap_m": 0.001765583174890173,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            17
+          ],
+          "largest_axis_gap_m": 0.0017655832111219127,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            3
+          ],
+          "largest_axis_gap_m": 0.001765583337808324,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            48,
+            0
+          ],
+          "largest_axis_gap_m": 0.0017655834380378432,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            3
+          ],
+          "largest_axis_gap_m": 0.0017655843688087897,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            27
+          ],
+          "largest_axis_gap_m": 0.0017655846518282725,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            27
+          ],
+          "largest_axis_gap_m": 0.0017655846518282725,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            17
+          ],
+          "largest_axis_gap_m": 0.0017659663542820975,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            17
+          ],
+          "largest_axis_gap_m": 0.001766472315900977,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            17
+          ],
+          "largest_axis_gap_m": 0.001766607495856387,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            90
+          ],
+          "largest_axis_gap_m": 0.0017668519260190252,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            91
+          ],
+          "largest_axis_gap_m": 0.001767557614642687,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            1
+          ],
+          "largest_axis_gap_m": 0.0017686883897152367,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017705997485899377,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017711366266066342,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            122
+          ],
+          "largest_axis_gap_m": 0.001773135316463989,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017777942881583159,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017796579348519428,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            3
+          ],
+          "largest_axis_gap_m": 0.0017801156720622519,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            21
+          ],
+          "largest_axis_gap_m": 0.0017865485940292691,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            14
+          ],
+          "largest_axis_gap_m": 0.001788761417356441,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017892946693879724,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            54,
+            0
+          ],
+          "largest_axis_gap_m": 0.001789334176422866,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            55
+          ],
+          "largest_axis_gap_m": 0.0017962043076310275,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            3
+          ],
+          "largest_axis_gap_m": 0.0017968635306622877,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            102,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017983988426160946,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            82
+          ],
+          "largest_axis_gap_m": 0.0018010722423512544,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            125
+          ],
+          "largest_axis_gap_m": 0.001804772414695066,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            12
+          ],
+          "largest_axis_gap_m": 0.0018062937770060988,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            105,
+            33
+          ],
+          "largest_axis_gap_m": 0.001808504813892907,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            10
+          ],
+          "largest_axis_gap_m": 0.0018099803346421084,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            39
+          ],
+          "largest_axis_gap_m": 0.0018108836652599714,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            37
+          ],
+          "largest_axis_gap_m": 0.0018161885874060785,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            84
+          ],
+          "largest_axis_gap_m": 0.0018229685466097795,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            6
+          ],
+          "largest_axis_gap_m": 0.0018233419275377888,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            100
+          ],
+          "largest_axis_gap_m": 0.0018292733070014791,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            37
+          ],
+          "largest_axis_gap_m": 0.001833402257351166,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            5
+          ],
+          "largest_axis_gap_m": 0.0018334022874056319,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            37
+          ],
+          "largest_axis_gap_m": 0.0018342557685067928,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            17
+          ],
+          "largest_axis_gap_m": 0.0018419321881449069,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.0018529508923397012,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            39
+          ],
+          "largest_axis_gap_m": 0.0018551441925332701,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            87
+          ],
+          "largest_axis_gap_m": 0.0018586587464839753,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            84
+          ],
+          "largest_axis_gap_m": 0.0018611334829052723,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            101
+          ],
+          "largest_axis_gap_m": 0.0018738461133961312,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            68,
+            3
+          ],
+          "largest_axis_gap_m": 0.0018872889794681966,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            102,
+            17
+          ],
+          "largest_axis_gap_m": 0.0018962819425867028,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            9
+          ],
+          "largest_axis_gap_m": 0.0018963363441265174,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            3
+          ],
+          "largest_axis_gap_m": 0.001901289399998611,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            21
+          ],
+          "largest_axis_gap_m": 0.0019030967518280512,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            16
+          ],
+          "largest_axis_gap_m": 0.0019084946916390656,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            0
+          ],
+          "largest_axis_gap_m": 0.0019173663741717181,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            93
+          ],
+          "largest_axis_gap_m": 0.0019269925185824502,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            0
+          ],
+          "largest_axis_gap_m": 0.0019432667274462134,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            17
+          ],
+          "largest_axis_gap_m": 0.0019483590581973326,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            94
+          ],
+          "largest_axis_gap_m": 0.001963795197274548,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            39
+          ],
+          "largest_axis_gap_m": 0.001978607482691852,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            39
+          ],
+          "largest_axis_gap_m": 0.001978607482691852,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            101
+          ],
+          "largest_axis_gap_m": 0.001998468711077346,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            101
+          ],
+          "largest_axis_gap_m": 0.0019999425695102838,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.82,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            2,
+            35
+          ],
+          "largest_axis_gap_m": 0.0010080983331601373,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            76
+          ],
+          "largest_axis_gap_m": 0.0010080983331601373,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            7
+          ],
+          "largest_axis_gap_m": 0.001102236019054896,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            64
+          ],
+          "largest_axis_gap_m": 0.00110255759563134,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            64
+          ],
+          "largest_axis_gap_m": 0.00110255759563134,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            7
+          ],
+          "largest_axis_gap_m": 0.0011035390997872277,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            78
+          ],
+          "largest_axis_gap_m": 0.001129925002333415,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            41
+          ],
+          "largest_axis_gap_m": 0.001162882736648968,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            44
+          ],
+          "largest_axis_gap_m": 0.0011628967955285563,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            41
+          ],
+          "largest_axis_gap_m": 0.0011868267246646358,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            124
+          ],
+          "largest_axis_gap_m": 0.0011953525389359343,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            41
+          ],
+          "largest_axis_gap_m": 0.001195387843747342,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            21
+          ],
+          "largest_axis_gap_m": 0.0012061792959421058,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            124
+          ],
+          "largest_axis_gap_m": 0.001220916279349532,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            19
+          ],
+          "largest_axis_gap_m": 0.0012758818651342624,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            90
+          ],
+          "largest_axis_gap_m": 0.0012821377254331329,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            83
+          ],
+          "largest_axis_gap_m": 0.0012917190368297998,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            21
+          ],
+          "largest_axis_gap_m": 0.0013101983078537688,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            101
+          ],
+          "largest_axis_gap_m": 0.0013514182346944376,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            9
+          ],
+          "largest_axis_gap_m": 0.0013697209180814907,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            11
+          ],
+          "largest_axis_gap_m": 0.001373850308927782,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            35
+          ],
+          "largest_axis_gap_m": 0.0013759198863774746,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            28
+          ],
+          "largest_axis_gap_m": 0.0013761639423415656,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            22
+          ],
+          "largest_axis_gap_m": 0.0013767348174140853,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            76
+          ],
+          "largest_axis_gap_m": 0.00139388706814738,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            53
+          ],
+          "largest_axis_gap_m": 0.0014118878568488702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.0014212761987006384,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            11
+          ],
+          "largest_axis_gap_m": 0.00144678017803819,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            64
+          ],
+          "largest_axis_gap_m": 0.0014483279443921887,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            35
+          ],
+          "largest_axis_gap_m": 0.0014702561926009383,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            35
+          ],
+          "largest_axis_gap_m": 0.0014887605458291098,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            28
+          ],
+          "largest_axis_gap_m": 0.0014930610319343618,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            41
+          ],
+          "largest_axis_gap_m": 0.001502390270270007,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            65
+          ],
+          "largest_axis_gap_m": 0.0015041935354001973,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            48
+          ],
+          "largest_axis_gap_m": 0.0015225071299191512,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            87
+          ],
+          "largest_axis_gap_m": 0.0015234191364072412,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            87
+          ],
+          "largest_axis_gap_m": 0.0015340850692855679,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            48
+          ],
+          "largest_axis_gap_m": 0.001544477728071189,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            103
+          ],
+          "largest_axis_gap_m": 0.0015806139579768869,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            22
+          ],
+          "largest_axis_gap_m": 0.001595174401270591,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            53
+          ],
+          "largest_axis_gap_m": 0.0016019485966462382,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            101
+          ],
+          "largest_axis_gap_m": 0.0016260647328940198,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            60
+          ],
+          "largest_axis_gap_m": 0.001629123626235629,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            78
+          ],
+          "largest_axis_gap_m": 0.0016301363305446653,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            124
+          ],
+          "largest_axis_gap_m": 0.0016315637123152232,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            127
+          ],
+          "largest_axis_gap_m": 0.0016391979272143697,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            35
+          ],
+          "largest_axis_gap_m": 0.0016417979276800304,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            124
+          ],
+          "largest_axis_gap_m": 0.0016781746616995816,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            65
+          ],
+          "largest_axis_gap_m": 0.001680154818768348,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            53
+          ],
+          "largest_axis_gap_m": 0.0016873421030665359,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            73
+          ],
+          "largest_axis_gap_m": 0.0016889844192867765,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            9
+          ],
+          "largest_axis_gap_m": 0.0016930771084329027,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            3,
+            35
+          ],
+          "largest_axis_gap_m": 0.001696124781445582,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            28
+          ],
+          "largest_axis_gap_m": 0.001703830107007781,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            22
+          ],
+          "largest_axis_gap_m": 0.0017187838100756747,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            90
+          ],
+          "largest_axis_gap_m": 0.0017331859641477182,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            125
+          ],
+          "largest_axis_gap_m": 0.0017338922895952513,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            32
+          ],
+          "largest_axis_gap_m": 0.001735520220772467,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            81
+          ],
+          "largest_axis_gap_m": 0.0017553232697895965,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017555373692062781,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            63
+          ],
+          "largest_axis_gap_m": 0.0017570471662124582,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            32
+          ],
+          "largest_axis_gap_m": 0.0017587549733956848,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            11
+          ],
+          "largest_axis_gap_m": 0.0017637076087277659,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            9
+          ],
+          "largest_axis_gap_m": 0.0017655814509757173,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017655816962328374,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            65
+          ],
+          "largest_axis_gap_m": 0.001765581975101016,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017655822576901903,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017655824457939867,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            0,
+            44
+          ],
+          "largest_axis_gap_m": 0.0017655825763805422,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            65
+          ],
+          "largest_axis_gap_m": 0.001765582634515997,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            78
+          ],
+          "largest_axis_gap_m": 0.0017655827413733671,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            44
+          ],
+          "largest_axis_gap_m": 0.0017655827413886743,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017655827760323234,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            9
+          ],
+          "largest_axis_gap_m": 0.0017655829953844848,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            44
+          ],
+          "largest_axis_gap_m": 0.0017655831822787488,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            44
+          ],
+          "largest_axis_gap_m": 0.001765584446367735,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            22
+          ],
+          "largest_axis_gap_m": 0.0017655848910353433,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            127
+          ],
+          "largest_axis_gap_m": 0.0017655850281292629,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017671027302911674,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017678544343622954,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            126
+          ],
+          "largest_axis_gap_m": 0.0017730144144195298,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            60
+          ],
+          "largest_axis_gap_m": 0.0017748481453687681,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            0
+          ],
+          "largest_axis_gap_m": 0.001776984752628108,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            90
+          ],
+          "largest_axis_gap_m": 0.0017856271125232604,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            21
+          ],
+          "largest_axis_gap_m": 0.0017920420738992138,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            21
+          ],
+          "largest_axis_gap_m": 0.0017929033894125979,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            87
+          ],
+          "largest_axis_gap_m": 0.0017980966816847424,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            113
+          ],
+          "largest_axis_gap_m": 0.001801557002342219,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            117
+          ],
+          "largest_axis_gap_m": 0.001801557002342219,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            126
+          ],
+          "largest_axis_gap_m": 0.001804946297780649,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            80
+          ],
+          "largest_axis_gap_m": 0.0018055810302865516,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            53
+          ],
+          "largest_axis_gap_m": 0.0018057223615198098,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            22
+          ],
+          "largest_axis_gap_m": 0.0018066909829440453,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            127
+          ],
+          "largest_axis_gap_m": 0.0018066909829440453,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            79
+          ],
+          "largest_axis_gap_m": 0.0018076518726934943,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            70
+          ],
+          "largest_axis_gap_m": 0.0018112158410951984,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            73
+          ],
+          "largest_axis_gap_m": 0.001812105546517881,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            32
+          ],
+          "largest_axis_gap_m": 0.0018129094634482534,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            103
+          ],
+          "largest_axis_gap_m": 0.0018160876182007069,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            44
+          ],
+          "largest_axis_gap_m": 0.0018165114962177126,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0018165333900194702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            78
+          ],
+          "largest_axis_gap_m": 0.0018196270166506018,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            77
+          ],
+          "largest_axis_gap_m": 0.001822030473219674,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            103
+          ],
+          "largest_axis_gap_m": 0.0018224358872568486,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            22
+          ],
+          "largest_axis_gap_m": 0.001825804180229762,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            127
+          ],
+          "largest_axis_gap_m": 0.001825804180229762,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            113,
+            44
+          ],
+          "largest_axis_gap_m": 0.0018258336456461882,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            65
+          ],
+          "largest_axis_gap_m": 0.0018283883520731313,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            79
+          ],
+          "largest_axis_gap_m": 0.0018313313471596954,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            77
+          ],
+          "largest_axis_gap_m": 0.0018320867482597702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            9
+          ],
+          "largest_axis_gap_m": 0.0018457924535214137,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            22
+          ],
+          "largest_axis_gap_m": 0.001846276808761274,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            78
+          ],
+          "largest_axis_gap_m": 0.001850643827921751,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            53
+          ],
+          "largest_axis_gap_m": 0.001853125241083678,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            12
+          ],
+          "largest_axis_gap_m": 0.0018591275586607586,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            20
+          ],
+          "largest_axis_gap_m": 0.0018596627393054517,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            48
+          ],
+          "largest_axis_gap_m": 0.0018649205799113333,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            78
+          ],
+          "largest_axis_gap_m": 0.0018799254037319968,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            87
+          ],
+          "largest_axis_gap_m": 0.0018799259037924482,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018915842636387098,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            103
+          ],
+          "largest_axis_gap_m": 0.0018961679395329972,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            35
+          ],
+          "largest_axis_gap_m": 0.0019015701765636613,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            32
+          ],
+          "largest_axis_gap_m": 0.0019025746696352194,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019078031588897898,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            0,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019078031590377548,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019091123158760243,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            113,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019118039283872318,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            61
+          ],
+          "largest_axis_gap_m": 0.0019153329063402655,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            5
+          ],
+          "largest_axis_gap_m": 0.00192656686808855,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            22
+          ],
+          "largest_axis_gap_m": 0.0019317337534350623,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            127
+          ],
+          "largest_axis_gap_m": 0.0019318737325959012,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            32
+          ],
+          "largest_axis_gap_m": 0.001935240082413539,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            25
+          ],
+          "largest_axis_gap_m": 0.0019408652490470885,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            0,
+            9
+          ],
+          "largest_axis_gap_m": 0.0019435200825461546,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            126
+          ],
+          "largest_axis_gap_m": 0.001945138642336957,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            111
+          ],
+          "largest_axis_gap_m": 0.0019478262370308252,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            10
+          ],
+          "largest_axis_gap_m": 0.0019478262370557081,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            25
+          ],
+          "largest_axis_gap_m": 0.0019478262370847196,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            111
+          ],
+          "largest_axis_gap_m": 0.001953431521757233,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            63
+          ],
+          "largest_axis_gap_m": 0.0019566856178527964,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            22
+          ],
+          "largest_axis_gap_m": 0.0019663391003875534,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            127
+          ],
+          "largest_axis_gap_m": 0.0019663391003875534,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            59
+          ],
+          "largest_axis_gap_m": 0.001967187162702992,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            103
+          ],
+          "largest_axis_gap_m": 0.001967527643679093,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            103
+          ],
+          "largest_axis_gap_m": 0.0019675281094142932,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            41
+          ],
+          "largest_axis_gap_m": 0.0019780416964170766,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            74
+          ],
+          "largest_axis_gap_m": 0.001978241578573209,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            94,
+            25
+          ],
+          "largest_axis_gap_m": 0.001984165772661174,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            60
+          ],
+          "largest_axis_gap_m": 0.0019871464290414156,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            109,
+            35
+          ],
+          "largest_axis_gap_m": 0.0019909515009679662,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            101
+          ],
+          "largest_axis_gap_m": 0.0019956257453062447,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            90
+          ],
+          "largest_axis_gap_m": 0.0019968822471314266,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            94,
+            53
+          ],
+          "largest_axis_gap_m": 0.0019971227123901578,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.865,
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            29,
+            16
+          ],
+          "largest_axis_gap_m": 0.0006936724216205781,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            60
+          ],
+          "largest_axis_gap_m": 0.000723292445488688,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            92
+          ],
+          "largest_axis_gap_m": 0.000738217797287874,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            82
+          ],
+          "largest_axis_gap_m": 0.0007626602136268229,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            82
+          ],
+          "largest_axis_gap_m": 0.000771117563414983,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            92
+          ],
+          "largest_axis_gap_m": 0.0007842850501164934,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            111
+          ],
+          "largest_axis_gap_m": 0.0007871035011843969,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            93
+          ],
+          "largest_axis_gap_m": 0.0007907625573869773,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            47
+          ],
+          "largest_axis_gap_m": 0.0007991075077270066,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            47
+          ],
+          "largest_axis_gap_m": 0.0007991075077270066,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            92
+          ],
+          "largest_axis_gap_m": 0.0007997442486763762,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            6
+          ],
+          "largest_axis_gap_m": 0.0008082085749095969,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0008321331281165301,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            84
+          ],
+          "largest_axis_gap_m": 0.0008357852969683444,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            111
+          ],
+          "largest_axis_gap_m": 0.000857128425503062,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            3
+          ],
+          "largest_axis_gap_m": 0.0008651350317328277,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            3
+          ],
+          "largest_axis_gap_m": 0.0008952841435509729,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            33
+          ],
+          "largest_axis_gap_m": 0.000904014085718545,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            50
+          ],
+          "largest_axis_gap_m": 0.0009050373924942012,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            6
+          ],
+          "largest_axis_gap_m": 0.0009189526568603376,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            50
+          ],
+          "largest_axis_gap_m": 0.0009206995805670082,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            36
+          ],
+          "largest_axis_gap_m": 0.0009286484164234415,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            96
+          ],
+          "largest_axis_gap_m": 0.0009419062332200329,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            37
+          ],
+          "largest_axis_gap_m": 0.0009543201338167301,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            93
+          ],
+          "largest_axis_gap_m": 0.000990035360764252,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            36
+          ],
+          "largest_axis_gap_m": 0.0009912332970286458,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            16
+          ],
+          "largest_axis_gap_m": 0.0009954625531712613,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            96
+          ],
+          "largest_axis_gap_m": 0.0009978139967737193,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            111
+          ],
+          "largest_axis_gap_m": 0.0010021355758984204,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            92
+          ],
+          "largest_axis_gap_m": 0.0010850264181704525,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            5
+          ],
+          "largest_axis_gap_m": 0.0010874485499447611,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            64
+          ],
+          "largest_axis_gap_m": 0.001107644144893144,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            6
+          ],
+          "largest_axis_gap_m": 0.0011108997709174187,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            93
+          ],
+          "largest_axis_gap_m": 0.0011296574603810033,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            9
+          ],
+          "largest_axis_gap_m": 0.0011345179082801887,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            3
+          ],
+          "largest_axis_gap_m": 0.0011366003140216713,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            37
+          ],
+          "largest_axis_gap_m": 0.0011369241779167483,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            81,
+            5
+          ],
+          "largest_axis_gap_m": 0.0011374403331176203,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            44
+          ],
+          "largest_axis_gap_m": 0.001144303794204566,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            54,
+            94
+          ],
+          "largest_axis_gap_m": 0.0012345661847354694,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            94
+          ],
+          "largest_axis_gap_m": 0.001258005431907773,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            93
+          ],
+          "largest_axis_gap_m": 0.001267236155186327,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            92
+          ],
+          "largest_axis_gap_m": 0.001271704284133597,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            84
+          ],
+          "largest_axis_gap_m": 0.001272479310927034,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            111
+          ],
+          "largest_axis_gap_m": 0.0012931025091586154,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            60
+          ],
+          "largest_axis_gap_m": 0.0012988151959928557,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            92
+          ],
+          "largest_axis_gap_m": 0.0013113794225250372,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            82
+          ],
+          "largest_axis_gap_m": 0.0013141484417371688,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            27
+          ],
+          "largest_axis_gap_m": 0.001314531382273429,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            82,
+            5
+          ],
+          "largest_axis_gap_m": 0.0013440571602906098,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            82,
+            37
+          ],
+          "largest_axis_gap_m": 0.0013440576318562436,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            3
+          ],
+          "largest_axis_gap_m": 0.0013466470089281007,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            93
+          ],
+          "largest_axis_gap_m": 0.0013476878971789702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            93
+          ],
+          "largest_axis_gap_m": 0.0013476878971789702,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            61
+          ],
+          "largest_axis_gap_m": 0.0013677309682775945,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            55
+          ],
+          "largest_axis_gap_m": 0.0013822553694601974,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            84
+          ],
+          "largest_axis_gap_m": 0.0013842769962818802,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            84
+          ],
+          "largest_axis_gap_m": 0.0013910955226213786,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            119
+          ],
+          "largest_axis_gap_m": 0.0013971008875094948,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            5
+          ],
+          "largest_axis_gap_m": 0.0014019948178953523,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            118
+          ],
+          "largest_axis_gap_m": 0.0014040259992474796,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            9
+          ],
+          "largest_axis_gap_m": 0.0014463827876773916,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            32,
+            9
+          ],
+          "largest_axis_gap_m": 0.0014463827928536122,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            39
+          ],
+          "largest_axis_gap_m": 0.0014568140451557826,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            5
+          ],
+          "largest_axis_gap_m": 0.00146035794807986,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            0
+          ],
+          "largest_axis_gap_m": 0.001460358349107349,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            63
+          ],
+          "largest_axis_gap_m": 0.00146035840306738,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            27
+          ],
+          "largest_axis_gap_m": 0.0014603585907702055,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014603586253308654,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            39
+          ],
+          "largest_axis_gap_m": 0.0014603586827692944,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            39
+          ],
+          "largest_axis_gap_m": 0.0014603586841585303,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            5
+          ],
+          "largest_axis_gap_m": 0.001460358938105935,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            83
+          ],
+          "largest_axis_gap_m": 0.0014603589455154942,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            68,
+            0
+          ],
+          "largest_axis_gap_m": 0.001460358974390008,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            37
+          ],
+          "largest_axis_gap_m": 0.0014603591689662382,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014603592696957879,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            0
+          ],
+          "largest_axis_gap_m": 0.001460359438896705,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            0
+          ],
+          "largest_axis_gap_m": 0.001460359438896705,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            27
+          ],
+          "largest_axis_gap_m": 0.0014603594419510119,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            48,
+            3
+          ],
+          "largest_axis_gap_m": 0.0014603595627713656,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014603596089643317,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014603596089643317,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            17
+          ],
+          "largest_axis_gap_m": 0.001460359691154156,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            63
+          ],
+          "largest_axis_gap_m": 0.001460359692667515,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            39
+          ],
+          "largest_axis_gap_m": 0.0014603597004484575,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            83
+          ],
+          "largest_axis_gap_m": 0.0014603597497490073,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            36,
+            3
+          ],
+          "largest_axis_gap_m": 0.001460359899642369,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            48,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014603599292411507,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            27
+          ],
+          "largest_axis_gap_m": 0.0014603626738890901,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            27
+          ],
+          "largest_axis_gap_m": 0.0014603626738890901,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            79,
+            3
+          ],
+          "largest_axis_gap_m": 0.0014603633193833454,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            119
+          ],
+          "largest_axis_gap_m": 0.0014606374811139688,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            17
+          ],
+          "largest_axis_gap_m": 0.0014607429933521515,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            17
+          ],
+          "largest_axis_gap_m": 0.0014611982708621768,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            17
+          ],
+          "largest_axis_gap_m": 0.0014613841378143533,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            90
+          ],
+          "largest_axis_gap_m": 0.0014613996392189438,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            91
+          ],
+          "largest_axis_gap_m": 0.0014621053278219553,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            1
+          ],
+          "largest_axis_gap_m": 0.0014632361028614205,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            118
+          ],
+          "largest_axis_gap_m": 0.0014668038796485094,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            122
+          ],
+          "largest_axis_gap_m": 0.0014676830295167614,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            17
+          ],
+          "largest_axis_gap_m": 0.0014705281089256589,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            99,
+            3
+          ],
+          "largest_axis_gap_m": 0.001475277012304571,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            6
+          ],
+          "largest_axis_gap_m": 0.001479954812861048,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            14
+          ],
+          "largest_axis_gap_m": 0.0014826670615532417,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            65
+          ],
+          "largest_axis_gap_m": 0.0014832007954847931,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            54,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014944983206104934,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            3
+          ],
+          "largest_axis_gap_m": 0.0014970580884314522,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            125
+          ],
+          "largest_axis_gap_m": 0.0014986924393532164,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            12
+          ],
+          "largest_axis_gap_m": 0.0015002036874807029,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            10
+          ],
+          "largest_axis_gap_m": 0.0015038868540727252,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            102,
+            17
+          ],
+          "largest_axis_gap_m": 0.001504556293549536,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            102,
+            39
+          ],
+          "largest_axis_gap_m": 0.00150457869296719,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            37
+          ],
+          "largest_axis_gap_m": 0.0015090336349609934,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            21
+          ],
+          "largest_axis_gap_m": 0.0015207187331083422,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            37
+          ],
+          "largest_axis_gap_m": 0.0015285350577455281,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            0
+          ],
+          "largest_axis_gap_m": 0.0015343434477961132,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            17
+          ],
+          "largest_axis_gap_m": 0.0015384904529845422,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            105,
+            33
+          ],
+          "largest_axis_gap_m": 0.0015464418041508873,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            94
+          ],
+          "largest_axis_gap_m": 0.0015611767246252184,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            94
+          ],
+          "largest_axis_gap_m": 0.0015778264702877715,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            39
+          ],
+          "largest_axis_gap_m": 0.00159199829160446,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            6
+          ],
+          "largest_axis_gap_m": 0.0015946816539847836,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            101
+          ],
+          "largest_axis_gap_m": 0.0016430840659244876,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            32
+          ],
+          "largest_axis_gap_m": 0.0016449719510934092,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            0
+          ],
+          "largest_axis_gap_m": 0.0016527087666112356,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            6
+          ],
+          "largest_axis_gap_m": 0.0016760185611896933,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            21
+          ],
+          "largest_axis_gap_m": 0.0016764997127401704,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            33
+          ],
+          "largest_axis_gap_m": 0.0016980942843676516,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            84
+          ],
+          "largest_axis_gap_m": 0.0017006620168045494,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            84
+          ],
+          "largest_axis_gap_m": 0.0017032386100461205,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            84
+          ],
+          "largest_axis_gap_m": 0.0017082570785422468,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            54,
+            63
+          ],
+          "largest_axis_gap_m": 0.0017177784007482433,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            62
+          ],
+          "largest_axis_gap_m": 0.001721900812206023,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            92
+          ],
+          "largest_axis_gap_m": 0.0017406546048055818,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            47
+          ],
+          "largest_axis_gap_m": 0.001740689841205064,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            118
+          ],
+          "largest_axis_gap_m": 0.0017480565179959495,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            93
+          ],
+          "largest_axis_gap_m": 0.0017517811651462725,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            18
+          ],
+          "largest_axis_gap_m": 0.001753119609057871,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            82
+          ],
+          "largest_axis_gap_m": 0.0017632295536275308,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            92,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017793495676999213,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            123,
+            39
+          ],
+          "largest_axis_gap_m": 0.0017793495676999213,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            127,
+            33
+          ],
+          "largest_axis_gap_m": 0.0017902950778710264,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            50
+          ],
+          "largest_axis_gap_m": 0.0017940482831707988,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            13,
+            32
+          ],
+          "largest_axis_gap_m": 0.0018092847291743264,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            68,
+            3
+          ],
+          "largest_axis_gap_m": 0.0018096168963215586,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            92
+          ],
+          "largest_axis_gap_m": 0.00183269259455765,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            65
+          ],
+          "largest_axis_gap_m": 0.0018435934299528278,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            93
+          ],
+          "largest_axis_gap_m": 0.0018482288240837183,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            87
+          ],
+          "largest_axis_gap_m": 0.00185584544034897,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            82
+          ],
+          "largest_axis_gap_m": 0.0018603504941858556,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            39
+          ],
+          "largest_axis_gap_m": 0.001863093396704367,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            90
+          ],
+          "largest_axis_gap_m": 0.001868127130250044,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            12,
+            9
+          ],
+          "largest_axis_gap_m": 0.0018728036419592385,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            55
+          ],
+          "largest_axis_gap_m": 0.0018729359798902584,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            6
+          ],
+          "largest_axis_gap_m": 0.0018747253224599275,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            116,
+            55
+          ],
+          "largest_axis_gap_m": 0.001878617179378539,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            55
+          ],
+          "largest_axis_gap_m": 0.0018786171794350146,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            60,
+            82
+          ],
+          "largest_axis_gap_m": 0.001881661766683699,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            82
+          ],
+          "largest_axis_gap_m": 0.0018822988101520575,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            17
+          ],
+          "largest_axis_gap_m": 0.0018836127022642812,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            60
+          ],
+          "largest_axis_gap_m": 0.0018856033977003722,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            32,
+            60
+          ],
+          "largest_axis_gap_m": 0.0018856043416087404,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            55
+          ],
+          "largest_axis_gap_m": 0.0018975534211577577,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            55
+          ],
+          "largest_axis_gap_m": 0.0019122246582619074,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            28,
+            120
+          ],
+          "largest_axis_gap_m": 0.001931505036922146,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            57,
+            92
+          ],
+          "largest_axis_gap_m": 0.0019427880438663073,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            96
+          ],
+          "largest_axis_gap_m": 0.0019436382407217734,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            100
+          ],
+          "largest_axis_gap_m": 0.0019439304364445437,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            53,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019458716882756188,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            86,
+            25
+          ],
+          "largest_axis_gap_m": 0.001946251735964695,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            31,
+            25
+          ],
+          "largest_axis_gap_m": 0.0019528807512490184,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            36
+          ],
+          "largest_axis_gap_m": 0.0019582868115646523,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            37
+          ],
+          "largest_axis_gap_m": 0.0019600948910533864,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            5
+          ],
+          "largest_axis_gap_m": 0.001960094922527123,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            48,
+            27
+          ],
+          "largest_axis_gap_m": 0.001960583059581432,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            55
+          ],
+          "largest_axis_gap_m": 0.0019660904854977984,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            84
+          ],
+          "largest_axis_gap_m": 0.0019663117810077846,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.001966975697467021,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            5,
+            101
+          ],
+          "largest_axis_gap_m": 0.001994156399691638,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            50,
+            37
+          ],
+          "largest_axis_gap_m": 0.0019960320572992712,
+          "geometric_overlap": false
+        }
+      ]
+    },
+    {
+      "q_rad": 0.865,
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "source": {
+        "surface_intersecting_triangle_pairs": 0,
+        "example_triangle_indices": [],
+        "contains_test_performed": false,
+        "tolerance_m": 1e-09
+      },
+      "cooked_overlapping_pair_count": 0,
+      "near_pairs": [
+        {
+          "hull_indices": [
+            2,
+            35
+          ],
+          "largest_axis_gap_m": 0.0007052418919613473,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            76
+          ],
+          "largest_axis_gap_m": 0.0007052418919613473,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            64
+          ],
+          "largest_axis_gap_m": 0.0007973337026731114,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            64
+          ],
+          "largest_axis_gap_m": 0.0007973337026731114,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            7
+          ],
+          "largest_axis_gap_m": 0.0008205037150314509,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            78
+          ],
+          "largest_axis_gap_m": 0.0008247014515911505,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            124
+          ],
+          "largest_axis_gap_m": 0.0008409050836866439,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            124
+          ],
+          "largest_axis_gap_m": 0.0008513404399367736,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            41
+          ],
+          "largest_axis_gap_m": 0.000851677726702943,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            44
+          ],
+          "largest_axis_gap_m": 0.000857565416046327,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            41
+          ],
+          "largest_axis_gap_m": 0.0008756217147017353,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            41
+          ],
+          "largest_axis_gap_m": 0.0008841828338060492,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            7
+          ],
+          "largest_axis_gap_m": 0.0008893249281390105,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            21
+          ],
+          "largest_axis_gap_m": 0.0008917239364227142,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            19
+          ],
+          "largest_axis_gap_m": 0.0009050600752252558,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            21
+          ],
+          "largest_axis_gap_m": 0.0009253081256591911,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            90
+          ],
+          "largest_axis_gap_m": 0.0009758090880445242,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            83
+          ],
+          "largest_axis_gap_m": 0.0009888326891758226,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            106,
+            11
+          ],
+          "largest_axis_gap_m": 0.0010042744695472755,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            65
+          ],
+          "largest_axis_gap_m": 0.0010456630292242225,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            101
+          ],
+          "largest_axis_gap_m": 0.0010461948303794044,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            28
+          ],
+          "largest_axis_gap_m": 0.0010660861868216492,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            22
+          ],
+          "largest_axis_gap_m": 0.0010946394952014021,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            53
+          ],
+          "largest_axis_gap_m": 0.0011072677398532849,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            44
+          ],
+          "largest_axis_gap_m": 0.001115944819088291,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            11
+          ],
+          "largest_axis_gap_m": 0.0011415568500014045,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            9
+          ],
+          "largest_axis_gap_m": 0.001172531997918648,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            48
+          ],
+          "largest_axis_gap_m": 0.0011749034496558869,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            48
+          ],
+          "largest_axis_gap_m": 0.001180570902378053,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            28
+          ],
+          "largest_axis_gap_m": 0.001190330667213732,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            41
+          ],
+          "largest_axis_gap_m": 0.0011911852634297476,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            35
+          ],
+          "largest_axis_gap_m": 0.0012046748485576991,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            64
+          ],
+          "largest_axis_gap_m": 0.0012079145738594435,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            127
+          ],
+          "largest_axis_gap_m": 0.0012374767818431887,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            22
+          ],
+          "largest_axis_gap_m": 0.0012538448900872717,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            124
+          ],
+          "largest_axis_gap_m": 0.0012916425718267344,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            22
+          ],
+          "largest_axis_gap_m": 0.001308350458852553,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            83,
+            11
+          ],
+          "largest_axis_gap_m": 0.0013092124565637214,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            101
+          ],
+          "largest_axis_gap_m": 0.00131598697749076,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            78
+          ],
+          "largest_axis_gap_m": 0.0013275338581018592,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            65
+          ],
+          "largest_axis_gap_m": 0.0013282391688907713,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            90
+          ],
+          "largest_axis_gap_m": 0.0013319201682003429,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            60
+          ],
+          "largest_axis_gap_m": 0.0013373208183632135,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            53
+          ],
+          "largest_axis_gap_m": 0.0013409356085823804,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            126,
+            76
+          ],
+          "largest_axis_gap_m": 0.0013459403364966434,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            35
+          ],
+          "largest_axis_gap_m": 0.00134714265814561,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            9
+          ],
+          "largest_axis_gap_m": 0.0013505525440818539,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            53
+          ],
+          "largest_axis_gap_m": 0.0013774711840984916,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            47,
+            35
+          ],
+          "largest_axis_gap_m": 0.0013788106792717997,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            103
+          ],
+          "largest_axis_gap_m": 0.0013810435570236618,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            73
+          ],
+          "largest_axis_gap_m": 0.001386062512496733,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            87
+          ],
+          "largest_axis_gap_m": 0.0013879623263503525,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            15,
+            48
+          ],
+          "largest_axis_gap_m": 0.0014179610446835716,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            125
+          ],
+          "largest_axis_gap_m": 0.0014315887094346197,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            81
+          ],
+          "largest_axis_gap_m": 0.0014524179329934994,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            39
+          ],
+          "largest_axis_gap_m": 0.001452667290265372,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            63
+          ],
+          "largest_axis_gap_m": 0.0014541394469630015,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            93
+          ],
+          "largest_axis_gap_m": 0.001460358103234527,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            93
+          ],
+          "largest_axis_gap_m": 0.001460358104799303,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            9
+          ],
+          "largest_axis_gap_m": 0.0014603581423292544,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            65
+          ],
+          "largest_axis_gap_m": 0.001460358195969333,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            65
+          ],
+          "largest_axis_gap_m": 0.0014603584785253115,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            65
+          ],
+          "largest_axis_gap_m": 0.0014603587513496025,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            44
+          ],
+          "largest_axis_gap_m": 0.0014603589264246403,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            0,
+            44
+          ],
+          "largest_axis_gap_m": 0.001460359000428152,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            65
+          ],
+          "largest_axis_gap_m": 0.0014603591147977352,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            65
+          ],
+          "largest_axis_gap_m": 0.0014603592625191536,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            9
+          ],
+          "largest_axis_gap_m": 0.0014603595810770836,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            44
+          ],
+          "largest_axis_gap_m": 0.0014603596042142564,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            78
+          ],
+          "largest_axis_gap_m": 0.001460359697816202,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            126
+          ],
+          "largest_axis_gap_m": 0.0014603606540444791,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            44
+          ],
+          "largest_axis_gap_m": 0.0014603609166250336,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            22
+          ],
+          "largest_axis_gap_m": 0.0014603616609695363,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            127
+          ],
+          "largest_axis_gap_m": 0.0014603617094784416,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            60
+          ],
+          "largest_axis_gap_m": 0.0014716373456296061,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            0
+          ],
+          "largest_axis_gap_m": 0.0014741146740291228,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            21
+          ],
+          "largest_axis_gap_m": 0.0014863617946511143,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            21
+          ],
+          "largest_axis_gap_m": 0.0014863618100222908,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            103
+          ],
+          "largest_axis_gap_m": 0.0014890460168569403,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            113
+          ],
+          "largest_axis_gap_m": 0.0014914792443839753,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            117
+          ],
+          "largest_axis_gap_m": 0.0014914792443839753,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            80
+          ],
+          "largest_axis_gap_m": 0.0015027109516500964,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            70
+          ],
+          "largest_axis_gap_m": 0.0015082971682973817,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            44
+          ],
+          "largest_axis_gap_m": 0.0015111616779552306,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            44
+          ],
+          "largest_axis_gap_m": 0.0015112020103898033,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            103
+          ],
+          "largest_axis_gap_m": 0.0015169342262836005,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            77
+          ],
+          "largest_axis_gap_m": 0.0015191603935464232,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            77
+          ],
+          "largest_axis_gap_m": 0.0015268905051755155,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            79
+          ],
+          "largest_axis_gap_m": 0.0015292703488286874,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            22
+          ],
+          "largest_axis_gap_m": 0.0015307354670229811,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            127
+          ],
+          "largest_axis_gap_m": 0.0015307354670229811,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            39,
+            35
+          ],
+          "largest_axis_gap_m": 0.0015318480611745608,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            113,
+            44
+          ],
+          "largest_axis_gap_m": 0.0015340265211502765,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            22
+          ],
+          "largest_axis_gap_m": 0.0015445594772764137,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            49,
+            53
+          ],
+          "largest_axis_gap_m": 0.0015447093734483747,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            79
+          ],
+          "largest_axis_gap_m": 0.0015448816322375866,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            22
+          ],
+          "largest_axis_gap_m": 0.0015471121470731208,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            127
+          ],
+          "largest_axis_gap_m": 0.001547112150488486,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            78
+          ],
+          "largest_axis_gap_m": 0.00156004818469678,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            12
+          ],
+          "largest_axis_gap_m": 0.001562112880969399,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            28
+          ],
+          "largest_axis_gap_m": 0.0015627102880378003,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            126
+          ],
+          "largest_axis_gap_m": 0.001572010403388984,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            78
+          ],
+          "largest_axis_gap_m": 0.001585824597602245,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            3,
+            35
+          ],
+          "largest_axis_gap_m": 0.001586174914897355,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            74
+          ],
+          "largest_axis_gap_m": 0.0015862805750905679,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            65
+          ],
+          "largest_axis_gap_m": 0.0015977943263431361,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            53
+          ],
+          "largest_axis_gap_m": 0.001599152291637096,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            103
+          ],
+          "largest_axis_gap_m": 0.0016010771471107604,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            103
+          ],
+          "largest_axis_gap_m": 0.0016010775987354148,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            19
+          ],
+          "largest_axis_gap_m": 0.0016025796292915423,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            0,
+            19
+          ],
+          "largest_axis_gap_m": 0.0016025796293372002,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            19
+          ],
+          "largest_axis_gap_m": 0.001603585461983456,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            32
+          ],
+          "largest_axis_gap_m": 0.0016063988546293761,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            113,
+            19
+          ],
+          "largest_axis_gap_m": 0.0016098705866957608,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            32
+          ],
+          "largest_axis_gap_m": 0.001615405858417289,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            5
+          ],
+          "largest_axis_gap_m": 0.0016164891119604813,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            125,
+            87
+          ],
+          "largest_axis_gap_m": 0.0016206778564474833,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            73
+          ],
+          "largest_axis_gap_m": 0.0016283834584878906,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            25
+          ],
+          "largest_axis_gap_m": 0.0016438182833740794,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            78,
+            87
+          ],
+          "largest_axis_gap_m": 0.0016461968776751296,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            63
+          ],
+          "largest_axis_gap_m": 0.0016466078596412415,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            9
+          ],
+          "largest_axis_gap_m": 0.0016650840216764495,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            78
+          ],
+          "largest_axis_gap_m": 0.0016699398965365833,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            32
+          ],
+          "largest_axis_gap_m": 0.0016759082005633821,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            127
+          ],
+          "largest_axis_gap_m": 0.0016874673059251721,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            10
+          ],
+          "largest_axis_gap_m": 0.0016938532991159633,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            25
+          ],
+          "largest_axis_gap_m": 0.0016938532991786492,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            103
+          ],
+          "largest_axis_gap_m": 0.001694955827511141,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            103
+          ],
+          "largest_axis_gap_m": 0.001697859797545706,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            41,
+            103
+          ],
+          "largest_axis_gap_m": 0.001697859797545706,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            111
+          ],
+          "largest_axis_gap_m": 0.0016978938376301794,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            81
+          ],
+          "largest_axis_gap_m": 0.00170124043597622,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            21
+          ],
+          "largest_axis_gap_m": 0.0017025500990208303,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            111
+          ],
+          "largest_axis_gap_m": 0.0017034444791722003,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            32
+          ],
+          "largest_axis_gap_m": 0.0017098226087497517,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            90
+          ],
+          "largest_axis_gap_m": 0.0017127549595478547,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            16,
+            21
+          ],
+          "largest_axis_gap_m": 0.0017152834459334687,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            27,
+            124
+          ],
+          "largest_axis_gap_m": 0.0017153065950924317,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            90
+          ],
+          "largest_axis_gap_m": 0.001723202514359241,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            41
+          ],
+          "largest_axis_gap_m": 0.0017333600489105386,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            2,
+            59
+          ],
+          "largest_axis_gap_m": 0.0017361377119742422,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            97,
+            65
+          ],
+          "largest_axis_gap_m": 0.0017558346367522112,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            22
+          ],
+          "largest_axis_gap_m": 0.0017605794267127883,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            127
+          ],
+          "largest_axis_gap_m": 0.0017608885498009708,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            73
+          ],
+          "largest_axis_gap_m": 0.0017638956771053177,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            51,
+            87
+          ],
+          "largest_axis_gap_m": 0.0017990260331205727,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            26,
+            21
+          ],
+          "largest_axis_gap_m": 0.0018039329943565635,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            20,
+            60
+          ],
+          "largest_axis_gap_m": 0.0018064376365198795,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            68
+          ],
+          "largest_axis_gap_m": 0.0018090483446125405,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            8
+          ],
+          "largest_axis_gap_m": 0.0018161888822316868,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            24,
+            19
+          ],
+          "largest_axis_gap_m": 0.0018226453988236802,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            94,
+            25
+          ],
+          "largest_axis_gap_m": 0.0018228689826473715,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            6,
+            32
+          ],
+          "largest_axis_gap_m": 0.0018240387175084347,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            22,
+            7
+          ],
+          "largest_axis_gap_m": 0.001824982689366636,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            18,
+            20
+          ],
+          "largest_axis_gap_m": 0.0018298247262181731,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            1
+          ],
+          "largest_axis_gap_m": 0.0018593657336525016,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            35,
+            10
+          ],
+          "largest_axis_gap_m": 0.0018610595579020978,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            32
+          ],
+          "largest_axis_gap_m": 0.0018656571285853817,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            66,
+            35
+          ],
+          "largest_axis_gap_m": 0.0018672945831989599,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            30,
+            78
+          ],
+          "largest_axis_gap_m": 0.00187246650805592,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            19
+          ],
+          "largest_axis_gap_m": 0.0018759216330852188,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            72,
+            35
+          ],
+          "largest_axis_gap_m": 0.001877281135922483,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            109,
+            35
+          ],
+          "largest_axis_gap_m": 0.001877958735687038,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            96,
+            18
+          ],
+          "largest_axis_gap_m": 0.0018822369873617018,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            94,
+            53
+          ],
+          "largest_axis_gap_m": 0.0018857600617528843,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            108,
+            74
+          ],
+          "largest_axis_gap_m": 0.0018894457739629805,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            37,
+            61
+          ],
+          "largest_axis_gap_m": 0.0018934311881580942,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            11
+          ],
+          "largest_axis_gap_m": 0.0018950728381894079,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            14,
+            61
+          ],
+          "largest_axis_gap_m": 0.0019021804243125,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            22
+          ],
+          "largest_axis_gap_m": 0.0019244648249980324,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            64,
+            126
+          ],
+          "largest_axis_gap_m": 0.0019322511787197572,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            90
+          ],
+          "largest_axis_gap_m": 0.0019501623097065296,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            117,
+            126
+          ],
+          "largest_axis_gap_m": 0.0019505323323639953,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            119,
+            127
+          ],
+          "largest_axis_gap_m": 0.0019505325634924693,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            19,
+            19
+          ],
+          "largest_axis_gap_m": 0.0019513681115933684,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            23,
+            80
+          ],
+          "largest_axis_gap_m": 0.0019635065234482607,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            113,
+            79
+          ],
+          "largest_axis_gap_m": 0.0019717914811021864,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            11,
+            111
+          ],
+          "largest_axis_gap_m": 0.001976933634785738,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            29,
+            33
+          ],
+          "largest_axis_gap_m": 0.001987329858751219,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            40
+          ],
+          "largest_axis_gap_m": 0.0019978470502917955,
+          "geometric_overlap": false
+        },
+        {
+          "hull_indices": [
+            118,
+            108
+          ],
+          "largest_axis_gap_m": 0.0019978470502917955,
+          "geometric_overlap": false
+        }
+      ]
+    }
+  ],
+  "physics_steps": 0,
+  "limitations": [
+    "Source triangle intersection is not a solid-containment/minimum-distance test.",
+    "SAT uses ideal source poses, not measured dynamics; positive gap is an axis-distance lower bound.",
+    "Existing contact offsets can create contact before geometric overlap; no filters or geometry changed."
+  ]
+}

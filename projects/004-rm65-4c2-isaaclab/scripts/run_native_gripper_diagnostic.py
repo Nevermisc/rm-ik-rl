@@ -82,7 +82,7 @@ def main():
     master = gripids[0]
     armids = [names.index('joint_'+str(i)) for i in range(1,7)]
     runtime = dict(body_mass_kg=dict(zip(bodies,robot.root_physx_view.get_masses()[0].cpu().tolist())),
-                   gravity_disabled=[], kinematic_bodies=[], collision_meshes=[], self_collision=[],
+                   gravity_disabled=[], kinematic_bodies=[], collision_meshes=[], self_collision=[], pair_filters=[],
                    actuators={key:list(val.joint_names) for key,val in robot.actuators.items()},
                    follower_stiffness=robot.data.joint_stiffness[0,gripids[1:]].cpu().tolist())
     for prim in Usd.PrimRange.Stage(stage, Usd.TraverseInstanceProxies()):
@@ -97,6 +97,9 @@ def main():
             runtime['collision_meshes'].append(dict(path=str(prim.GetPath()),enabled=UsdPhysics.CollisionAPI(prim).GetCollisionEnabledAttr().Get()))
         if prim.HasAPI(PhysxSchema.PhysxArticulationAPI):
             runtime['self_collision'].append(PhysxSchema.PhysxArticulationAPI(prim).GetEnabledSelfCollisionsAttr().Get())
+        if prim.HasAPI(UsdPhysics.FilteredPairsAPI):
+            for path in UsdPhysics.FilteredPairsAPI(prim).GetFilteredPairsRel().GetTargets():
+                runtime['pair_filters'].append([prim.GetName(),str(path).rsplit('/',1)[-1]])
     runtime['gripper_mass_max_error_kg'] = max(abs(runtime['body_mass_kg'][i['link']]-i['mass_kg']) for i in source['gripper']['links'])
     target = robot.data.default_joint_pos.clone()
     center = robot.data.body_pos_w[0,bodies.index('tool_base_link')].cpu().tolist()
@@ -105,7 +108,7 @@ def main():
     window = ui.Window('RM65 native gripper | SIMULATION ONLY',width=540,height=145)
     with window.frame:
         with ui.VStack():
-            ui.Label('Native STL collisions | gravity ON | self collision ON')
+            ui.Label(f'Native STL | gravity ON | self collision ON ({len(runtime["pair_filters"])} internal pair filters)')
             ui.Label('ONE driven master + FIVE passive mimic followers; NOT pi0.5')
             label = ui.Label('PREVIEW: physics has not started')
     write_live(dict(state='preview_no_physics',step=0))
@@ -177,6 +180,7 @@ def main():
         all_native_colliders_enabled=len(runtime['collision_meshes'])==16 and all(m['enabled'] for m in runtime['collision_meshes']),
         original_gripper_masses=runtime['gripper_mass_max_error_kg'] < 1e-6,
         followers_not_driven=all(v==0 for v in runtime['follower_stiffness']),
+        internal_pair_filter_contract=sorted(runtime['pair_filters']) == sorted(imported.get('derivation',{}).get('self_collision_filters_added',[])),
         freefall_acceleration_valid=acceleration is not None and abs(acceleration+9.81)<.05,
         master_reaches_close=bool(samples) and max(s['gripper_q_rad'][0] for s in samples)>.78,
         mimic_tracks_master=bool(samples) and max(s['mimic_error_rad'] for s in samples)<.03,
@@ -186,6 +190,7 @@ def main():
         status='pass' if all(checks.values()) else 'fail', checks=checks, stop_reason=stopped,
         simulation_only=True, pi05_used=False, training_ready=False, candidate=str(candidate),
         source_urdf_sha256=source['urdf_sha256'],import_audit_sha256=sha256(candidate/'import_audit.json'),
+        asset_derivation=imported.get('derivation',{}),
         physics_steps=step,physics_dt_s=dt,gravity_m_s2=[0,0,-9.81],measured_freefall_m_s2=acceleration,
         runtime=runtime, joint_names=names,gripper_joint_order=[names[i] for i in gripids],
         max_hold_error_rad=max(hold_errors) if hold_errors else None,

@@ -1,0 +1,1935 @@
+{
+  "schema": "rm65_native_linkage_pivot_audit_v1",
+  "urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "mesh_sha256": {
+    "tool_base_link": "6c4d85dd17e6993b27ab59f871ba73bb23547e743364c12c60e20b035ebdfdc0",
+    "tool_r_1": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde",
+    "tool_r_3": "58b8d1110a5ac739c1d4df9db06d55d3b9c47c9fa3cd226527c59b6dd2444656",
+    "tool_l_1": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab",
+    "tool_l_3": "26d5e19179bc98cea1a3acb92fd55b2319a7dcc188299e4fe512bf5ff5d31db6",
+    "tool_r_2_base": "b06196ca6cb9a7ede603d2016ec22720386f7c8dfde645a8c84867076c681b80",
+    "tool_r_2": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5",
+    "tool_l_2_base": "7fc0ce1aedde6f1e42714e5dee603902ffd3830366ab3716bdfd1b6262fa87e8",
+    "tool_l_2": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a"
+  },
+  "q_samples_rad": [
+    0.0,
+    0.04805555555555555,
+    0.0961111111111111,
+    0.14416666666666667,
+    0.1922222222222222,
+    0.24027777777777776,
+    0.28833333333333333,
+    0.33638888888888885,
+    0.3844444444444444,
+    0.4325,
+    0.4805555555555555,
+    0.528611111111111,
+    0.5766666666666667,
+    0.6247222222222222,
+    0.6727777777777777,
+    0.7208333333333333,
+    0.7688888888888888,
+    0.8169444444444444,
+    0.865
+  ],
+  "pairs": [
+    {
+      "links": [
+        "tool_base_link",
+        "tool_l_1"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.1694918499368638e-16,
+      "fixed_point_in_link_a_m": [
+        9.071329042649053e-08,
+        -0.03999990816920578,
+        0.07900004591539704
+      ],
+      "fixed_point_in_link_b_m": [
+        1.5612511283791264e-16,
+        -1.8388068845354155e-16,
+        0.012500090713712081
+      ],
+      "pivot_axis_link_a": [
+        0.9999999999662689,
+        7.346410206693243e-06,
+        3.67320510331694e-06
+      ],
+      "pivot_axis_link_b": [
+        -4.791541927135545e-21,
+        3.593656445351659e-21,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012728049867865196,
+        0.012727792171215698
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_base_link": [
+          {
+            "radius_m": 0.0019499993046607602,
+            "triangle_count": 96,
+            "angular_coverage_deg": 329.9999725591853,
+            "axial_interval_m": [
+              -0.012500106750069406,
+              0.012499925321814471
+            ],
+            "area_m2": 2.4225412801189843e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.002199999762018939,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.15033212825824,
+            "axial_interval_m": [
+              -0.012500108782134442,
+              0.012499927353879507
+            ],
+            "area_m2": 1.3836077173567653e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0023999991587531997,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.15068698917827,
+            "axial_interval_m": [
+              -0.012500110407791943,
+              0.01249992897950964
+            ],
+            "area_m2": 1.5093899847636095e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.002600000568439779,
+            "triangle_count": 48,
+            "angular_coverage_deg": 330.0000127308106,
+            "axial_interval_m": [
+              -0.012450112118387749,
+              0.012449930690132815
+            ],
+            "area_m2": 9.69018874896664e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0030000000540719553,
+            "triangle_count": 48,
+            "angular_coverage_deg": 345.00034135528335,
+            "axial_interval_m": [
+              -0.010100114916741088,
+              0.010099933488486153
+            ],
+            "area_m2": 1.8400774723773248e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.003600000602463917,
+            "triangle_count": 48,
+            "angular_coverage_deg": 329.99984145888965,
+            "axial_interval_m": [
+              -0.010000119752011977,
+              0.009999938323729677
+            ],
+            "area_m2": 2.6834359146754668e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_l_1": [
+          {
+            "radius_m": 0.0015000007015797858,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.9999355285857,
+            "axial_interval_m": [
+              -0.008900090542721256,
+              0.008899908323672906
+            ],
+            "area_m2": 0.0001542110327963022,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.003749999209792119,
+            "triangle_count": 93,
+            "angular_coverage_deg": 218.02256620113255,
+            "axial_interval_m": [
+              -0.008900090542721256,
+              0.008899908323672906
+            ],
+            "area_m2": 0.00024562325335568153,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_l_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.2582426632399134e-16,
+      "fixed_point_in_link_a_m": [
+        1.0163788542150048e-07,
+        -0.029999907625491217,
+        0.08100004618725441
+      ],
+      "fixed_point_in_link_b_m": [
+        1.6306400674181987e-16,
+        -1.5265566588595902e-16,
+        0.012574101638309566
+      ],
+      "pivot_axis_link_a": [
+        0.9999999999662689,
+        7.346410206693243e-06,
+        3.67320510331694e-06
+      ],
+      "pivot_axis_link_b": [
+        -4.791541927135545e-21,
+        3.593656445351659e-21,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727921287278171,
+        0.0127279230567085
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_base_link": [
+          {
+            "radius_m": 0.0019500001715723454,
+            "triangle_count": 96,
+            "angular_coverage_deg": 330.00005243300745,
+            "axial_interval_m": [
+              -0.012500117674669832,
+              0.012499914397214046
+            ],
+            "area_m2": 2.422542357081683e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.002199998790189344,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.15050741983646,
+            "axial_interval_m": [
+              -0.012500119706734866,
+              0.012499916429265397
+            ],
+            "area_m2": 1.383607273142413e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0023999984359287965,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.1508268948591,
+            "axial_interval_m": [
+              -0.012500121332392368,
+              0.012499918054936582
+            ],
+            "area_m2": 1.5093898211964453e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0025999995800550573,
+            "triangle_count": 48,
+            "angular_coverage_deg": 330.00001308391757,
+            "axial_interval_m": [
+              -0.012450123042988176,
+              0.012449919765518706
+            ],
+            "area_m2": 9.690185065280801e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0030000002110249983,
+            "triangle_count": 48,
+            "angular_coverage_deg": 345.0002487874783,
+            "axial_interval_m": [
+              -0.010100125841341512,
+              0.010099922563885727
+            ],
+            "area_m2": 1.8400781391077201e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.003600000577889633,
+            "triangle_count": 48,
+            "angular_coverage_deg": 329.99984397157493,
+            "axial_interval_m": [
+              -0.010000130676612403,
+              0.009999927399156618
+            ],
+            "area_m2": 2.6834358963378307e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_l_2": [
+          {
+            "radius_m": 0.0014999995689227617,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.9999296847412,
+            "axial_interval_m": [
+              -0.008899999622516242,
+              0.008900000873692426
+            ],
+            "area_m2": 0.00015420862797163698,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.003749996097213423,
+            "triangle_count": 92,
+            "angular_coverage_deg": 218.02249021724487,
+            "axial_interval_m": [
+              -0.008899999622516242,
+              0.008900000873692426
+            ],
+            "area_m2": 0.0002458577700059153,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_l_2_base"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 1.5612511283791264e-17,
+      "fixed_point_in_link_a_m": [
+        5.090437452288933e-08,
+        -0.014999955442559571,
+        0.06475002395440237
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.016250022232555977,
+        -0.01499995218333826,
+        0.012574101410935883
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_l_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.017770588564025618,
+      "fixed_point_in_link_a_m": [
+        -1.3996787695184523e-07,
+        -0.013964871482912108,
+        0.08975854034114875
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.02950853954603508,
+        -0.02116693074598385,
+        0.00900009081476057
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_r_1"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 5.849388785869383e-17,
+      "fixed_point_in_link_a_m": [
+        -2.0314311782980494e-07,
+        0.04000009182863527,
+        0.07900004591431763
+      ],
+      "fixed_point_in_link_b_m": [
+        -3.469446951953614e-17,
+        -4.5102810375396984e-17,
+        0.012499796857303791
+      ],
+      "pivot_axis_link_a": [
+        -0.9999999999662689,
+        -7.346410206850252e-06,
+        -3.67320510331694e-06
+      ],
+      "pivot_axis_link_b": [
+        3.2567511535999404e-21,
+        -4.791541927135544e-21,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012728207746933689,
+        0.0127276342921472
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_base_link": [
+          {
+            "radius_m": 0.001949999304648598,
+            "triangle_count": 96,
+            "angular_coverage_deg": 329.99984876539327,
+            "axial_interval_m": [
+              -0.012500218808365061,
+              0.012499812523829737
+            ],
+            "area_m2": 2.4225412801189843e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0021999982612609954,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.1530616465128,
+            "axial_interval_m": [
+              -0.012500220793029567,
+              0.012499814508494243
+            ],
+            "area_m2": 1.3836077173567653e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0023999976579701823,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.15304721804745,
+            "axial_interval_m": [
+              -0.012500222380755698,
+              0.012499816096220374
+            ],
+            "area_m2": 1.5093899847636097e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.002600000568427499,
+            "triangle_count": 48,
+            "angular_coverage_deg": 330.0000143378789,
+            "axial_interval_m": [
+              -0.012450224053420137,
+              0.012449817768857445
+            ],
+            "area_m2": 9.69018874896664e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0030000002338582328,
+            "triangle_count": 48,
+            "angular_coverage_deg": 344.9999855780166,
+            "axial_interval_m": [
+              -0.010100227344881283,
+              0.010099821060345958
+            ],
+            "area_m2": 1.840077472377325e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0036000006024699757,
+            "triangle_count": 48,
+            "angular_coverage_deg": 329.99980124903783,
+            "axial_interval_m": [
+              -0.01000023149736015,
+              0.009999825212824826
+            ],
+            "area_m2": 2.6834359146754668e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_r_1": [
+          {
+            "radius_m": 0.0015000007015797971,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.99993552858643,
+            "axial_interval_m": [
+              -0.008900202180081196,
+              0.008899796686312966
+            ],
+            "area_m2": 0.00015421103124185615,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499992097920934,
+            "triangle_count": 93,
+            "angular_coverage_deg": 218.02256620113573,
+            "axial_interval_m": [
+              -0.008900202180081196,
+              0.008899796686312966
+            ],
+            "area_m2": 0.00024562325286318817,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 5.250225931237847e-17,
+      "fixed_point_in_link_a_m": [
+        -1.7008427190097868e-07,
+        0.03000009182887808,
+        0.08100004591443905
+      ],
+      "fixed_point_in_link_b_m": [
+        -4.163336342344337e-17,
+        -1.1275702593849246e-17,
+        0.012499829916149726
+      ],
+      "pivot_axis_link_a": [
+        -0.9999999999662689,
+        -7.346410206850252e-06,
+        -3.67320510331694e-06
+      ],
+      "pivot_axis_link_b": [
+        3.2567511535999404e-21,
+        -4.791541927135544e-21,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012728160994665411,
+        0.01272768104441548
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_base_link": [
+          {
+            "radius_m": 0.0019500001715611584,
+            "triangle_count": 96,
+            "angular_coverage_deg": 330.0000682641395,
+            "axial_interval_m": [
+              -0.012500185749549347,
+              0.012499845582686506
+            ],
+            "area_m2": 2.422542357081683e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0021999972894089503,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.15290450982144,
+            "axial_interval_m": [
+              -0.012500187734213852,
+              0.012499847567337328
+            ],
+            "area_m2": 1.3836072731424131e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0023999969351304745,
+            "triangle_count": 96,
+            "angular_coverage_deg": 346.1531318285717,
+            "axial_interval_m": [
+              -0.01250018932188525,
+              0.012499849155036092
+            ],
+            "area_m2": 1.5093898211964453e-06,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.00259999958004525,
+            "triangle_count": 48,
+            "angular_coverage_deg": 329.9999802210568,
+            "axial_interval_m": [
+              -0.012450190994549686,
+              0.012449850827700528
+            ],
+            "area_m2": 9.690185065280801e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0030000003918328553,
+            "triangle_count": 48,
+            "angular_coverage_deg": 344.99984516462854,
+            "axial_interval_m": [
+              -0.0101001942860382,
+              0.010099854119189042
+            ],
+            "area_m2": 1.8400781391077201e-06,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0036000005778592517,
+            "triangle_count": 48,
+            "angular_coverage_deg": 329.99992014489436,
+            "axial_interval_m": [
+              -0.010000198438544435,
+              0.00999985827168159
+            ],
+            "area_m2": 2.683435896337831e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_r_2": [
+          {
+            "radius_m": 0.0014999995689227558,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.9999296847429,
+            "axial_interval_m": [
+              -0.00890016912123526,
+              0.008899829745158901
+            ],
+            "area_m2": 0.00015420861386856752,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.003749996097213396,
+            "triangle_count": 92,
+            "angular_coverage_deg": 218.02249021724901,
+            "axial_interval_m": [
+              -0.00890016912123526,
+              0.008899829745158901
+            ],
+            "area_m2": 0.00024585774726668423,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 1.5612511283791264e-17,
+      "fixed_point_in_link_a_m": [
+        4.63563779376509e-11,
+        0.015000045827752643,
+        0.0647500235563725
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.016250022358581865,
+        0.015000046001532008,
+        0.012499830160621906
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_base_link",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.01777058856402563,
+      "fixed_point_in_link_a_m": [
+        -5.129549209844184e-08,
+        0.013964963313038276,
+        0.08975854034147447
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.02950853954603507,
+        0.021167022575288394,
+        0.008999796958352303
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_l_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.004314871576705219,
+      "fixed_point_in_link_a_m": [
+        0.022868704390269792,
+        0.002470800774214136,
+        0.012500091339300166
+      ],
+      "fixed_point_in_link_b_m": [
+        0.017067391202296042,
+        0.010429199780295327,
+        0.012574010528785397
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_l_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.0124381827632909e-17,
+      "fixed_point_in_link_a_m": [
+        6.938893903907228e-18,
+        1.1275702593849246e-17,
+        0.012500091111926492
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.0020000002718036803,
+        0.010000000543310548,
+        0.01257401030141172
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.71851730187578e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.713947229831118e-16,
+        2.7325490136794033e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_l_3"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 2.797157557069881e-17,
+      "fixed_point_in_link_a_m": [
+        0.03997,
+        0.012900000000000003,
+        0.012499999705236407
+      ],
+      "fixed_point_in_link_b_m": [
+        -1.214306433183765e-17,
+        5.204170427930421e-18,
+        0.00899999970523641
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        3.1284749168604824e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.840407240432425e-16,
+        3.006479303972797e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727920876636283,
+        0.01272792109659015
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_l_1": [
+          {
+            "radius_m": 0.0024999976783091587,
+            "triangle_count": 61,
+            "angular_coverage_deg": 347.9993656351868,
+            "axial_interval_m": [
+              -0.00889999933214858,
+              0.008899999534245582
+            ],
+            "area_m2": 4.175070663027925e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499361890386725,
+            "triangle_count": 44,
+            "angular_coverage_deg": 218.0263048689374,
+            "axial_interval_m": [
+              -0.008899999332148582,
+              0.008899999534245584
+            ],
+            "area_m2": 6.531309814481736e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_l_3": [
+          {
+            "radius_m": 0.000999990621386453,
+            "triangle_count": 58,
+            "angular_coverage_deg": 329.9999071847648,
+            "axial_interval_m": [
+              -0.005999999959487462,
+              0.005999999679159379
+            ],
+            "area_m2": 7.010826703814767e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0034999596259891108,
+            "triangle_count": 38,
+            "angular_coverage_deg": 169.27774329315932,
+            "axial_interval_m": [
+              -0.005999999959487463,
+              0.00599999967915938
+            ],
+            "area_m2": 0.0001214156650794583,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_r_1"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004862300945871472,
+      "fixed_point_in_link_a_m": [
+        0.01734367201322082,
+        -0.0375688495259849,
+        0.012500293460596166
+      ],
+      "fixed_point_in_link_b_m": [
+        0.01734367201322083,
+        0.037568849525984944,
+        0.012499705747779637
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.320457030322664e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        3.587467977309284e-16,
+        1.1276056575466983e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004256249509435911,
+      "fixed_point_in_link_a_m": [
+        0.01611493424972514,
+        -0.03243915153487213,
+        0.012500260401750242
+      ],
+      "fixed_point_in_link_b_m": [
+        0.014236491773387885,
+        0.033306335135550785,
+        0.012499738806625565
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.320457030322664e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        3.587467977309284e-16,
+        1.1276056575466983e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 5.287350645549808e-17,
+      "fixed_point_in_link_a_m": [
+        -1.734723475976807e-17,
+        3.8163916471489756e-17,
+        0.012500260646222446
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.0019999999999865334,
+        0.06999999999805713,
+        0.012499739051097745
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.71851730187578e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.713947229831118e-16,
+        2.7325490136794033e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_1",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004812588811451129,
+      "fixed_point_in_link_a_m": [
+        -0.034763749158992115,
+        -0.021448555289277,
+        0.012500293561644664
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.07942947592556703,
+        0.07039732839535387,
+        0.008999705848828142
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        -5.865683955044198e-17,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        1.4300579656141524e-16,
+        -4.85369373594618e-18,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_l_2_base"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 5.699729053269495e-18,
+      "fixed_point_in_link_a_m": [
+        3.469446951953614e-18,
+        0.0,
+        0.012574102036523982
+      ],
+      "fixed_point_in_link_b_m": [
+        1.734723475976807e-18,
+        3.0357660829594124e-18,
+        0.012574102036523982
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.71851730187578e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.713947229831118e-16,
+        2.7325490136794033e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727922493548266,
+        0.012727921850438395
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_l_2": [
+          {
+            "radius_m": 0.0014999995689227563,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.99992968474254,
+            "axial_interval_m": [
+              -0.00890000047547801,
+              0.008900000020730658
+            ],
+            "area_m2": 0.00015420862797163698,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499960972134042,
+            "triangle_count": 92,
+            "angular_coverage_deg": 218.02249021724788,
+            "axial_interval_m": [
+              -0.008900000475478011,
+              0.00890000002073066
+            ],
+            "area_m2": 0.0002458577700059153,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_l_2_base": [
+          {
+            "radius_m": 0.0014000003564873717,
+            "triangle_count": 32,
+            "angular_coverage_deg": 337.4997744000625,
+            "axial_interval_m": [
+              -0.005500000663232641,
+              -0.0035000003354070932
+            ],
+            "area_m2": 1.748010016904792e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0014999997113093809,
+            "triangle_count": 129,
+            "angular_coverage_deg": 337.98569196291135,
+            "axial_interval_m": [
+              -0.012499999947976903,
+              0.012500000402724254
+            ],
+            "area_m2": 0.00017020383995534102,
+            "inward_normal_area_fraction": 0.07582581495364918,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.001900000317016906,
+            "triangle_count": 72,
+            "angular_coverage_deg": 339.9999061369492,
+            "axial_interval_m": [
+              -0.012499999947976903,
+              0.012500000402724254
+            ],
+            "area_m2": 7.364073885911807e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_l_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.471961680016039e-17,
+      "fixed_point_in_link_a_m": [
+        0.03996999999999999,
+        0.012899999999999997,
+        0.0125740106298339
+      ],
+      "fixed_point_in_link_b_m": [
+        0.0020000002718036838,
+        -0.010000000543310539,
+        0.009000091440348666
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        3.1284749168604824e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.840407240432425e-16,
+        3.006479303972797e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727791649358566,
+        0.012727792581857592
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_l_2": [
+          {
+            "radius_m": 0.0024999977837101644,
+            "triangle_count": 61,
+            "angular_coverage_deg": 347.99933786093067,
+            "axial_interval_m": [
+              -0.008900091882168091,
+              0.008899908614040577
+            ],
+            "area_m2": 4.1750710634030616e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499369612930544,
+            "triangle_count": 44,
+            "angular_coverage_deg": 218.02627694965423,
+            "axial_interval_m": [
+              -0.008900091882168093,
+              0.008899908614040579
+            ],
+            "area_m2": 6.531310000956452e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_l_3": [
+          {
+            "radius_m": 0.0010000098200510703,
+            "triangle_count": 79,
+            "angular_coverage_deg": 329.99988683135916,
+            "axial_interval_m": [
+              -0.005999908224375208,
+              0.006000091414271633
+            ],
+            "area_m2": 6.20234500571185e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_r_1"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004256249476886336,
+      "fixed_point_in_link_a_m": [
+        0.014236491527905341,
+        -0.03330633493923382,
+        0.012574304385193648
+      ],
+      "fixed_point_in_link_b_m": [
+        0.016114934259539096,
+        0.032439151220697585,
+        0.012499797482891905
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.320457030322664e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        3.587467977309284e-16,
+        1.1276056575466983e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.003646725676362198,
+      "fixed_point_in_link_a_m": [
+        0.013007753764409703,
+        -0.02817663694812103,
+        0.012574271326347725
+      ],
+      "fixed_point_in_link_b_m": [
+        0.013007754019706157,
+        0.028176636830263363,
+        0.01249983054173783
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.320457030322664e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        3.587467977309284e-16,
+        1.1276056575466983e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 3.057469550274535e-17,
+      "fixed_point_in_link_a_m": [
+        -1.3877787807814457e-17,
+        3.8163916471489756e-17,
+        0.012574271570819927
+      ],
+      "fixed_point_in_link_b_m": [
+        2.7181717640600844e-10,
+        0.059999999454746586,
+        0.012499830786210005
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        4.71851730187578e-16,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        2.713947229831118e-16,
+        2.7325490136794033e-16,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004812588811451105,
+      "fixed_point_in_link_a_m": [
+        -0.03476374915899211,
+        -0.02144855528927704,
+        0.012574304486242149
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.07742947565376333,
+        0.060397327852043305,
+        0.008999797583940395
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        -5.865683955044198e-17,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        1.4300579656141524e-16,
+        -4.85369373594618e-18,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2_base",
+        "tool_l_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.01777058856402559,
+      "fixed_point_in_link_a_m": [
+        0.025008516678317085,
+        -0.001035080700717901,
+        0.012574010402460221
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.013258517022440769,
+        -0.00616697530301657,
+        0.009000091212974994
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2_base",
+        "tool_r_1"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.5410750671763237e-16,
+      "fixed_point_in_link_a_m": [
+        -0.0020000002718034236,
+        -0.06999999945453066,
+        0.012574304157820036
+      ],
+      "fixed_point_in_link_b_m": [
+        2.42861286636753e-16,
+        -1.3183898417423734e-16,
+        0.01249979725551827
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        -1.4830247611346363e-15,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        -5.768943333482675e-16,
+        -1.2496348169772324e-15,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2_base",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.2066128177578466e-16,
+      "fixed_point_in_link_a_m": [
+        -2.7181698102949874e-10,
+        -0.05999999945474654,
+        0.012574271098974105
+      ],
+      "fixed_point_in_link_b_m": [
+        1.734723475976807e-16,
+        -1.0061396160665481e-16,
+        0.012499830314364193
+      ],
+      "pivot_axis_link_a": [
+        -0.0,
+        -1.4830247611346363e-15,
+        -1.0
+      ],
+      "pivot_axis_link_b": [
+        -5.768943333482675e-16,
+        -1.2496348169772324e-15,
+        -1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2_base",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 4.2527268862213507e-17,
+      "fixed_point_in_link_a_m": [
+        -1.0680476072483567e-10,
+        -0.029999998010247254,
+        0.01257427134344623
+      ],
+      "fixed_point_in_link_b_m": [
+        1.6501241692501445e-10,
+        0.03000000144449926,
+        0.012499830558836335
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_2_base",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.017770588564025594,
+      "fixed_point_in_link_a_m": [
+        0.02500851667831707,
+        -0.028964915495263165,
+        0.012574304258868482
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.013258517022440755,
+        0.03616697801825565,
+        0.008999797356566731
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_3",
+        "tool_r_1"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004812588811451095,
+      "fixed_point_in_link_a_m": [
+        -0.079429475925567,
+        -0.07039732839535381,
+        0.009000293561644642
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.03476374915899211,
+        0.021448555289277017,
+        0.01249970584882811
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        -9.871285605764585e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        1.7288557669119274e-16,
+        3.7449464052211084e-16,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_3",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 0.004812588811451082,
+      "fixed_point_in_link_a_m": [
+        -0.0774294759255805,
+        -0.060397328395569674,
+        0.009000260502798717
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.03476374915899212,
+        0.02144855528927704,
+        0.012499738907674043
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        -9.871285605764585e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        1.7288557669119274e-16,
+        3.7449464052211084e-16,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_3",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.017770588564025625,
+      "fixed_point_in_link_a_m": [
+        -0.01325851742028385,
+        -0.03616697657289289,
+        0.009000260747270906
+      ],
+      "fixed_point_in_link_b_m": [
+        0.025008516552291214,
+        0.02896491748415236,
+        0.012499739152146229
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_l_3",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.03553621188202369,
+      "fixed_point_in_link_a_m": [
+        0.011749999364838002,
+        -0.03513189405790876,
+        0.009000293662693174
+      ],
+      "fixed_point_in_link_b_m": [
+        0.011749999364838008,
+        0.03513189405790875,
+        0.008999705949876643
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_r_1",
+        "tool_r_2"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.004314871328645817,
+      "fixed_point_in_link_a_m": [
+        0.022868704161103662,
+        -0.002470800957482533,
+        0.012499966545341976
+      ],
+      "fixed_point_in_link_b_m": [
+        0.017067391431462173,
+        -0.010429199597026928,
+        0.012500032663033836
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_r_1",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.309687503460227e-17,
+      "fixed_point_in_link_a_m": [
+        0.0,
+        1.734723475976807e-17,
+        0.012499966789814156
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.001999999999986516,
+        -0.009999999999784103,
+        0.012500032907506006
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        1.3915989057961525e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        3.0663095976023886e-17,
+        5.942919182959258e-17,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    },
+    {
+      "links": [
+        "tool_r_1",
+        "tool_r_3"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 2.9079264368403834e-17,
+      "fixed_point_in_link_a_m": [
+        0.039970000000000006,
+        -0.012899999999999998,
+        0.012499999705236409
+      ],
+      "fixed_point_in_link_b_m": [
+        -6.938893903907228e-18,
+        -5.204170427930421e-18,
+        0.00899999970523641
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        3.859442235932982e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        -1.9339751660539148e-16,
+        5.447762067151641e-16,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727921096590152,
+        0.012727920876636278
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_r_1": [
+          {
+            "radius_m": 0.0024999976783091587,
+            "triangle_count": 61,
+            "angular_coverage_deg": 347.999365635187,
+            "axial_interval_m": [
+              -0.008899999534245586,
+              0.00889999933214858
+            ],
+            "area_m2": 4.175070662565297e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499361890386703,
+            "triangle_count": 44,
+            "angular_coverage_deg": 218.02630486893753,
+            "axial_interval_m": [
+              -0.008899999534245586,
+              0.00889999933214858
+            ],
+            "area_m2": 6.531309814481736e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_r_3": [
+          {
+            "radius_m": 0.0009999906213864558,
+            "triangle_count": 58,
+            "angular_coverage_deg": 329.9999071847648,
+            "axial_interval_m": [
+              -0.0059999996791593796,
+              0.005999999959487463
+            ],
+            "area_m2": 7.010826730815525e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.003499959625989113,
+            "triangle_count": 38,
+            "angular_coverage_deg": 169.27774329315932,
+            "axial_interval_m": [
+              -0.00599999967915938,
+              0.005999999959487463
+            ],
+            "area_m2": 0.00012141566522682456,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_r_2",
+        "tool_r_2_base"
+      ],
+      "directly_jointed": true,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 6.314496038185784e-18,
+      "fixed_point_in_link_a_m": [
+        0.0,
+        5.204170427930421e-18,
+        0.012499999848660081
+      ],
+      "fixed_point_in_link_b_m": [
+        -5.204170427930421e-18,
+        4.336808689942018e-18,
+        0.012499999848660077
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        1.3915989057961525e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        3.0663095976023886e-17,
+        5.942919182959258e-17,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.01272792136527631,
+        0.01272792067380458
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_r_2": [
+          {
+            "radius_m": 0.0014999995689227565,
+            "triangle_count": 65,
+            "angular_coverage_deg": 329.9999296847424,
+            "axial_interval_m": [
+              -0.008899999677669256,
+              0.008899999188724906
+            ],
+            "area_m2": 0.00015420861386856752,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499960972134034,
+            "triangle_count": 92,
+            "angular_coverage_deg": 218.02249021724805,
+            "axial_interval_m": [
+              -0.008899999677669256,
+              0.008899999188724906
+            ],
+            "area_m2": 0.00024585774726668423,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_r_2_base": [
+          {
+            "radius_m": 0.001400000368081909,
+            "triangle_count": 32,
+            "angular_coverage_deg": 337.49977441643074,
+            "axial_interval_m": [
+              0.0035000009112991434,
+              0.0054999993764795405
+            ],
+            "area_m2": 1.7480084034203172e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0014999997371866153,
+            "triangle_count": 130,
+            "angular_coverage_deg": 337.98569228443057,
+            "axial_interval_m": [
+              -0.012500000034924595,
+              0.012500000523868952
+            ],
+            "area_m2": 0.00017023737006152326,
+            "inward_normal_area_fraction": 0.07581097972779675,
+            "interpretation": "pin_candidate"
+          },
+          {
+            "radius_m": 0.0019000003323843358,
+            "triangle_count": 72,
+            "angular_coverage_deg": 339.99990630291825,
+            "axial_interval_m": [
+              -0.012500000034924595,
+              0.012500000523868952
+            ],
+            "area_m2": 7.364073916089786e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_r_2",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 5,
+      "nullity": 1,
+      "max_pivot_coincidence_error_m": 1.471961680016039e-17,
+      "fixed_point_in_link_a_m": [
+        0.03996999999999999,
+        -0.012900000000000003,
+        0.012500032764082339
+      ],
+      "fixed_point_in_link_b_m": [
+        0.0019999999999865056,
+        0.009999999999784116,
+        0.008999966646390476
+      ],
+      "pivot_axis_link_a": [
+        0.0,
+        3.859442235932982e-16,
+        1.0
+      ],
+      "pivot_axis_link_b": [
+        -1.9339751660539148e-16,
+        5.447762067151641e-16,
+        1.0
+      ],
+      "pivot_axis_has_points_inside_both_aabbs": true,
+      "null_parameter_interval": [
+        -0.012727874344321875,
+        0.012727874124368007
+      ],
+      "plausible_kinematic_hinge": true,
+      "collision_filter_authorized": false,
+      "source_cylinder_profiles": {
+        "tool_r_2": [
+          {
+            "radius_m": 0.002499997783710165,
+            "triangle_count": 61,
+            "angular_coverage_deg": 347.9993378609309,
+            "axial_interval_m": [
+              -0.008900032593091516,
+              0.00889996627330265
+            ],
+            "area_m2": 4.1750712749557974e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          },
+          {
+            "radius_m": 0.0037499369612930527,
+            "triangle_count": 44,
+            "angular_coverage_deg": 218.02627694965426,
+            "axial_interval_m": [
+              -0.008900032593091516,
+              0.00889996627330265
+            ],
+            "area_m2": 6.531310331541067e-05,
+            "inward_normal_area_fraction": 0.0,
+            "interpretation": "pin_candidate"
+          }
+        ],
+        "tool_r_3": [
+          {
+            "radius_m": 0.0010000097825818269,
+            "triangle_count": 79,
+            "angular_coverage_deg": 329.9998987905792,
+            "axial_interval_m": [
+              -0.0059999666203134445,
+              0.006000033018333398
+            ],
+            "area_m2": 6.202344946512706e-05,
+            "inward_normal_area_fraction": 1.0,
+            "interpretation": "hole_candidate"
+          }
+        ]
+      }
+    },
+    {
+      "links": [
+        "tool_r_2_base",
+        "tool_r_3"
+      ],
+      "directly_jointed": false,
+      "matrix_rank": 3,
+      "nullity": 3,
+      "max_pivot_coincidence_error_m": 0.017770588564025584,
+      "fixed_point_in_link_a_m": [
+        0.02500851655229119,
+        0.0010350826896071037,
+        0.012500033008554512
+      ],
+      "fixed_point_in_link_b_m": [
+        -0.013258517420283819,
+        0.00616697674837936,
+        0.008999966890862653
+      ],
+      "pivot_axis_link_a": null,
+      "pivot_axis_link_b": null,
+      "pivot_axis_has_points_inside_both_aabbs": false,
+      "null_parameter_interval": null,
+      "plausible_kinematic_hinge": false,
+      "collision_filter_authorized": false
+    }
+  ],
+  "read_only": true,
+  "physics_steps": 0,
+  "limitations": [
+    "AABB inclusion is not proof of an actual pin, material overlap, or a collision-filter rule.",
+    "Rigid/fixed-connected pairs have higher nullity and are not flagged as independent hinges.",
+    "No source or USD geometry, inertia, constraint, or collision mask changed."
+  ]
+}

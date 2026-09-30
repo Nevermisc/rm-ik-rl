@@ -1,0 +1,863 @@
+{
+  "schema": "rm65_native_visible_dynamic_diagnostic_v1",
+  "status": "pass",
+  "checks": {
+    "completed": true,
+    "finite": true,
+    "gravity_all_on": true,
+    "dynamics_all_on": true,
+    "self_collision_on": true,
+    "all_native_colliders_enabled": true,
+    "original_gripper_masses": true,
+    "followers_not_driven": true,
+    "internal_pair_filter_contract": true,
+    "freefall_acceleration_valid": true,
+    "master_reaches_close": true,
+    "mimic_tracks_master": true,
+    "hold_tracking": true,
+    "arm_stays_still": true
+  },
+  "stop_reason": null,
+  "simulation_only": true,
+  "pi05_used": false,
+  "training_ready": false,
+  "candidate": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_precision_001",
+  "source_urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "import_audit_sha256": "19678e30825a7633e75f9087907bbcf84c100540e1abadc8491b7e25f9ff2007",
+  "asset_derivation": {
+    "source": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_linkage_001",
+    "source_import_audit_sha256": "272184e9a32a80b8f1193d578b476af6fbaecb3a02cdb829dec9f4d8f299aa82",
+    "change": "uniform_nine_gripper_mesh_collision_precision_only",
+    "precision_parameters": {
+      "hullVertexLimit": 64,
+      "maxConvexHulls": 128,
+      "minThickness": 0.0001,
+      "voxelResolution": 1000000,
+      "errorPercentage": 1.0,
+      "shrinkWrap": true
+    },
+    "modified_meshes": [
+      "/rm65_4c2_native/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+      "/rm65_4c2_native/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh"
+    ],
+    "self_collision_filters_added": [
+      [
+        "tool_base_link",
+        "tool_l_2"
+      ],
+      [
+        "tool_base_link",
+        "tool_r_2"
+      ],
+      [
+        "tool_l_2",
+        "tool_l_3"
+      ],
+      [
+        "tool_r_2",
+        "tool_r_3"
+      ]
+    ],
+    "inherited_derivation": {
+      "source": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001",
+      "source_import_audit_sha256": "e13c9cb185cf53ef0b900948421f2decbea11e844f069ffab886e178964258f2",
+      "change": "four_source_supported_internal_linkage_pairs_only",
+      "self_collision_filters_added": [
+        [
+          "tool_base_link",
+          "tool_l_2"
+        ],
+        [
+          "tool_base_link",
+          "tool_r_2"
+        ],
+        [
+          "tool_l_2",
+          "tool_l_3"
+        ],
+        [
+          "tool_r_2",
+          "tool_r_3"
+        ]
+      ],
+      "evidence_sha256": "2ddbe507616ae37fa329d57a63658986992a6d5f4fecb831f0f5008a4fb47d75",
+      "evidence": [
+        {
+          "links": [
+            "tool_base_link",
+            "tool_l_2"
+          ],
+          "directly_jointed": false,
+          "matrix_rank": 5,
+          "nullity": 1,
+          "max_pivot_coincidence_error_m": 1.2582426632399134e-16,
+          "fixed_point_in_link_a_m": [
+            1.0163788542150048e-07,
+            -0.029999907625491217,
+            0.08100004618725441
+          ],
+          "fixed_point_in_link_b_m": [
+            1.6306400674181987e-16,
+            -1.5265566588595902e-16,
+            0.012574101638309566
+          ],
+          "pivot_axis_link_a": [
+            0.9999999999662689,
+            7.346410206693243e-06,
+            3.67320510331694e-06
+          ],
+          "pivot_axis_link_b": [
+            -4.791541927135545e-21,
+            3.593656445351659e-21,
+            1.0
+          ],
+          "pivot_axis_has_points_inside_both_aabbs": true,
+          "null_parameter_interval": [
+            -0.012727921287278171,
+            0.0127279230567085
+          ],
+          "plausible_kinematic_hinge": true,
+          "collision_filter_authorized": false,
+          "source_cylinder_profiles": {
+            "tool_base_link": [
+              {
+                "radius_m": 0.0019500001715723454,
+                "triangle_count": 96,
+                "angular_coverage_deg": 330.00005243300745,
+                "axial_interval_m": [
+                  -0.012500117674669832,
+                  0.012499914397214046
+                ],
+                "area_m2": 2.422542357081683e-06,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.002199998790189344,
+                "triangle_count": 96,
+                "angular_coverage_deg": 346.15050741983646,
+                "axial_interval_m": [
+                  -0.012500119706734866,
+                  0.012499916429265397
+                ],
+                "area_m2": 1.383607273142413e-06,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              },
+              {
+                "radius_m": 0.0023999984359287965,
+                "triangle_count": 96,
+                "angular_coverage_deg": 346.1508268948591,
+                "axial_interval_m": [
+                  -0.012500121332392368,
+                  0.012499918054936582
+                ],
+                "area_m2": 1.5093898211964453e-06,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0025999995800550573,
+                "triangle_count": 48,
+                "angular_coverage_deg": 330.00001308391757,
+                "axial_interval_m": [
+                  -0.012450123042988176,
+                  0.012449919765518706
+                ],
+                "area_m2": 9.690185065280801e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0030000002110249983,
+                "triangle_count": 48,
+                "angular_coverage_deg": 345.0002487874783,
+                "axial_interval_m": [
+                  -0.010100125841341512,
+                  0.010099922563885727
+                ],
+                "area_m2": 1.8400781391077201e-06,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              },
+              {
+                "radius_m": 0.003600000577889633,
+                "triangle_count": 48,
+                "angular_coverage_deg": 329.99984397157493,
+                "axial_interval_m": [
+                  -0.010000130676612403,
+                  0.009999927399156618
+                ],
+                "area_m2": 2.6834358963378307e-05,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ],
+            "tool_l_2": [
+              {
+                "radius_m": 0.0014999995689227617,
+                "triangle_count": 65,
+                "angular_coverage_deg": 329.9999296847412,
+                "axial_interval_m": [
+                  -0.008899999622516242,
+                  0.008900000873692426
+                ],
+                "area_m2": 0.00015420862797163698,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.003749996097213423,
+                "triangle_count": 92,
+                "angular_coverage_deg": 218.02249021724487,
+                "axial_interval_m": [
+                  -0.008899999622516242,
+                  0.008900000873692426
+                ],
+                "area_m2": 0.0002458577700059153,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ]
+          }
+        },
+        {
+          "links": [
+            "tool_base_link",
+            "tool_r_2"
+          ],
+          "directly_jointed": false,
+          "matrix_rank": 5,
+          "nullity": 1,
+          "max_pivot_coincidence_error_m": 5.250225931237847e-17,
+          "fixed_point_in_link_a_m": [
+            -1.7008427190097868e-07,
+            0.03000009182887808,
+            0.08100004591443905
+          ],
+          "fixed_point_in_link_b_m": [
+            -4.163336342344337e-17,
+            -1.1275702593849246e-17,
+            0.012499829916149726
+          ],
+          "pivot_axis_link_a": [
+            -0.9999999999662689,
+            -7.346410206850252e-06,
+            -3.67320510331694e-06
+          ],
+          "pivot_axis_link_b": [
+            3.2567511535999404e-21,
+            -4.791541927135544e-21,
+            -1.0
+          ],
+          "pivot_axis_has_points_inside_both_aabbs": true,
+          "null_parameter_interval": [
+            -0.012728160994665411,
+            0.01272768104441548
+          ],
+          "plausible_kinematic_hinge": true,
+          "collision_filter_authorized": false,
+          "source_cylinder_profiles": {
+            "tool_base_link": [
+              {
+                "radius_m": 0.0019500001715611584,
+                "triangle_count": 96,
+                "angular_coverage_deg": 330.0000682641395,
+                "axial_interval_m": [
+                  -0.012500185749549347,
+                  0.012499845582686506
+                ],
+                "area_m2": 2.422542357081683e-06,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0021999972894089503,
+                "triangle_count": 96,
+                "angular_coverage_deg": 346.15290450982144,
+                "axial_interval_m": [
+                  -0.012500187734213852,
+                  0.012499847567337328
+                ],
+                "area_m2": 1.3836072731424131e-06,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              },
+              {
+                "radius_m": 0.0023999969351304745,
+                "triangle_count": 96,
+                "angular_coverage_deg": 346.1531318285717,
+                "axial_interval_m": [
+                  -0.01250018932188525,
+                  0.012499849155036092
+                ],
+                "area_m2": 1.5093898211964453e-06,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.00259999958004525,
+                "triangle_count": 48,
+                "angular_coverage_deg": 329.9999802210568,
+                "axial_interval_m": [
+                  -0.012450190994549686,
+                  0.012449850827700528
+                ],
+                "area_m2": 9.690185065280801e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0030000003918328553,
+                "triangle_count": 48,
+                "angular_coverage_deg": 344.99984516462854,
+                "axial_interval_m": [
+                  -0.0101001942860382,
+                  0.010099854119189042
+                ],
+                "area_m2": 1.8400781391077201e-06,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              },
+              {
+                "radius_m": 0.0036000005778592517,
+                "triangle_count": 48,
+                "angular_coverage_deg": 329.99992014489436,
+                "axial_interval_m": [
+                  -0.010000198438544435,
+                  0.00999985827168159
+                ],
+                "area_m2": 2.683435896337831e-05,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ],
+            "tool_r_2": [
+              {
+                "radius_m": 0.0014999995689227558,
+                "triangle_count": 65,
+                "angular_coverage_deg": 329.9999296847429,
+                "axial_interval_m": [
+                  -0.00890016912123526,
+                  0.008899829745158901
+                ],
+                "area_m2": 0.00015420861386856752,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.003749996097213396,
+                "triangle_count": 92,
+                "angular_coverage_deg": 218.02249021724901,
+                "axial_interval_m": [
+                  -0.00890016912123526,
+                  0.008899829745158901
+                ],
+                "area_m2": 0.00024585774726668423,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ]
+          }
+        },
+        {
+          "links": [
+            "tool_l_2",
+            "tool_l_3"
+          ],
+          "directly_jointed": false,
+          "matrix_rank": 5,
+          "nullity": 1,
+          "max_pivot_coincidence_error_m": 1.471961680016039e-17,
+          "fixed_point_in_link_a_m": [
+            0.03996999999999999,
+            0.012899999999999997,
+            0.0125740106298339
+          ],
+          "fixed_point_in_link_b_m": [
+            0.0020000002718036838,
+            -0.010000000543310539,
+            0.009000091440348666
+          ],
+          "pivot_axis_link_a": [
+            -0.0,
+            3.1284749168604824e-16,
+            -1.0
+          ],
+          "pivot_axis_link_b": [
+            2.840407240432425e-16,
+            3.006479303972797e-16,
+            -1.0
+          ],
+          "pivot_axis_has_points_inside_both_aabbs": true,
+          "null_parameter_interval": [
+            -0.012727791649358566,
+            0.012727792581857592
+          ],
+          "plausible_kinematic_hinge": true,
+          "collision_filter_authorized": false,
+          "source_cylinder_profiles": {
+            "tool_l_2": [
+              {
+                "radius_m": 0.0024999977837101644,
+                "triangle_count": 61,
+                "angular_coverage_deg": 347.99933786093067,
+                "axial_interval_m": [
+                  -0.008900091882168091,
+                  0.008899908614040577
+                ],
+                "area_m2": 4.1750710634030616e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0037499369612930544,
+                "triangle_count": 44,
+                "angular_coverage_deg": 218.02627694965423,
+                "axial_interval_m": [
+                  -0.008900091882168093,
+                  0.008899908614040579
+                ],
+                "area_m2": 6.531310000956452e-05,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ],
+            "tool_l_3": [
+              {
+                "radius_m": 0.0010000098200510703,
+                "triangle_count": 79,
+                "angular_coverage_deg": 329.99988683135916,
+                "axial_interval_m": [
+                  -0.005999908224375208,
+                  0.006000091414271633
+                ],
+                "area_m2": 6.20234500571185e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              }
+            ]
+          }
+        },
+        {
+          "links": [
+            "tool_r_2",
+            "tool_r_3"
+          ],
+          "directly_jointed": false,
+          "matrix_rank": 5,
+          "nullity": 1,
+          "max_pivot_coincidence_error_m": 1.471961680016039e-17,
+          "fixed_point_in_link_a_m": [
+            0.03996999999999999,
+            -0.012900000000000003,
+            0.012500032764082339
+          ],
+          "fixed_point_in_link_b_m": [
+            0.0019999999999865056,
+            0.009999999999784116,
+            0.008999966646390476
+          ],
+          "pivot_axis_link_a": [
+            0.0,
+            3.859442235932982e-16,
+            1.0
+          ],
+          "pivot_axis_link_b": [
+            -1.9339751660539148e-16,
+            5.447762067151641e-16,
+            1.0
+          ],
+          "pivot_axis_has_points_inside_both_aabbs": true,
+          "null_parameter_interval": [
+            -0.012727874344321875,
+            0.012727874124368007
+          ],
+          "plausible_kinematic_hinge": true,
+          "collision_filter_authorized": false,
+          "source_cylinder_profiles": {
+            "tool_r_2": [
+              {
+                "radius_m": 0.002499997783710165,
+                "triangle_count": 61,
+                "angular_coverage_deg": 347.9993378609309,
+                "axial_interval_m": [
+                  -0.008900032593091516,
+                  0.00889996627330265
+                ],
+                "area_m2": 4.1750712749557974e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              },
+              {
+                "radius_m": 0.0037499369612930527,
+                "triangle_count": 44,
+                "angular_coverage_deg": 218.02627694965426,
+                "axial_interval_m": [
+                  -0.008900032593091516,
+                  0.00889996627330265
+                ],
+                "area_m2": 6.531310331541067e-05,
+                "inward_normal_area_fraction": 0.0,
+                "interpretation": "pin_candidate"
+              }
+            ],
+            "tool_r_3": [
+              {
+                "radius_m": 0.0010000097825818269,
+                "triangle_count": 79,
+                "angular_coverage_deg": 329.9998987905792,
+                "axial_interval_m": [
+                  -0.0059999666203134445,
+                  0.006000033018333398
+                ],
+                "area_m2": 6.202344946512706e-05,
+                "inward_normal_area_fraction": 1.0,
+                "interpretation": "hole_candidate"
+              }
+            ]
+          }
+        }
+      ],
+      "global_self_collision_unchanged": true,
+      "external_collisions_unchanged": true,
+      "geometry_mass_drives_unchanged": true,
+      "physics_steps": 0,
+      "hardware_transmission_validated": false,
+      "source_follower_limit_equality": false,
+      "rationale": "Coaxial source holes plus fixed pivot coincidence throughout 19 poses; diagnostic internal linkage abstraction, not permission from task/contact success."
+    },
+    "unrelated_stage_contract_equal": true,
+    "source_urdf_unchanged": true,
+    "physics_steps": 0,
+    "hardware_transmission_validated": false,
+    "source_follower_limit_equality": false,
+    "rationale": "Source triangles do not cross at sampled angles; previous convex hulls overlap increasingly. Uniform sub-mm cooking precision tests approximation fidelity, not task-specific geometry changes."
+  },
+  "physics_steps": 2460,
+  "physics_dt_s": 0.008333333333333333,
+  "gravity_m_s2": [
+    0,
+    0,
+    -9.81
+  ],
+  "measured_freefall_m_s2": -9.810000658035278,
+  "runtime": {
+    "body_mass_kg": {
+      "base_link": 1.8619999885559082,
+      "link_1": 1.5099999904632568,
+      "link_2": 1.652999997138977,
+      "link_3": 0.7260000109672546,
+      "link_4": 0.6710000038146973,
+      "link_5": 0.6470000147819519,
+      "link_6": 0.10400000214576721,
+      "tool_base_link": 0.17455999553203583,
+      "tool_r_1": 0.00863999966531992,
+      "tool_l_1": 0.00863999966531992,
+      "tool_l_2_base": 0.0005236745928414166,
+      "tool_r_2_base": 0.0005236745928414166,
+      "tool_r_3": 0.009669999592006207,
+      "tool_l_3": 0.009669999592006207,
+      "tool_l_2": 0.011989999562501907,
+      "tool_r_2": 0.011989999562501907
+    },
+    "gravity_disabled": [],
+    "kinematic_bodies": [],
+    "collision_meshes": [
+      {
+        "path": "/World/Robot/base_link/collisions/base_link/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_1/collisions/link_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_2/collisions/link_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_3/collisions/link_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_4/collisions/link_4/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_5/collisions/link_5/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_6/collisions/link_6/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      }
+    ],
+    "self_collision": [
+      true
+    ],
+    "pair_filters": [
+      [
+        "tool_base_link",
+        "tool_l_2"
+      ],
+      [
+        "tool_base_link",
+        "tool_r_2"
+      ],
+      [
+        "tool_l_2",
+        "tool_l_3"
+      ],
+      [
+        "tool_r_2",
+        "tool_r_3"
+      ]
+    ],
+    "actuators": {
+      "arm": [
+        "joint_1",
+        "joint_2",
+        "joint_3",
+        "joint_4",
+        "joint_5",
+        "joint_6"
+      ],
+      "gripper_master": [
+        "tool_gripper_joint"
+      ]
+    },
+    "follower_stiffness": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "gripper_mass_max_error_kg": 4.467964165311145e-09
+  },
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "gripper_joint_order": [
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_l_2_joint",
+    "tool_l_3_joint",
+    "tool_r_2_joint",
+    "tool_r_3_joint"
+  ],
+  "max_hold_error_rad": 0.004850857257843066,
+  "max_mimic_error_rad": 5.063206827235489e-06,
+  "self_contact_peak_N": {
+    "tool_r_1": 0.0,
+    "tool_l_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_l_2": 0.0,
+    "tool_r_3": 0.0,
+    "tool_l_3": 0.0
+  },
+  "self_contact_filter_order": [
+    "tool_base_link",
+    "tool_r_1",
+    "tool_r_3",
+    "tool_l_1",
+    "tool_l_3",
+    "tool_r_2_base",
+    "tool_r_2",
+    "tool_l_2_base",
+    "tool_l_2"
+  ],
+  "self_contact_pair_peaks_N": {
+    "tool_r_1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_r_2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_2": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_r_3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "sensor_runtime_max_shape_capacity": {
+    "tool_r_1": 128,
+    "tool_l_1": 128,
+    "tool_r_2": 128,
+    "tool_l_2": 128,
+    "tool_r_3": 128,
+    "tool_l_3": 128
+  },
+  "final_sample": {
+    "step": 2460,
+    "phase": "hold_open",
+    "q_target_rad": 0.0,
+    "gripper_q_rad": [
+      8.869784073883835e-11,
+      -5.05798516314826e-06,
+      -3.0430408060055925e-06,
+      -2.633772510307608e-06,
+      -3.516161541483598e-06,
+      5.347385867437993e-10
+    ],
+    "mimic_error_rad": 5.058073860988999e-06,
+    "tracking_error_rad": 5.05798516314826e-06,
+    "finite": true,
+    "max_joint_velocity_rad_s": 0.006959245540201664,
+    "max_arm_error_rad": 0.00029223263845779,
+    "contacts_N": {
+      "tool_r_1": 0.0,
+      "tool_l_1": 0.0,
+      "tool_r_2": 0.0,
+      "tool_l_2": 0.0,
+      "tool_r_3": 0.0,
+      "tool_l_3": 0.0
+    },
+    "body_positions_m": {
+      "tool_r_1": [
+        0.012627544812858105,
+        -0.03999975323677063,
+        1.0294946432113647
+      ],
+      "tool_l_1": [
+        0.012627626769244671,
+        0.040000222623348236,
+        1.0294944047927856
+      ],
+      "tool_r_2": [
+        0.01262842770665884,
+        -0.02999974600970745,
+        1.0314946174621582
+      ],
+      "tool_l_2": [
+        0.012702485546469688,
+        0.030000243335962296,
+        1.0314944982528687
+      ],
+      "tool_r_3": [
+        0.009145285002887249,
+        -0.05289963632822037,
+        1.0694661140441895
+      ],
+      "tool_l_3": [
+        0.009145205840468407,
+        0.0529005266726017,
+        1.0694658756256104
+      ]
+    }
+  },
+  "limitations": [
+    "Empty-hand closure only; no grasp or household/policy success.",
+    "Convex decomposition is an approximation; no hardware calibration."
+  ]
+}
