@@ -353,3 +353,155 @@
 - .043 完整 CPU 回归 217 passed。新增 89 文件归档 49,684,480 bytes，tar SHA256 36d52032552b287de31baff173c862bffd3a172f2a78ff135e6c494c5b05ef34，索引 273d7a1660ecee39a610959688478d0be22dcebe1811c2715b7ec6ef834aa4ea；Windows Get-FileHash 匹配。保留源、失败/通过运行、实际凸包和官方参考；不等同完整恢复运行测试。
 - 收尾检查：GPU 计算进程为空，无策略服务/训练/Isaac Python 动作进程，8016/8017 无监听；仍有已完成 GNOME 终端 bash 等待 Enter，不是工作任务，未强关用户桌面。
 - 当前审计/代码与证据将精确提交，不纳入原有 results/rm65_pi05_v3_backup_gate.json 修改、其他历史未跟踪文件、OpenPI examples/libero/Dockerfile 改动，或原始数据/权重/网格。提交与最终 Git 状态在根入口记载。
+
+## household-generalization.045 — 新对话核验并冻结原生接触台架诊断
+
+- 用户明确要求从统一入口优先第1项继续；已完整读取入口，现场 HEAD/origin/main 均 d4bbf0e。原有 v3_backup_gate 修改、84个未跟踪文件和 OpenPI 修改保留；GPU 无计算任务，无训练/策略服务。本轮不沿用旧截止、不恢复心跳。
+- 最终USD SHA a250f43ad92f878565a40c68b1caf1f2dea51c10f7782a7c05d4cba9c52ee5ce；5层USD、16源网格、源URDF身份全部匹配。最新close_005仅空手PASS，pi05_used=false、training_ready=false。
+- 问题：旧零腕姿手指朝上，掌部承托可能冒充夹持；仅有刚体对接触也不能证明原内指面。
+- 方法：新独立runner与冻结协议，水平腕姿、20/35/50 mm三宽、另两维20 mm、统一20g/摩擦0.5/单1 Nm主驱动及原5随动。窄支撑先下撤40 mm，再继续下撤并移出落物路径，总下降100 mm，支撑底距接盘顶保持10 mm间隙；物体初始化后不写pose/velocity、不加外力。
+- 每物理步保存所有机器人刚体→物体的接触、原始逐点位置/力/分离距离；按实际link姿态计算点到原STL内面三角距离。公差2.1 mm来自原生/对象各1 mm接触偏距及0.1 mm数值余量，明确不是硬件标定。
+- 运行前核对runtime源限位、原质量、重力、自碰撞与仅4对内部过滤；2秒末段连续双面接触、无掌/支撑承托、稳定保持，开手后下落并静止才可报本台架诊断通过。固定手臂撤支撑不算主动离地、搬运或日用品/策略验收。
+- 验证与结果：新增纯CPU几何/判定反例测试，正式结果待现场运行记录；诊断数据排除训练。新文件原始证据将独立备份，源资产及v2-v5不改。泛化仍只有有限宽度物理检查，不能代替多对象/多腕姿验证。
+
+## household-generalization.046 — 首次接触台架在闭合前中止，补足手臂异常诊断
+
+- .045 新增CPU几何/判定74测试通过；可见native_contact_001三尺寸同场，从实验室GNOME终端执行。runtime限位误差3.21e-7 rad，质量/重力/16原生Mesh/4过滤/单主动5被动/18接触列实际路径全部通过；落体-9.810000658 m/s²。
+- 结果：settle_open第31步，三臂最大姿态误差约.101032 rad触发0.1 rad中止；物体仍由支撑承托，机器人→物体接触全为0，mimic差约2.44e-5。未到闭合，不计任何抓持成功。截图与telemetry保留，运行结束而非仍在工作。
+- 问题：首次telemetry只有arm最大误差，尚不足以区分目标写入/关节控制/内部碰撞原因。
+- 方法：仅加全关节实际/目标/力矩、源全臂质量和6臂link自接触分解；完整协议步数门禁、时间戳连续门禁和源码快照同时补齐。原驱动/几何/摩擦/对象/阈值不改，用全新002作有依据的有限复查。
+- 泛化风险：此时未证明新腕姿可保持，更未到接触；不因已能运行脚本、块体平稳或重力PASS上调部署状态。
+
+## household-generalization.047 — 直接读回PhysX驱动，区分估算力矩与实际输入
+
+- .046新增CPU测试80项通过。002仍于step31中止，实际目标及初始joint5=pi/2正确；joint3偏差.10103、joint5偏差.08603 rad。全臂源质量与运行时一致；六臂link对所有机器人body自接触全0。
+- CPU源AABB检查水平姿态非相邻最小间隙28.9997 mm；源COM重力矩主要约1.145 Nm，与stiffness1000下.1 rad偏差不相称，不能认作普通承重不足。
+- 问题：IsaacLab applied_torque对ImplicitActuator是估算量，不足以代表引擎真实驱动力。
+- 方法：仅增加PhysX原生DOF目标位置/速度/外加力、实际刚度阻尼maxForce以及USD Drive API属性读回；不改物理设定，003有限复查。继续保留失败原始证据，不添加过滤、不增力、不训练。
+
+## household-generalization.048 — 手臂驱动语义的单因素对照
+
+- 003再次于31步中止，但补证PhysX位置目标与速度目标正确，实际gain=1000/100、maxForce=300；没有额外显式关节力输入。静态最终USD及运行场景均确证6臂DriveAPI=acceleration，主夹爪=force。
+- 更正.047解释：acceleration驱动按惯量归一化，不能用force型tau/k直接估算其偏差；ImplicitActuator.applied_torque是PD估算而非引擎实际力。后续字段显式命名implicit_estimated。
+- 依据安装版 urdf_converter_cfg.py:71、Articulation._process_actuators、actuator_pd.py:130：默认推荐force；配置gain/limit不会改继承的type。此差异支持对照，但尚未证明是全部根因。
+- 方法：冻结protocol_v2，仅将临时场景18个关节（3臂×6轴）acceleration改force，在sim.reset前逐属性对比确认其余scene属性/关系不变；不保存源USD。原1000/100、300 Nm诊断上限、1 Nm夹爪、刚性mimic/限位/质量/几何/碰撞/摩擦与v1一致。300 Nm仍是继承的台架控制设定，不是厂家标定。
+- 执行004可见有限对照；如果姿态保持恢复，再看原面接触/无支撑保持/自然释放，不能把姿态稳定直接写成抓取通过。
+
+## household-generalization.049 — 跨尺寸原面接触已观察，保持/自然释放全部失败
+
+- .048完整CPU回归297 passed。004可见场景完成2640步，运行时原身份/全质量/限位/重力/16原生Mesh/单主动5随动/4内部过滤/接触列顺序/force场景类型合同均通过；原始USD未保存或改变。
+- 结果：20/35/50 mm均出现双侧原STL内面邻近且法向一致的实际接触，但均未保持至撤支撑，更未完成开手自然释放；三档最终均FAIL。脚本完成不是物理通过，技术采样gate通过也不是外部接触可信度认证。
+- 原因线索：负接触separation约6–11 mm；原面法向一致性先丢失，随后离面/翻转/掉落。不能先归因摩擦不足或物体不适配，更不能放宽2.1mm/.95原面阈值、加力、缩物体、加垫或禁碰撞。
+- 方法：只读取已保存逐物理步证据，绑定哈希，审查有力接触的源表面/实际块体几何关系；不重开仿真来拍照，不新增盲试。完整分析与独立备份结果随后补充。
+- 泛化：仍无原生稳定夹持、主动离地/搬运、新日用品π0.5闭环或新训练。下一个物理试验必须依据外部碰撞/加载传动原因审查，诊断块数据不得进入训练。
+
+- .049完整结果补充：7920条逐步记录，三档各2640步。20/35/50mm合格双面接触区间558–666/484–580/412–506（最长.908/.808/.792s）；首次下落step787/675/628，首次落盘804/690/642，均早于撤支撑961。没有其他机器人body托物证据；最大arm误差.00299/.00380/.00473 rad。004分析报告绑定telemetry/manifest/protocol/code SHA。
+- 离线独立几何计算：各档最负separation帧776/659/588中，按同帧point_link/world重建l3/r3实际pose（6组rank3，残差<3.6nm）；源有限内面三角确实进入实际物体OBB。严格内部见证距物体最近表面2.2–8.4mm是保守见证余量，不是精确穿透深度。不能把post-step几何和接触生成瞬间separation直接等同；重建依赖日志坐标转换，未标定硬件，也未区分cooked/solver/mimic根因。
+- 新增audit_native_external_contact_geometry.py及5个合成正反例；完整回归302 passed。没有再开仿真、调力、换物或训练。全部源层/URDF/STL哈希及既有v3修改哈希不变，84旧未跟踪路径保留，OpenPI status不变，GPU compute空、暂存区空。
+- 保存计划：本次未提交修改与所有001–004运行/失败、3个选定几何帧和最终候选纳入新003备份；独立receipt另存两端（归档无法包含自己的后验哈希receipt）。完整发布包解包重建运行仍未验证。
+
+- .049保全完成：003归档93文件、160,860,160 bytes，tar SHA256 1077004b5d1b29cddc683d55262f7d66baa988990c074088ab9af54fe5fe1cc5，索引SHA 3cc309a26cbfbb64af8976d866e0a34890e57ff5912378d2c5d61ba5b58acbc9；Windows异机副本二者匹配，且逐成员93个内容哈希/大小/路径全部核验。receipt另存两端。完整解包重建运行未验证。
+- 当前Git仍d4bbf0e，.045–.049新增改动未提交/推送，暂存区空；旧checkpoint和已有脏文件保留，未恢复任何rm65定时任务。唯一根交接入口已更新并归档其改前版本；Windows镜像文档改前副本也保留。
+
+## household-generalization.050 — 接续保存的失败姿态，定位凸包与求解器
+
+- 用户要求交接完成后继续工作；已再次完整读取唯一根入口，现场Git仍d4bbf0e，最新004三尺寸全部失败，无GPU物理/训练/策略进程，旧修改与003独立备份均保留。不恢复旧定时任务。
+- 问题：源STL内面进入实际物体已确认，但尚未区分cooked几何、负接触力的API语义、TGS速度迭代和加载mimic约束；不能把毫米级交叠归咎于摩擦或简单加力。
+- 方法：只读核对precision_001与source_limits_001的mesh/变换/分解参数身份；在保存实际姿态上计算实际凸包与块体OBB交叠及源内面覆盖。并核对安装版接触力与求解器说明，下一次可见有限对照必须有依据且只改变一个物理变量。
+- 新审计原始输出使用独立目录，旧报告不覆盖；本轮前置文档与Git状态保存于outputs/native_contact_resume_002。结果待后续补充。尚无可信原生保持、自然释放、主动搬运或新π0.5验收，诊断数据排除训练。
+
+- .050阶段结果：保存cooked与最终候选的网格/拓扑/mesh-to-body/精度参数及来源哈希匹配；保存失败姿态每侧16–45个凸包与块体OBB重叠，内部见证球半径0.86–2.08mm。需保留“004运行中未再导出cook”及导出polygon平面/vertices约0.16mm差异的限制，正在用vertices严格支持平面独立复核；当前证据不能仅以源面无碰撞覆盖解释掉落。
+
+## household-generalization.051 — 仅改变动态接触的求解顺序
+
+- 原因依据：已装IsaacLab PhysxCfg默认solve_articulation_contact_last=False；Omni Physics107.3官方稳定性指南明确建议在抓持刚性/mimic竞争约束与持续穿透时尝试后求解动态接触。TGS的8速度迭代warning只是版本行为提示，本次保留32/8，不把两因素混改。
+- 方法：protocol_v3相对v2只新增scene求解顺序True，生成临时场景前后逐属性/关系对比，只有physxScene:solveArticulationContactLast可变；sim.reset后读回并保存scene运行属性。源USD不保存，源几何、质量、惯量、所有力上限/增益/摩擦、时间步和通过阈值不改。
+- 仪器补充：每步直接记录l3/r3实际pose、物体线速度、接触对世界向量，减少后续对坐标拟合/模长推断的依赖，不产生额外控制或外力。保留force标量正负，不能仅凭负值断言吸引。
+- 计划：全新005在GNOME终端可见执行同三尺寸有限协议。若改善，只支持求解顺序敏感；仍需检查原面接触、无支撑保持、自然释放、实际穿透和跨姿态/搬运，不直接认证原生物理或π0.5部署。诊断数据排除训练。
+- 官方依据：https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/dev_guide/guides/articulation_stability_guide.html#articulation-solver-order 。
+
+- .050交叉复核补充：导出vertices重建严格ConvexHull支持平面后，6侧仍16–45个SAT交叠，共同内部球最大半径0.862–2.120mm；支持平面误差<7e-18m。不是精确穿透深度；原001与新crosscheck均保留。5个新增合成测试通过。
+- .050符号审计：004内指面负force标量与官方actor顺序符号语义一致；signed scalar×normal合成范数与已保存pair norm误差<1.64e-6N。不能用scalar<0诊断吸引。官方当前源码不等同已装107.3二进制逐字核验，版本边界明确记入报告。
+
+## household-generalization.052 — 保留全部接触点，提高观测计算效率与归档容量可控性
+
+- 问题：005出现持续数百点原生接触，每点重复GPU姿态拷贝及三角距离验证使22秒物理耗时数分钟；完整逐点trace已超过旧失败试验体量。不得靠丢点、降采样或只存净力缩减证据。
+- 方法：新批量点到有限三角面算法保持同一闭合三角集合、欧氏距离和2.1mm阈值；每指每步只取一次实际pose，仍保留每一原始接触及局部坐标/法向。3项合成边/顶点/多面/刚体变换/退化反例通过；6组已存失败帧945点逐个距离与旧标量实现完全一致，阈值分类相同，独立小报告保存。005继续使用启动时冻结的.051代码，不中途替换执行逻辑。
+- 归档：保留默认500MiB及既有允许目录范围，新增显式maximum-source-mib（硬上限2GiB、正整数），在生成归档前核对总源大小；完整接触trace需要时显式使用1024MiB。拒绝覆盖/路径逃逸/特殊文件/逐成员哈希要求不变，不纳入checkpoint。新增参数合法性和超额前拒写测试。
+- 泛化影响：只改观测效率和保全，不改物理、判据或训练准入。新脚本仍需完整CPU回归及运行前一致性检查；005最终保持/释放结果尚待完整报告。
+
+- .051最终结果：005完成2640步，三档冻结判定全部PASS。无支撑连续4s，竖直漂移0.188/0.145/0.291mm；开手后约150mm自然下落、末段无机器人接触、六夹指实测复开。持续双面10.758/11.975/13.175s，首次drop均在reopen；004全部早于撤支撑。最差有力raw separation降至−0.043/−0.076/−0.099mm；最大mimic .007744/.010260/.016921rad，arm .003309/.005320/.008071rad。
+- .051结果边界：005保持段Z记录值不变，但末步速度峰值仍.036/.044/.042m/s，不能宣称速度为零；已保留两项独立量。contact-last单因素结果支持求解顺序参与旧失败，不证明唯一根因或完全标定。原面几何按直接pose检查6选帧12组均0相交三角，保守间隙0.118–0.604mm；仍非全轨迹/cooked全检。
+
+## household-generalization.053 — 冻结实际主动抬升、搬移与释放诊断
+
+- 问题：撤支撑后的固定腕保持不等同主动离地/搬运；必须让机械臂带物运动，不能把命令轨迹或空手移动当抓持成功。
+- 规划：沿源几何用j5从pi/2减0.15rad主动抬约42.44mm，再j1转0.23rad，XY约64.89mm，抬起姿态保持后直接开手。原3尺寸/20g/摩擦/单主驱动/5随动、32/8求解次数、dt和contact-last设定均继承005；不写物体pose/velocity/外力，不改任何源USD/STL或惯量。源网格对支撑/catch的有限CPU路径检查与3档落盘足迹记录已保存，计划不是动态证据。
+- 判定：新增独立active verdict，11阶段3360步精确连续，严格原门禁之外要求实际palm/object姿态；全部主动阶段连续原双面接触，Support、Catch、其它机器人承托均<.01N，相对palm平移/转动偏移<=5mm/5deg；末1s抬升>=30mm、搬移>=50mm、腕姿旋转>=.10rad。开手下降参考最后真实持物高度，仍>=50mm，并要求末段静止/无机器人接触/实际复开。空手移动、提前掉落、掌托/接盘承托、缺帧、相对滑移等103项反例/边界测试通过。
+- 实施：阶段目标只允许active_lift/active_transport两处改变，用smoothstep且解析峰值速度<=原0.5rad/s；arm跟踪误差改为对当步命令，避免运动本身被误报偏差。全部原始接触继续逐点保存；相机/HUD避让设置窗以便看清三组。005/规划/几何先验报告SHA绑定v4配置；全新006可见运行，代码/配置快照完整保留。
+- 泛化风险：仅单路径每尺寸一次脚本台架，不是随机对象、未见类别、复杂轨迹或π0.5闭环；原COM/硬件传动/300Nm和1Nm诊断上限仍未硬件标定。training_ready、pi05_used、deployment_accepted保持false。旧训练入口和checkpoint不动。
+
+- .053冻结前独立审阅补正：搬运位移改从hold_lift末帧计算，防止把抬升阶段的横移充作第二段搬运；新增“lift已横移6cm、transport零移动”反例拒绝。外层重力/完成/步数门禁失败同时清active_lift_validated和transport_validated，防止失败报告残留成功子标记。主动判定104测试，完整CPU回归427 passed；接触批处理坐标、空接触数组、源资产无修改和运动接线经独立只读审阅。
+
+## household-generalization.054 — 三档实际带物运动通过，保留诊断边界并独立保全
+
+- 006完成3360物理步，三档主动判定全部PASS，冻结源快照判据逐字段复算完全一致；gravity/runtime/完整步数外层gate复核通过。每档720/720主动帧持续双侧原面接触，Support/Catch/其它机器人承托全部0。
+- 实际物体最小抬升41.782/41.806/41.845mm，第二段以hold_lift末为基准横移63.753/63.784/63.835mm，开手后约192mm自然下落，首次掉落均发生在reopen。该抬升包含腕转.148rad，掌中心只升约21mm，不表述为纯平移。
+- 独立矩阵重算相对掌部最大平移漂移0.768/1.147/1.208微米，旋转<=5.514e-5rad；是本仿真记录中的理想刚性接触结果，不是硬件精度认证。主动有力接触separation最差−0.0366/−0.0713/−0.0917mm，原面邻近距离最大约1.11mm、法向一致性>=.999557。全程无非有限值/缓冲溢出，arm跟踪最大约.01649rad，mimic仍<=.016922rad。
+- 可视化：006桌面终端真实可见，三组与撤支撑/抬升/横移/释放的phase截图及逐步记录保存，设置窗/HUD已避让。最后completed_physics_paused再退出；现场GPU compute空、无本任务物理/训练/服务和8016/8017监听。无旧定时任务恢复。
+- Git/源保全：HEAD仍d4bbf0e，暂存区空，84个旧未跟踪路径和旧v3改动SHA不变，OpenPI HEAD/status不变；全部最终源USD层、URDF、16网格哈希不变。427项CPU回归通过。既有checkpoint未覆盖，本轮代码仍未提交/推送。
+- 独立后续草案NATIVE_DATA_CONTRACT_DRAFT_ZH.md核对5资产/5纹理及24引用哈希；五对象全为已经暴露的开发资产，没有伪造unseen split；旧camera_v2不能继承native视野，旧dt1/240/stride12=20Hz与native1/120不同。state_v1接线、实际时间、相机及控制合同还待冻结，training_allowed=false。
+- 归档计划：新004批次显式2GiB上限保留005/006约1.5GiB完整逐点trace、全部本批只读审计、代码/配置/日志快照；逐成员及独立Windows副本核验后记录receipt。旧001–003保留，完整发布包解包重建运行仍未验证。脚本带物通过不等于π0.5部署或家庭泛化。
+
+- .054保全完成：004归档473文件、1,611,929,600 bytes，tar SHA256 0b44d48478efcc0a0588c46da5c2199fa46223a041970d9aa9bef7b63029d12b，index SHA256 c9b00c83cb145f290a31ffb1b46f6af29910d849ef72addef9df56318f475a83；Windows独立副本逐成员473个哈希/大小/路径/类型均通过。原始总字节1,611,074,176；单批显式2GiB边界未超限。后验receipt另存两端；当前日志/状态/根入口随receipt更新并同步两端。完整解包重建运行仍未验证。
+
+## household-generalization.055 — 从诊断力矩上限回到源六轴控制合同
+
+- .054已完整双端保全后继续下一项，而非停止在交接。问题：此前六臂统一300Nm仅台架诊断设置，源RM65 URDF实际effort为60/60/30/10/10/10Nm；不能将300Nm悄悄作为新训练合同。
+- 方法：新protocol_v5仅六轴maxForce由300Nm改为哈希绑定源URDF逐轴effort；runner在启动前要求6值与源完全一致，sim.reset后读PhysX DOF maxForce逐轴验证。六轴force语义/gain1000/100/速度.5、master1Nm与原随动、contact-last、32/8、dt、全部资产/材料/运动/判据均不改。源USD不保存。
+- 计划：全新007可见执行同3360步主动路径，检查在来源一致的限幅下是否仍带物保持/转腕抬升/独立搬移/释放。若失败保留反例，不靠恢复300Nm宣布新合同通过。源effort是来源依据，不是实测硬件标定；gripper/COM/安装和真实场景外推限制仍保留。
+
+## household-generalization.056 — 独立native控制映射及state文件身份合同
+
+- 问题：旧入口沿用pad/legacy模型，主关节实际反馈、0.82rad诊断闭合目标与归一化1，以及模型内部delta转换不能混为一谈；仅凭哈希格式也无法确认实际加载资产。
+- 方法：新增native_control_contract_v1与独立纯CPU mapper，六臂弧度绝对目标、主关节q/.865状态与u*.865动作，按名字读取完整12关节，输出仅6轴+1master。原五随动仍被动，不向其分派命令。反馈浮点限位残差<=1e-6rad保留而不clip，大于阈值或mimic>=.03rad拒绝。动作限位/归一化范围/明确命令时间间隔下的目标变化率不合法均拒绝。
+- 控制数值绑定实际源URDF哈希/逐轴限位/effort，force/contact-last与已披露gain、solver等显式保存；policy control period暂未冻结、训练与执行准入均false。state checker另做实文件身份校验，并明确其未验证控制映射语义，避免将文件哈希相同当语义已验证。
+- 验证与风险：新增CPU正反例及007完整结果随后记录；此接口不直接启动策略，不更改旧train/norm/serve，不改变旧权重语义。source数值不是硬件标定，state与相机/时间/数据合同尚未整体贯通。
+
+### .055/.056 完整结果补记
+
+- 007实际3360步、三档全通过；006/007除六臂caps及新增核验字段外runtime无剩余差异，14项关键运动/接触/误差指标相同。独立从007自身snapshot和完整telemetry复算所有冻结判据与外层gravity gate，不以相同report hash误认为复用了结果。telemetry SHA 0d4554d897ff80cda9ad10174a553d759baafcd3aeb2b2143aa6e0df694175c3。
+- native mapper初版22项测试与007共10080行实际反馈/动作复算通过；独立review发现loader漏核对policy_training_admitted=false，已补拒绝负例，现23项通过。旧mapping_001保留绑定旧mapper hash，修正后另存mapping_002，不覆写历史报告。
+- state checker独立92项CPU通过；实际文件/manifest成员hash与repo/norm/checkpoint检查，结构与身份一致也不会打开train/norm/serve/execution。此模块尚未接旧入口，控制映射语义由另一个validator负责，不能以inspection_status=pass授予准入。
+
+## household-generalization.057 — 首个真实开发物体与原生固定双相机
+
+- 问题：块体台架不能证明真实日用品表面或native相机可见性。五个已有对象均已开发暴露；本轮选择源网格中央约17.3mm横截面的记号笔做有限检查，不声称unseen。
+- 方法：独立新runner和protocol，源marker package/texture字节、内建0.01坐标变换/20g假设质量/0.7与0.5摩擦保留，spawn scale1。原生robot source、force+contact-last、源arm cap与active路径保持。竖置约120.9mm笔，实际源网格计算支撑高度/底点；30mm支撑三段先下40mm、横移150mm再下60mm，避免穿过接盘；接盘Y扩大到300mm仅容纳翻倒，不能作active承托通过。
+- 新camera_rig_native_v1只改已披露固定腕forward为[.03,-.18,.20]，external/optics沿用旧配置，新身份不覆盖v1/v2。每阶段保存实际RGB、K、实际外参、PNG/原数组hash、传感器buffer计数和物理时刻；8次render refresh不推进physics，不能把缓存计数说成独立renderer frameID。无物体真值瞄准，无生成图或替代帧。
+- 验证计划：可见桌面启动、读取真实双相机帧、完整native接触/运动/自然释放与runtime COM/inertia/cooked记录。RGB基本检查只证实非空且保存一致，不代替物体/手指遮挡检查；阶段采样不等间隔，不作训练episode。新物体失败保留，不放宽判据或改变几何重量求通过。
+
+### .057 记号笔完整结果：严格失败，真实影像与原因保全
+
+- marker001完成3360步且全部数值/阶段/限位/重力门禁通过，物体实际最小抬升41.777mm、独立第二段XY63.743mm、开手后下落192.588mm；相对掌部平移最大3.678微米、转动.000419rad。无Support/Catch/其他robot承托。但unsupported和active原生双面持续接触两项失败，active合格帧0/720，绝不以脚本带物或退出0宣布通过。
+- 独立逐点复算与原flag完全一致：distance/force/buffer不是原因。active左每帧2个、右每帧1个有力点normal<.95，左最小alignment约.211、右.892；坏点绝对标量占比13.612%/.756%，不当净力或电机扭矩。close有147帧曾通过，705起失去持续资格，保留所有点与旧阈值。
+- 原包与场景网格/拓扑/0.01变换一致，但原16 cooked hull的219唯一顶点对源曲面最远外伸4.499mm；不能把当前搬运动作当原曲面接触已验证。选帧原面没有进入源marker的有限见证，不等同所有曲面/所有时刻认证。
+- 双相机12次/24PNG：308项独立文件/元数据审计通过，无重复图片hash，PNG解码RGB逐字节一致，固定相机位姿/K正确，capture不推进物理。人工查看8张原图：真实纹理/原生指可见，external释放全物体可见，wrist释放只剩图边小片，双相机完整覆盖未通过；阶段样本不作等间隔训练数据。
+- 相机初始缓存pose/空RGB风险已修：update_latest_camera_pose=true，实际pose与固定rig逐次回读；暖机最多30次render、连续8有效，若空缓存记录并清空以让真实annotator重分配，不制造替代图。state合同review3项补正后96tests，全部CPU总552passed；准入仍关闭。
+
+## household-generalization.058 — 有源曲面证据的碰撞精度对照
+
+- 问题：001默认凸分解有明显外伸且持续异常法向；源mesh没有被修改，说明碰撞近似与可见曲面有差距，需要单独验证近似精度，而不是放宽原面判据。
+- 方法：全新002只在临时Object Mesh应用与已用native指网格相同的一组统一精度：128hulls/64verts/1e6voxels/1%error/0.1mm minThickness/shrinkWrap=true。逐stage合同只允许这6属性及相应schema，其他attrs/rels/schemas不变；原asset从不保存。source网格/纹理/scale、20g假设、材料、arm/grip控制、路径、支持退出、相机与所有接触/运动阈值保持。
+- 依赖与风险：marker源COM/inertia未author，re-cook可能改变PhysX自动计算的COM/惯量；保存001前值和002实际值，明确这是碰撞近似派生的依赖变化，不称全部动力学参数不变、不人为回填旧粗近似惯量。先导出实际新cooked并复审，再看严格物理判据；仍是单个已暴露开发物体，训练/π0.5/未见物体结论均关闭。
+
+## household-generalization.059 — 002初始支承失败已确认，保留失败并转入稳定摆姿预检
+
+- 问题与结果：marker002完成3360步但严格FAIL，全程两指有力点为0。step7倾角≥1°，21步≥5°，38步≥15°；62步完全脱离Support，69步落Catch，close从241步才开始。001同段Support240/240、最大倾角.0257°。这次不是持物搬运，仅空手后续轨迹；不能算脚本成功或π0.5部署。
+- 方法与原因边界：仅临时object六精度字段/一个API变化，actual cooked16→127。源mesh/材质/20g质量/控制/路径/相机/判据保留；自动COM位移1.311mm及惯量变化如实保留，不强行回填。初始新cooked最低点比support高.165mm且近最低支承很窄，需结合完整source/cooked支承面、COM和原始contact解释，不能把高精度当必然稳定。
+- 可视化：GNOME可见启动，root直接看8张原始desktop/RGB，源SHA全部核验；marker在settle_open已经躺在catch，后续闭爪/抬升/搬移/开手都是空手。相机metadata审计与全场景视觉准入分开；已结束仿真不重启截图。
+- 验证：全scripts CPU567passed/1skipped（OpenPI环境无pxr的可选项）；installedUSD独立22tests通过，部分重合不相加。postflight003确认原84untracked及旧tracked SHA、全部源与OpenPI状态不变、暂存空、GPU/物理/训练/服务空、8016/8017无监听。
+- 继续：先保全007/marker001/002完整raw，再用真实几何与COM评估稳定放置、整手可接近性；不根据分数挑姿态，不改旧阈值。原flat-inner是分离条带，真实bevel/edge不一概叫假接触，但有限来源证据也不能追溯改判。
+- 存储与泛化：依用户新要求，大型新005独立Windows副本放D:/ChatGPT/outputs/rm65_native_20260930，临时D:/ChatGPT/tmp/rm65_native_20260930；旧C项目/备份原位保留。新状态仍training_ready=false，未训练/未发布/未覆盖旧checkpoint，五YCB对象均已暴露开发资产。
+
+- .059用户指令修订：最新AGENTS完整替换此前D盘优先规则。不继续默认跨盘写入或改变缓存；后续沿用原项目既定路径。此前D盘已生成的小型报告/图片保留，不移动/删除。005尚未制作或复制，按原独立备份位置检查空间与重复后执行；保全要求不变。历史D盘计划仅反映当时指令，不再生效。

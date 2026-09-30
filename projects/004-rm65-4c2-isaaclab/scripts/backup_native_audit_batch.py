@@ -15,8 +15,10 @@ def digest(path):
     return h.hexdigest()
 
 
-def preserve(project, staging, batch, directories, evidence, report_path):
+def preserve(project, staging, batch, directories, evidence, report_path, maximum_source_bytes=500*1024*1024):
     project=Path(project).resolve(); staging=Path(staging).resolve(); report_path=Path(report_path)
+    if type(maximum_source_bytes) is not int or not 0 < maximum_source_bytes <= 2*1024**3:
+        raise ValueError('explicit diagnostic bound must be positive and at most 2 GiB')
     if not re.fullmatch(r'rm65_native_[0-9]{8}_[0-9]{3}',batch): raise ValueError('explicit native batch id required')
     archive=staging/(batch+'.tar'); index=staging/(batch+'.index.json')
     if any(p.exists() for p in (archive,index,report_path)): raise FileExistsError('fresh archive/index/report required')
@@ -45,7 +47,7 @@ def preserve(project, staging, batch, directories, evidence, report_path):
             raise ValueError('evidence must be a results file')
         add(project/relative,relative.as_posix())
     total=sum(r['bytes'] for r in records.values())
-    if not records or total>500*1024*1024: raise ValueError('empty or exceeds diagnostic 500 MiB bound')
+    if not records or total>maximum_source_bytes: raise ValueError('empty or exceeds explicit diagnostic source bound')
     staging.mkdir(parents=True,exist_ok=True)
     with index.open('x') as stream: json.dump(records,stream,indent=2)
     with archive.open('xb') as stream,tarfile.open(fileobj=stream,mode='w') as tar:
@@ -64,6 +66,7 @@ def preserve(project, staging, batch, directories, evidence, report_path):
         archive_bytes=archive.stat().st_size,archive_sha256=digest(archive),source_index_path=str(index),
         source_index_sha256=digest(index),file_count=len(records),source_bytes=total,
         all_member_hashes_match_source=True,safe_archive_audit=safe,independent_copy_verified=False,
+        maximum_source_bytes=maximum_source_bytes,
         extraction_restore_tested=False,raw_assets_committed_to_git=False,real_robot_command_sent=False)
     with report_path.open('x') as stream: json.dump(report,stream,indent=2)
     return report
@@ -74,5 +77,8 @@ if __name__=='__main__':
     p.add_argument('--project',type=Path,default=Path.cwd()); p.add_argument('--staging',type=Path,required=True)
     p.add_argument('--batch',required=True); p.add_argument('--directory',action='append',default=[])
     p.add_argument('--evidence',action='append',default=[]); p.add_argument('--report',type=Path,required=True)
+    p.add_argument('--maximum-source-mib',type=int,default=500,
+                   help='Explicit diagnostic-only bound, default 500 MiB, hard maximum 2048 MiB')
     args=p.parse_args()
-    print(json.dumps(preserve(args.project,args.staging,args.batch,args.directory,args.evidence,args.report),indent=2))
+    print(json.dumps(preserve(args.project,args.staging,args.batch,args.directory,args.evidence,args.report,
+                             args.maximum_source_mib*1024*1024),indent=2))

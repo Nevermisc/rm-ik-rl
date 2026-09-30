@@ -1,0 +1,194 @@
+{
+  "schema": "rm65_native_contact_protocol_v1",
+  "protocol_id": "native_household_marker_v2_source_surface_collision_precision",
+  "simulation_only": true,
+  "pi05_used": false,
+  "training_ready": false,
+  "deployment_accepted": false,
+  "description": "Single previously exposed YCB marker, native textured mesh, scripted source-cap active path and fixed real RGB witnesses. Development diagnostics only; not training or unseen evaluation.",
+  "candidate_root_sha256": "a250f43ad92f878565a40c68b1caf1f2dea51c10f7782a7c05d4cba9c52ee5ce",
+  "source_urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "object_mass_kg": 0.02,
+  "friction_static": 0.5,
+  "friction_dynamic": 0.5,
+  "restitution": 0.0,
+  "object_center_flange_m": [
+    0.0,
+    0.0,
+    0.14
+  ],
+  "arm_joint_targets_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.5707963267948966,
+    0.0
+  ],
+  "robot_base_z_m": 0.1,
+  "robot_y_offsets_m": [
+    0.0
+  ],
+  "master_close_target_rad": 0.82,
+  "master_effort_limit_Nm": 1.0,
+  "master_stiffness": 2.0,
+  "master_damping": 0.1,
+  "physics_dt_s": 0.008333333333333333,
+  "support_size_world_m": [
+    0.03,
+    0.03,
+    0.04
+  ],
+  "support_withdraw_distance_m": 0.1,
+  "support_lateral_clearance_m": 0.15,
+  "support_motion": "Within 240 steps: lower 40 mm, move +X150 mm at fixed height until entirely beyond catch, then lower further60 mm. Geometry preflight must prove fixture/catch clearance. No object state writes after initialization.",
+  "catch_top_below_initial_object_center_m": 0.16,
+  "contact_point_force_min_N": 0.001,
+  "bilateral_pair_force_min_N": 0.02,
+  "source_inner_triangle_distance_tolerance_m": 0.0021,
+  "contact_normal_min_abs_alignment_with_inner_face": 0.95,
+  "distance_tolerance_basis": "Existing native contact offset 1 mm plus object offset 1 mm and 0.1 mm numerical allowance; measured distances are retained. This does not certify hardware or exact cooked/visible surface equality.",
+  "contact_data_capacity_per_object": 8192,
+  "phases": [
+    [
+      "settle_open",
+      0.0,
+      240
+    ],
+    [
+      "close",
+      0.82,
+      480
+    ],
+    [
+      "hold_supported",
+      0.82,
+      240
+    ],
+    [
+      "withdraw_support",
+      0.82,
+      240
+    ],
+    [
+      "hold_unsupported",
+      0.82,
+      480
+    ],
+    [
+      "active_lift",
+      0.82,
+      240
+    ],
+    [
+      "hold_lift",
+      0.82,
+      120
+    ],
+    [
+      "active_transport",
+      0.82,
+      240
+    ],
+    [
+      "hold_transport",
+      0.82,
+      120
+    ],
+    [
+      "reopen",
+      0.0,
+      480
+    ],
+    [
+      "settle_released",
+      0.0,
+      480
+    ]
+  ],
+  "success_scope": "Actual 30 mm minimum held lift, 50 mm minimum held XY transport and 0.1 rad palm rotation; continuous native-face load support, <=5 mm / 5 degree palm-relative slip, natural release. Frozen native_active_verdict.py applies.",
+  "repeat_count_per_size": 1,
+  "diagnostic_data_excluded_from_training": true,
+  "arm_drive_type_override": "force",
+  "arm_drive_rationale": "Use the verified native force-drive semantics in the ephemeral scene; source USD remains acceleration and is not saved. Six source effort caps 60/60/30/10/10/10 Nm, gains1000/100 and0.5rad/s match marker001 and contact007. This is simulation source consistency, not hardware calibration.",
+  "solve_articulation_contact_last": true,
+  "solver_order_rationale": "Omni Physics 107.3 articulation stability guide identifies persistent contact penetration with competing stiff/mimic constraints as a use for solving dynamic articulation contacts later. Isolated scene-only change; 32 position/8 velocity iterations, timestep, all drives and geometry unchanged. Outcome remains a diagnostic.",
+  "solver_order_reference": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/dev_guide/guides/articulation_stability_guide.html#articulation-solver-order",
+  "active_motion": true,
+  "arm_phase_targets_rad": {
+    "active_lift": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.4207963267948966,
+      0.0
+    ],
+    "active_transport": [
+      0.23,
+      0.0,
+      0.0,
+      0.0,
+      1.4207963267948966,
+      0.0
+    ]
+  },
+  "active_motion_planning": "Reuse the frozen source-arm wrist-lift and independent yaw-transport path. Actual recorded marker poses, original-source-face contacts and natural release alone decide the frozen criterion. Marker fixture and catch dimensions are derived from its actual source vertices; old block catch margins do not apply.",
+  "prerequisite_artifact_sha256": {
+    "outputs/native_contact_005/report.json": "5378fc362556b6a5405c45efa78b4cfd3ff0887e59c0dbff6d48ca0899c6bb7e",
+    "results/native_contact_005_geometry.json": "858647f2f5153209b59d0b39e2a01fc01d38d0697b6f76f143ad0e3b817207f9",
+    "results/native_active_motion_plan_001.json": "bdd89d93ebdb0d0abfad166e07f34e8fa890ae42b3901268dbe55e3c8624265e",
+    "outputs/native_contact_006/report.json": "de3a9aadc7cef8e84bc0ee856371c8f46b8503852229d6645b3d4075f13e2db8",
+    "outputs/native_contact_007/report.json": "de3a9aadc7cef8e84bc0ee856371c8f46b8503852229d6645b3d4075f13e2db8",
+    "results/native_contact_006_007_comparison_001.json": "f9dfebb10c775c6a5fa7afc2f9f55e772d55605533a503978a3ff5eaf32e3c37",
+    "outputs/native_household_marker_001/report.json": "b8b44e1c0aecd0019bc57abfd8f32b7005c91fc3079355bf993b05c145128efd",
+    "outputs/native_household_marker_001/runtime_preflight.json": "2dd78b2a50781926967190f0574707519824f3b5c01f3e93530503f9235ef651",
+    "results/native_household_marker_001_analysis.json": "9062c3e32dfbb428bc554c6e19dd3d101a9d2308070c220c4c923dd6a3d108e9",
+    "results/native_household_marker_001_geometry.json": "0d1c0064911ec76374f96b6abeeae5a8614f3573ca6d70440354ba0b42f47f58",
+    "results/native_household_marker_001_point_conditions.json": "13d17b9ee8ba0ec0112b4333b158d8ec164c111b527e53960e5a2eaaca800283",
+    "results/native_household_marker_001_camera_audit.json": "162219b7d60edc864ebecee74aafdc299468facb009db2bcbc41c8921050eb7b",
+    "results/native_marker_precision_schema_001.json": "ffa1efa827778a04a8618efcfc433dde625f42322ccb4d3e852eb171095dce6f",
+    "results/native_household_marker_001_contact_planes.json": "76727613ccec1aa643611c6fa454ea316745f1dbcefcae7bc299f93c9006d9b5"
+  },
+  "arm_effort_limits_Nm": {
+    "joint_1": 60.0,
+    "joint_2": 60.0,
+    "joint_3": 30.0,
+    "joint_4": 10.0,
+    "joint_5": 10.0,
+    "joint_6": 10.0
+  },
+  "arm_effort_rationale": "Retain all six hash-bound source URDF effort limits already verified in007 and marker001. This object precision comparison does not change any joint gain, force cap or velocity cap.",
+  "object_id": "ycb_large_marker",
+  "object_package_sha256": "685db469b44dc4ce36e63a15622dfbb0a67d9b909582616a5d0df29e513212f3",
+  "additional_object_scale": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "object_material_static_friction": 0.7,
+  "object_material_dynamic_friction": 0.5,
+  "robot_material_static_friction": 0.5,
+  "robot_material_dynamic_friction": 0.5,
+  "material_semantics": "Original object package material 0.7/0.5 preserved, robot/fixture uniform 0.5/0.5; actual bindings and runtime parameters recorded. This is not the single-variable 006/007 comparison.",
+  "catch_size_world_m": [
+    0.24,
+    0.3,
+    0.02
+  ],
+  "object_pose_rule": "Source X to palm Y, source Y to minus palm X, source Z to palm Z; rigid-root origin at palm[0,0,.14], no scaling. Original AABB midpoint differs from root by sub-micrometre source asymmetry; do not relabel root as an exactly centred bound.",
+  "camera_rig_sha256": "fddd4bb7e77e3afd830ead9fb15b795ac2268b13f24c8f3172d16afefc181a20",
+  "control_contract_sha256": "acc63a18c3fa25a9b8d2e5aa15c2078821a470d77a22ef5a33bc970f8118c387",
+  "object_collision_precision_override": true,
+  "object_collision_precision_parameters": {
+    "hullVertexLimit": 64,
+    "maxConvexHulls": 128,
+    "minThickness": 0.0001,
+    "voxelResolution": 1000000,
+    "errorPercentage": 1.0,
+    "shrinkWrap": true
+  },
+  "previous_runtime_preflight_path": "outputs/native_household_marker_001/runtime_preflight.json",
+  "previous_runtime_preflight_sha256": "2dd78b2a50781926967190f0574707519824f3b5c01f3e93530503f9235ef651",
+  "collision_precision_rationale": "001 source/scene mesh identical but default16 hulls have sampled exterior vertices up to4.499mm from source surface and persistent bad contact normals. Compare the pre-existing uniform native collision precision settings as an ephemeral Object-only derivation; no mesh/scale/material/mass/force/path/criteria/camera changes. Automatically computed object COM/inertia may change as dependent results of recooking and must be reported, not forced back or called unchanged."
+}

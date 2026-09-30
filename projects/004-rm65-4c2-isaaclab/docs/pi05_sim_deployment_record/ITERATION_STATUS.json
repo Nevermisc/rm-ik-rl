@@ -1,15 +1,15 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-30",
-  "git_baseline": "6d5a1c7",
-  "working_version": "household-generalization.044",
-  "committed": true,
-  "phase": "stopped_for_user_requested_handoff",
-  "current_action": "User requested immediate wrap-up, superseding 21:00 autonomous continuation. No new experiments. close_005 source-limits candidate passes empty-hand; no native object grasp or new PI training. Heartbeat rm65 deleted. Next conversation must recheck state and obtain its execution scope.",
+  "git_baseline": "d4bbf0e1256711a221a0877ff1eebbf9aa6d87b5",
+  "working_version": "household-generalization.059",
+  "committed": false,
+  "phase": "native_marker_support_failure_and_stable_pose_preflight",
+  "current_action": "002 completed strict FAIL: marker toppled while gripper open before close. Preserve complete evidence, audit actual source/cooked support geometry and fixed cameras, prepare independent backup005 at the existing project Windows backup path, and assess static stable placements before any fresh003. No PI or data admission.",
   "native_current_candidate": "generated/native_surface_source_limits_001",
   "native_current_dynamic_report": "results/native_surface_close_005.json",
-  "latest_native_backup": "results/native_audit_backup_002_independent.json",
-  "latest_cpu_test_count": 217,
+  "latest_native_backup": "results/native_audit_backup_004_independent.json",
+  "latest_cpu_test_count": 567,
   "handoff_entry_name": "RM65_PI05_NEW_CHAT_HANDOFF_ZH.md",
   "current_summary": "docs/pi05_sim_deployment_record/MODEL_SOURCE_AND_PIPELINE_AUDIT_ZH.md",
   "historical_fields_notice": "v4/v5 counters and snapshots below describe previous cube work, not current household progress",
@@ -21,17 +21,28 @@
     "verified_render_groups": 12,
     "combined_training_episodes": 150,
     "training_steps_completed": 4000,
-    "checkpoint_steps": [2000, 3999],
+    "checkpoint_steps": [
+      2000,
+      3999
+    ],
     "offline_validation": "pass",
-    "formal_success_counts": [19, 18, 19],
+    "formal_success_counts": [
+      19,
+      18,
+      19
+    ],
     "formal_case_count_per_run": 20,
     "repeatability_status": "pass",
     "status_consistency_rate": 0.95,
     "outcome_flip_cases": 1,
     "safetyfix_diagnostic_success_count": 19,
-    "postfix_three_run_success_counts": [19, 19, 20],
+    "postfix_three_run_success_counts": [
+      19,
+      19,
+      20
+    ],
     "postfix_repeatability_status": "fail",
-    "postfix_status_consistency_rate": 0.90,
+    "postfix_status_consistency_rate": 0.9,
     "postfix_outcome_flip_cases": 2,
     "current_version_acceptance": "incomplete",
     "controlled_isaac_abort_diagnostic": "pass: 0/120/240 actual physics steps; shutdown required termination",
@@ -55,12 +66,10 @@
   "rejected_episode_attempt_count": 6,
   "expert_diagnostic_probe_count": 8,
   "next_actions": [
-    "validate imported joint frames/axes/limits against source; distinguish intended linkage contact from collider approximation before considering local filters",
-    "investigate source COM inconsistencies using CAD/provenance, never overwrite inertias from uniform-density guess",
-    "bind new state_v1 training/serving/normalization to an explicit manifest, preserving v2-v5 legacy config; verify token budget and memory before new training",
-    "only after native empty-hand and contact validation: fixed-camera multi-pose household demonstrations with grouped held-out split and uncompressed time contract",
-    "no new training until native physics, admitted data, independent backups and policy-only evaluation gates exist",
-    "20:40 begin wrap; by 21:00 save complete/pending/risks/next checklist and delete rm65 heartbeat"
+    "Finish002 source/cooked support and camera evidence, preserve new005 independent backup at the existing project backup path; retain001/002 failures.",
+    "Evaluate stable placement and full native-hand accessibility using actual source/cooked geometry and COM before any fresh003; no score-driven threshold or force changes.",
+    "Freeze real native time/camera/object/group contracts and wire isolated state_v1 norm/train/serve/artifact fail-closed; all existing five YCB assets are exposed development objects.",
+    "Only after source/data/independent backups pass, run a fresh base-initialized GPU smoke and new training; preserve old models and require preregistered policy acceptance."
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_GENERALIZATION_LOG.md",
   "data_leakage_boundary": {
@@ -93,7 +102,11 @@
   "v4_pipeline_contract": {
     "collection_gate_status": "pass",
     "combined_training_episode_count": 102,
-    "source_episode_counts": [36, 30, 36],
+    "source_episode_counts": [
+      36,
+      30,
+      36
+    ],
     "initial_checkpoint": "rm65_failure_correction_v3_lora_10k/9999/params",
     "target_checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
     "num_train_steps": 6000,
@@ -110,7 +123,11 @@
     "status": "pass",
     "repo_id": "local/rm65_sim_failure_correction_v4_train",
     "episode_count": 102,
-    "source_episode_counts": [36, 30, 36],
+    "source_episode_counts": [
+      36,
+      30,
+      36
+    ],
     "source_frame_count": 53733,
     "policy_window_frame_count": 35734,
     "norm_processed_frame_count": 35712,
@@ -141,7 +158,10 @@
     "peak_lr": 2e-06,
     "decay_lr": 5e-07,
     "keep_period": 4000,
-    "retained_checkpoints": [4000, 5999],
+    "retained_checkpoints": [
+      4000,
+      5999
+    ],
     "latest_checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
     "checkpoint_tmp_count": 0,
     "step_4000_async_save_seconds": 225.28,
@@ -191,7 +211,10 @@
   "v4_offline_evaluation_result": {
     "status": "pass",
     "checkpoint": "rm65_failure_correction_v4_lora_6k/5999",
-    "checkpoint_action_shape": [10, 7],
+    "checkpoint_action_shape": [
+      10,
+      7
+    ],
     "checkpoint_all_actions_finite": true,
     "checkpoint_joint_limit_clamp_count": 0,
     "checkpoint_joint_step_clamp_count": 0,
@@ -213,7 +236,11 @@
     "success_rate": 0.85,
     "required_success_count": 18,
     "required_success_rate": 0.9,
-    "failed_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
+    "failed_case_ids": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015"
+    ],
     "failure_counts": {
       "insufficient_displacement": 1,
       "insufficient_lift": 3,
@@ -230,11 +257,32 @@
   "v4_repeatability_progress": {
     "completed_run_count": 3,
     "valid_report_count": 60,
-    "run_success_counts": [17, 17, 16],
-    "run_success_rates": [0.85, 0.85, 0.8],
-    "failed_case_ids_run1": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
-    "failed_case_ids_run2": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
-    "failed_case_ids_run3": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015", "confirm_v4_017"],
+    "run_success_counts": [
+      17,
+      17,
+      16
+    ],
+    "run_success_rates": [
+      0.85,
+      0.85,
+      0.8
+    ],
+    "failed_case_ids_run1": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015"
+    ],
+    "failed_case_ids_run2": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015"
+    ],
+    "failed_case_ids_run3": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015",
+      "confirm_v4_017"
+    ],
     "outcome_flip_case_count_so_far": 1,
     "status_consistency_rate_so_far": 0.95,
     "repeatability_gate_finalized": true,
@@ -257,8 +305,14 @@
       "fail/fail/fail": 3,
       "pass/pass/fail": 1
     },
-    "stable_failure_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015"],
-    "renderer_sensitive_case_ids": ["confirm_v4_017"],
+    "stable_failure_case_ids": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015"
+    ],
+    "renderer_sensitive_case_ids": [
+      "confirm_v4_017"
+    ],
     "v4_cases_frozen_as_development_only": true,
     "real_robot_command_sent": false
   },
@@ -267,9 +321,16 @@
     "asset_count": 6,
     "file_count_expected": 66585,
     "total_bytes_expected": 14081286311,
-    "includes_checkpoints": [4000, 5999],
+    "includes_checkpoints": [
+      4000,
+      5999
+    ],
     "includes_norm_stats": true,
-    "includes_raw_evaluation_runs": [1, 2, 3],
+    "includes_raw_evaluation_runs": [
+      1,
+      2,
+      3
+    ],
     "source_manifest_generated": true,
     "source_manifest_sha256": "68bee34eb7c14130c9d2d0cb5c4d059892b3bc05dbbecffc04d9235010c41a06",
     "archive_bytes": 14200432640,
@@ -284,7 +345,12 @@
     "status": "pass",
     "source_v4_first_run_gate_passed": false,
     "source_v4_repeatability_gate_passed": true,
-    "source_development_case_ids": ["confirm_v4_010", "confirm_v4_011", "confirm_v4_015", "confirm_v4_017"],
+    "source_development_case_ids": [
+      "confirm_v4_010",
+      "confirm_v4_011",
+      "confirm_v4_015",
+      "confirm_v4_017"
+    ],
     "correction_case_count": 48,
     "physical_group_count": 12,
     "render_repeats_per_physical_group": 4,
@@ -295,7 +361,12 @@
       "cross_render_action_consistency"
     ],
     "fresh_confirmation_case_count": 20,
-    "fresh_confirmation_angles_rad": [0.70625, 0.79375, 0.86875, 0.9875],
+    "fresh_confirmation_angles_rad": [
+      0.70625,
+      0.79375,
+      0.86875,
+      0.9875
+    ],
     "target_checkpoint": "rm65_failure_correction_v5_lora_4k/3999",
     "target_repo_id": "local/rm65_sim_failure_correction_v5_train",
     "first_run_minimum_success_count": 18,
@@ -309,7 +380,10 @@
     "status": "pass",
     "controller_behavior_changed": false,
     "shared_online_and_post_settle_rule": true,
-    "verification_stages_checked": ["settle_a", "settle_b_final"],
+    "verification_stages_checked": [
+      "settle_a",
+      "settle_b_final"
+    ],
     "first_violation_stage_reported": true,
     "non_finite_position_reported": true,
     "workspace_escape_radius_m": 1.0,
@@ -325,7 +399,12 @@
     "raw_collection_backup_required_before_conversion": true,
     "minimum_verified_raw_copy_count": 2,
     "combined_training_episode_count": 150,
-    "source_episode_counts": [36, 30, 36, 48],
+    "source_episode_counts": [
+      36,
+      30,
+      36,
+      48
+    ],
     "repo_id": "local/rm65_sim_failure_correction_v5_train",
     "initial_checkpoint": "rm65_failure_correction_v4_lora_6k/5999/params",
     "target_checkpoint": "rm65_failure_correction_v5_lora_4k/3999",
@@ -385,5 +464,33 @@
     "fresh_confirmation_plan_changed": false,
     "real_robot_command_sent": false
   },
-  "real_robot_command_sent": false
+  "real_robot_command_sent": false,
+  "native_contact_latest_report": "results/native_contact_007.json",
+  "native_external_geometry_report": "results/native_contact_005_geometry.json",
+  "latest_native_backup_verified": true,
+  "native_contact_active_analysis": "results/native_contact_006_analysis.json",
+  "native_data_contract_draft": "docs/pi05_sim_deployment_record/NATIVE_DATA_CONTRACT_DRAFT_ZH.md",
+  "latest_native_source_effort_run": {
+    "run": "native_contact_007",
+    "status": "all_three_pass",
+    "physics_steps": 3360,
+    "arm_caps_Nm": [
+      60,
+      60,
+      30,
+      10,
+      10,
+      10
+    ],
+    "comparison": "results/native_contact_006_007_comparison_001.json"
+  },
+  "native_household_latest_report": "results/native_household_marker_002.json",
+  "latest_cpu_skipped_count": 1,
+  "latest_cpu_log": "results/cpu_tests_058.log",
+  "latest_postflight": "results/native_household_resume_postflight_003.json",
+  "training_ready": false,
+  "pi05_used": false,
+  "deployment_accepted": false,
+  "storage_instruction_current": "Latest user AGENTS replaces prior D preference: no unrequested migration/default/cache changes; retain outputs; existing project backup path, check duplicates/space first.",
+  "existing_d_artifacts_retained": true
 }

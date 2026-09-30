@@ -1,0 +1,108 @@
+{
+  "schema": "rm65_native_contact_protocol_v1",
+  "protocol_id": "native_contact_bench_v3_contact_last",
+  "simulation_only": true,
+  "pi05_used": false,
+  "training_ready": false,
+  "deployment_accepted": false,
+  "description": "Three simultaneous, fixed-arm retention and natural release diagnostics. Support withdrawal is not active lift or transport.",
+  "candidate_root_sha256": "a250f43ad92f878565a40c68b1caf1f2dea51c10f7782a7c05d4cba9c52ee5ce",
+  "source_urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "widths_m": [
+    0.02,
+    0.035,
+    0.05
+  ],
+  "other_object_dimensions_m": [
+    0.02,
+    0.02
+  ],
+  "object_mass_kg": 0.02,
+  "friction_static": 0.5,
+  "friction_dynamic": 0.5,
+  "restitution": 0.0,
+  "object_center_flange_m": [
+    0.0,
+    0.0,
+    0.14
+  ],
+  "arm_joint_targets_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    1.5707963267948966,
+    0.0
+  ],
+  "robot_base_z_m": 0.1,
+  "robot_y_offsets_m": [
+    -0.65,
+    0.0,
+    0.65
+  ],
+  "master_close_target_rad": 0.82,
+  "master_effort_limit_Nm": 1.0,
+  "master_stiffness": 2.0,
+  "master_damping": 0.1,
+  "physics_dt_s": 0.008333333333333333,
+  "support_size_world_m": [
+    0.016,
+    0.008,
+    0.04
+  ],
+  "support_withdraw_distance_m": 0.1,
+  "support_lateral_clearance_m": 0.1,
+  "support_motion": "First descend 40 mm, then continue down to 100 mm total and move 100 mm in world +X to clear the natural drop path; the fixture bottom stays 10 mm above the catch tray.",
+  "catch_top_below_initial_object_center_m": 0.16,
+  "contact_point_force_min_N": 0.001,
+  "bilateral_pair_force_min_N": 0.02,
+  "source_inner_triangle_distance_tolerance_m": 0.0021,
+  "contact_normal_min_abs_alignment_with_inner_face": 0.95,
+  "distance_tolerance_basis": "Existing native contact offset 1 mm plus object offset 1 mm and 0.1 mm numerical allowance; measured distances are retained. This does not certify hardware or exact cooked/visible surface equality.",
+  "contact_data_capacity_per_object": 8192,
+  "phases": [
+    [
+      "settle_open",
+      0.0,
+      240
+    ],
+    [
+      "close",
+      0.82,
+      480
+    ],
+    [
+      "hold_supported",
+      0.82,
+      240
+    ],
+    [
+      "withdraw_support",
+      0.82,
+      240
+    ],
+    [
+      "hold_unsupported",
+      0.82,
+      480
+    ],
+    [
+      "reopen",
+      0.0,
+      480
+    ],
+    [
+      "settle_released",
+      0.0,
+      480
+    ]
+  ],
+  "success_scope": "Per-size bench contact, unsupported retention >=2 s, and natural release only; no household or policy success. Verdict thresholds frozen in native_contact_verdict.py and bound by SHA256.",
+  "repeat_count_per_size": 1,
+  "diagnostic_data_excluded_from_training": true,
+  "arm_drive_type_override": "force",
+  "arm_drive_rationale": "Installed IsaacLab implicit actuator uses PD torque semantics but inherited USD arm drives are inertia-normalized acceleration drives. Controlled comparison changes only six arm drive types in the ephemeral scene. Source asset, gains and 300 Nm diagnostic cap remain unchanged; not hardware calibration.",
+  "solve_articulation_contact_last": true,
+  "solver_order_rationale": "Omni Physics 107.3 articulation stability guide identifies persistent contact penetration with competing stiff/mimic constraints as a use for solving dynamic articulation contacts later. Isolated scene-only change; 32 position/8 velocity iterations, timestep, all drives and geometry unchanged. Outcome remains a diagnostic.",
+  "solver_order_reference": "https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.3/dev_guide/guides/articulation_stability_guide.html#articulation-solver-order"
+}
