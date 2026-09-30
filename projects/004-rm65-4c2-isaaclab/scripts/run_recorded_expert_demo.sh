@@ -10,6 +10,10 @@ source_offset_x="${3:-0.0}"
 source_offset_y="${4:-0.0}"
 episode_prompt="${5:-pick up the block and place it on the target}"
 simulation_seed="${6:-}"
+development_object_args=()
+if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
+  development_object_args=(--development-object "$RM65_DEVELOPMENT_OBJECT" --development-source-support "${RM65_DEVELOPMENT_SOURCE_SUPPORT:-wide_platform}")
+fi
 
 simulation_seed_args=()
 if [[ -n "$simulation_seed" ]]; then
@@ -59,6 +63,7 @@ mkdir -p outputs "$(dirname "$episode_dir")"
   --place-waypoint-steps 180 \
   --unassisted-release \
   "${simulation_seed_args[@]}" \
+  "${development_object_args[@]}" \
   --headless \
   --enable_cameras
 

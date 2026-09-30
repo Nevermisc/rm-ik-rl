@@ -16,6 +16,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from isaaclab.app import AppLauncher
+from openpi_extension.multi_object import CATALOG, spawn_config, write_development_report
 
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -23,6 +24,8 @@ parser.add_argument("--usd", type=Path, required=True)
 parser.add_argument("--urdf", type=Path, required=True)
 parser.add_argument("--description", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument("--development-object", choices=[k for k, s in CATALOG.items() if s.split == "development"])
+parser.add_argument("--development-source-support", choices=("wide_platform", "legacy_strip"), default="wide_platform")
 parser.add_argument("--transfer-joint-1-rad", type=float, default=0.8)
 parser.add_argument(
     "--robot-base-z-m",
@@ -201,6 +204,12 @@ parser.add_argument(
 )
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
+OBJECT_SPEC = CATALOG[args.development_object] if args.development_object else None
+if OBJECT_SPEC is not None:
+    if args.output.exists() or (args.record_episode_dir and args.record_episode_dir.exists()):
+        parser.error("multi-object probes require fresh output and episode paths")
+    if not args.natural_source_gravity or args.grasp_orientation_mode != "top_down":
+        parser.error("multi-object probes require natural gravity and top_down orientation")
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
     parser.error("--policy-gripper-open-threshold must be between 0 and 1")
 if not args.policy_gripper_open_threshold <= args.policy_gripper_actual_open_threshold < 1.0:
@@ -289,6 +298,11 @@ TARGET_PLATFORM_TOP_Z = 0.650
 SOURCE_PLATFORM_SIZE = (0.120, 0.018, 0.020)
 TARGET_STRIP_SIZE = (0.070, 0.018, 0.020)
 SOURCE_PLATFORM_TOP_Z = 0.7330
+if OBJECT_SPEC is not None:
+    BLOCK_SIZE = OBJECT_SPEC.size_m
+    BLOCK_MASS_KG = OBJECT_SPEC.mass_kg
+    SOURCE_PLATFORM_SIZE = ((0.20, 0.20, 0.020) if args.development_source_support == "wide_platform"
+                            else (0.120, 0.018, 0.020))
 RELEASE_DOWNWARD_SPEED_M_S = 0.10
 RELEASE_SEPARATION_ASSIST_M = 0.05
 TIP_LOCAL_POINTS = {
@@ -1221,7 +1235,7 @@ def run_pi05_closed_loop(
         },
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    write_development_report(output, report, OBJECT_SPEC)
     print(json.dumps(report, indent=2), flush=True)
     print(f"RM65_PI05_CLOSED_LOOP={'PASS' if passed else 'FAIL'}", flush=True)
     return 0 if passed else 1
@@ -1634,7 +1648,7 @@ def main() -> int:
             "place_waypoint_joint_position_rad": [item.tolist() for item in place_waypoints],
         }
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(diagnostic, indent=2) + "\n", encoding="utf-8")
+        write_development_report(output, diagnostic, OBJECT_SPEC)
         print(json.dumps(diagnostic, indent=2), flush=True)
         return 0
 
@@ -1733,7 +1747,7 @@ def main() -> int:
     cube = RigidObject(
         RigidObjectCfg(
             prim_path="/World/Cube",
-            spawn=sim_utils.CuboidCfg(
+            spawn=spawn_config(OBJECT_SPEC, sim_utils) if OBJECT_SPEC is not None else sim_utils.CuboidCfg(
                 size=BLOCK_SIZE,
                 rigid_props=sim_utils.RigidBodyPropertiesCfg(
                     disable_gravity=not args.natural_source_gravity,
@@ -1866,6 +1880,11 @@ def main() -> int:
             prompt=args.episode_prompt,
             control_hz=1.0 / (sim.get_physics_dt() * args.record_stride_steps),
             metadata={
+                **({"object_probe": OBJECT_SPEC.metadata(),
+                    "source_support": args.development_source_support,
+                    "source_support_size_m": list(SOURCE_PLATFORM_SIZE),
+                    "evaluation_scope": "multi_object_development_only",
+                    "training_eligible": False} if OBJECT_SPEC is not None else {}),
                 "simulation_only": True,
                 "expert": None if args.pi05_closed_loop else "scripted_rm65_pick_place",
                 "pi05_used": args.pi05_closed_loop,
@@ -2140,7 +2159,7 @@ def main() -> int:
             "closed_gripper_joint_position_rad": closed_gripper_joint_position.detach().cpu().tolist(),
         }
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(diagnostic, indent=2) + "\n", encoding="utf-8")
+        write_development_report(output, diagnostic, OBJECT_SPEC)
         print(json.dumps(diagnostic, indent=2), flush=True)
         return 0
 
@@ -2216,7 +2235,7 @@ def main() -> int:
                 "training_ready": False,
             }
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(failed_lift_report, indent=2) + "\n", encoding="utf-8")
+        write_development_report(output, failed_lift_report, OBJECT_SPEC)
         print(json.dumps(failed_lift_report, indent=2), flush=True)
         print("RM65_PICK_PLACE_BASELINE=FAIL_AT_LIFT", flush=True)
         return 1
@@ -2603,7 +2622,7 @@ def main() -> int:
         "limitation": "The collision pads and scripted waypoints still require physical calibration.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    write_development_report(output, report, OBJECT_SPEC)
     print(json.dumps(report, indent=2), flush=True)
     print(f"RM65_PICK_PLACE_BASELINE={'PASS' if passed else 'FAIL'}", flush=True)
     return 0 if passed else 1
@@ -2640,7 +2659,7 @@ except UnsafeIKBranchJumpError as error:
         ),
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    write_development_report(args.output, report, OBJECT_SPEC)
     print(json.dumps(report, indent=2), flush=True)
     exit_code = 2
 except BaseException:

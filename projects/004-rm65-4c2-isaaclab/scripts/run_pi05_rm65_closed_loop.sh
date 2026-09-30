@@ -40,6 +40,10 @@ if [[ "$reset_renderer_accumulation" != "0" && "$reset_renderer_accumulation" !=
 fi
 
 renderer_accumulation_args=()
+development_object_args=()
+if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
+  development_object_args=(--development-object "$RM65_DEVELOPMENT_OBJECT" --development-source-support "${RM65_DEVELOPMENT_SOURCE_SUPPORT:-wide_platform}")
+fi
 if [[ "$reset_renderer_accumulation" == "1" ]]; then
   renderer_accumulation_args+=(--reset-renderer-accumulation-before-policy-observation)
 fi
@@ -105,6 +109,7 @@ checkpoint_id="$(basename "$(dirname "$checkpoint")")/$(basename "$checkpoint")"
   --urdf "$rm65_root/assets/RM65-B/urdf/RM65-B.urdf" \
   --description "$rm65_root/rm65_robot_description.yaml" \
   --output "$episode_dir/task_report.json" \
+  "${development_object_args[@]}" \
   --record-episode-dir "$episode_dir" \
   --record-stride-steps 12 \
   --record-images \
