@@ -72,4 +72,7 @@ if [[ ! -f "$episode_dir/metadata.json" ]]; then
   exit 2
 fi
 python3 scripts/validate_expert_episode.py "$episode_dir" --require-images
+if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
+  python3 scripts/check_multi_object_task_result.py "$episode_dir/task_report.json"
+fi
 echo "RM65_RECORDED_EXPERT_EPISODE=$episode_dir"

@@ -1,0 +1,228 @@
+{
+  "version": "multi-object-impl.001",
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "policy_used": false,
+  "grasp_tested": false,
+  "steps": 720,
+  "dt_s": 0.004166666666666667,
+  "limitation": "Primitive upright drop test only; no robot, images, household semantics or grasp capability validated.",
+  "cases": [
+    {
+      "object": {
+        "object_id": "block_reference",
+        "shape": "box",
+        "size_m": [
+          0.06,
+          0.04,
+          0.025
+        ],
+        "mass_kg": 0.03,
+        "color": [
+          0.85,
+          0.1,
+          0.08
+        ],
+        "split": "development",
+        "geometry_only": true,
+        "household_object_validated": false,
+        "simulation_only": true,
+        "upright_center_height_m": 0.0125
+      },
+      "passed": true,
+      "all_finite": true,
+      "drop_m": 0.09897811617702246,
+      "upright_height_error_m": 3.91155481269112e-09,
+      "last_half_second_drift_m": 5.78504977255534e-09,
+      "max_linear_speed_m_s": 0.00016053854778874665,
+      "final_state": [
+        3.855835529975593e-06,
+        -4.3983458454022184e-05,
+        0.012500003911554813,
+        1.0,
+        -1.3906696949561592e-06,
+        -1.2894859935386194e-07,
+        6.437265255954117e-05,
+        4.53586908406578e-05,
+        -0.00013216407387517393,
+        -7.88251418271102e-05,
+        5.606647391687147e-05,
+        0.00043206469854339957,
+        0.0004939273349009454
+      ]
+    },
+    {
+      "object": {
+        "object_id": "round_small",
+        "shape": "sphere",
+        "size_m": [
+          0.05,
+          0.05,
+          0.05
+        ],
+        "mass_kg": 0.06,
+        "color": [
+          0.15,
+          0.65,
+          0.2
+        ],
+        "split": "development",
+        "geometry_only": true,
+        "household_object_validated": false,
+        "simulation_only": true,
+        "upright_center_height_m": 0.025
+      },
+      "passed": true,
+      "all_finite": true,
+      "drop_m": 0.09897815994918346,
+      "upright_height_error_m": 3.688037395616073e-08,
+      "last_half_second_drift_m": 1.6763806343078613e-08,
+      "max_linear_speed_m_s": 1.4106672496794204e-09,
+      "final_state": [
+        0.30000001192092896,
+        0.0,
+        0.024999963119626045,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.4102184975328669e-09,
+        0.0,
+        3.557851235846954e-11,
+        0.0,
+        1.2199649290778325e-07,
+        0.0
+      ]
+    },
+    {
+      "object": {
+        "object_id": "cylinder_upright",
+        "shape": "cylinder",
+        "size_m": [
+          0.05,
+          0.05,
+          0.09
+        ],
+        "mass_kg": 0.1,
+        "color": [
+          0.2,
+          0.3,
+          0.8
+        ],
+        "split": "development",
+        "geometry_only": true,
+        "household_object_validated": false,
+        "simulation_only": true,
+        "upright_center_height_m": 0.045
+      },
+      "passed": true,
+      "all_finite": true,
+      "drop_m": 0.09897831827402115,
+      "upright_height_error_m": 1.8447637557816865e-07,
+      "last_half_second_drift_m": 8.202658250411332e-07,
+      "max_linear_speed_m_s": 0.0012911413796246052,
+      "final_state": [
+        0.6000003218650818,
+        -5.074017508377437e-07,
+        0.04499981552362442,
+        0.9999999403953552,
+        4.170123702351702e-06,
+        2.8064744128641905e-06,
+        3.310730960492947e-07,
+        0.00036234670551493764,
+        0.0006166956154629588,
+        -0.00010484954691492021,
+        -0.005879131145775318,
+        0.004652325063943863,
+        0.001969627570360899
+      ]
+    },
+    {
+      "object": {
+        "object_id": "thin_slab",
+        "shape": "box",
+        "size_m": [
+          0.13,
+          0.065,
+          0.009
+        ],
+        "mass_kg": 0.16,
+        "color": [
+          0.1,
+          0.1,
+          0.12
+        ],
+        "split": "development",
+        "geometry_only": true,
+        "household_object_validated": false,
+        "simulation_only": true,
+        "upright_center_height_m": 0.0045
+      },
+      "passed": true,
+      "all_finite": true,
+      "drop_m": 0.09897820930927992,
+      "upright_height_error_m": 8.30814242359576e-08,
+      "last_half_second_drift_m": 5.391263613319097e-08,
+      "max_linear_speed_m_s": 9.188665717374533e-05,
+      "final_state": [
+        0.8999999761581421,
+        1.7072107283411242e-08,
+        0.004499916918575764,
+        1.0,
+        -3.8601527307946526e-08,
+        1.6729625684774874e-08,
+        9.399335709758816e-08,
+        1.8926260963780805e-05,
+        -8.104035805445164e-05,
+        -6.612744073208887e-06,
+        0.0002487617894075811,
+        1.7352647773805074e-05,
+        0.0002467202430125326
+      ]
+    },
+    {
+      "object": {
+        "object_id": "box_wide",
+        "shape": "box",
+        "size_m": [
+          0.08,
+          0.055,
+          0.035
+        ],
+        "mass_kg": 0.07,
+        "color": [
+          0.8,
+          0.6,
+          0.15
+        ],
+        "split": "development",
+        "geometry_only": true,
+        "household_object_validated": false,
+        "simulation_only": true,
+        "upright_center_height_m": 0.0175
+      },
+      "passed": true,
+      "all_finite": true,
+      "drop_m": 0.09897834807634354,
+      "upright_height_error_m": 2.253055572526419e-07,
+      "last_half_second_drift_m": 8.340108337279162e-08,
+      "max_linear_speed_m_s": 0.0002088445908157155,
+      "final_state": [
+        1.2000044584274292,
+        -4.349049413576722e-05,
+        0.01749977469444275,
+        1.0,
+        -1.428523432878137e-06,
+        -3.947212974253489e-07,
+        4.5104239688953385e-05,
+        6.55206385999918e-05,
+        -0.00018661186913959682,
+        -6.600528286071494e-05,
+        0.00131536356639117,
+        0.0005782890948466957,
+        0.0004254372324794531
+      ]
+    }
+  ]
+}

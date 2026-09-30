@@ -1,0 +1,24 @@
+{
+  "version": "multi-object-impl.005",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "formal_acceptance_passed": false,
+  "household_objects_validated": false,
+  "physics_instances_passed": 5,
+  "task_runs": [
+    {"directory": "datasets/rm65_multi_object_dev_round_expert_001", "object": "round_small", "controller": "scripted", "support": "wide_platform", "status": "fail", "lift_m": 0.0},
+    {"directory": "datasets/rm65_multi_object_dev_round_pi05_001", "object": "round_small", "controller": "pi05_v5_3999", "support": "wide_platform", "status": "fail", "lift_m": 0.0, "target_xy_error_m": 0.17234622533135488},
+    {"directory": "datasets/rm65_multi_object_dev_block_control_001", "object": "block_reference", "controller": "scripted", "support": "wide_platform", "status": "fail", "lift_m": 0.0018872618675231934},
+    {"directory": "datasets/rm65_multi_object_dev_block_strip_control_001", "object": "block_reference", "controller": "scripted", "support": "legacy_strip", "status": "fail", "lift_m": 0.03955352306365967, "target_xy_error_m": 0.06481700201004621},
+    {"directory": "datasets/rm65_multi_object_dev_round_strip_expert_001", "object": "round_small", "controller": "scripted", "support": "legacy_strip", "status": "fail", "lift_m": 0.0, "left_contact_n": 1.3170608282089233, "right_contact_n": 1.3163906335830688}
+  ],
+  "interpretation": "New support/grasp geometry is a confound; failures do not isolate model recognition or prove objects ungraspable. No new task capability is claimed.",
+  "backup": {
+    "archive": "multi_object_20260930_001.tar",
+    "local_directory": "RM65_DATA_BACKUP_DO_NOT_GIT/multi_object_2026_09_30",
+    "bytes": 176404480,
+    "sha256": "53cda12c6b23a5ca4c581f4fe1b75d2d34a6d012f2a90d30b73f8a4220d8aeab",
+    "remote_and_local_archive_hash_match": true,
+    "extracted_tree_verified": false
+  }
+}

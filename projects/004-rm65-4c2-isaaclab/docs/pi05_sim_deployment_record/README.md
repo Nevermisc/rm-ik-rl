@@ -4,7 +4,7 @@
 
 ## 当前结论
 
-> 2026-09-30 路线已调整：以[多物体仿真路线](MULTI_OBJECT_ROADMAP_ZH.md)为后续主线；本次只更新计划，未产生新物体成绩。v5 最新方块结果见 [V5_SIMULATION_DEPLOYMENT.md](V5_SIMULATION_DEPLOYMENT.md)，下列早期结果保留为历史证据，不代表当前版本或新目标完成度。
+> 2026-09-30 路线已调整：以[多物体仿真路线](MULTI_OBJECT_ROADMAP_ZH.md)为后续主线；已实现开发入口并运行几何体/机械臂测试，实际结果与未解决项见[多物体迭代日志](MULTI_OBJECT_ITERATION_LOG.md)。尚未通过新物体抓取验收。v5 最新方块结果见 [V5_SIMULATION_DEPLOYMENT.md](V5_SIMULATION_DEPLOYMENT.md)，下列早期结果保留为历史证据，不代表当前版本或新目标完成度。
 
 - 按“每个受影响案例第一次真正进入 pi0.5”的审计口径，纠正后的主结果为 **54/60（90%）**，95% Wilson 区间约为 **79.9%–95.3%**。
 - 同一 checkpoint 和双 seed 的正式复现运行得到 **55/60（91.7%）**，但 `robust_042` 从失败翻转为成功，因此不能把 55/60 当作无条件更优的新独立结果。

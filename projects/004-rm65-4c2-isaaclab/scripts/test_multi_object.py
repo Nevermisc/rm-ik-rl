@@ -5,9 +5,17 @@ from openpi_extension.multi_object import write_development_report
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import json
+from scripts.check_multi_object_task_result import task_passed
 
 
 class CatalogTests(unittest.TestCase):
+    def test_failed_task_not_healthy_recording(self):
+        self.assertFalse(task_passed({'status':'fail', 'all_finite':True}))
+        self.assertFalse(task_passed({'status':'pass'}))
+        self.assertTrue(task_passed(dict(status='pass', simulation_only=True,
+            real_robot_command_sent=False, evaluation_scope='multi_object_development_only',
+            formal_acceptance_passed=False)))
+
     def test_development_shape_coverage(self):
         self.assertEqual({s.shape for s in CATALOG.values() if s.split == 'development'}, {'box','sphere','cylinder'})
 
