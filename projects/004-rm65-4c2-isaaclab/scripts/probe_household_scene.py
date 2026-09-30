@@ -72,3 +72,4 @@ try:
     print('HOUSEHOLD_SCENE_REPORT=' + str(args.output_dir/'report.json'), flush=True)
 finally:
     launcher.app.close(skip_cleanup=True)
+raise SystemExit(0 if report['status'] == 'pass' else 1)

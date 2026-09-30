@@ -104,3 +104,4 @@ try:
                        simulation_only=True, cases=cases), stream, indent=2)
 finally:
     launcher.app.close(skip_cleanup=True)
+raise SystemExit(0 if all(c['status'] == 'pass' for c in cases) else 1)

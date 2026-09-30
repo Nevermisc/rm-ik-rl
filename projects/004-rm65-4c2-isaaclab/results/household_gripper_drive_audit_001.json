@@ -1,0 +1,70 @@
+{
+  "simulation_only": true,
+  "usd": "generated/rm65_4c2_wide_pads.usd",
+  "joints": [
+    {
+      "path": "/rm65_4c2/joints/tool_gripper_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_r_3_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_l_1_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_l_3_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_l_2_base_joint",
+      "valid_drive": false,
+      "drive_type": null,
+      "stiffness": null,
+      "damping": null,
+      "max_force": null
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_l_2_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_r_2_base_joint",
+      "valid_drive": false,
+      "drive_type": null,
+      "stiffness": null,
+      "damping": null,
+      "max_force": null
+    },
+    {
+      "path": "/rm65_4c2/joints/tool_r_2_joint",
+      "valid_drive": true,
+      "drive_type": "acceleration",
+      "stiffness": 625.0,
+      "damping": 0.0,
+      "max_force": 1.0
+    }
+  ]
+}

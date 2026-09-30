@@ -1,0 +1,236 @@
+{
+  "schema": "rm65_household_development_summary_v1",
+  "simulation_only": true,
+  "checkpoint_updated": false,
+  "deployment_accepted": false,
+  "independent_generalization_test": false,
+  "note": "Repeated diagnostic/development cases, not a sampled success-rate benchmark. Scripted lift metric is end-of-lift; policy lift metric is maximum during rollout.",
+  "cases": [
+    {
+      "case": "rm65_household_dev_banana_free_close_001",
+      "report": "datasets/rm65_household_dev_banana_free_close_001/task_report.json",
+      "status": "diagnostic",
+      "pi05_used": false,
+      "diagnostic_only": true,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "max_joint_error_rad": 0.1676078319549561,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_free_close_002",
+      "report": "datasets/rm65_household_dev_banana_free_close_002/task_report.json",
+      "status": "diagnostic",
+      "pi05_used": false,
+      "diagnostic_only": true,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "max_joint_error_rad": 0.1676078319549561,
+      "soft_gains_diagnostic": false,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_free_force_001",
+      "report": "datasets/rm65_household_dev_banana_free_force_001/task_report.json",
+      "status": "diagnostic",
+      "pi05_used": false,
+      "diagnostic_only": true,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "max_joint_error_rad": 0.0003195524215697798,
+      "soft_gains_diagnostic": true,
+      "force_drive_diagnostic": true,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_free_soft_001",
+      "report": "datasets/rm65_household_dev_banana_free_soft_001/task_report.json",
+      "status": "diagnostic",
+      "pi05_used": false,
+      "diagnostic_only": true,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "max_joint_error_rad": 0.8000000000119325,
+      "soft_gains_diagnostic": true,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_pad_001",
+      "report": "datasets/rm65_household_dev_banana_pad_001/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.000799715518951416,
+      "pad_calibration": {
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_pad_low_001",
+      "report": "datasets/rm65_household_dev_banana_pad_low_001/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.0007161498069763184,
+      "pad_calibration": {
+        "height_offset_m": -0.015,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991
+      }
+    },
+    {
+      "case": "rm65_household_dev_banana_support_001",
+      "report": "datasets/rm65_household_dev_banana_support_001/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.000799715518951416,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991
+      },
+      "source_support_peak_force_n": 0.0,
+      "support_sensor_filter_validated": false
+    },
+    {
+      "case": "rm65_household_dev_banana_support_002",
+      "report": "datasets/rm65_household_dev_banana_support_002/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.000799715518951416,
+      "pad_calibration": {
+        "height_offset_m": 0.0,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      },
+      "source_support_peak_force_n": 0.0,
+      "support_sensor_filter_validated": true
+    },
+    {
+      "case": "rm65_household_dev_banana_support_low_001",
+      "report": "datasets/rm65_household_dev_banana_support_low_001/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.0007161498069763184,
+      "pad_calibration": {
+        "height_offset_m": -0.015,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991
+      },
+      "source_support_peak_force_n": 0.0,
+      "support_sensor_filter_validated": false
+    },
+    {
+      "case": "rm65_household_dev_banana_support_low_002",
+      "report": "datasets/rm65_household_dev_banana_support_low_002/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": -0.0007161498069763184,
+      "pad_calibration": {
+        "height_offset_m": -0.015,
+        "predicted_contact_q_rad": 0.328,
+        "modeled_gap_m": 0.03863604511432991,
+        "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh"
+      },
+      "source_support_peak_force_n": 21.270051956176758,
+      "support_sensor_filter_validated": true
+    },
+    {
+      "case": "rm65_household_dev_banana_v5_001",
+      "report": "datasets/rm65_household_dev_banana_v5_001/task_report.json",
+      "status": "fail",
+      "pi05_used": true,
+      "diagnostic_only": false,
+      "object_id": "ycb_banana",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "block_lift_height_m": 0.0006504654884338379,
+      "final_target_xy_error_m": 0.1746539108699774,
+      "action_chunks": 120,
+      "executed_actions": 600
+    },
+    {
+      "case": "rm65_household_dev_pudding_expert_001",
+      "report": "datasets/rm65_household_dev_pudding_expert_001/task_report.json",
+      "status": "fail",
+      "pi05_used": false,
+      "diagnostic_only": false,
+      "object_id": "ycb_pudding_box",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "failure_stage": "lift",
+      "block_lift_height_m": 0.00028765201568603516
+    },
+    {
+      "case": "rm65_household_dev_pudding_v5_001",
+      "report": "datasets/rm65_household_dev_pudding_v5_001/task_report.json",
+      "status": "fail",
+      "pi05_used": true,
+      "diagnostic_only": false,
+      "object_id": "ycb_pudding_box",
+      "formal_acceptance_passed": false,
+      "training_eligible": false,
+      "block_lift_height_m": 0.01793605089187622,
+      "final_target_xy_error_m": 0.1729110012708754,
+      "action_chunks": 120,
+      "executed_actions": 600
+    }
+  ],
+  "task_trial_count": 9,
+  "task_pass_count": 0,
+  "diagnostic_count": 4
+}

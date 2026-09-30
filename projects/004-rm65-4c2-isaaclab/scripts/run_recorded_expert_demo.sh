@@ -19,6 +19,15 @@ if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
   if [[ -n "${RM65_PAD_CALIBRATION_URDF:-}" ]]; then
     development_object_args+=(--development-pad-calibration-urdf "$RM65_PAD_CALIBRATION_URDF")
     development_object_args+=(--development-pad-height-offset-m "${RM65_PAD_HEIGHT_OFFSET_M:-0}")
+    if [[ "${RM65_FREE_CLOSE_PROBE:-0}" == "1" ]]; then
+      development_object_args+=(--development-free-close-probe)
+      if [[ "${RM65_FREE_CLOSE_SOFT_GAINS:-0}" == "1" ]]; then
+        development_object_args+=(--development-free-close-soft-gains)
+        if [[ "${RM65_FREE_CLOSE_FORCE_DRIVE:-0}" == "1" ]]; then
+          development_object_args+=(--development-free-close-force-drive)
+        fi
+      fi
+    fi
   fi
 fi
 

@@ -1,0 +1,289 @@
+{
+  "status": "fail",
+  "failure_stage": "lift",
+  "simulation_only": true,
+  "pi05_used": false,
+  "real_robot_command_sent": false,
+  "natural_source_gravity": true,
+  "arm_gravity_disabled_through_transport": false,
+  "requested_pregrasp_distance_m": 0.09,
+  "pregrasp_distance_m": 0.09,
+  "grasp_world_offset_x_m": -0.04,
+  "grasp_world_offset_z_m": -0.053,
+  "lift_mode": "cartesian_vertical",
+  "cartesian_lift_height_m": 0.04,
+  "gripper_actuator": {
+    "effort_limit_sim": 200.0,
+    "stiffness": 2000.0,
+    "damping": 80.0,
+    "close_target_rad": 0.8
+  },
+  "source_platform_size_m": [
+    0.2,
+    0.2,
+    0.02
+  ],
+  "settled_source_position_m": [
+    -0.22128650546073914,
+    -3.903871402144432e-06,
+    0.7700334787368774
+  ],
+  "closed_position_m": [
+    -0.2187991589307785,
+    -0.0007193177007138729,
+    0.7707496285438538
+  ],
+  "lifted_position_m": [
+    -0.22123238444328308,
+    8.602626621723175e-06,
+    0.7700334787368774
+  ],
+  "block_lift_height_m": -0.0007161498069763184,
+  "close_left_finger_contact_force_n": 0.9937536120414734,
+  "close_right_finger_contact_force_n": 0.3582994043827057,
+  "close_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0,
+    "tool_l_3": 0.9937536120414734,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_r_3": 0.3582994043827057
+  },
+  "close_current_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0,
+    "tool_l_3": 0.2954546809196472,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_r_3": 0.16244305670261383
+  },
+  "close_recent_mean_contact_force_by_body_n": {
+    "tool_l_1": 0.0,
+    "tool_l_2": 0.0,
+    "tool_l_3": 0.27032744884490967,
+    "tool_r_1": 0.0,
+    "tool_r_2": 0.0,
+    "tool_r_3": 0.17012068629264832
+  },
+  "close_current_contact_force_vector_by_body_n": {
+    "tool_l_1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_3": [
+      0.058118391782045364,
+      0.28957095742225647,
+      0.008024225942790508
+    ],
+    "tool_r_1": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_r_2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_r_3": [
+      0.010572733357548714,
+      -0.1620972752571106,
+      -0.0006615509046241641
+    ]
+  },
+  "closed_link_6_position_m": [
+    -0.2207222878932953,
+    0.0002787560224533081,
+    0.8944151997566223
+  ],
+  "lifted_link_6_position_m": [
+    -0.22074942290782928,
+    -9.384597069583833e-05,
+    0.9317260384559631
+  ],
+  "actual_lift_link_translation_m": [
+    -2.7135014533996582e-05,
+    -0.00037260199314914644,
+    0.03731083869934082
+  ],
+  "lift_max_arm_joint_error_rad": 0.011331222840902822,
+  "lift_actual_arm_joint_position_rad": [
+    -0.0044236197136342525,
+    0.4583510458469391,
+    1.4772464036941528,
+    0.007771538104861975,
+    1.8696789741516113,
+    -0.001789984991773963
+  ],
+  "lift_target_arm_joint_position_rad": [
+    -0.004424803902331263,
+    0.4503725688852819,
+    1.46591518085325,
+    0.007160669333565671,
+    1.8805213764805901,
+    -0.002561417541099455
+  ],
+  "approach_max_arm_joint_error_rad": 0.014129841896137104,
+  "approach_l2_midpoint_minus_block_center_m": [
+    0.07682430744171143,
+    -1.6218982636928558e-06,
+    0.02568817138671875
+  ],
+  "closed_pad_center_minus_block_by_body_m": {
+    "tool_r_2": [
+      -0.002214282751083374,
+      -0.041894948575645685,
+      -0.015242159366607666
+    ],
+    "tool_l_2": [
+      -0.0024729520082473755,
+      0.042068061884492636,
+      -0.01507502794265747
+    ]
+  },
+  "reason": "The block did not clear the source support after the commanded lift.",
+  "expert_episode": {
+    "directory": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/datasets/rm65_household_dev_banana_support_low_002",
+    "frame_count": 184,
+    "validation": {
+      "status": "pass",
+      "format": "rm65_expert_episode_v1",
+      "frame_count": 184,
+      "duration_s": 9.149999999999999,
+      "images_recorded": true,
+      "phase_names": [
+        "SOURCE_SETTLE",
+        "APPROACH_1",
+        "APPROACH_2",
+        "APPROACH_3",
+        "APPROACH_4",
+        "APPROACH_5",
+        "APPROACH_6",
+        "APPROACH_7",
+        "APPROACH_8",
+        "APPROACH_9",
+        "GRASP_HOLD",
+        "CLOSE",
+        "CLOSE_HOLD",
+        "LIFT",
+        "LIFT_HOLD"
+      ],
+      "all_finite": true,
+      "errors": []
+    },
+    "training_ready": false,
+    "training_blocker": "multi_object_geometry_requires_review"
+  },
+  "development_pad_calibration": {
+    "mode": "urdf_contact_pad_box_development_only",
+    "urdf_sha256": "d9937fb79c038dfbdc67427fcd39d52b1988172bcdf59451c91d815386b9f98d",
+    "predicted_contact_q_rad": 0.328,
+    "modeled_gap_m": 0.03863604511432991,
+    "requested_width_m": 0.03864932927528031,
+    "pad_midpoint_link6_m": [
+      -0.08564521489368257,
+      -0.0010671180240694952,
+      0.11155388962662559
+    ],
+    "closing_axis_link6": [
+      0.0034257602559623727,
+      -0.9999106658521698,
+      -0.012919925763685327
+    ],
+    "perception_used": false,
+    "collision_free_path_validated": false,
+    "height_offset_m": -0.015,
+    "source_support_sensor_filter": "/World/SourcePlatform/geometry/mesh",
+    "closed_gripper_joint_names": [
+      "tool_gripper_joint",
+      "tool_l_1_joint",
+      "tool_r_3_joint",
+      "tool_l_3_joint",
+      "tool_l_2_joint",
+      "tool_r_2_joint"
+    ],
+    "closed_gripper_joint_position_rad": [
+      0.5122899413108826,
+      0.4396551251411438,
+      0.5459367036819458,
+      0.5397647619247437,
+      0.03591563180088997,
+      -0.0001606731239007786
+    ],
+    "closed_gripper_joint_target_rad": [
+      0.8,
+      0.8,
+      0.8,
+      0.8,
+      0.8,
+      0.8
+    ],
+    "source_support_contact_by_body": {
+      "tool_l_1": {
+        "peak_n": 0.0,
+        "current_n": 0.0,
+        "recent_mean_n": 0.0
+      },
+      "tool_l_2": {
+        "peak_n": 12.852685928344727,
+        "current_n": 1.6338138580322266,
+        "recent_mean_n": 3.1710457801818848
+      },
+      "tool_l_3": {
+        "peak_n": 0.0,
+        "current_n": 0.0,
+        "recent_mean_n": 0.0
+      },
+      "tool_r_1": {
+        "peak_n": 0.0,
+        "current_n": 0.0,
+        "recent_mean_n": 0.0
+      },
+      "tool_r_2": {
+        "peak_n": 21.270051956176758,
+        "current_n": 6.158047199249268,
+        "recent_mean_n": 9.605859756469727
+      },
+      "tool_r_3": {
+        "peak_n": 0.0,
+        "current_n": 0.0,
+        "recent_mean_n": 0.0
+      }
+    }
+  },
+  "object_probe": {
+    "object_id": "ycb_banana",
+    "filename": "011_banana.usd",
+    "prompt_name": "banana",
+    "simulation_mass_kg": 0.066,
+    "collision_limit": "Irregular curved geometry; no deformability model.",
+    "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+    "source_collection": "Props/YCB/Axis_Aligned",
+    "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+    "mass_is_simulation_assumption": true,
+    "split": "development",
+    "real_object_grasp_validated": false,
+    "geometry_only": false,
+    "textured_household_asset": true,
+    "household_object_validated": false,
+    "size_m": [
+      0.19717395341752564,
+      0.03864932927528031,
+      0.0740662891998971
+    ],
+    "local_asset_sha256": "b7fc1ee88c2c05fab0ed3bc5633c2c9a8ec5b594c61fbc1009e71a1a40a6ef48",
+    "collision_approximation": "convexDecomposition",
+    "cavity_fidelity_validated": false,
+    "simulation_only": true
+  },
+  "evaluation_scope": "multi_object_development_only",
+  "formal_acceptance_passed": false,
+  "training_ready": false,
+  "multi_object_limitation": "Historical block criteria and calibrated grasp geometry are diagnostic only. This run cannot establish household-object capability or enter training automatically."
+}

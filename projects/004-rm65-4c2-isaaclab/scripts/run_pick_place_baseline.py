@@ -29,6 +29,9 @@ parser.add_argument("--development-object", choices=[k for k, s in CATALOG.items
 parser.add_argument("--household-manifest", type=Path)
 parser.add_argument("--development-pad-calibration-urdf", type=Path)
 parser.add_argument("--development-pad-height-offset-m", type=float, default=0.0)
+parser.add_argument("--development-free-close-probe", action="store_true")
+parser.add_argument("--development-free-close-soft-gains", action="store_true")
+parser.add_argument("--development-free-close-force-drive", action="store_true")
 parser.add_argument("--development-source-support", choices=("wide_platform", "legacy_strip"), default="wide_platform")
 parser.add_argument("--transfer-joint-1-rad", type=float, default=0.8)
 parser.add_argument(
@@ -226,6 +229,16 @@ if args.development_pad_calibration_urdf is not None:
         parser.error('development pad height offset must be within 25 mm')
 elif args.development_pad_height_offset_m != 0:
     parser.error('pad height offset requires development pad calibration')
+if args.development_free_close_probe and (args.development_pad_calibration_urdf is None or args.initialize_at_grasp):
+    parser.error('free-close probe requires development calibration and the pregrasp start')
+if args.development_free_close_soft_gains:
+    if not args.development_free_close_probe:
+        parser.error('soft gains are restricted to the free-close diagnostic')
+    args.gripper_effort_limit_sim = 20.0
+    args.gripper_stiffness = 120.0
+    args.gripper_damping = 12.0
+if args.development_free_close_force_drive and not (args.development_free_close_probe and args.development_free_close_soft_gains):
+    parser.error('force drive is restricted to the soft-gains free-close comparison')
 if args.development_object in HOUSEHOLD_CATALOG:
     if args.household_manifest is None:
         parser.error('textured household objects require --household-manifest')
@@ -345,6 +358,7 @@ PAD_LOCAL_CENTERS = {
     "tool_l_2": (0.027286683, 0.013343694, -0.072958842),
 }
 CONTACT_SENSORS: dict[str, ContactSensor] = {}
+SUPPORT_CONTACT_SENSORS: dict[str, ContactSensor] = {}
 GRIPPER_MASTER_JOINT = "tool_gripper_joint"
 RM65_JOINT_LOWER_RAD = np.array([-3.106, -2.2689, -2.356, -3.106, -2.234, -6.28])
 RM65_JOINT_UPPER_RAD = np.array([3.106, 2.2689, 2.356, 3.106, 2.234, 6.28])
@@ -696,7 +710,7 @@ def smooth_move(
         sim.step(render=False)
         robot.update(sim.get_physics_dt())
         cube.update(sim.get_physics_dt())
-        for contact_sensor in CONTACT_SENSORS.values():
+        for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
             contact_sensor.update(sim.get_physics_dt())
     print(f"PICK_PLACE_STAGE={phase}_DONE", flush=True)
 
@@ -719,7 +733,7 @@ def hold(
         sim.step(render=False)
         robot.update(sim.get_physics_dt())
         cube.update(sim.get_physics_dt())
-        for contact_sensor in CONTACT_SENSORS.values():
+        for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
             contact_sensor.update(sim.get_physics_dt())
 
 
@@ -934,7 +948,7 @@ def run_pi05_closed_loop(
                     sim.step(render=False)
                     robot.update(sim.get_physics_dt())
                     cube.update(sim.get_physics_dt())
-                    for contact_sensor in CONTACT_SENSORS.values():
+                    for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
                         contact_sensor.update(sim.get_physics_dt())
                     max_cube_z = max(max_cube_z, float(cube.data.root_pos_w[0, 2].item()))
                 executed_actions += 1
@@ -1783,6 +1797,17 @@ def main() -> int:
             },
         )
     )
+    if args.development_free_close_force_drive:
+        changed_drives = []
+        for prim in get_current_stage().Traverse():
+            if prim.IsA(UsdPhysics.Joint) and prim.GetName().startswith('tool_'):
+                drive = UsdPhysics.DriveAPI.Get(prim, 'angular')
+                if drive:
+                    changed_drives.append(dict(path=str(prim.GetPath()), original_type=str(drive.GetTypeAttr().Get())))
+                    drive.GetTypeAttr().Set('force')
+        if len(changed_drives) != 6:
+            raise RuntimeError('expected exactly six gripper drives for isolated comparison')
+        PAD_CALIBRATION['session_only_drive_changes'] = changed_drives
     cube = RigidObject(
         RigidObjectCfg(
             prim_path="/World/Cube",
@@ -1857,6 +1882,19 @@ def main() -> int:
             for body_path in sorted(MOVING_GRIPPER_BODY_PATHS)
         }
     )
+
+    if args.development_pad_calibration_urdf is not None:
+        source_collider_path = '/World/SourcePlatform/geometry/mesh'
+        source_collider = get_current_stage().GetPrimAtPath(source_collider_path)
+        if not source_collider.IsValid() or not source_collider.HasAPI(UsdPhysics.CollisionAPI):
+            raise RuntimeError('development support sensor requires the actual static collider prim')
+        PAD_CALIBRATION['source_support_sensor_filter'] = source_collider_path
+        SUPPORT_CONTACT_SENSORS.update({
+            body_path.rsplit('/', 1)[-1]: ContactSensor(ContactSensorCfg(
+                prim_path=body_path, update_period=0.0, history_length=400,
+                filter_prim_paths_expr=[source_collider_path]))
+            for body_path in sorted(MOVING_GRIPPER_BODY_PATHS)
+        })
 
     isolated_paths = []
     approach_arm_gravity_apis = []
@@ -1986,6 +2024,43 @@ def main() -> int:
     settled_source_quaternion = cube.data.root_quat_w[0].clone()
     print("PICK_PLACE_STAGE=SOURCE_SETTLED", flush=True)
 
+    if args.development_free_close_probe:
+        target = np.full(len(gripper_ids), args.gripper_close_target_rad)
+        smooth_move(sim, robot, cube, state, gripper_ids, np.zeros(len(gripper_ids)),
+                    target, 180, 'FREE_CLOSE', episode_capture)
+        hold(sim, robot, cube, state, 480, 'FREE_CLOSE_HOLD', episode_capture)
+        actual = robot.data.joint_pos[0, gripper_ids].detach().cpu().numpy()
+        report = dict(status='diagnostic', simulation_only=True, real_robot_command_sent=False,
+            pi05_used=False, grasp_tested=False, pregrasp_height_m=effective_pregrasp_distance_m,
+            gripper_joint_names=[joint_names[i] for i in gripper_ids],
+            actual_joint_rad=actual.tolist(), target_joint_rad=target.tolist(),
+            max_joint_error_rad=float(np.max(np.abs(actual-target))),
+            joint_velocity_rad_s=robot.data.joint_vel[0, gripper_ids].detach().cpu().tolist(),
+            effective_joint_stiffness=robot.data.joint_stiffness[0, gripper_ids].detach().cpu().tolist(),
+            effective_joint_damping=robot.data.joint_damping[0, gripper_ids].detach().cpu().tolist(),
+            effective_joint_effort_limits=robot.data.joint_effort_limits[0, gripper_ids].detach().cpu().tolist(),
+            body_masses_kg=dict(zip(robot.body_names, robot.data.default_mass[0].detach().cpu().tolist())),
+            body_local_com_m=dict(zip(robot.body_names, robot.root_physx_view.get_coms()[0, :, :3].detach().cpu().tolist())),
+            authored_gripper_joint_attributes={
+                str(p.GetPath()): {a.GetName(): str(a.Get()) for a in p.GetAttributes()
+                                  if any(word in a.GetName().lower() for word in
+                                         ('friction', 'stiffness', 'damping', 'maxforce', 'localpos', 'limit'))}
+                for p in get_current_stage().Traverse()
+                if p.IsA(UsdPhysics.Joint) and p.GetName() in [joint_names[i] for i in gripper_ids]
+            },
+            soft_gains_diagnostic=args.development_free_close_soft_gains,
+            force_drive_diagnostic=args.development_free_close_force_drive,
+            object_contact_by_body={n: contact_force_statistics(s) for n,s in CONTACT_SENSORS.items()},
+            support_contact_by_body={n: contact_force_statistics(s) for n,s in SUPPORT_CONTACT_SENSORS.items()},
+            interpretation='Free-close diagnostic at pregrasp; not a pick-and-place trial.')
+        if episode_recorder is not None:
+            episode_recorder.metadata['task_success'] = False
+            episode_recorder.metadata['diagnostic_only'] = True
+            report['episode_manifest'] = episode_recorder.save()
+        write_development_report(output, report, OBJECT_SPEC)
+        print(json.dumps(report, indent=2), flush=True)
+        return 0
+
     if args.pi05_closed_loop:
         assert episode_capture is not None
         assert episode_recorder is not None
@@ -2095,6 +2170,13 @@ def main() -> int:
         )
     )
     closed_gripper_joint_position = robot.data.joint_pos[0, gripper_ids].clone()
+    if PAD_CALIBRATION is not None:
+        PAD_CALIBRATION['closed_gripper_joint_names'] = [robot.joint_names[i] for i in gripper_ids]
+        PAD_CALIBRATION['closed_gripper_joint_position_rad'] = closed_gripper_joint_position.detach().cpu().tolist()
+        PAD_CALIBRATION['closed_gripper_joint_target_rad'] = close_target.tolist()
+        PAD_CALIBRATION['source_support_contact_by_body'] = {
+            name: contact_force_statistics(sensor) for name, sensor in SUPPORT_CONTACT_SENSORS.items()
+        }
     close_contact_force_statistics_by_body = {}
     for body_name, contact_sensor in CONTACT_SENSORS.items():
         close_contact_force_statistics_by_body[body_name] = contact_force_statistics(contact_sensor)

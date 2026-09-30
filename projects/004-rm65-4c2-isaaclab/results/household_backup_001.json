@@ -1,0 +1,41 @@
+{
+  "schema": "rm65_household_backup_evidence_v1",
+  "date": "2026-09-30",
+  "simulation_only": true,
+  "data_committed_to_git": false,
+  "checkpoint_modified": false,
+  "local_directory": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/household_2026_09_30",
+  "remote_directory": "/home/chengyu/robot-learning/rm65-backup-staging",
+  "archives": [
+    {
+      "filename": "household_assets_20260930_001.tar",
+      "archive_bytes": 40570880,
+      "sha256": "5616acdf49f8382ba4f670dc5882271db1959ac2d23e4d5ad53343b9cf1d082b",
+      "remote_local_sha256_match": true,
+      "regular_file_count": 11,
+      "regular_file_bytes": 40545838,
+      "safe_tar_audit_passed": true,
+      "extracted_to_fresh_local_directory": true,
+      "household_usd_and_texture_checksums_revalidated": true,
+      "relocated_manifest_passed": true,
+      "robot_mesh_reference_portability_validated": false
+    },
+    {
+      "filename": "household_runs_20260930_001.tar",
+      "archive_bytes": 385576960,
+      "sha256": "fc61918f404857137e5f6fc8f081eeae9db2e5f08dcdd51bf92d4d2e958d33d4",
+      "remote_local_sha256_match": true,
+      "regular_file_count": 5790,
+      "regular_file_bytes": 378231836,
+      "safe_tar_audit_passed": true,
+      "extracted_tree_revalidated": false,
+      "contains": "13 development episode recordings, task reports, image frames, simulation logs available at archive creation, and rendered household overview"
+    }
+  ],
+  "scope_limitations": [
+    "Asset archive contains the used assets_003 cache and gripper USD/URDF snapshots, not all repository assets or checkpoints.",
+    "Household built-in OmniPBR shader still requires Isaac runtime.",
+    "Robot snapshots retain existing mesh references; full standalone robot package is not asserted.",
+    "Raw-run tar was audited for path safety, regular file count/bytes, and transfer checksum; a full extracted per-file restore audit was not performed."
+  ]
+}
