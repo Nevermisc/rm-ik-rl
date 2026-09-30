@@ -1,0 +1,230 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "cases": [
+    {
+      "object_id": "ycb_mug",
+      "filename": "025_mug.usd",
+      "prompt_name": "mug",
+      "simulation_mass_kg": 0.12,
+      "collision_limit": "Cup/handle cavities require collision inspection.",
+      "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+      "source_collection": "Props/YCB/Axis_Aligned",
+      "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+      "mass_is_simulation_assumption": true,
+      "split": "development",
+      "real_object_grasp_validated": false,
+      "source_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/025_mug.usd",
+      "package_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_mug/model.usd",
+      "status": "pass",
+      "package_sha256": "d470c19a0c14a1cbfd0927a79f6a168ad375c7f43d43129fe2e0f4ac25c860c8",
+      "package_bytes": 556532,
+      "source_sha256": "923c7034200de93a233ea3a223e90e032336342ec6974c47223cefa1ed8d88c3",
+      "copied_textures": [
+        {
+          "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/Materials/Textures/025_mug_COLOR.png",
+          "relative_path": "textures/025_mug_COLOR.png",
+          "sha256": "c0cd34ec9a0eb023173e0a8adbaa3e24dc9129780592e134adbc811e08a20a9f",
+          "bytes": 8282618
+        }
+      ],
+      "external_runtime_dependency": "Isaac built-in OmniPBR.mdl",
+      "stage_meters_per_unit": 1.0,
+      "stage_up_axis": "Z",
+      "default_prim": "/Root",
+      "bounds_min": [
+        -0.05849487650778418,
+        -0.04065199761125449,
+        -0.04654441729461212
+      ],
+      "bounds_max": [
+        0.05849521029378746,
+        0.04065100102161612,
+        0.04654394045746457
+      ],
+      "mesh_count": 1,
+      "texture_assets": [
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.info:mdl:sourceAsset",
+          "authored": "OmniPBR.mdl",
+          "resolved": ""
+        },
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.inputs:diffuse_texture",
+          "authored": "textures/025_mug_COLOR.png",
+          "resolved": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_mug/textures/025_mug_COLOR.png"
+        }
+      ],
+      "rigid_prims": [],
+      "collider_prims": []
+    },
+    {
+      "object_id": "ycb_banana",
+      "filename": "011_banana.usd",
+      "prompt_name": "banana",
+      "simulation_mass_kg": 0.066,
+      "collision_limit": "Irregular curved geometry; no deformability model.",
+      "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+      "source_collection": "Props/YCB/Axis_Aligned",
+      "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+      "mass_is_simulation_assumption": true,
+      "split": "development",
+      "real_object_grasp_validated": false,
+      "source_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/011_banana.usd",
+      "package_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_banana/model.usd",
+      "status": "pass",
+      "package_sha256": "63f944662e7e97d75809c2aeb8226abd09a8562e96fb6297eb09bd18e2e30a05",
+      "package_bytes": 458192,
+      "source_sha256": "d4d1fa7af05967365cd538824ac68401111c574865a7fba7bc76d861f54f25dd",
+      "copied_textures": [
+        {
+          "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/Materials/Textures/011_banana_COLOR.png",
+          "relative_path": "textures/011_banana_COLOR.png",
+          "sha256": "841dd1e67d23815cfaac3a14019c4dd8712d956664dab853a4d558353eba3795",
+          "bytes": 6096662
+        }
+      ],
+      "external_runtime_dependency": "Isaac built-in OmniPBR.mdl",
+      "stage_meters_per_unit": 1.0,
+      "stage_up_axis": "Z",
+      "default_prim": "/Root",
+      "bounds_min": [
+        -0.09858668106973134,
+        -0.019325170085016552,
+        -0.037033509380366425
+      ],
+      "bounds_max": [
+        0.0985872723477943,
+        0.019324159190263757,
+        0.03703277981953068
+      ],
+      "mesh_count": 1,
+      "texture_assets": [
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.info:mdl:sourceAsset",
+          "authored": "OmniPBR.mdl",
+          "resolved": ""
+        },
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.inputs:diffuse_texture",
+          "authored": "textures/011_banana_COLOR.png",
+          "resolved": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_banana/textures/011_banana_COLOR.png"
+        }
+      ],
+      "rigid_prims": [],
+      "collider_prims": []
+    },
+    {
+      "object_id": "ycb_soup_can",
+      "filename": "005_tomato_soup_can.usd",
+      "prompt_name": "soup can",
+      "simulation_mass_kg": 0.35,
+      "collision_limit": "Rigid sealed can; contents not simulated.",
+      "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+      "source_collection": "Props/YCB/Axis_Aligned",
+      "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+      "mass_is_simulation_assumption": true,
+      "split": "development",
+      "real_object_grasp_validated": false,
+      "source_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/005_tomato_soup_can.usd",
+      "package_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_soup_can/model.usd",
+      "status": "pass",
+      "package_sha256": "1c52e0e77b87ead336df64112b3e2733c37fb46d8543964dc26e922408639bd7",
+      "package_bytes": 467291,
+      "source_sha256": "e16f7533402d465535042d8ddf3a8e401b4e3c1821d34c6e5cb8993e13d5381e",
+      "copied_textures": [
+        {
+          "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/Materials/Textures/005_tomato_soup_can_COLOR.png",
+          "relative_path": "textures/005_tomato_soup_can_COLOR.png",
+          "sha256": "c6e19d89d60c65f702ed789742e488bc15125db3ee2c4bcbb6a7e3c433a3abf1",
+          "bytes": 12416459
+        }
+      ],
+      "external_runtime_dependency": "Isaac built-in OmniPBR.mdl",
+      "stage_meters_per_unit": 1.0,
+      "stage_up_axis": "Z",
+      "default_prim": "/Root",
+      "bounds_min": [
+        -0.033829800326456105,
+        -0.05092699890746921,
+        -0.03385759993215798
+      ],
+      "bounds_max": [
+        0.0338295785971825,
+        0.050928000265479056,
+        0.03385665817879158
+      ],
+      "mesh_count": 1,
+      "texture_assets": [
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.info:mdl:sourceAsset",
+          "authored": "OmniPBR.mdl",
+          "resolved": ""
+        },
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.inputs:diffuse_texture",
+          "authored": "textures/005_tomato_soup_can_COLOR.png",
+          "resolved": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_soup_can/textures/005_tomato_soup_can_COLOR.png"
+        }
+      ],
+      "rigid_prims": [],
+      "collider_prims": []
+    },
+    {
+      "object_id": "ycb_pudding_box",
+      "filename": "008_pudding_box.usd",
+      "prompt_name": "pudding box",
+      "simulation_mass_kg": 0.19,
+      "collision_limit": "Rigid box; crushing not simulated.",
+      "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+      "source_collection": "Props/YCB/Axis_Aligned",
+      "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+      "mass_is_simulation_assumption": true,
+      "split": "development",
+      "real_object_grasp_validated": false,
+      "source_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/008_pudding_box.usd",
+      "package_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_pudding_box/model.usd",
+      "status": "pass",
+      "package_sha256": "7f17b9d4c2a5c69283f54762ec0414e5300293b722ed8aa10521dfd37a8e0207",
+      "package_bytes": 460907,
+      "source_sha256": "e833edb71290afc24a4bea5ffc06714b5b07b26242d315dd796c001e6ea7b9b2",
+      "copied_textures": [
+        {
+          "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/Materials/Textures/008_pudding_box_COLOR.png",
+          "relative_path": "textures/008_pudding_box_COLOR.png",
+          "sha256": "19bbe4971d72cb11c36ea74a924224f6cae7e0da08b4d50bf9b438ff3c31143d",
+          "bytes": 11774885
+        }
+      ],
+      "external_runtime_dependency": "Isaac built-in OmniPBR.mdl",
+      "stage_meters_per_unit": 1.0,
+      "stage_up_axis": "Z",
+      "default_prim": "/Root",
+      "bounds_min": [
+        -0.05682741991816265,
+        -0.044908570239501344,
+        -0.019235260056661208
+      ],
+      "bounds_max": [
+        0.056826919239157725,
+        0.04490838904138528,
+        0.019236110018876706
+      ],
+      "mesh_count": 1,
+      "texture_assets": [
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.info:mdl:sourceAsset",
+          "authored": "OmniPBR.mdl",
+          "resolved": ""
+        },
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.inputs:diffuse_texture",
+          "authored": "textures/008_pudding_box_COLOR.png",
+          "resolved": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_assets_002/ycb_pudding_box/textures/008_pudding_box_COLOR.png"
+        }
+      ],
+      "rigid_prims": [],
+      "collider_prims": []
+    }
+  ]
+}

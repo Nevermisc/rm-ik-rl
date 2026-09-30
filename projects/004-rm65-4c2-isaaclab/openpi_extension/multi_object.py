@@ -54,6 +54,9 @@ CATALOG = {
 
 def spawn_config(spec, sim_utils):
     """Generate a dynamic collision-enabled primitive; no robot control."""
+    from openpi_extension.household_assets import HouseholdRuntime, household_spawn_config
+    if isinstance(spec, HouseholdRuntime):
+        return household_spawn_config(spec, sim_utils)
     common = dict(
         rigid_props=sim_utils.RigidBodyPropertiesCfg(disable_gravity=False),
         mass_props=sim_utils.MassPropertiesCfg(mass=spec.mass_kg),

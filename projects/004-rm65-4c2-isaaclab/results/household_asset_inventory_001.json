@@ -1,0 +1,45 @@
+{
+  "simulation_only": true,
+  "inventory": [
+    {
+      "root": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned_Physics",
+      "result": "Result.OK",
+      "entries": [
+        ".thumbs",
+        "003_cracker_box.usd",
+        "004_sugar_box.usd",
+        "005_tomato_soup_can.usd",
+        "006_mustard_bottle.usd"
+      ]
+    },
+    {
+      "root": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned",
+      "result": "Result.OK",
+      "entries": [
+        ".thumbs",
+        "002_master_chef_can.usd",
+        "003_cracker_box.usd",
+        "004_sugar_box.usd",
+        "005_tomato_soup_can.usd",
+        "006_mustard_bottle.usd",
+        "007_tuna_fish_can.usd",
+        "008_pudding_box.usd",
+        "009_gelatin_box.usd",
+        "010_potted_meat_can.usd",
+        "011_banana.usd",
+        "019_pitcher_base.usd",
+        "021_bleach_cleanser.usd",
+        "024_bowl.usd",
+        "025_mug.usd",
+        "035_power_drill.usd",
+        "036_wood_block.usd",
+        "037_scissors.usd",
+        "040_large_marker.usd",
+        "051_large_clamp.usd",
+        "052_extra_large_clamp.usd",
+        "061_foam_brick.usd",
+        "Materials"
+      ]
+    }
+  ]
+}

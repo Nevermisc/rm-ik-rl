@@ -1,0 +1,213 @@
+{
+  "version": "household-impl.005",
+  "status": "pass",
+  "simulation_only": true,
+  "real_robot_command_sent": false,
+  "pi05_used": false,
+  "grasp_tested": false,
+  "visual_review_required": true,
+  "collision_cavity_validated": false,
+  "image": "overview.png",
+  "cases": [
+    {
+      "object": {
+        "object_id": "ycb_mug",
+        "filename": "025_mug.usd",
+        "prompt_name": "mug",
+        "simulation_mass_kg": 0.12,
+        "collision_limit": "Cup/handle cavities require collision inspection.",
+        "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+        "source_collection": "Props/YCB/Axis_Aligned",
+        "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+        "mass_is_simulation_assumption": true,
+        "split": "development",
+        "real_object_grasp_validated": false,
+        "geometry_only": false,
+        "textured_household_asset": true,
+        "household_object_validated": false,
+        "size_m": [
+          0.11699008680157164,
+          0.0813029986328706,
+          0.09308835775207669
+        ],
+        "local_asset_sha256": "275a0971082c55c7ca013a303f4fb96e133c0d2fae6fd91754821992506be5da",
+        "collision_approximation": "convexDecomposition",
+        "cavity_fidelity_validated": false,
+        "simulation_only": true
+      },
+      "initial_xy": [
+        0,
+        0
+      ],
+      "physics_settling_passed": true,
+      "drop_m": 0.08759401366114616,
+      "tail_drift_m": 2.5167258499436684e-08,
+      "tail_speed_m_s": 4.306794380681822e-06,
+      "final_state": [
+        0.024750644341111183,
+        0.002364968881011009,
+        0.037928301841020584,
+        0.9531935453414917,
+        -0.04594366252422333,
+        0.2988497316837311,
+        0.00018051186634693295,
+        -9.008014671962883e-07,
+        2.8687902613455663e-06,
+        -2.074081294267671e-06,
+        -5.984326344332658e-05,
+        -2.665839383553248e-05,
+        -1.0405083230580203e-05
+      ]
+    },
+    {
+      "object": {
+        "object_id": "ycb_banana",
+        "filename": "011_banana.usd",
+        "prompt_name": "banana",
+        "simulation_mass_kg": 0.066,
+        "collision_limit": "Irregular curved geometry; no deformability model.",
+        "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+        "source_collection": "Props/YCB/Axis_Aligned",
+        "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+        "mass_is_simulation_assumption": true,
+        "split": "development",
+        "real_object_grasp_validated": false,
+        "geometry_only": false,
+        "textured_household_asset": true,
+        "household_object_validated": false,
+        "size_m": [
+          0.19717395341752564,
+          0.03864932927528031,
+          0.0740662891998971
+        ],
+        "local_asset_sha256": "b7fc1ee88c2c05fab0ed3bc5633c2c9a8ec5b594c61fbc1009e71a1a40a6ef48",
+        "collision_approximation": "convexDecomposition",
+        "cavity_fidelity_validated": false,
+        "simulation_only": true
+      },
+      "initial_xy": [
+        0.3,
+        0
+      ],
+      "physics_settling_passed": true,
+      "drop_m": 0.0789778083562851,
+      "tail_drift_m": 2.2191169080088002e-07,
+      "tail_speed_m_s": 0.0004779305891133845,
+      "final_state": [
+        0.30000007152557373,
+        5.005858838558197e-09,
+        0.03703346103429794,
+        1.0,
+        -3.350099291310471e-07,
+        9.389769388690183e-07,
+        6.165054742268694e-07,
+        -7.251065835589543e-05,
+        -7.575819472549483e-05,
+        2.5674830794741865e-07,
+        0.0044692521914839745,
+        -0.0010100776562467217,
+        0.004853454884141684
+      ]
+    },
+    {
+      "object": {
+        "object_id": "ycb_soup_can",
+        "filename": "005_tomato_soup_can.usd",
+        "prompt_name": "soup can",
+        "simulation_mass_kg": 0.35,
+        "collision_limit": "Rigid sealed can; contents not simulated.",
+        "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+        "source_collection": "Props/YCB/Axis_Aligned",
+        "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+        "mass_is_simulation_assumption": true,
+        "split": "development",
+        "real_object_grasp_validated": false,
+        "geometry_only": false,
+        "textured_household_asset": true,
+        "household_object_validated": false,
+        "size_m": [
+          0.0676593789236386,
+          0.10185499917294827,
+          0.06771425811094955
+        ],
+        "local_asset_sha256": "ea971e30aa6c28a92dde5e3c3a190c747fd719bf8faee282d3d6a77bda9c1616",
+        "collision_approximation": "convexDecomposition",
+        "cavity_fidelity_validated": false,
+        "simulation_only": true
+      },
+      "initial_xy": [
+        0,
+        0.3
+      ],
+      "physics_settling_passed": true,
+      "drop_m": 0.079621572047472,
+      "tail_drift_m": 4.0270614931614546e-07,
+      "tail_speed_m_s": 0.0007175282808020711,
+      "final_state": [
+        -0.0001878580078482628,
+        0.3016160726547241,
+        0.033213671296834946,
+        0.9999113082885742,
+        -0.008767195977270603,
+        0.0020379736088216305,
+        -0.009821835905313492,
+        0.000418649084167555,
+        -3.598124021664262e-05,
+        4.9667625717120245e-05,
+        0.0008523897849954665,
+        0.00978190079331398,
+        0.0010375366546213627
+      ]
+    },
+    {
+      "object": {
+        "object_id": "ycb_pudding_box",
+        "filename": "008_pudding_box.usd",
+        "prompt_name": "pudding box",
+        "simulation_mass_kg": 0.19,
+        "collision_limit": "Rigid box; crushing not simulated.",
+        "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+        "source_collection": "Props/YCB/Axis_Aligned",
+        "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+        "mass_is_simulation_assumption": true,
+        "split": "development",
+        "real_object_grasp_validated": false,
+        "geometry_only": false,
+        "textured_household_asset": true,
+        "household_object_validated": false,
+        "size_m": [
+          0.11365433915732037,
+          0.08981695928088662,
+          0.038471370075537914
+        ],
+        "local_asset_sha256": "1078e06a6aaa4869e0d19aff7018d974c1c2366c804bb42de73efaea6bb8a8fa",
+        "collision_approximation": "convexDecomposition",
+        "cavity_fidelity_validated": false,
+        "simulation_only": true
+      },
+      "initial_xy": [
+        0.3,
+        0.3
+      ],
+      "physics_settling_passed": true,
+      "drop_m": 0.07982200011610985,
+      "tail_drift_m": 4.280032683823265e-08,
+      "tail_speed_m_s": 0.00012797254021279514,
+      "final_state": [
+        0.3027123212814331,
+        0.2997761368751526,
+        0.01839180663228035,
+        0.9996688365936279,
+        -0.011520840227603912,
+        0.02259863168001175,
+        -0.004332657437771559,
+        -3.8135516433612793e-07,
+        -2.4674247470102273e-05,
+        1.5337089962486061e-06,
+        0.0005549453780986369,
+        0.0001555759517941624,
+        0.00011241641914239153
+      ]
+    }
+  ]
+}

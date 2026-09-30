@@ -13,6 +13,13 @@ simulation_seed="${6:-}"
 development_object_args=()
 if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
   development_object_args=(--development-object "$RM65_DEVELOPMENT_OBJECT" --development-source-support "${RM65_DEVELOPMENT_SOURCE_SUPPORT:-wide_platform}")
+  if [[ -n "${RM65_HOUSEHOLD_MANIFEST:-}" ]]; then
+    development_object_args+=(--household-manifest "$RM65_HOUSEHOLD_MANIFEST")
+  fi
+  if [[ -n "${RM65_PAD_CALIBRATION_URDF:-}" ]]; then
+    development_object_args+=(--development-pad-calibration-urdf "$RM65_PAD_CALIBRATION_URDF")
+    development_object_args+=(--development-pad-height-offset-m "${RM65_PAD_HEIGHT_OFFSET_M:-0}")
+  fi
 fi
 
 simulation_seed_args=()

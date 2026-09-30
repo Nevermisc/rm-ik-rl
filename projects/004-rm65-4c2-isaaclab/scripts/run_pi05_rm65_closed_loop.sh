@@ -43,6 +43,9 @@ renderer_accumulation_args=()
 development_object_args=()
 if [[ -n "${RM65_DEVELOPMENT_OBJECT:-}" ]]; then
   development_object_args=(--development-object "$RM65_DEVELOPMENT_OBJECT" --development-source-support "${RM65_DEVELOPMENT_SOURCE_SUPPORT:-wide_platform}")
+  if [[ -n "${RM65_HOUSEHOLD_MANIFEST:-}" ]]; then
+    development_object_args+=(--household-manifest "$RM65_HOUSEHOLD_MANIFEST")
+  fi
 fi
 if [[ "$reset_renderer_accumulation" == "1" ]]; then
   renderer_accumulation_args+=(--reset-renderer-accumulation-before-policy-observation)

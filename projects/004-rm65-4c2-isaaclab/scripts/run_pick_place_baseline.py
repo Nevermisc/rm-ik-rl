@@ -16,7 +16,8 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from isaaclab.app import AppLauncher
-from openpi_extension.multi_object import CATALOG, spawn_config, write_development_report
+from openpi_extension.multi_object import CATALOG, spawn_config, write_development_report as _write_development_report
+from openpi_extension.household_assets import HOUSEHOLD_CATALOG, load_household
 
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -24,7 +25,10 @@ parser.add_argument("--usd", type=Path, required=True)
 parser.add_argument("--urdf", type=Path, required=True)
 parser.add_argument("--description", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
-parser.add_argument("--development-object", choices=[k for k, s in CATALOG.items() if s.split == "development"])
+parser.add_argument("--development-object", choices=[k for k, s in CATALOG.items() if s.split == "development"] + list(HOUSEHOLD_CATALOG))
+parser.add_argument("--household-manifest", type=Path)
+parser.add_argument("--development-pad-calibration-urdf", type=Path)
+parser.add_argument("--development-pad-height-offset-m", type=float, default=0.0)
 parser.add_argument("--development-source-support", choices=("wide_platform", "legacy_strip"), default="wide_platform")
 parser.add_argument("--transfer-joint-1-rad", type=float, default=0.8)
 parser.add_argument(
@@ -204,7 +208,30 @@ parser.add_argument(
 )
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
-OBJECT_SPEC = CATALOG[args.development_object] if args.development_object else None
+PAD_CALIBRATION = None
+
+
+def write_development_report(path, report, spec=None):
+    if args.development_pad_calibration_urdf is not None:
+        report['development_pad_calibration'] = PAD_CALIBRATION
+    _write_development_report(path, report, spec)
+
+
+if args.development_pad_calibration_urdf is not None:
+    if args.development_object not in ('ycb_pudding_box', 'ycb_banana') or args.pi05_closed_loop:
+        parser.error('pad calibration is restricted to scripted pudding-box/banana development probes')
+    if args.top_down_yaw_rad != 0 or args.top_down_tilt_rad != 0 or args.top_down_blend != 1:
+        parser.error('pad calibration currently requires full vertical top-down yaw=0')
+    if not -.025 <= args.development_pad_height_offset_m <= .025:
+        parser.error('development pad height offset must be within 25 mm')
+elif args.development_pad_height_offset_m != 0:
+    parser.error('pad height offset requires development pad calibration')
+if args.development_object in HOUSEHOLD_CATALOG:
+    if args.household_manifest is None:
+        parser.error('textured household objects require --household-manifest')
+    OBJECT_SPEC = load_household(args.household_manifest, args.development_object)
+else:
+    OBJECT_SPEC = CATALOG[args.development_object] if args.development_object else None
 if OBJECT_SPEC is not None:
     if args.output.exists() or (args.record_episode_dir and args.record_episode_dir.exists()):
         parser.error("multi-object probes require fresh output and episode paths")
@@ -1384,21 +1411,33 @@ def main() -> int:
     reference_block_from_link_local = grasp_link_rotation.T @ (
         nominal_source_block_position - grasp_link_position
     )
+    reference_closing_axis_world = None
+    grasp_target_position_base = source_block_position_base.copy()
+    if args.development_pad_calibration_urdf is not None:
+        from household_grasp_calibration import PadGeometry
+        global PAD_CALIBRATION
+        reference_block_from_link_local, closing_local, PAD_CALIBRATION = PadGeometry(
+            args.development_pad_calibration_urdf
+        ).fit_box(BLOCK_SIZE[1], args.gripper_close_target_rad)
+        reference_closing_axis_world = grasp_link_rotation @ closing_local
+        grasp_target_position_base[2] += args.development_pad_height_offset_m
+        PAD_CALIBRATION['height_offset_m'] = args.development_pad_height_offset_m
     top_down_ik_seed_index = None
     precomputed_retreat_waypoints: list[np.ndarray] | None = None
     if args.grasp_orientation_mode == "top_down":
         calibrated_reference_link_position = (
-            source_block_position_base
+            grasp_target_position_base
             - grasp_link_rotation @ reference_block_from_link_local
         )
         top_down_link_position, top_down_rotation, reference_block_from_link_local = (
             compute_top_down_link_pose(
                 calibrated_reference_link_position,
                 grasp_link_rotation,
-                source_block_position_base,
+                grasp_target_position_base,
                 args.top_down_yaw_rad,
                 args.top_down_tilt_rad,
                 args.top_down_blend,
+                reference_closing_axis_world=reference_closing_axis_world,
             )
         )
         ik_seeds = [grasp_ik_numerical_seed]
