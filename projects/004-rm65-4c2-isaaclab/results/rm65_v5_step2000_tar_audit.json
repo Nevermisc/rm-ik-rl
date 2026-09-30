@@ -1,0 +1,21 @@
+{
+  "schema": "rm65_safe_backup_tar_audit_v1",
+  "status": "pass",
+  "archive_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\RM65_DATA_BACKUP_DO_NOT_GIT\\v5_step2000_2026_09_30\\rm65_v5_step2000.tar",
+  "required_prefix": "datasets/rm65_pi05_v5_step2000_diagnostic",
+  "checks": {
+    "no_unsafe_or_special_entries": true,
+    "no_duplicate_entries": true,
+    "regular_file_count_matches_manifest": true,
+    "regular_file_bytes_match_manifest": true
+  },
+  "entry_count": 23271,
+  "directory_count": 101,
+  "regular_file_count": 23170,
+  "regular_file_bytes": 879733485,
+  "expected_file_count": 23170,
+  "expected_total_bytes": 879733485,
+  "unsafe_entries": [],
+  "duplicate_entries": [],
+  "real_robot_command_sent": false
+}

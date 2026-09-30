@@ -1,0 +1,29 @@
+{
+  "schema": "rm65_data_preservation_manifest_v1",
+  "spec_id": "rm65_v5_step2000_20260930",
+  "generated_at_utc": "2026-09-30T00:59:12.910343+00:00",
+  "location": "backup",
+  "inventory_status": "pass",
+  "comparison_status": "pass",
+  "asset_count": 1,
+  "total_bytes": 879733485,
+  "assets": [
+    {
+      "asset_id": "v5_step2000",
+      "kind": "raw_diagnostic",
+      "priority": "unspecified",
+      "reproducibility": "unspecified",
+      "root": "backup",
+      "relative_path": "datasets/rm65_pi05_v5_step2000_diagnostic",
+      "resolved_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\RM65_DATA_BACKUP_DO_NOT_GIT\\v5_step2000_2026_09_30\\datasets\\rm65_pi05_v5_step2000_diagnostic",
+      "file_count": 23170,
+      "total_bytes": 879733485,
+      "tree_sha256": "2d246031c52c6b8f6f7609e694f0934a262924a8e41db43994f86702af2342b9",
+      "hash_algorithm": "sha256(relative_path\\0bytes\\0file_sha256\\n)_v1",
+      "matches_reference": true
+    }
+  ],
+  "real_robot_command_sent": false,
+  "reference_manifest_path": "C:\\Users\\95380\\Documents\\ChatGPT\\robot learning\\remote_work_7baaa1a\\project\\results\\rm65_v5_step2000_source.json",
+  "reference_manifest_sha256": "0644a09dd591e63a29392e16460982a20c717d370096353ed5b18e8fc02beb80"
+}
