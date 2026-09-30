@@ -1,0 +1,168 @@
+{
+  "schema": "rm65_visible_household_development_summary_v1",
+  "cases": [
+    {
+      "run_id": "farther_ik_001",
+      "mode": "ik",
+      "report": "datasets/rm65_household_visible_farther_ik_001/task_report.json",
+      "report_exists": false,
+      "verified": false,
+      "status": "no_report_not_success"
+    },
+    {
+      "run_id": "free_001",
+      "mode": "free",
+      "report": "datasets/rm65_household_visible_free_001/task_report.json",
+      "report_exists": false,
+      "verified": false,
+      "status": "no_report_not_success"
+    },
+    {
+      "run_id": "farther_ik_002",
+      "mode": "ik",
+      "report": "datasets/rm65_household_visible_farther_ik_002/task_report.json",
+      "report_exists": false,
+      "verified": false,
+      "status": "no_report_not_success"
+    },
+    {
+      "run_id": "farther_ik_003",
+      "mode": "ik",
+      "report": "datasets/rm65_household_visible_farther_ik_003/task_report.json",
+      "report_exists": false,
+      "verified": false,
+      "status": "no_report_not_success"
+    },
+    {
+      "run_id": "free30_001",
+      "mode": "free",
+      "report": "datasets/rm65_household_visible_free30_001/task_report.json",
+      "report_exists": true,
+      "verified": true,
+      "status": "diagnostic",
+      "report_sha256": "fd6de6f8f1b102fab15ce02f2f741817c9e163ec1fdf898b6928b5a6f25574ac",
+      "pi05_used": false,
+      "max_joint_error_rad": 0.0007520198822021928,
+      "development_presentation": {
+        "headless": false,
+        "gripper_profile": "force_limited_v1",
+        "source_offset_xy_m": [
+          -0.08,
+          0.0
+        ],
+        "light_intensity": 700.0,
+        "viewer_hold_seconds": 180.0
+      }
+    },
+    {
+      "run_id": "grasp30_001",
+      "mode": "grasp",
+      "report": "datasets/rm65_household_visible_grasp30_001/task_report.json",
+      "report_exists": true,
+      "verified": true,
+      "status": "pass",
+      "report_sha256": "067504aefeb187fb399ba41b2d53c77ae97e4a61ae6a95c75c46729820bfd75f",
+      "pi05_used": false,
+      "block_lift_height_m": 0.03883403539657593,
+      "final_target_xy_error_m": 0.0023985571829130046,
+      "post_release_drift_m": 0.0,
+      "unassisted_full_task_complete": true,
+      "source_offset_xy_m": [
+        -0.08,
+        0.0
+      ],
+      "development_presentation": {
+        "headless": false,
+        "gripper_profile": "force_limited_v1",
+        "source_offset_xy_m": [
+          -0.08,
+          0.0
+        ],
+        "light_intensity": 700.0,
+        "viewer_hold_seconds": 300.0
+      },
+      "target_collision_enable_stage": "after_transfer"
+    },
+    {
+      "run_id": "grasp30_002",
+      "mode": "grasp",
+      "report": "datasets/rm65_household_visible_grasp30_002/task_report.json",
+      "report_exists": true,
+      "verified": true,
+      "status": "pass",
+      "report_sha256": "9d30f7f35f1910c8494534487b98515fbff895ff8c580ef6a4e06c17c462eb17",
+      "pi05_used": false,
+      "block_lift_height_m": 0.03883403539657593,
+      "final_target_xy_error_m": 0.0023985571829130046,
+      "post_release_drift_m": 0.0,
+      "unassisted_full_task_complete": true,
+      "source_offset_xy_m": [
+        -0.08,
+        0.0
+      ],
+      "development_presentation": {
+        "headless": false,
+        "gripper_profile": "force_limited_v1",
+        "source_offset_xy_m": [
+          -0.08,
+          0.0
+        ],
+        "light_intensity": 700.0,
+        "viewer_hold_seconds": 240.0
+      },
+      "target_collision_enable_stage": "after_transfer"
+    },
+    {
+      "run_id": "grasp32_001",
+      "mode": "grasp",
+      "report": "datasets/rm65_household_visible_grasp32_001/task_report.json",
+      "report_exists": false,
+      "verified": false,
+      "status": "no_report_not_success"
+    },
+    {
+      "run_id": "grasp30_initial_001",
+      "mode": "grasp",
+      "report": "datasets/rm65_household_visible_grasp30_initial_001/task_report.json",
+      "report_exists": true,
+      "verified": true,
+      "status": "pass",
+      "report_sha256": "5ff79682df4e5c19bf776d57bab2a9327f1e26d71ea0bc6b92ba4d1c2fa6a4c2",
+      "pi05_used": false,
+      "block_lift_height_m": 0.03883403539657593,
+      "final_target_xy_error_m": 0.0023647666076361856,
+      "post_release_drift_m": 1.4901161193847656e-08,
+      "unassisted_full_task_complete": true,
+      "source_offset_xy_m": [
+        -0.08,
+        0.0
+      ],
+      "development_presentation": {
+        "headless": false,
+        "gripper_profile": "force_limited_v1",
+        "source_offset_xy_m": [
+          -0.08,
+          0.0
+        ],
+        "light_intensity": 700.0,
+        "viewer_hold_seconds": 1800.0,
+        "target_collision_enable_stage": "initial"
+      },
+      "target_collision_enable_stage": "initial"
+    }
+  ],
+  "grasp_reports": 3,
+  "grasp_passes": 3,
+  "missing_reports": 5,
+  "simulation_only": true,
+  "checkpoint_updated": false,
+  "deployment_accepted": false,
+  "training_ready": false,
+  "independent_generalization_test": false,
+  "limitations": [
+    "Explicit development runs, including repeated conditions; not a benchmark success rate.",
+    "Scripted known-object geometry, not pi0.5 inference or visual localization.",
+    "Collision staging is recorded per run; initial-stage runs remove delayed support activation only.",
+    "Self-collision disabled; added simulated pads and gripper linkage remain uncalibrated to hardware."
+  ]
+}

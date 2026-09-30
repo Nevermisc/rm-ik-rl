@@ -1,12 +1,12 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-30",
-  "git_baseline": "02e48c8",
-  "working_version": "household-impl.022",
+  "git_baseline": "ef2dda6",
+  "working_version": "household-visible.012",
   "committed": true,
-  "phase": "household_session_closed_awaiting_user_confirmation",
-  "current_action": "bounded household session closed; preserve evidence and await user confirmation; do not resume old automation",
-  "current_summary": "results/household_session_001_summary.json",
+  "phase": "visible_household_session_closed_awaiting_user_confirmation",
+  "current_action": "session closed; preserve the last paused result window temporarily, await user confirmation before new experiments; one visible validation per work type",
+  "current_summary": "results/household_visible_session_002_summary.json",
   "historical_fields_notice": "v4/v5 counters and snapshots below describe previous cube work, not current household progress",
   "latest_confirmed_complete_episode_count": 48,
   "current_v5_snapshot": {
@@ -50,12 +50,12 @@
   "rejected_episode_attempt_count": 6,
   "expert_diagnostic_probe_count": 8,
   "next_actions": [
-    "wait for user confirmation before another work session",
-    "validate gripper drive mode, force limits and linkage in a separate simulation configuration",
+    "await user confirmation before the next bounded session",
+    "audit gripper linkage, self-collision and simulated pad geometry before accepting demonstrations; avoid repeated GUI restarts for the same work type",
     "establish physically feasible household grasps before collecting demonstrations",
     "train a new checkpoint only after data and held-out evaluation gates are ready"
   ],
-  "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_OBJECT_ITERATION_LOG.md",
+  "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_VISIBLE_ITERATION_LOG.md",
   "data_leakage_boundary": {
     "development_only_source_failure_count": 6,
     "v3_confirmation_development_case_count": 20,

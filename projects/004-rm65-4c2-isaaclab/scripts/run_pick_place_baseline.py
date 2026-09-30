@@ -8,6 +8,7 @@ import itertools
 import json
 import os
 import sys
+import time
 import traceback
 from pathlib import Path
 
@@ -32,6 +33,10 @@ parser.add_argument("--development-pad-height-offset-m", type=float, default=0.0
 parser.add_argument("--development-free-close-probe", action="store_true")
 parser.add_argument("--development-free-close-soft-gains", action="store_true")
 parser.add_argument("--development-free-close-force-drive", action="store_true")
+parser.add_argument("--development-gripper-profile", choices=('historical', 'force_limited_v1'), default='historical')
+parser.add_argument("--development-viewer-hold-seconds", type=float, default=0)
+parser.add_argument("--development-visible-realtime", action='store_true')
+parser.add_argument("--development-light-intensity", type=float)
 parser.add_argument("--development-source-support", choices=("wide_platform", "legacy_strip"), default="wide_platform")
 parser.add_argument("--transfer-joint-1-rad", type=float, default=0.8)
 parser.add_argument(
@@ -110,7 +115,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--target-collision-enable-stage",
-    choices=("after_transfer", "after_place_descent"),
+    choices=("after_transfer", "after_place_descent", "initial"),
     default="after_transfer",
 )
 parser.add_argument("--diagnose-approach-only", action="store_true")
@@ -212,11 +217,24 @@ parser.add_argument(
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 PAD_CALIBRATION = None
+VIEWER_CONTEXT = None
+LIVE_VIEW = None
+VISIBLE_PHASE = 'STARTING'
+RUN_OUTCOME = 'INCOMPLETE'
+VISIBLE_STEP_COUNT = 0
+VISIBLE_START_TIME = None
 
 
 def write_development_report(path, report, spec=None):
     if args.development_pad_calibration_urdf is not None:
         report['development_pad_calibration'] = PAD_CALIBRATION
+    if args.development_gripper_profile != 'historical' or args.development_visible_realtime:
+        report['development_presentation'] = dict(
+            headless=args.headless, gripper_profile=args.development_gripper_profile,
+            source_offset_xy_m=[args.source_offset_x_m, args.source_offset_y_m],
+            light_intensity=args.development_light_intensity,
+            viewer_hold_seconds=args.development_viewer_hold_seconds,
+            target_collision_enable_stage=args.target_collision_enable_stage)
     _write_development_report(path, report, spec)
 
 
@@ -239,6 +257,22 @@ if args.development_free_close_soft_gains:
     args.gripper_damping = 12.0
 if args.development_free_close_force_drive and not (args.development_free_close_probe and args.development_free_close_soft_gains):
     parser.error('force drive is restricted to the soft-gains free-close comparison')
+if args.development_gripper_profile != 'historical':
+    if args.development_object != 'ycb_banana' or args.development_pad_calibration_urdf is None or args.pi05_closed_loop:
+        parser.error('force_limited_v1 is restricted to calibrated scripted banana development')
+    if args.development_free_close_soft_gains or args.development_free_close_force_drive:
+        parser.error('do not combine different drive comparison profiles')
+    args.gripper_effort_limit_sim = 1.0
+    args.gripper_stiffness = 2.0
+    args.gripper_damping = .1
+if args.target_collision_enable_stage == 'initial' and args.development_gripper_profile != 'force_limited_v1':
+    parser.error('initial target collision is currently restricted to force_limited_v1 development')
+if not 0 <= args.development_viewer_hold_seconds <= 3600:
+    parser.error('viewer hold must be within 0..3600 seconds')
+if (args.development_visible_realtime or args.development_viewer_hold_seconds or args.development_light_intensity is not None) and not args.development_object:
+    parser.error('presentation overrides require development-object')
+if args.development_light_intensity is not None and not 0 < args.development_light_intensity <= 2500:
+    parser.error('development light intensity must be within 0..2500')
 if args.development_object in HOUSEHOLD_CATALOG:
     if args.household_manifest is None:
         parser.error('textured household objects require --household-manifest')
@@ -684,6 +718,25 @@ class ExpertEpisodeCapture:
         self.sim_step += 1
 
 
+def step_development_simulation(sim):
+    """Historical headless physics is unchanged; optional GUI refresh is explicit."""
+    global VISIBLE_STEP_COUNT, VISIBLE_START_TIME
+    if args.development_visible_realtime and not args.headless and not simulation_app.is_running():
+        raise RuntimeError('Visible simulation window closed; refusing further physics steps')
+    sim.step(render=False)
+    if args.development_visible_realtime and not args.headless:
+        if VISIBLE_START_TIME is None:
+            VISIBLE_START_TIME = time.monotonic()
+        VISIBLE_STEP_COUNT += 1
+        if VISIBLE_STEP_COUNT % 8 == 0:
+            if LIVE_VIEW is not None:
+                LIVE_VIEW.refresh(VISIBLE_STEP_COUNT, VISIBLE_PHASE)
+            sim.render()
+            delay = VISIBLE_STEP_COUNT * sim.get_physics_dt() - (time.monotonic() - VISIBLE_START_TIME)
+            if delay > 0:
+                time.sleep(min(delay, .05))
+
+
 def smooth_move(
     sim: SimulationContext,
     robot: Articulation,
@@ -696,6 +749,8 @@ def smooth_move(
     phase: str,
     capture: ExpertEpisodeCapture | None = None,
 ) -> None:
+    global VISIBLE_PHASE
+    VISIBLE_PHASE = phase
     print(f"PICK_PLACE_STAGE={phase}_START", flush=True)
     for step in range(steps):
         progress = (step + 1) / steps
@@ -707,7 +762,7 @@ def smooth_move(
             capture.before_step(robot, cube, state, phase)
         robot.write_data_to_sim()
         cube.write_data_to_sim()
-        sim.step(render=False)
+        step_development_simulation(sim)
         robot.update(sim.get_physics_dt())
         cube.update(sim.get_physics_dt())
         for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
@@ -724,13 +779,15 @@ def hold(
     phase: str,
     capture: ExpertEpisodeCapture | None = None,
 ) -> None:
+    global VISIBLE_PHASE
+    VISIBLE_PHASE = phase
     for _ in range(steps):
         robot.set_joint_position_target(state)
         if capture is not None:
             capture.before_step(robot, cube, state, phase)
         robot.write_data_to_sim()
         cube.write_data_to_sim()
-        sim.step(render=False)
+        step_development_simulation(sim)
         robot.update(sim.get_physics_dt())
         cube.update(sim.get_physics_dt())
         for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
@@ -753,6 +810,9 @@ def run_pi05_closed_loop(
     output: Path,
 ) -> int:
     """Run receding-horizon π0.5 control and write task-level evidence."""
+
+    global VISIBLE_PHASE
+    VISIBLE_PHASE = 'PI05_CLOSED_LOOP'
 
     import time
     import websockets.sync.client as ws
@@ -945,7 +1005,7 @@ def run_pi05_closed_loop(
                     )
                     robot.write_data_to_sim()
                     cube.write_data_to_sim()
-                    sim.step(render=False)
+                    step_development_simulation(sim)
                     robot.update(sim.get_physics_dt())
                     cube.update(sim.get_physics_dt())
                     for contact_sensor in itertools.chain(CONTACT_SENSORS.values(), SUPPORT_CONTACT_SENSORS.values()):
@@ -1347,7 +1407,10 @@ def main() -> int:
         raise ValueError("--grasp-world-offset-x-m must be between -0.08 and 0.08")
     if abs(args.grasp_world_offset_z_m) > 0.08:
         raise ValueError("--grasp-world-offset-z-m must be between -0.08 and 0.08")
-    if abs(args.source_offset_x_m) > 0.04 or abs(args.source_offset_y_m) > 0.04:
+    if args.development_gripper_profile == 'force_limited_v1':
+        if not -.20 <= args.source_offset_x_m <= .04 or abs(args.source_offset_y_m) > .04:
+            raise ValueError('farther banana development permits x=-.20..+.04 and y=+/-.04 m; IK gates remain active')
+    elif abs(args.source_offset_x_m) > 0.04 or abs(args.source_offset_y_m) > 0.04:
         raise ValueError("source x/y offsets must each be between -0.04 and 0.04 m")
     if abs(args.top_down_yaw_rad) > np.pi:
         raise ValueError("--top-down-yaw-rad must be between -pi and pi")
@@ -1489,6 +1552,9 @@ def main() -> int:
                 for distance in retreat_distances_for_selection
             ]
             for seed_index, ik_seed in enumerate(ik_seeds):
+                if LIVE_VIEW is not None and seed_index % 8 == 0:
+                    LIVE_VIEW.refresh(stage=f'PREFLIGHT IK: offset {args.source_offset_x_m:+.2f} m, seed {seed_index}')
+                    simulation_app.update()
                 candidate_solution, candidate_success = lula.compute_inverse_kinematics(
                     "link_6",
                     top_down_link_position,
@@ -1733,7 +1799,13 @@ def main() -> int:
             ),
         )
     )
-    light_cfg = sim_utils.DomeLightCfg(intensity=2500.0, color=(0.8, 0.8, 0.8))
+    global VIEWER_CONTEXT
+    VIEWER_CONTEXT = sim
+    if not args.headless:
+        sim.set_camera_view(eye=(.65, -1.0, 1.1), target=(-.22, -.03, .76))
+    light_cfg = sim_utils.DomeLightCfg(intensity=args.development_light_intensity or 2500.0, color=(0.8, 0.8, 0.8))
+    if args.development_visible_realtime:
+        light_cfg.visible_in_primary_ray = False
     light_cfg.func("/World/Light", light_cfg)
     if not args.diagnose_approach_only:
         spawn_platform(
@@ -1759,8 +1831,12 @@ def main() -> int:
     for prim in get_current_stage().Traverse():
         if str(prim.GetPath()).startswith("/World/TargetPlatform") and prim.HasAPI(UsdPhysics.CollisionAPI):
             collision_api = UsdPhysics.CollisionAPI(prim)
-            collision_api.CreateCollisionEnabledAttr().Set(False)
+            collision_api.CreateCollisionEnabledAttr().Set(args.target_collision_enable_stage == 'initial')
             target_platform_collision_apis.append(collision_api)
+    if args.target_collision_enable_stage == 'initial':
+        if not target_platform_collision_apis or not all(api.GetCollisionEnabledAttr().Get() for api in target_platform_collision_apis):
+            raise RuntimeError('Initial target collider verification failed')
+        print('TARGET_COLLISION_INITIAL=VERIFIED; support remains physical throughout the task', flush=True)
 
     robot = Articulation(
         ArticulationCfg(
@@ -1797,7 +1873,7 @@ def main() -> int:
             },
         )
     )
-    if args.development_free_close_force_drive:
+    if args.development_free_close_force_drive or args.development_gripper_profile == 'force_limited_v1':
         changed_drives = []
         for prim in get_current_stage().Traverse():
             if prim.IsA(UsdPhysics.Joint) and prim.GetName().startswith('tool_'):
@@ -1808,6 +1884,7 @@ def main() -> int:
         if len(changed_drives) != 6:
             raise RuntimeError('expected exactly six gripper drives for isolated comparison')
         PAD_CALIBRATION['session_only_drive_changes'] = changed_drives
+        PAD_CALIBRATION['gripper_profile'] = args.development_gripper_profile
     cube = RigidObject(
         RigidObjectCfg(
             prim_path="/World/Cube",
@@ -2749,9 +2826,16 @@ def main() -> int:
     return 0 if passed else 1
 
 
+if args.development_visible_realtime and not args.headless:
+    from household_live_view import HouseholdLiveView
+    LIVE_VIEW = HouseholdLiveView(args.output.with_suffix('.live.json'), args.output.parent.name,
+                                  pi05_used=args.pi05_closed_loop)
+
 try:
     exit_code = main()
+    RUN_OUTCOME = 'COMPLETED - report generated' if exit_code == 0 else 'TASK FAILED - see report'
 except UnsafeIKBranchJumpError as error:
+    RUN_OUTCOME = 'PREFLIGHT REJECTED - no unsafe motion'
     print("PICK_PLACE_STAGE=PREFLIGHT_SAFETY_REJECTION", flush=True)
     report = build_preflight_safety_failure_report(
         checkpoint_id=args.policy_checkpoint_id,
@@ -2783,11 +2867,26 @@ except UnsafeIKBranchJumpError as error:
     write_development_report(args.output, report, OBJECT_SPEC)
     print(json.dumps(report, indent=2), flush=True)
     exit_code = 2
-except BaseException:
+except BaseException as error:
+    RUN_OUTCOME = 'ERROR: ' + str(error)[:100]
     print("PICK_PLACE_STAGE=PYTHON_EXCEPTION", flush=True)
     traceback.print_exc()
     raise
 finally:
+    if not args.headless and args.development_viewer_hold_seconds > 0:
+        print('VIEWER_STATE=PAUSED_RESULT; experiment finished; rendering only, no further physics steps', flush=True)
+        viewer_deadline = time.monotonic() + args.development_viewer_hold_seconds
+        try:
+            while simulation_app.is_running() and time.monotonic() < viewer_deadline:
+                if LIVE_VIEW is not None:
+                    LIVE_VIEW.refresh(VISIBLE_STEP_COUNT, 'PAUSED | ' + RUN_OUTCOME + ' | no further physics')
+                if VIEWER_CONTEXT is not None:
+                    VIEWER_CONTEXT.render()
+                else:
+                    simulation_app.update()
+                time.sleep(.05)
+        except KeyboardInterrupt:
+            pass
     simulation_app.close(skip_cleanup=True)
 
 raise SystemExit(exit_code)

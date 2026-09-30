@@ -2,7 +2,25 @@
   "schema": "rm65_pi05_sim_deployment_status_v1",
   "updated_at": "2026-09-30",
   "scope": "RM65-B + 4C2 + pi0.5 Isaac Lab closed-loop simulation",
-  "stage": "household_session_closed_awaiting_user_confirmation",
+  "stage": "visible_household_session_closed_awaiting_user_confirmation",
+  "current_visible_session": {
+    "working_version": "household-visible.012",
+    "visible_desktop": "laboratory Linux X11 :1",
+    "launcher": "GNOME desktop terminal",
+    "visible_entrypoint_rejects_headless": true,
+    "window_check_interval_minutes": "2-3 during active session",
+    "source_radius_m": 0.30128649,
+    "free_close_verified": true,
+    "free_close_max_joint_error_rad": 0.0007520198822021928,
+    "scripted_grasp_status": "three_development_passes_including_initial_target_collision",
+    "same_work_type_visualization_policy": "one visible validation; do not repeatedly restart GUI for duplicate checks",
+    "pi05_updated": false,
+    "household_deployment_accepted": false,
+    "awaiting_user_confirmation": true,
+    "summary": "results/household_visible_session_002_summary.json",
+    "backup": "results/household_visible_backup_001.json",
+    "handoff": "docs/pi05_sim_deployment_record/HOUSEHOLD_VISIBLE_HANDOFF_ZH.md"
+  },
   "real_robot_execution_allowed": false,
   "current_household_snapshot": {
     "working_version": "household-impl.022",
@@ -21,7 +39,7 @@
     "handoff": "docs/pi05_sim_deployment_record/HOUSEHOLD_SESSION_HANDOFF_ZH.md",
     "backup": "results/household_backup_001.json"
   },
-  "historical_sections_notice": "Other evaluation sections below retain historical cube evidence and are not household-object results.",
+  "historical_sections_notice": "current_visible_session is the latest snapshot. current_household_snapshot describes the preceding household session; other evaluation sections retain historical cube evidence.",
   "initial_confirmation": {
     "plan": "config/rm65_pi05_evaluation_plan_deterministic_v2_confirmation.json",
     "planned_cases": 20,

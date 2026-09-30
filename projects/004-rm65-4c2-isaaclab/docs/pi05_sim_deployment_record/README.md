@@ -4,6 +4,8 @@
 
 ## 当前结论
 
+> 最新可见阶段 `household-visible.012` 已收尾：[正式版 + 大白话 + 代码结构](HOUSEHOLD_VISIBLE_HANDOFF_ZH.md)，[逐步日志](HOUSEHOLD_VISIBLE_ITERATION_LOG.md)。托台外移 8 cm；香蕉脚本抓放有 3 次开发通过，其中 1 次目标托台从初始即有碰撞。不是 pi0.5 推理或日用品部署验收。41 项测试、9 项几何检查通过，原始数据已有独立校验备份。用户要求同类型工作只做一次可见验证，避免重复开窗；本轮结果窗口暂时保留，物理已暂停，等待下一阶段确认。
+
 > 2026-09-30 真实外观日用品阶段已限时收尾：[正式版 + 大白话交接](HOUSEHOLD_SESSION_HANDOFF_ZH.md)，[逐步迭代日志](HOUSEHOLD_OBJECT_ITERATION_LOG.md)。四类纹理资产加载/落地通过，但日用品抓取未通过；空中驱动模式对照改善了夹爪闭合跟踪，尚未用于正式抓取或模型部署。按用户要求等待确认，不自动继续。
 
 > 2026-09-30 路线已调整：以[多物体仿真路线](MULTI_OBJECT_ROADMAP_ZH.md)为后续主线；已实现开发入口并运行几何体/机械臂测试，实际结果与未解决项见[多物体迭代日志](MULTI_OBJECT_ITERATION_LOG.md)。尚未通过新物体抓取验收。v5 最新方块结果见 [V5_SIMULATION_DEPLOYMENT.md](V5_SIMULATION_DEPLOYMENT.md)，下列早期结果保留为历史证据，不代表当前版本或新目标完成度。
@@ -35,7 +37,7 @@
 - [ITERATION_STATUS.json](ITERATION_STATUS.json)：便于程序读取的当前工作版本和下一步。
 - [CHANGELOG.md](CHANGELOG.md)：从本目录建立后持续追加的变更记录。
 
-当前机器可读状态以 `STATUS.json` 的 `current_household_snapshot` 为准；其旧方块评测字段保留作历史证据，不代表日用品能力。历史运行中途数字只用于监控，不作为正式结论。
+当前机器可读状态以 `STATUS.json` 的 `current_visible_session` 为准；`current_household_snapshot` 是上一轮日用品阶段，旧方块评测字段也保留作历史证据。历史运行中途数字只用于监控，不作为正式结论。
 
 ## 记录规则
 

@@ -111,6 +111,17 @@
 
 ---
 
+## 2026-09-30 — household-visible.001–.012 可见日用品抓放开发
+
+- 基线提交：`ef2dda6`；本条与可见执行代码同次提交，详见 Git 历史。
+- 目的：恢复实验室桌面可见执行、外移托台、修复夹爪跟踪，不继续硬夹过宽布丁盒。
+- 改动：桌面终端入口、实时状态面板、受限 force 夹爪配置、实际报告门禁、初始目标托台碰撞、显式失败/成功汇总。
+- 开发运行：seed 930301 的两次相同香蕉脚本通过；seed 930302 的 32 cm 预检拒绝，30 cm 初始碰撞运行通过；另有空中闭合诊断通过。不是 pi0.5 策略评测。
+- 失败启动也保留：总计 5 次无任务报告尝试，不计作成功，不隐去。
+- 验证：41 项 pytest、9 项几何检查通过；267898880 字节原始数据归档已双机校验，数据不入 Git，旧 checkpoint 不变。
+- 证据：`HOUSEHOLD_VISIBLE_ITERATION_LOG.md`、`HOUSEHOLD_VISIBLE_HANDOFF_ZH.md`、`results/household_visible_session_002_summary.json`、`results/household_visible_backup_001.json`。
+- 下一步：等待确认，先审核夹爪联动/自碰撞和示范数据真实性，再扩大可夹持日用品、采集、训练新 pi0.5。遵循同类型工作只做一次可见验证的新要求。
+
 ## 后续条目模板
 
 ```markdown

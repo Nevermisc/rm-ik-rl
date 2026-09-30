@@ -1,0 +1,21 @@
+{
+  "schema": "rm65_household_visible_backup_v1",
+  "date": "2026-09-30",
+  "archive_filename": "household_visible_runs_20260930_001.tar",
+  "archive_bytes": 267898880,
+  "sha256": "93ee54b84f4694639329abb4bae247b0697b224428191ba818ee536a00efd7c2",
+  "regular_file_count": 3334,
+  "regular_file_bytes": 263175783,
+  "safe_tar_audit_passed": true,
+  "every_archived_file_sha256_matches_remote_source": true,
+  "remote_local_archive_sha256_match": true,
+  "extracted_restore_test_performed": false,
+  "remote_directory": "/home/chengyu/robot-learning/rm65-backup-staging",
+  "local_directory": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/household_2026_09_30",
+  "contains": "Four completed diagnostic/task recordings with image frames, ten startup/experiment logs including rejected attempts, and ten desktop screenshots",
+  "excluded": "Mutable task_report.live.json telemetry; checkpoints and unchanged asset cache already backed up separately",
+  "asset_backup_reference": "results/household_backup_001.json",
+  "data_committed_to_git": false,
+  "checkpoint_updated": false,
+  "simulation_only": true
+}
