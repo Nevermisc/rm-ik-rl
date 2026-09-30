@@ -1,0 +1,1 @@
+{"schema":"rm65_data_preservation_spec_v1","spec_id":"rm65_v5_step2000_20260930","minimum_verified_copy_count":2,"assets":[{"asset_id":"v5_step2000","kind":"raw_diagnostic","locations":{"source":{"root":"project","path":"datasets/rm65_pi05_v5_step2000_diagnostic"},"backup":{"root":"backup","path":"datasets/rm65_pi05_v5_step2000_diagnostic"}}}]}
