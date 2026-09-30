@@ -170,3 +170,97 @@
 - 验证计划：重新读取新报告，同时检查是否找到两块启用的 box collider 及距离下界；若仍失败，以真实 prim 属性进一步定位。
 - 结果：最终 USD 确实有两块 guide-purpose 的 box collider，CollisionAPI 均开启；默认组成姿态下，它们与所有原夹爪可见网格包围盒下界分别为 73.191/73.643 mm。该坐标系/姿态下的包围盒数值不与源 URDF FK 下界直接等同，但两项独立检查都证明明显分离。0 个物理步、未写资产。149 项 CPU 回归再次通过。
 - 下一安全步骤已明确：另建原生手指表面碰撞资产（保留旧 USD/URDF），复核 mimic 传动与原始网格开口；先做可见空中闭合/接触诊断，再决定新抓取点和日用品采集。不继续运行旧垫默认入口。
+
+## household-generalization.021 — 原生网格独立候选与单驱动传动核验
+
+- 基线：916c5e3；开始时 GPU 无计算进程，未重启已有实验。原生源 4C2 确认 9 个 link、主关节 0–0.865 rad、5 个同值 mimic follower（方向由各轴决定），源 visual/collision 同用 STL。
+- 问题：旧导入默认关闭自碰撞、去除 mimic；历史重力失败不能直接解释为真实夹爪不能工作。旧加速型驱动与力矩型驱动也不可混淆。必须重新验证原生链，不能把 6 个独立电机当 1 个机械传动。
+- 准备改动：独立新目录构建无附加垫、原尺寸、原惯量、保留 mimic 的资产；源几何逐 link 核对同网格/坐标/缩放并记录 SHA；导入显式启用自碰撞及凸分解，只给主关节力矩型驱动，禁止 follower 独立驱动。所有输出拒绝覆盖。
+- 验证计划：CPU 结构反例测试 → 0 物理步导入审计 → 实验室桌面可见、全重力的空中闭合。核对实际关节跟随、质量/重力与自碰撞；若失败保存具体证据，不生成训练轨迹，也不宣称 pi0.5 通过。
+- 边界：凸分解仍是原网格的物理近似；原 URDF 也不是硬件实测认证。准确可用开口、接触抓取、相机与日用品泛化须后续验证。
+- 结果：13 项结构反例测试通过，原生源质量合计 0.236207349 kg；新 native_surface_v1 URDF 构建成功，没有改源惯量。导入后的审计因 BBoxCache 参数错误失败，未生成通过报告；保存此次失败目录，不覆盖重试。
+
+## household-generalization.022 — 修复 USD 审计构造参数，加入原生可见动力学检查
+
+- 问题：当前 USD Python 绑定不接受跳过 useExtentsHint 直接指定 ignoreVisibility；我在新导入器遗漏了这个参数，导致实际导入后审计异常。
+- 修复：明确 useExtentsHint=False；使用新的 native_surface_v2 目录重试，失败 v1 保留。无模型参数、数据或旧资产改写。
+- 准备：加入仅主关节驱动的可见空中闭合诊断，开启 -9.81 重力与自碰撞，核对实际质量、关节跟随和接触；桌面窗口保留完成状态，live telemetry 明确运行/完成。独立自由落体探针验证重力效果，不用于抓取训练。
+- 结果：v2 导入审计继续拒绝，原因已不是包围盒构造：实际 Mesh 无 CollisionAPI，属性位于其父 Xform。只读打印 USD 树确认；一次临时诊断命令因 PowerShell 转义失败，修正参数后成功读取，无资产改写。
+
+## household-generalization.023 — 将碰撞 API 绑定到实际原生网格
+
+- 证据：例如 tool_l_2/collisions/l_2/node_STL_BINARY_ 是 Xform，挂有 CollisionAPI/MeshCollisionAPI；其子 mesh 只有 MaterialBindingAPI。不能将父节点属性误报为子网格碰撞已启用。
+- 方法：仅在新 v3 候选根层解除实例化并将错误层级的 API 移到同一子 Mesh（每个父节点必须恰好一个 Mesh，否则拒绝）；不移动、放大或重建网格，9 个夹爪 visual/collider 世界包围盒必须逐一相同。机械臂的同类源网格一起修正。明确凸分解、1 mm 接触偏移、0 静止偏移；保留全局自碰撞。
+- 依据：[OpenUSD MeshCollisionAPI](https://openusd.org/25.11/api/class_usd_physics_mesh_collision_a_p_i.html) 明确用于 Mesh；[NVIDIA Colliders](https://docs.omniverse.nvidia.com/kit/docs/omni_physics/latest/dev_guide/rigid_bodies_articulations/collision.html) 的父层网格合并需专门 MergeCollisionAPI，当前导入没有该 API。最终有效性仍以运行时 shape/contact 检查为准。
+- 下一步：源与导入审计通过后才启动原生闭合窗口；不把修正 API 当作抓取成功。
+- 结果：v3 导入审计 PASS，9 对夹爪可见/碰撞网格包围盒一致，5 个 mimic 保留，只有主关节有驱动；凸分解与零附加垫已确认。实际 dynamics/contact 仍待测。
+
+## household-generalization.024 — 原生单电机空中开合的可见验证入口
+
+- 改动：新增独立 runner，拒绝 headless 和覆盖输出；只驱动一个 1 Nm 主关节，5 个 follower 无独立刚度。全过程 -9.81 重力、自碰撞开启，保留原质量/惯量与网格。
+- 方法：桌面窗口显示预览/动作阶段/物理暂停；逐阶段到 0.30、0.65、0.82 再回零，记录关节误差、运动范围、六个部件接触及按对方部件分解的接触矩阵；独立小球前 50 ms 测实际加速度。检查运行时 16 个源网格碰撞与质量。
+- 准备验证：编译后由实验室 GNOME 终端启动，截图配合 live telemetry 确認动作在更新；报告失败不能当数据。此测试只验证空手开合，不代表日用品抓取、硬件或策略部署成功。
+- 实测：close_001 完成 2460 步后 FAIL；桌面截图显示 RUNNING/96 步，随后 telemetry 到 1188 步，再截图确认 COMPLETED/PHYSICS PAUSED。原质量最大误差 4.47e-9 kg、全 16 个碰撞网格开启、随动刚度全 0、自碰撞开启，自由落体 -9.810000658 m/s²。
+- 失败：最大 mimic 偏差 0.724786 rad，回零/闭合不通过；接触峰值集中 r_2–r_3 (171 N)、r_2–base (107 N)、l_2–l_3 (78 N)、l_2–l_1 (60 N)。这些是凸分解仿真内部反力，不是实测夹持力。失败原始 telemetry/截图保留。
+
+## household-generalization.025 — 先隔离 importer 附加的柔性传动影响
+
+- 发现：5 个导入 mimic 都被加上 25 Hz、阻尼比 0.005；源 URDF 只有 1:1 位置关系，没有这些柔性参数。原生 mesh 理想 FK 的 _3 指尖开口约 70 mm 到接近 0，与旧附加垫范围不同；这仍只是几何候选，未当可抓范围。
+- 方法：新建 native_surface_v4，仅将 mimic naturalFrequency/dampingRatio 设为 0（理想刚性关系）；保留主关节 1 Nm、原几何质量、重力、自碰撞和接触参数。先做单因素比较，不同时屏蔽有问题的接触对。
+- 依据：[NVIDIA mimic API](https://docs.omniverse.nvidia.com/kit/docs/omni_usd_schema_physics/latest/physxschema/class_physx_schema_physx_mimic_joint_a_p_i.html)；其 referenceJointAxis=rotX 在单自由度 revolute 上被忽略，因此不能仅凭默认 rotX 就误判为方向错误。[传动调参说明](https://docs.omniverse.nvidia.com/kit/docs/omni_physics/107.0/dev_guide/rigid_bodies_articulations/articulations.html) 建议避免欠阻尼；本次测试源 URDF 理想约束，而非声称真实传动无限刚性。
+- 验证计划：待上一窗口按计划退出、GPU 空闲后派生；同类窗口不为检查反复重开，下一窗口用于真正不同参数的对照实验。当前 CPU 回归 162 passed。
+
+## household-generalization.026 — 兼容当前 mimic 属性绑定，澄清 shape 容量字段
+
+- 问题：派生 v4 时当前 5.1 schema Python 没有 GetNaturalFrequencyAttr 方法；但原审计已确认 prim 上存在对应属性。异常显式以非零退出，未启动第二轮动作，失败候选保留。
+- 修复：通过已读取的 physxMimicJoint:rotZ:naturalFrequency/dampingRatio 属性设置 0；属性必须存在，不静默补猜。新候选命名 native_surface_rigid_001，避免覆盖 v4。
+- 报告澄清：ContactSensor.body_physx_view.max_shapes 是视图容量，不是各部件实际凸包个数；新报告字段改为 sensor_runtime_max_shape_capacity。旧 close_001 的同值字段不作为“每个部件恰有 16 个凸包”的证据，实际碰撞另由 mesh schema 和非零接触记录支撑。
+- 验证计划：派生审计必须通过且报告 5 条属性从 25/0.005 到 0/0，再启动同一可见开合协议，保持其他条件不变。
+- 结果：native_surface_rigid_001 派生成功；第二轮 close_002 已从实验室桌面终端启动，没有并发占用另一仿真 GPU 进程。
+
+## household-generalization.027 — 用原生末端指面重新计算开口
+
+- 问题：历史选 tool_l_2/tool_r_2 附加垫，并不等于原生末端真正朝内的夹持面；继续沿用 16.8–47.7 mm 会错判物体与抓取点。
+- 改动：新增只读源三角网格审计，按实际 mimic/轴的 FK，在 tool_l_3/tool_r_3 末端筛选朝内极值处的平面三角形，记录表面积、质心、包围盒和 13 个闭合位置的间隙；不能只用任意两个 tip 点距离称为开口。
+- 边界：这个开口只对理想源传动几何成立，不是动力学夹持能力或无碰撞路径；不改物体大小，也不以数值判断新对象已经可抓。需与正在进行的传动对照和后续实际接触共同验证。
+- 验证计划：合成面面积/退化/非有限值/FK 范围和环路测试；真实 STL 跑独立小报告。
+- 结果：6 项新测试通过，原生面扫描成功；close_002 完成 2460 步，刚性 mimic 跟随通过，但闭合/保持仍失败。没有启动第三轮。
+
+## household-generalization.028 — 按用户最新要求冻结调参，全面追查模型来源与改动
+
+- 用户明确要求先从头检查 URDF/USD/仿真机械臂与夹爪，并追查是否从成功结果反推结构。暂停新的模型变更、抓取、采集和训练；只读审计可继续，已完成两轮的证据保留。
+- 已有直接证据：Git 06b44e2 的 add_4c2_contact_pads 文档明确写由居中 40 mm 方块、0.65 rad 闭合、每侧 2 mm 压缩反投影出碰撞垫；4a4794a 后增加宽垫尺寸参数。这不是原 CAD 测量。
+- 准备检查：源 7+9 个 link 的质量/惯量/mesh/轴/限位；全部历史派生 URDF 的逐字段差异；USD 实际 Mesh 与 Xform 碰撞属性、单位/层/驱动/自碰撞；实际训练评测入口的运行覆盖。区别“曾做诊断”与“正式训练实际沿用”。
+- 改动仅为审计代码：新增只读结构谱系检查，记录源三角网格边界/拓扑/体积质心诊断、COM 是否越出可见几何包围盒、派生结构逐字段差异与 SHA；不自动修模型，不据均匀密度网格推算去覆盖原惯量。
+- 初查：11 份派生 URDF 结构差异已列出；目前没有发现机械臂源 link/joint 被修改，夹爪变化集中附加垫、去 mimic 和独立 physics_proxy 惯量版本。新原生 URDF 与源结构相同。源自身还有异常候选：6 个活动指节的 COM 越出自身可见网格 y 包围盒 1.37–6.75 mm，RM65 link_1 COM 越出 z 包围盒 5.44 mm，需原 CAD/质量依据复核，不能擅自移回。
+
+## household-generalization.029 — 补足 mesh 内容溯源与全部 USD 层审计
+
+- 审计强化：不能仅凭 mesh basename 相同说几何没改；逐条校验派生 mesh 实际文件 SHA 与源一致。新增合成结构差异/闭合四面体体积质心测试。
+- 新只读 USD 审计：检查独立机械臂和全部派生 USD 的真实单位、默认姿态可见网格与源 FK/STL 包围盒差、组成层哈希、碰撞 API 的真实节点类型、质量/质心/惯量、关节框架/限位/驱动/mimic 和自碰撞。执行 0 物理步，不保存任何资产层。
+- 已明确旧审计缺陷：inspect_usd_physics.py 把带 CollisionAPI 的 Xform 计数满足 16 当 pass；这最多证明有属性，不能证明原生指面已成为正确物理碰撞形状。
+
+## household-generalization.030 — 官方流程核对发现状态输入断路
+
+- 用户最新授权持续自主推进至 2026-09-30 21:00（Asia/Singapore）；20:40 起收尾，不再适用旧中午截止。已将现有 10 分钟 heartbeat 更新，不新建重复任务。
+- 源/派生检查：11 份 URDF 的网格内容 SHA 全与当前源一致；13 份 USD 的米单位与零姿态可见几何一致（最大 AABB 差约 1.38 微米）。这不等于所有姿态的关节/动力学正确。原 CAD 来源未经厂家认证，源惯量疑点保留不擅改。
+- 按 OpenPI 官方 README、自定义机器人转换及远程推理流程核对本地安装源码（15a9616）：RM65 配置 pi05=True 却 discrete_state_input=False；pi05 的 embed_suffix 又没有 pi0 的连续 state token。因此关节值进入了外部差分/绝对动作变换，却没有作为状态信息进入网络条件输入。
+- 改动：新增 CPU-only 审计，保持图像/指令不变，只改变归一化关节状态；对旧配置与内存中的官方式离散状态候选比较 token/mask。记录实际 OpenPI 文件 SHA，不加载权重、不训练、不改旧配置。
+- 准备验证：旧路径预计 token 不变，新路径预计改变；后续修复必须使用独立配置身份，不能把旧 v2–v5 的输入语义暗中切换。该修复对所有物体有意义，但不等于模型已经学会利用状态。
+- 第二次原生闭合结果：刚性 mimic 最大跟随误差 0.019815 rad，通过当前跟随阈值；最大保持误差 0.130483 rad，闭合/保持仍 FAIL。重力、原质量、单主驱动均通过。无第三次盲目调参。
+
+## household-generalization.031 — 独立状态输入候选，保留旧权重可复现性
+
+- .030 实测证实：同指令、不同 7 维归一化状态，旧配置 token 与 mask 完全相同（均 12 个有效 token）；离散状态开启后 token 改变（本例 42/49 个）。结果见 pi05_state_path_audit_001.json，不是推测。
+- 改动：新增明确命名 pi05_rm65_native_state_v1_lora 的配置工厂，恢复离散状态并采用 200-token 预算，从官方 pi05_base 初始化；旧工厂保留 64/False，只增加告警说明。新函数没有偷换现有训练/服务默认值，也没有启动训练。
+- 原因/泛化：把自身姿态真正提供给模型是所有物体共有的接口要求，不是针对香蕉或某次失败的特殊补丁。保留冻结视觉塔和 horizon=10 的已有低显存策略；200 token 的训练显存适用性仍需后续 smoke 实测，不能声称 16 GB 一定足够。
+- 验证计划：状态敏感 token 测试、旧行为不变、独立配置身份与基础权重、空数据身份拒绝、6 轴差分/绝对往返且夹爪保持绝对值，共 5 项测试。
+- 未完成：新配置的训练/服务/归一化入口身份清单绑定、完整新数据 token 长度门禁；当前仅为已验证输入通路的候选。原生夹爪动力学未通过时仍不得开训。
+
+## household-generalization.032 — 归档全链路审计与失败证据
+
+- .031 的 5 项新增测试通过；完整 CPU pytest 为 176 passed。没有加载新权重或运行训练。
+- 新增 MODEL_SOURCE_AND_PIPELINE_AUDIT_ZH.md：正式逐层审计、从官方 OpenPI/Isaac 流程整理的项目门禁、当前失败及大白话说明；区分旧诊断的重力关闭与后期训练实际重力开启，避免泛化指控；明确实际旧入口仍有 wide_pads/独立驱动/延后托台碰撞。
+- 发现并记录 policy-window 删除保持帧后仍沿用名义 fps 的时间语义风险；新采集不能盲目沿用压缩后的 horizon 时距。未改旧数据。
+- 原生资产与两次失败实验归档：79 文件，33,945,600-byte tar。所有成员与当前源 SHA 一致；Windows 异机副本与实验室 tar 及源索引 SHA 一致。含源 URDF/STL 及失败候选，均不入 Git。完整解包重建运行未验证，不把哈希备份等同可直接运行的发布包。
+- 下一安全步骤：先补关节帧/轴/限位的数值核对，再定位实际内部连接面和碰撞近似。不全局关闭自碰撞、不扩大隐形手指、不移动质心或强行加力凑成功。

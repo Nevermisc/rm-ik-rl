@@ -1,0 +1,170 @@
+{
+  "schema": "rm65_native_mesh_candidate_v1",
+  "simulation_only": true,
+  "sources": {
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/urdf/RM65-B.urdf": "ed7369cbbe8021534b241b15673454284d80ac6de5b93fa73f722db2ea9e9399",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/urdf/4C2.urdf": "0292314231d6346efe9b2f906dad1c793bcd364e29083ea52ba982180d626107"
+  },
+  "mesh_sha256": {
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/base_link.STL": "a99f73338c90276cd7a90573714300c4a1383c5514d3a5e0671fb60b440ac5d4",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_1.STL": "008894df7deb20d9aec98b4dbc3ac8e12dbc31b90e6a8485542140eb0ab3ded5",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_2.STL": "d3a46b4b619bfd28d8948d5335f8bd62284ea0742ec4fb2b7ac5e5ab858d67f8",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_3.STL": "5d903745e9369009ac064bc24c080d03f503b3386b8e14325a318cf8fde0959d",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_4.STL": "2fc93b2bc970eadca950afa3120129766e2bead60234c6d8752d3b223e407046",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_5.STL": "f9d0216056f7e1512858033163b0415973e1db573a1fee5af1609171967c043f",
+    "/home/chengyu/robot-learning/rm-ik-rl/assets/RM65-B/meshes/link_6.STL": "a491f4471cf587b0a64c9c25424fd2b096b14f0028b67d0909233bf6f6a947df",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL": "6c4d85dd17e6993b27ab59f871ba73bb23547e743364c12c60e20b035ebdfdc0",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL": "58b8d1110a5ac739c1d4df9db06d55d3b9c47c9fa3cd226527c59b6dd2444656",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL": "26d5e19179bc98cea1a3acb92fd55b2319a7dcc188299e4fe512bf5ff5d31db6",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL": "b06196ca6cb9a7ede603d2016ec22720386f7c8dfde645a8c84867076c681b80",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL": "7fc0ce1aedde6f1e42714e5dee603902ffd3830366ab3716bdfd1b6262fa87e8",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a"
+  },
+  "gripper": {
+    "links": [
+      {
+        "link": "tool_base_link",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL",
+        "sha256": "6c4d85dd17e6993b27ab59f871ba73bb23547e743364c12c60e20b035ebdfdc0",
+        "mass_kg": 0.17456,
+        "principal_inertia_kg_m2": [
+          4.761837550097613e-05,
+          0.00014847848898048605,
+          0.00017389501551853793
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_r_1",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL",
+        "sha256": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde",
+        "mass_kg": 0.00864,
+        "principal_inertia_kg_m2": [
+          3.949794055770097e-07,
+          2.3915344921976074e-06,
+          2.7374961022253824e-06
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_r_3",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL",
+        "sha256": "58b8d1110a5ac739c1d4df9db06d55d3b9c47c9fa3cd226527c59b6dd2444656",
+        "mass_kg": 0.00967,
+        "principal_inertia_kg_m2": [
+          3.6202218341921496e-07,
+          1.125867816580785e-06,
+          1.13484e-06
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_l_1",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL",
+        "sha256": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab",
+        "mass_kg": 0.00864,
+        "principal_inertia_kg_m2": [
+          3.949835078519534e-07,
+          2.391530389919552e-06,
+          2.7374961022284953e-06
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_l_3",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL",
+        "sha256": "26d5e19179bc98cea1a3acb92fd55b2319a7dcc188299e4fe512bf5ff5d31db6",
+        "mass_kg": 0.00967,
+        "principal_inertia_kg_m2": [
+          3.6202218341921496e-07,
+          1.125867816580785e-06,
+          1.13484e-06
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_r_2_base",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL",
+        "sha256": "b06196ca6cb9a7ede603d2016ec22720386f7c8dfde645a8c84867076c681b80",
+        "mass_kg": 0.000523674592701008,
+        "principal_inertia_kg_m2": [
+          7.125006939591248e-10,
+          3.07347148157248e-08,
+          3.073471481572482e-08
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_r_2",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL",
+        "sha256": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5",
+        "mass_kg": 0.01199,
+        "principal_inertia_kg_m2": [
+          4.239719825698637e-07,
+          2.1350125538140008e-06,
+          2.485275463616137e-06
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_l_2_base",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL",
+        "sha256": "7fc0ce1aedde6f1e42714e5dee603902ffd3830366ab3716bdfd1b6262fa87e8",
+        "mass_kg": 0.000523674592701011,
+        "principal_inertia_kg_m2": [
+          7.125006939591264e-10,
+          3.0734714815724987e-08,
+          3.0734714815725e-08
+        ],
+        "visual_collision_transform_equal": true
+      },
+      {
+        "link": "tool_l_2",
+        "mesh": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL",
+        "sha256": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a",
+        "mass_kg": 0.01199,
+        "principal_inertia_kg_m2": [
+          4.239719825698637e-07,
+          2.1350125538140008e-06,
+          2.485275463616137e-06
+        ],
+        "visual_collision_transform_equal": true
+      }
+    ],
+    "master": "tool_gripper_joint",
+    "followers": [
+      "tool_l_1_joint",
+      "tool_l_2_joint",
+      "tool_l_3_joint",
+      "tool_r_2_joint",
+      "tool_r_3_joint"
+    ],
+    "master_limit_rad": [
+      0.0,
+      0.865
+    ],
+    "source_total_gripper_mass_kg": 0.23620734918540204
+  },
+  "added_collision_pads": 0,
+  "source_dimensions_preserved": true,
+  "source_inertias_preserved": true,
+  "mount_xyz_m": [
+    0,
+    0,
+    0
+  ],
+  "mount_rpy_rad": [
+    0,
+    0,
+    0
+  ],
+  "imported_physics_validated": false,
+  "training_ready": false,
+  "hardware_validated": false,
+  "pi05_used": false,
+  "urdf": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v3/native.urdf",
+  "urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74"
+}

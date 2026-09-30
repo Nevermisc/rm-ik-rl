@@ -73,7 +73,12 @@ def make_pi05_rm65_lora_config(
     peak_lr: float = 2.5e-5,
     decay_lr: float = 2.5e-6,
 ) -> training_config.TrainConfig:
-    """Build, without globally registering, the RM65 π0.5 LoRA config."""
+    """Legacy proxy config, retained unchanged for v2-v5 reproducibility.
+
+    WARNING: discrete_state_input=False omits proprioception from the pi05
+    network (not from external delta/absolute transforms). Do not use this
+    legacy profile for a new native-gripper/household training run.
+    """
 
     model = pi0_config.Pi0Config(
         pi05=True,
@@ -114,4 +119,26 @@ def make_pi05_rm65_lora_config(
         num_workers=0,
         num_train_steps=num_train_steps,
         wandb_enabled=False,
+    )
+
+
+def make_pi05_rm65_native_lora_config(
+    *, repo_id: str, batch_size: int = 1, num_train_steps: int = 30_000,
+) -> training_config.TrainConfig:
+    """Separate, untrained candidate with official pi05 state conditioning.
+
+    This is deliberately not substituted into legacy train/serve entrypoints.
+    New data/normalization/physics gates and a profile-bound checkpoint manifest
+    must be implemented before production use. Geometry validity is independent
+    of this input-path repair; 'native' is a configuration name, not certification.
+    """
+    if not repo_id or not repo_id.strip():
+        raise ValueError('an explicit new dataset identity is required')
+    base = make_pi05_rm65_lora_config(
+        repo_id=repo_id, batch_size=batch_size, num_train_steps=num_train_steps,
+    )
+    return dataclasses.replace(
+        base,
+        name='pi05_rm65_native_state_v1_lora',
+        model=dataclasses.replace(base.model, discrete_state_input=True, max_token_len=200),
     )

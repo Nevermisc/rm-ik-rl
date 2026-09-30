@@ -1,0 +1,37 @@
+{
+  "schema": "native_audit_backup_v1",
+  "status": "pass",
+  "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/rm65_native_20260930_001.tar",
+  "archive_bytes": 33945600,
+  "archive_sha256": "6df0ea0ec5fc677eb75665ced84057b1bef9b9aff480a86564881290c04c75cc",
+  "source_index_path": "/home/chengyu/robot-learning/rm65-backup-staging/rm65_native_20260930_001.index.json",
+  "source_index_sha256": "d1b183735f1a5c15cafa5152a5546aa64633f26d9403765224c3461e95bb3597",
+  "all_member_hashes_match_source": true,
+  "includes_failed_candidates": true,
+  "includes_original_source_meshes": true,
+  "safe_archive_audit": {
+    "schema": "rm65_safe_backup_tar_audit_v1",
+    "status": "pass",
+    "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/rm65_native_20260930_001.tar",
+    "required_prefix": "rm65_native_20260930_001",
+    "checks": {
+      "no_unsafe_or_special_entries": true,
+      "no_duplicate_entries": true,
+      "regular_file_count_matches_manifest": true,
+      "regular_file_bytes_match_manifest": true
+    },
+    "entry_count": 79,
+    "directory_count": 0,
+    "regular_file_count": 79,
+    "regular_file_bytes": 33802198,
+    "expected_file_count": 79,
+    "expected_total_bytes": 33802198,
+    "unsafe_entries": [],
+    "duplicate_entries": [],
+    "real_robot_command_sent": false
+  },
+  "independent_copy_verified": false,
+  "extraction_restore_tested": false,
+  "raw_assets_committed_to_git": false,
+  "real_robot_command_sent": false
+}

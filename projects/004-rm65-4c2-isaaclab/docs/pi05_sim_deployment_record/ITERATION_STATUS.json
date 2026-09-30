@@ -1,12 +1,12 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-30",
-  "git_baseline": "d6df787",
-  "working_version": "household-generalization.020",
+  "git_baseline": "916c5e3",
+  "working_version": "household-generalization.032",
   "committed": true,
   "phase": "autonomous_household_data_and_physics_audit",
-  "current_action": "source and composed USD both confirm detached hidden legacy pads; next create a separate native-surface collision asset, audit mimic and aperture, then visibly validate physics before new household collection",
-  "current_summary": "docs/pi05_sim_deployment_record/HOUSEHOLD_GENERALIZATION_AUDIT_ZH.md",
+  "current_action": "Audit confirmed legacy geometry and missing pi05 numerical-state conditioning; separate candidate state config tested, native dynamics still fails. Next verify joint frames/limits and internal contact geometry, not blind force tuning. Stop by 2026-09-30T21:00:00+08:00; wrap from 20:40.",
+  "current_summary": "docs/pi05_sim_deployment_record/MODEL_SOURCE_AND_PIPELINE_AUDIT_ZH.md",
   "historical_fields_notice": "v4/v5 counters and snapshots below describe previous cube work, not current household progress",
   "latest_confirmed_complete_episode_count": 48,
   "current_v5_snapshot": {
@@ -50,11 +50,12 @@
   "rejected_episode_attempt_count": 6,
   "expert_diagnostic_probe_count": 8,
   "next_actions": [
-    "source and composed USD geometry audits complete: detached enabled hidden pads confirmed; dynamic PhysX hull extraction not performed",
-    "create a separate native-surface gripper asset and validate coupling, collisions and gravity; do not repaint detached pads as a fix; preserve all historical assets and scores as proxy-only evidence",
-    "recompute native gripper aperture and household feasibility, because the 16.8–47.7 mm estimate belonged to artificial pads; then validate fixed-camera multi-pose demonstrations",
-    "establish a fresh grouped household collection protocol, backup and independent policy evaluation without ground-truth task supervision",
-    "train a new checkpoint only after data and held-out evaluation gates are ready"
+    "validate imported joint frames/axes/limits against source; distinguish intended linkage contact from collider approximation before considering local filters",
+    "investigate source COM inconsistencies using CAD/provenance, never overwrite inertias from uniform-density guess",
+    "bind new state_v1 training/serving/normalization to an explicit manifest, preserving v2-v5 legacy config; verify token budget and memory before new training",
+    "only after native empty-hand and contact validation: fixed-camera multi-pose household demonstrations with grouped held-out split and uncompressed time contract",
+    "no new training until native physics, admitted data, independent backups and policy-only evaluation gates exist",
+    "20:40 begin wrap; by 21:00 save complete/pending/risks/next checklist and delete rm65 heartbeat"
   ],
   "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_GENERALIZATION_LOG.md",
   "data_leakage_boundary": {

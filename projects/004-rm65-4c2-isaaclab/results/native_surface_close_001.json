@@ -1,0 +1,327 @@
+{
+  "schema": "rm65_native_visible_dynamic_diagnostic_v1",
+  "status": "fail",
+  "checks": {
+    "completed": true,
+    "finite": true,
+    "gravity_all_on": true,
+    "dynamics_all_on": true,
+    "self_collision_on": true,
+    "all_native_colliders_enabled": true,
+    "original_gripper_masses": true,
+    "followers_not_driven": true,
+    "freefall_acceleration_valid": true,
+    "master_reaches_close": false,
+    "mimic_tracks_master": false,
+    "hold_tracking": false,
+    "arm_stays_still": true
+  },
+  "stop_reason": null,
+  "simulation_only": true,
+  "pi05_used": false,
+  "training_ready": false,
+  "candidate": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v3",
+  "source_urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "import_audit_sha256": "4916b070b23159b27d274d00bb5fcf41f5f178ec7a9c2f7b368c444e98064778",
+  "physics_steps": 2460,
+  "physics_dt_s": 0.008333333333333333,
+  "gravity_m_s2": [
+    0,
+    0,
+    -9.81
+  ],
+  "measured_freefall_m_s2": -9.810000658035278,
+  "runtime": {
+    "body_mass_kg": {
+      "base_link": 1.8619999885559082,
+      "link_1": 1.5099999904632568,
+      "link_2": 1.652999997138977,
+      "link_3": 0.7260000109672546,
+      "link_4": 0.6710000038146973,
+      "link_5": 0.6470000147819519,
+      "link_6": 0.10400000214576721,
+      "tool_base_link": 0.17455999553203583,
+      "tool_r_1": 0.00863999966531992,
+      "tool_l_1": 0.00863999966531992,
+      "tool_l_2_base": 0.0005236745928414166,
+      "tool_r_2_base": 0.0005236745928414166,
+      "tool_r_3": 0.009669999592006207,
+      "tool_l_3": 0.009669999592006207,
+      "tool_l_2": 0.011989999562501907,
+      "tool_r_2": 0.011989999562501907
+    },
+    "gravity_disabled": [],
+    "kinematic_bodies": [],
+    "collision_meshes": [
+      {
+        "path": "/World/Robot/base_link/collisions/base_link/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_1/collisions/link_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_2/collisions/link_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_3/collisions/link_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_4/collisions/link_4/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_5/collisions/link_5/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/link_6/collisions/link_6/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+        "enabled": true
+      },
+      {
+        "path": "/World/Robot/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh",
+        "enabled": true
+      }
+    ],
+    "self_collision": [
+      true
+    ],
+    "actuators": {
+      "arm": [
+        "joint_1",
+        "joint_2",
+        "joint_3",
+        "joint_4",
+        "joint_5",
+        "joint_6"
+      ],
+      "gripper_master": [
+        "tool_gripper_joint"
+      ]
+    },
+    "follower_stiffness": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "gripper_mass_max_error_kg": 4.467964165311145e-09
+  },
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_r_3_joint",
+    "tool_l_3_joint",
+    "tool_l_2_joint",
+    "tool_r_2_joint"
+  ],
+  "gripper_joint_order": [
+    "tool_gripper_joint",
+    "tool_l_1_joint",
+    "tool_l_2_joint",
+    "tool_l_3_joint",
+    "tool_r_2_joint",
+    "tool_r_3_joint"
+  ],
+  "max_hold_error_rad": 0.7780201435089111,
+  "max_mimic_error_rad": 0.7247861623764038,
+  "self_contact_peak_N": {
+    "tool_r_1": 0.0,
+    "tool_l_1": 59.534751892089844,
+    "tool_r_2": 211.30422973632812,
+    "tool_l_2": 96.31871795654297,
+    "tool_r_3": 171.3430633544922,
+    "tool_l_3": 78.10333251953125
+  },
+  "self_contact_filter_order": [
+    "tool_base_link",
+    "tool_r_1",
+    "tool_r_3",
+    "tool_l_1",
+    "tool_l_3",
+    "tool_r_2_base",
+    "tool_r_2",
+    "tool_l_2_base",
+    "tool_l_2"
+  ],
+  "self_contact_pair_peaks_N": {
+    "tool_r_1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_1": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      59.534751892089844
+    ],
+    "tool_r_2": [
+      107.1592788696289,
+      0.0,
+      171.34307861328125,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_l_2": [
+      9.818052291870117,
+      0.0,
+      0.0,
+      59.534751892089844,
+      78.10333251953125,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tool_r_3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      171.3430633544922,
+      0.0,
+      0.0
+    ],
+    "tool_l_3": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      78.10333251953125
+    ]
+  },
+  "sensor_runtime_shapes": {
+    "tool_r_1": 16,
+    "tool_l_1": 16,
+    "tool_r_2": 16,
+    "tool_l_2": 16,
+    "tool_r_3": 16,
+    "tool_l_3": 16
+  },
+  "final_sample": {
+    "step": 2460,
+    "phase": "hold_open",
+    "q_target_rad": 0.0,
+    "gripper_q_rad": [
+      0.05316537991166115,
+      0.7389273047447205,
+      0.7779322266578674,
+      0.6510701775550842,
+      0.09918398410081863,
+      0.1082683801651001
+    ],
+    "mimic_error_rad": 0.7247668467462063,
+    "tracking_error_rad": 0.7779322266578674,
+    "finite": true,
+    "max_joint_velocity_rad_s": 3.830864191055298,
+    "max_arm_error_rad": 0.0014206314226612449,
+    "contacts_N": {
+      "tool_r_1": 0.0,
+      "tool_l_1": 57.92414855957031,
+      "tool_r_2": 94.93439483642578,
+      "tool_l_2": 95.44463348388672,
+      "tool_r_3": 64.04582214355469,
+      "tool_l_3": 76.91217803955078
+    },
+    "body_positions_m": {
+      "tool_r_1": [
+        0.012676416896283627,
+        -0.03997676819562912,
+        1.0294954776763916
+      ],
+      "tool_l_1": [
+        0.012530974112451077,
+        0.040023073554039,
+        1.0294952392578125
+      ],
+      "tool_r_2": [
+        0.012658962048590183,
+        -0.02997678890824318,
+        1.031495451927185
+      ],
+      "tool_l_2": [
+        0.012623878195881844,
+        0.0300232395529747,
+        1.031495213508606
+      ],
+      "tool_r_3": [
+        0.009211099706590176,
+        -0.05074073746800423,
+        1.0700957775115967
+      ],
+      "tool_l_3": [
+        0.009076876565814018,
+        0.022632837295532227,
+        1.067730188369751
+      ]
+    }
+  },
+  "limitations": [
+    "Empty-hand closure only; no grasp or household/policy success.",
+    "Convex decomposition is an approximation; no hardware calibration."
+  ]
+}

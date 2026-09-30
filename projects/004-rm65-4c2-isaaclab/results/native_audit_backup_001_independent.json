@@ -1,0 +1,14 @@
+{
+  "schema": "rm65_independent_backup_verification_v1",
+  "status": "pass",
+  "source_report": "results/native_audit_backup_001.json",
+  "archive_sha256": "6df0ea0ec5fc677eb75665ced84057b1bef9b9aff480a86564881290c04c75cc",
+  "archive_bytes": 33945600,
+  "source_index_sha256": "d1b183735f1a5c15cafa5152a5546aa64633f26d9403765224c3461e95bb3597",
+  "independent_copy": "Windows: RM65_DATA_BACKUP_DO_NOT_GIT/native_audit_2026_09_30/rm65_native_20260930_001.tar",
+  "independent_copy_verified": true,
+  "verified_method": "PowerShell Get-FileHash SHA256 matched remote archive and source index",
+  "verified_copy_count": 2,
+  "extraction_restore_tested": false,
+  "raw_assets_committed_to_git": false
+}

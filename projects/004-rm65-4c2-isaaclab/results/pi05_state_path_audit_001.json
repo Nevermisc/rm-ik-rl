@@ -1,0 +1,40 @@
+{
+  "schema": "rm65_pi05_state_path_audit_v1",
+  "cpu_only": true,
+  "weights_loaded": false,
+  "checkpoint_changed": false,
+  "source_sha256": {
+    "/home/chengyu/robot-learning/openpi/src/openpi/models/pi0.py": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342",
+    "/home/chengyu/robot-learning/openpi/src/openpi/models/pi0_config.py": "d321858c30b398126035ea2b6da09e1c422eeeebb5ebf8df631daf9dc77647fa",
+    "/home/chengyu/robot-learning/openpi/src/openpi/models/tokenizer.py": "965be8b3c393a6811875bbc32da9e01a5d01cc2f87802de801cf7293e049748c"
+  },
+  "legacy": {
+    "pi05": true,
+    "discrete_state_input": false,
+    "max_token_len": 64,
+    "same_image_prompt_different_state_changes_tokens": false,
+    "changes_mask": false,
+    "non_padding_tokens": [
+      12,
+      12
+    ],
+    "status": "fail"
+  },
+  "proposed": {
+    "pi05": true,
+    "discrete_state_input": true,
+    "max_token_len": 200,
+    "same_image_prompt_different_state_changes_tokens": true,
+    "changes_mask": true,
+    "non_padding_tokens": [
+      42,
+      49
+    ],
+    "status": "pass"
+  },
+  "interpretation": "For pi05, no continuous state token exists in embed_suffix. The legacy false setting omits numerical state from the network. Delta/absolute action transforms still use state outside the network.",
+  "limitations": [
+    "Input-token test, not proof of learned sensitivity or task success.",
+    "Two normalized synthetic states; no dataset token budget certification."
+  ]
+}

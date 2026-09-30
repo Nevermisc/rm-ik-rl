@@ -4,6 +4,8 @@
 
 ## 当前结论
 
+> **当前 .032**：[从源 URDF/USD 到训练/推理的正式流程审计及大白话](MODEL_SOURCE_AND_PIPELINE_AUDIT_ZH.md)。已确认方块反推隐形垫、旧数值状态未进入 pi0.5 网络两项根本问题；新原生碰撞候选已建、两次动态开合 FAIL，新独立状态输入配置通过测试但未训练。176 项 CPU 回归通过，新原生资产/失败试验已有异机校验备份。用户授权工作至今日 21:00，20:40 起收尾；下列版本均是历史，不覆盖此结论。
+
 > 当前主动推进 `household-generalization.020`：[全链路审计与正式/通俗说明](HOUSEHOLD_GENERALIZATION_AUDIT_ZH.md)，[逐次日志](HOUSEHOLD_GENERALIZATION_LOG.md)。审计不仅确认旧数据全是方块，还发现按方块反推的附加碰撞垫与原手指可见表面分离约 6 cm，导入 USD 也确认隐藏碰撞盒仍开启，已默认阻止继续用它采集日用品。香蕉、记号笔脚本通过只代表旧代理模型，不证明原生夹爪能力。下一优先级是另建/验证正确夹爪碰撞模型；固定相机已实测，两批原始证据已独立校验备份，149 项 CPU 测试通过，尚未训练新 pi0.5。用户授权持续推进；下列旧阶段等待状态及旧成绩不代表当前目标已完成。
 
 > 最新可见阶段 `household-visible.012` 已收尾：[正式版 + 大白话 + 代码结构](HOUSEHOLD_VISIBLE_HANDOFF_ZH.md)，[逐步日志](HOUSEHOLD_VISIBLE_ITERATION_LOG.md)。托台外移 8 cm；香蕉脚本抓放有 3 次开发通过，其中 1 次目标托台从初始即有碰撞。不是 pi0.5 推理或日用品部署验收。41 项测试、9 项几何检查通过，原始数据已有独立校验备份。用户要求同类型工作只做一次可见验证，避免重复开窗；本轮结果窗口暂时保留，物理已暂停，等待下一阶段确认。
@@ -39,7 +41,7 @@
 - [ITERATION_STATUS.json](ITERATION_STATUS.json)：便于程序读取的当前工作版本和下一步。
 - [CHANGELOG.md](CHANGELOG.md)：从本目录建立后持续追加的变更记录。
 
-当前机器可读状态以 `STATUS.json` 的 `current_visible_session` 为准；`current_household_snapshot` 是上一轮日用品阶段，旧方块评测字段也保留作历史证据。历史运行中途数字只用于监控，不作为正式结论。
+当前机器可读状态以 `ITERATION_STATUS.json` 和 `STATUS.json` 的 `current_generalization_audit` 为准；`current_visible_session`、`current_household_snapshot` 及旧方块评测是历史快照。历史运行中途数字只用于监控，不作为正式结论。
 
 ## 记录规则
 

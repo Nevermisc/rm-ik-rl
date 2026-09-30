@@ -1,0 +1,635 @@
+{
+  "schema": "rm65_native_import_audit_v1",
+  "status": "pass",
+  "simulation_only": true,
+  "usd": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/native.usd",
+  "imported_path": "/rm65_4c2_native",
+  "merge_fixed_joints": false,
+  "self_collision_requested": true,
+  "parse_mimic": true,
+  "source_urdf_sha256": "c362f677ee792a5475c293617b6241ca17566b4dbaf87237d459afe2d307ff74",
+  "force_driven_master": [
+    "/rm65_4c2_native/joints/tool_gripper_joint"
+  ],
+  "passive_mimic_followers": [
+    {
+      "name": "tool_r_3_joint",
+      "schemas": [
+        "PhysxMimicJointAPI:rotZ"
+      ],
+      "mimic_attributes": {
+        "physxMimicJoint:rotZ:dampingRatio": "0.0",
+        "physxMimicJoint:rotZ:gearing": "-1.0",
+        "physxMimicJoint:rotZ:naturalFrequency": "0.0",
+        "physxMimicJoint:rotZ:offset": "0.0",
+        "physxMimicJoint:rotZ:referenceJointAxis": "rotX"
+      },
+      "mimic_relationships": {
+        "physxMimicJoint:rotZ:referenceJoint": [
+          "/rm65_4c2_native/joints/tool_gripper_joint"
+        ]
+      }
+    },
+    {
+      "name": "tool_l_1_joint",
+      "schemas": [
+        "PhysxMimicJointAPI:rotZ"
+      ],
+      "mimic_attributes": {
+        "physxMimicJoint:rotZ:dampingRatio": "0.0",
+        "physxMimicJoint:rotZ:gearing": "-1.0",
+        "physxMimicJoint:rotZ:naturalFrequency": "0.0",
+        "physxMimicJoint:rotZ:offset": "0.0",
+        "physxMimicJoint:rotZ:referenceJointAxis": "rotX"
+      },
+      "mimic_relationships": {
+        "physxMimicJoint:rotZ:referenceJoint": [
+          "/rm65_4c2_native/joints/tool_gripper_joint"
+        ]
+      }
+    },
+    {
+      "name": "tool_l_3_joint",
+      "schemas": [
+        "PhysxMimicJointAPI:rotZ"
+      ],
+      "mimic_attributes": {
+        "physxMimicJoint:rotZ:dampingRatio": "0.0",
+        "physxMimicJoint:rotZ:gearing": "-1.0",
+        "physxMimicJoint:rotZ:naturalFrequency": "0.0",
+        "physxMimicJoint:rotZ:offset": "0.0",
+        "physxMimicJoint:rotZ:referenceJointAxis": "rotX"
+      },
+      "mimic_relationships": {
+        "physxMimicJoint:rotZ:referenceJoint": [
+          "/rm65_4c2_native/joints/tool_gripper_joint"
+        ]
+      }
+    },
+    {
+      "name": "tool_l_2_joint",
+      "schemas": [
+        "PhysxMimicJointAPI:rotZ"
+      ],
+      "mimic_attributes": {
+        "physxMimicJoint:rotZ:dampingRatio": "0.0",
+        "physxMimicJoint:rotZ:gearing": "-1.0",
+        "physxMimicJoint:rotZ:naturalFrequency": "0.0",
+        "physxMimicJoint:rotZ:offset": "0.0",
+        "physxMimicJoint:rotZ:referenceJointAxis": "rotX"
+      },
+      "mimic_relationships": {
+        "physxMimicJoint:rotZ:referenceJoint": [
+          "/rm65_4c2_native/joints/tool_gripper_joint"
+        ]
+      }
+    },
+    {
+      "name": "tool_r_2_joint",
+      "schemas": [
+        "PhysxMimicJointAPI:rotZ"
+      ],
+      "mimic_attributes": {
+        "physxMimicJoint:rotZ:dampingRatio": "0.0",
+        "physxMimicJoint:rotZ:gearing": "-1.0",
+        "physxMimicJoint:rotZ:naturalFrequency": "0.0",
+        "physxMimicJoint:rotZ:offset": "0.0",
+        "physxMimicJoint:rotZ:referenceJointAxis": "rotX"
+      },
+      "mimic_relationships": {
+        "physxMimicJoint:rotZ:referenceJoint": [
+          "/rm65_4c2_native/joints/tool_gripper_joint"
+        ]
+      }
+    }
+  ],
+  "geometry_comparisons": [
+    {
+      "link": "tool_base_link",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 98370,
+      "collision_points": 98370
+    },
+    {
+      "link": "tool_r_1",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3090,
+      "collision_points": 3090
+    },
+    {
+      "link": "tool_r_3",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3462,
+      "collision_points": 3462
+    },
+    {
+      "link": "tool_l_1",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3078,
+      "collision_points": 3078
+    },
+    {
+      "link": "tool_l_3",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3468,
+      "collision_points": 3468
+    },
+    {
+      "link": "tool_r_2_base",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 1602,
+      "collision_points": 1602
+    },
+    {
+      "link": "tool_r_2",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3918,
+      "collision_points": 3918
+    },
+    {
+      "link": "tool_l_2_base",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 1602,
+      "collision_points": 1602
+    },
+    {
+      "link": "tool_l_2",
+      "authored_mesh_bounds_max_error_m": 0.0,
+      "visual_points": 3930,
+      "collision_points": 3930
+    }
+  ],
+  "meshes": [
+    {
+      "path": "/rm65_4c2_native/tool_base_link/visuals/base_link/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.012754341255916138,
+          -0.04500009270503455,
+          0.8504998454037503
+        ],
+        [
+          0.012746687659909649,
+          0.045000367540744546,
+          0.9475003710770868
+        ]
+      ],
+      "point_count": 98370
+    },
+    {
+      "path": "/rm65_4c2_native/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.012754341255916138,
+          -0.04500009270503455,
+          0.8504998454037503
+        ],
+        [
+          0.012746687659909649,
+          0.045000367540744546,
+          0.9475003710770868
+        ]
+      ],
+      "point_count": 98370
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_1/visuals/r_1/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.009004090401521421,
+          -0.056645655932541464,
+          0.9257528318744377
+        ],
+        [
+          0.008996291216450816,
+          -0.03625386925251593,
+          0.9731840289344839
+        ]
+      ],
+      "point_count": 3090
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.009004090401521421,
+          -0.056645655932541464,
+          0.9257528318744377
+        ],
+        [
+          0.008996291216450816,
+          -0.03625386925251593,
+          0.9731840289344839
+        ]
+      ],
+      "point_count": 3090
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_3/visuals/r_3/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.00900418967357953,
+          -0.05639569055623263,
+          0.9644703115328537
+        ],
+        [
+          0.008996155719932035,
+          -0.03499948893604756,
+          0.9979704544834213
+        ]
+      ],
+      "point_count": 3462
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.00900418967357953,
+          -0.05639569055623263,
+          0.9644703115328537
+        ],
+        [
+          0.008996155719932035,
+          -0.03499948893604756,
+          0.9979704544834213
+        ]
+      ],
+      "point_count": 3462
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_1/visuals/l_1/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.009004521127274828,
+          0.0362543436478836,
+          0.9257524854100302
+        ],
+        [
+          0.00899586049069741,
+          0.05664613032790913,
+          0.9731836824700764
+        ]
+      ],
+      "point_count": 3078
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.009004521127274828,
+          0.0362543436478836,
+          0.9257524854100302
+        ],
+        [
+          0.00899586049069741,
+          0.05664613032790913,
+          0.9731836824700764
+        ]
+      ],
+      "point_count": 3078
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_3/visuals/l_3/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.009004603148282338,
+          0.03500020118191192,
+          0.9644699483896794
+        ],
+        [
+          0.008995742245229227,
+          0.056396402802096984,
+          0.997970091340247
+        ]
+      ],
+      "point_count": 3468
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.009004603148282338,
+          0.03500020118191192,
+          0.9644699483896794
+        ],
+        [
+          0.008995742245229227,
+          0.056396402802096984,
+          0.997970091340247
+        ]
+      ],
+      "point_count": 3468
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_2_base/visuals/l_2_base/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.01250429918541799,
+          0.028100092021084707,
+          0.9296262421565423
+        ],
+        [
+          0.012495755211847884,
+          0.03190024715437211,
+          0.9333739464772668
+        ]
+      ],
+      "point_count": 1602
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.01250429918541799,
+          0.028100092021084707,
+          0.9296262421565423
+        ],
+        [
+          0.012495755211847884,
+          0.03190024715437211,
+          0.9333739464772668
+        ]
+      ],
+      "point_count": 1602
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_2/visuals/l_2/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.009004602152326464,
+          0.02625434888704985,
+          0.9277525155206252
+        ],
+        [
+          0.008995781095462093,
+          0.04664613347164439,
+          0.9751837197984191
+        ]
+      ],
+      "point_count": 3930
+    },
+    {
+      "path": "/rm65_4c2_native/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.009004602152326464,
+          0.02625434888704985,
+          0.9277525155206252
+        ],
+        [
+          0.008995781095462093,
+          0.04664613347164439,
+          0.9751837197984191
+        ]
+      ],
+      "point_count": 3930
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_2_base/visuals/r_2_base/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.012503979705950546,
+          -0.03188992970179728,
+          0.9296050972330164
+        ],
+        [
+          0.012496074827820013,
+          -0.02810973300038279,
+          0.9333954484857155
+        ]
+      ],
+      "point_count": 1602
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.012503979705950546,
+          -0.03188992970179728,
+          0.9296050972330164
+        ],
+        [
+          0.012496074827820013,
+          -0.02810973300038279,
+          0.9333954484857155
+        ]
+      ],
+      "point_count": 1602
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_2/visuals/r_2/node_STL_BINARY_/mesh",
+      "collision": false,
+      "collision_enabled": null,
+      "approximation": null,
+      "bounds_m": [
+        [
+          -0.009004140692950609,
+          -0.0466456487054914,
+          0.9277527430281276
+        ],
+        [
+          0.008996240925023444,
+          -0.026253864120914554,
+          0.9751839473059158
+        ]
+      ],
+      "point_count": 3918
+    },
+    {
+      "path": "/rm65_4c2_native/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh",
+      "collision": true,
+      "collision_enabled": true,
+      "approximation": "convexDecomposition",
+      "bounds_m": [
+        [
+          -0.009004140692950609,
+          -0.0466456487054914,
+          0.9277527430281276
+        ],
+        [
+          0.008996240925023444,
+          -0.026253864120914554,
+          0.9751839473059158
+        ]
+      ],
+      "point_count": 3918
+    }
+  ],
+  "physics_steps": 0,
+  "collider_schema_relocations": [
+    {
+      "from_xform": "/rm65_4c2_native/base_link/collisions/base_link/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/base_link/collisions/base_link/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_1/collisions/link_1/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_1/collisions/link_1/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_2/collisions/link_2/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_2/collisions/link_2/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_3/collisions/link_3/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_3/collisions/link_3/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_4/collisions/link_4/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_4/collisions/link_4/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_5/collisions/link_5/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_5/collisions/link_5/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/link_6/collisions/link_6/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/link_6/collisions/link_6/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_base_link/collisions/base_link/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_r_1/collisions/r_1/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_r_3/collisions/r_3/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_l_1/collisions/l_1/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_l_3/collisions/l_3/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_l_2/collisions/l_2/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh"
+    },
+    {
+      "from_xform": "/rm65_4c2_native/tool_r_2/collisions/r_2/node_STL_BINARY_",
+      "to_mesh": "/rm65_4c2_native/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh"
+    }
+  ],
+  "contact_offset_m": 0.001,
+  "rest_offset_m": 0.0,
+  "composed_layer_sha256": {
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/configuration/native_base.usd": "7e5fe68b0b30343e6ca6b4267ae9047bc9e0f4fdf9619931642b43f7e14cb50b",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/configuration/native_robot.usd": "efd3ebef31a7ec407248dccbb92a33f8f2e446f85944ec7d0f7d3908512f6d43",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/configuration/native_sensor.usd": "6cb27e55f8c0ec6f959f7a439cfee2881bba64d3fb3ecb209ec0eaa5c5cdf591",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/configuration/native_physics.usd": "9dd205b12a54888e83bdd8954a4084aa6236fad44b513b63048d5229648b87ec",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_rigid_001/native.usd": "d58aaa416dacdcb5710417b4e0cb0f883c6418a3a52cbd3ada8004a622f6c446"
+  },
+  "native_dynamic_validation": false,
+  "training_ready": false,
+  "pi05_used": false,
+  "limitations": [
+    "Authored mesh bounds checked; cooked PhysX convex hulls not extracted.",
+    "No dynamic closure, contact, or hardware validation yet."
+  ],
+  "derivation": {
+    "source": "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/native_surface_v3",
+    "source_import_audit_sha256": "4916b070b23159b27d274d00bb5fcf41f5f178ec7a9c2f7b368c444e98064778",
+    "change": "ideal_rigid_mimic_from_source_urdf",
+    "changes": [
+      {
+        "joint": "tool_r_3_joint",
+        "old_frequency": 25.0,
+        "old_damping": 0.004999999888241291,
+        "new_frequency": 0.0,
+        "new_damping": 0.0
+      },
+      {
+        "joint": "tool_l_1_joint",
+        "old_frequency": 25.0,
+        "old_damping": 0.004999999888241291,
+        "new_frequency": 0.0,
+        "new_damping": 0.0
+      },
+      {
+        "joint": "tool_l_3_joint",
+        "old_frequency": 25.0,
+        "old_damping": 0.004999999888241291,
+        "new_frequency": 0.0,
+        "new_damping": 0.0
+      },
+      {
+        "joint": "tool_l_2_joint",
+        "old_frequency": 25.0,
+        "old_damping": 0.004999999888241291,
+        "new_frequency": 0.0,
+        "new_damping": 0.0
+      },
+      {
+        "joint": "tool_r_2_joint",
+        "old_frequency": 25.0,
+        "old_damping": 0.004999999888241291,
+        "new_frequency": 0.0,
+        "new_damping": 0.0
+      }
+    ],
+    "self_collision_filters_added": [],
+    "physics_steps": 0,
+    "rationale": "URDF mimic specifies a kinematic relationship, not the importer-added 25 Hz/0.005 compliant spring.",
+    "hardware_transmission_validated": false
+  }
+}
