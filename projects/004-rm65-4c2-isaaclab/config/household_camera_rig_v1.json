@@ -1,0 +1,24 @@
+{
+  "schema": "rm65_fixed_camera_rig_v1",
+  "rig_id": "household_fixed_v1",
+  "simulation_only": true,
+  "hardware_calibrated": false,
+  "external": {
+    "eye_world_m": [0.45, 0.60, 1.20],
+    "target_world_m": [-0.24, -0.11, 0.73]
+  },
+  "wrist": {
+    "parent_link": "link_6",
+    "offset_local_m": [-0.03, 0.10, 0.03],
+    "forward_local": [-0.045, -0.10, 0.10],
+    "up_local": [0.0, 0.0, 1.0]
+  },
+  "optics": {
+    "width": 640,
+    "height": 480,
+    "external_focal_length_mm": 24.0,
+    "wrist_focal_length_mm": 18.0,
+    "horizontal_aperture_mm": 20.955,
+    "clipping_range_m": [0.01, 10.0]
+  }
+}

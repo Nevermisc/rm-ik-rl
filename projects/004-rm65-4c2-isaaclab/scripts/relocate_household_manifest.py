@@ -7,7 +7,7 @@ import sys
 import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from openpi_extension.household_assets import HOUSEHOLD_CATALOG, load_household
+from openpi_extension.household_assets import HOUSEHOLD_CATALOG, load_household, manifest_object_ids
 
 
 def relocate(source, asset_root, output):
@@ -15,6 +15,7 @@ def relocate(source, asset_root, output):
     if output.exists():
         raise FileExistsError('never overwrite a manifest')
     data = copy.deepcopy(json.loads(Path(source).read_text()))
+    expected = set(manifest_object_ids(source))
     seen = set()
     for case in data['cases']:
         object_id = case['object_id']
@@ -22,8 +23,8 @@ def relocate(source, asset_root, output):
             raise ValueError('unknown or duplicate object')
         seen.add(object_id)
         case['package_path'] = str((Path(asset_root) / object_id / 'model.usd').resolve())
-    if seen != set(HOUSEHOLD_CATALOG):
-        raise ValueError('a complete four-object cache is required')
+    if seen != expected:
+        raise ValueError('a complete declared object cache is required')
     # Validate all bytes before publishing any final manifest.
     with tempfile.TemporaryDirectory(prefix='rm65-household-verify-') as temporary:
         candidate = Path(temporary) / 'candidate.json'

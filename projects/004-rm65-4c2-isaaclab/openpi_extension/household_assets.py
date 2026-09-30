@@ -27,7 +27,22 @@ HOUSEHOLD_CATALOG = {s.object_id:s for s in (
     HouseholdSpec('ycb_banana', '011_banana.usd', 'banana', .066, 'Irregular curved geometry; no deformability model.'),
     HouseholdSpec('ycb_soup_can', '005_tomato_soup_can.usd', 'soup can', .35, 'Rigid sealed can; contents not simulated.'),
     HouseholdSpec('ycb_pudding_box', '008_pudding_box.usd', 'pudding box', .19, 'Rigid box; crushing not simulated.'),
+    HouseholdSpec('ycb_large_marker', '040_large_marker.usd', 'marker', .02, 'Rigid capped marker; cap detachment and ink not simulated.'),
 )}
+
+LEGACY_OBJECT_IDS = ('ycb_mug', 'ycb_banana', 'ycb_soup_can', 'ycb_pudding_box')
+
+
+def manifest_object_ids(manifest):
+    """An explicit subset is complete for that manifest, not for the whole catalog."""
+    data = json.loads(Path(manifest).read_text())
+    expected = data.get('requested_object_ids', list(LEGACY_OBJECT_IDS))
+    actual = [c['object_id'] for c in data['cases']]
+    if not expected or len(expected) != len(set(expected)) or len(actual) != len(set(actual)):
+        raise ValueError('empty or duplicate object set')
+    if not set(actual) <= set(HOUSEHOLD_CATALOG) or set(actual) != set(expected):
+        raise ValueError('manifest must contain the complete declared object set')
+    return actual
 
 
 @dataclass(frozen=True)

@@ -33,7 +33,7 @@ def load_openpi_trainer():
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo-id", default="local/rm65_sim_train")
+    parser.add_argument("--repo-id", required=True, help="Choose data explicitly; the old block dataset is not a household default.")
     parser.add_argument("--exp-name", required=True)
     parser.add_argument("--num-train-steps", type=int, default=30_000)
     parser.add_argument("--batch-size", type=int, default=1)

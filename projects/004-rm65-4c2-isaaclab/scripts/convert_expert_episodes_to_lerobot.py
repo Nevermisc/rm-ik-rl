@@ -18,6 +18,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from openpi_extension.expert_episode import validate_episode
+from openpi_extension.training_admission import check_training_admission
 
 
 def load_episode(directory: Path) -> dict[str, Any]:
@@ -27,8 +28,9 @@ def load_episode(directory: Path) -> dict[str, Any]:
     if validation["status"] != "pass":
         raise ValueError(f"invalid episode {directory}: {validation['errors']}")
     manifest = json.loads((directory / "metadata.json").read_text(encoding="utf-8"))
-    if manifest.get("metadata", {}).get("task_success") is not True:
-        raise ValueError(f"episode is not marked successful: {directory}")
+    report_path = directory / 'task_report.json'
+    report = json.loads(report_path.read_text(encoding='utf-8')) if report_path.exists() else {}
+    admission = check_training_admission(manifest, report)
     with np.load(directory / "episode.npz") as arrays:
         states = arrays["observation_state"].astype(np.float32, copy=True)
         actions = arrays["action"].astype(np.float32, copy=True)
@@ -44,6 +46,7 @@ def load_episode(directory: Path) -> dict[str, Any]:
         "external_paths": manifest["image_paths"]["external"],
         "wrist_paths": manifest["image_paths"]["wrist"],
         "collection_split": manifest.get("metadata", {}).get("collection_split"),
+        "training_admission": admission,
     }
 
 
@@ -300,6 +303,9 @@ def main() -> int:
         "selected_phase_counts": dict(sorted(selected_phase_counts.items())),
         "fps": int(rounded_fps),
         "collection_split": args.split,
+        "training_admission_scope": "legacy_reproduction",
+        "household_training_certified": False,
+        "explicit_training_exclusions_checked": all(e['training_admission']['explicit_exclusions_checked'] for e in episodes),
     }
     text = json.dumps(report, indent=2) + "\n"
     if args.report is not None:

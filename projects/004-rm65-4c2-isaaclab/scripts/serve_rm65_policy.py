@@ -21,15 +21,16 @@ from openpi_extension.deterministic_policy import (
     POLICY_SAMPLING_MODE,
 )
 from openpi_extension.rm65_training_config import make_pi05_rm65_lora_config
+from openpi_extension.task_instruction import TaskPromptPolicy
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--checkpoint", type=Path, required=True)
-    parser.add_argument("--repo-id", default="local/rm65_sim_train")
+    parser.add_argument("--repo-id", required=True, help="Explicit normalization/data identity; no implicit block dataset.")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8000)
-    parser.add_argument("--default-prompt", default="pick up the block and place it on the target")
+    parser.add_argument("--default-prompt", help="Optional explicit task fallback; otherwise each request must supply a prompt.")
     args = parser.parse_args()
 
     checkpoint = args.checkpoint.expanduser().resolve()
@@ -44,6 +45,7 @@ def main() -> None:
         action_horizon=config.model.action_horizon,
         action_dim=config.model.action_dim,
     )
+    policy = TaskPromptPolicy(policy, args.default_prompt)
     metadata = {
         "robot": "RM65-B",
         "gripper": "4C2",
@@ -53,6 +55,8 @@ def main() -> None:
         "action_semantics": "six absolute joint targets plus normalized gripper target",
         "sampling_mode": POLICY_SAMPLING_MODE,
         "deterministic_seed_required": True,
+        "task_prompt_required": args.default_prompt is None,
+        "explicit_default_prompt": args.default_prompt,
         "model_action_horizon": config.model.action_horizon,
         "model_action_dim": config.model.action_dim,
     }

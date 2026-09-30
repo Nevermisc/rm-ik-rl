@@ -10,12 +10,16 @@ from isaaclab.app import AppLauncher
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--asset-dir', type=Path, required=True)
 parser.add_argument('--output', type=Path, required=True)
+parser.add_argument('--object-id', action='append', help='Explicit subset; omitted preserves the historical four-object cache.')
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
 if args.output.exists() or args.asset_dir.exists():
     parser.error('use new asset and report paths; existing assets are never overwritten')
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from openpi_extension.household_assets import HOUSEHOLD_CATALOG
+from openpi_extension.household_assets import HOUSEHOLD_CATALOG, LEGACY_OBJECT_IDS
+object_ids = args.object_id or list(LEGACY_OBJECT_IDS)
+if len(set(object_ids)) != len(object_ids) or not set(object_ids) <= set(HOUSEHOLD_CATALOG):
+    parser.error('unknown or duplicate object selection')
 launcher = AppLauncher(args)
 from pxr import Usd, UsdGeom, UsdPhysics, UsdShade, Sdf
 import omni.client
@@ -24,7 +28,8 @@ from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 try:
     args.asset_dir.mkdir(parents=True)
     cases = []
-    for spec in HOUSEHOLD_CATALOG.values():
+    for object_id in object_ids:
+        spec = HOUSEHOLD_CATALOG[object_id]
         source = f'{ISAAC_NUCLEUS_DIR}/Props/YCB/Axis_Aligned/{spec.filename}'
         local = args.asset_dir / spec.object_id / 'model.usd'
         local.parent.mkdir()
@@ -101,7 +106,7 @@ try:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open('x') as stream:
         json.dump(dict(status='pass' if all(c['status']=='pass' for c in cases) else 'fail',
-                       simulation_only=True, cases=cases), stream, indent=2)
+                       simulation_only=True, requested_object_ids=object_ids, cases=cases), stream, indent=2)
 finally:
     launcher.app.close(skip_cleanup=True)
 raise SystemExit(0 if all(c['status'] == 'pass' for c in cases) else 1)

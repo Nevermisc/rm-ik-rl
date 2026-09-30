@@ -1,0 +1,62 @@
+{
+  "schema": "household_development_backup_v1",
+  "status": "pass",
+  "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/household_generalization_runs_20260930_001.tar",
+  "archive_bytes": 309975040,
+  "archive_sha256": "599d5732214b64756550b3aefda23abe9e1e16c5bdea23b8b728cb868bb6722a",
+  "source_roots": [
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_gravity_001",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_marker_001",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_marker_002",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_marker_003",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_marker_004",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_marker_assets_001",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_marker_scene_001",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_gravity_001.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_marker_001.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_marker_002.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_marker_003.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_marker_004.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_marker_scene_001.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_marker_assets_001.json",
+    "projects/004-rm65-4c2-isaaclab/results/household_marker_fit_001.json",
+    "projects/004-rm65-4c2-isaaclab/results/household_marker_pad_sweep_001.json",
+    "projects/004-rm65-4c2-isaaclab/results/household_gravity_001_trajectory_audit.json",
+    "projects/004-rm65-4c2-isaaclab/results/household_marker_004_trajectory_audit.json",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_gravity_001_desktop.png",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_marker_001_desktop.png",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_marker_003_active.png"
+  ],
+  "source_file_index_sha256": "4d8c14badda1674b018c56f42f9d46be138394b4c79039b061c23cd46fb4f710",
+  "all_member_hashes_match_source": true,
+  "excludes": [
+    "task_report.live.json"
+  ],
+  "extraction_restore_tested": false,
+  "independent_copy_verified": true,
+  "independent_copy_path": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/household_2026_09_30/household_generalization_runs_20260930_001.tar",
+  "independent_copy_sha256": "599d5732214b64756550b3aefda23abe9e1e16c5bdea23b8b728cb868bb6722a",
+  "safe_archive_audit": {
+    "schema": "rm65_safe_backup_tar_audit_v1",
+    "status": "pass",
+    "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/household_generalization_runs_20260930_001.tar",
+    "required_prefix": "projects/004-rm65-4c2-isaaclab",
+    "checks": {
+      "no_unsafe_or_special_entries": true,
+      "no_duplicate_entries": true,
+      "regular_file_count_matches_manifest": true,
+      "regular_file_bytes_match_manifest": true
+    },
+    "entry_count": 3983,
+    "directory_count": 0,
+    "regular_file_count": 3983,
+    "regular_file_bytes": 302818453,
+    "expected_file_count": 3983,
+    "expected_total_bytes": 302818453,
+    "unsafe_entries": [],
+    "duplicate_entries": [],
+    "real_robot_command_sent": false
+  },
+  "raw_data_committed_to_git": false,
+  "real_robot_command_sent": false
+}

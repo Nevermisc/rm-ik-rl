@@ -1,4 +1,5 @@
 import numpy as np
+from household_grasp_calibration import require_legacy_pad_diagnostic_opt_in
 import pytest
 
 from household_grasp_calibration import PadGeometry, origin_transform, rotation
@@ -65,3 +66,20 @@ def test_missing_chain(geometry):
 def test_invalid_width(geometry, width):
     with pytest.raises(ValueError):
         geometry.fit_box(width)
+
+
+def test_preshape_clearance(geometry):
+    result = geometry.preshape_evidence(.2, .8, .04)
+    assert result['modeled_aperture_m'] > .044
+
+
+@pytest.mark.parametrize('q,close,width', [(0,.8,.02), (.8,.8,.02), (float('nan'),.8,.02), (.2,.8,.2)])
+def test_preshape_invalid(geometry, q, close, width):
+    with pytest.raises(ValueError): geometry.preshape_evidence(q, close, width)
+
+
+def test_legacy_pad_probe_is_blocked_by_default():
+    with pytest.raises(ValueError, match='detached'):
+        require_legacy_pad_diagnostic_opt_in(True, False)
+    require_legacy_pad_diagnostic_opt_in(True, True)
+    require_legacy_pad_diagnostic_opt_in(False, False)

@@ -1,0 +1,324 @@
+{
+  "schema": "rm65_legacy_pad_visual_audit_v1",
+  "simulation_only": true,
+  "urdf": "generated/rm65_4c2_wide_pads.urdf",
+  "urdf_sha256": "d9937fb79c038dfbdc67427fcd39d52b1988172bcdf59451c91d815386b9f98d",
+  "mesh_sha256": {
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/base_link.STL": "6c4d85dd17e6993b27ab59f871ba73bb23547e743364c12c60e20b035ebdfdc0",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_1.STL": "6b16e6595ef95ea91fab5ef6911f2e2729db23864a1d9e240c750d6d434debde",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_3.STL": "58b8d1110a5ac739c1d4df9db06d55d3b9c47c9fa3cd226527c59b6dd2444656",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_1.STL": "7eca9d9e456cfd303454c6c79a839c41506ab4589eb016075ead6079851cccab",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_3.STL": "26d5e19179bc98cea1a3acb92fd55b2319a7dcc188299e4fe512bf5ff5d31db6",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2_base.STL": "b06196ca6cb9a7ede603d2016ec22720386f7c8dfde645a8c84867076c681b80",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/r_2.STL": "843a627971fe3c86e16675a10cc1992be78e6ceda4381399af9af46bc8eadff5",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2_base.STL": "7fc0ce1aedde6f1e42714e5dee603902ffd3830366ab3716bdfd1b6262fa87e8",
+    "/home/iot22/robot-learning/004-rm65-4c2-isaaclab/external/4C2/meshes/l_2.STL": "6bba0256bd529f13a71c7b9a6e95353ff3bc8c4c75c712e7bcbd6a92321c6c4a"
+  },
+  "cases": [
+    {
+      "q_rad": 0.0,
+      "pad_link": "tool_l_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.005838019431589694,
+          -0.005321997288344753,
+          -0.08674568872836486
+        ],
+        [
+          0.048735346568410304,
+          0.03200938528834475,
+          -0.059171995271635136
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.0037457055877894163,
+          0.003574102185666561
+        ],
+        [
+          0.04368358105421066,
+          0.016645705327391624,
+          0.021574102342128754
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.0627460974573017,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.058995967992680295,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.0,
+      "pad_link": "tool_r_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.0073058942734190585,
+          -0.030217060675541165,
+          -0.08704422504786874
+        ],
+        [
+          0.05024553372658094,
+          0.007022838675541165,
+          -0.05947053295213125
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.016645705327391624,
+          0.0035000003408640623
+        ],
+        [
+          0.04368358105421066,
+          0.0037457055877894163,
+          0.02149999886751175
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.06297053329299532,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.05922057308556869,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.65,
+      "pad_link": "tool_l_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.005838019431589694,
+          -0.005321997288344753,
+          -0.08674568872836486
+        ],
+        [
+          0.048735346568410304,
+          0.03200938528834475,
+          -0.059171995271635136
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.0037457055877894163,
+          0.003574102185666561
+        ],
+        [
+          0.04368358105421066,
+          0.016645705327391624,
+          0.021574102342128754
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.0627460974573017,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.05899603471809581,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.65,
+      "pad_link": "tool_r_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.0073058942734190585,
+          -0.030217060675541165,
+          -0.08704422504786874
+        ],
+        [
+          0.05024553372658094,
+          0.007022838675541165,
+          -0.05947053295213125
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.016645705327391624,
+          0.0035000003408640623
+        ],
+        [
+          0.04368358105421066,
+          0.0037457055877894163,
+          0.02149999886751175
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.06297053329299532,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.05922046972601866,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.7,
+      "pad_link": "tool_l_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.005838019431589694,
+          -0.005321997288344753,
+          -0.08674568872836486
+        ],
+        [
+          0.048735346568410304,
+          0.03200938528834475,
+          -0.059171995271635136
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.0037457055877894163,
+          0.003574102185666561
+        ],
+        [
+          0.04368358105421066,
+          0.016645705327391624,
+          0.021574102342128754
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.0627460974573017,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.058996039519283866,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.7,
+      "pad_link": "tool_r_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.0073058942734190585,
+          -0.030217060675541165,
+          -0.08704422504786874
+        ],
+        [
+          0.05024553372658094,
+          0.007022838675541165,
+          -0.05947053295213125
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.016645705327391624,
+          0.0035000003408640623
+        ],
+        [
+          0.04368358105421066,
+          0.0037457055877894163,
+          0.02149999886751175
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.06297053329299532,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.05922046233813982,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.8,
+      "pad_link": "tool_l_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.005838019431589694,
+          -0.005321997288344753,
+          -0.08674568872836486
+        ],
+        [
+          0.048735346568410304,
+          0.03200938528834475,
+          -0.059171995271635136
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.0037457055877894163,
+          0.003574102185666561
+        ],
+        [
+          0.04368358105421066,
+          0.016645705327391624,
+          0.021574102342128754
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.0627460974573017,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.058996048779919014,
+      "named_pad_has_visual": false
+    },
+    {
+      "q_rad": 0.8,
+      "pad_link": "tool_r_2",
+      "pad_size_m": [
+        0.04,
+        0.014,
+        0.018
+      ],
+      "pad_local_aabb_m": [
+        [
+          0.0073058942734190585,
+          -0.030217060675541165,
+          -0.08704422504786874
+        ],
+        [
+          0.05024553372658094,
+          0.007022838675541165,
+          -0.05947053295213125
+        ]
+      ],
+      "parent_visual_local_aabb_m": [
+        [
+          -0.0037474853452295065,
+          -0.016645705327391624,
+          0.0035000003408640623
+        ],
+        [
+          0.04368358105421066,
+          0.0037457055877894163,
+          0.02149999886751175
+        ]
+      ],
+      "gap_to_parent_visual_aabb_lower_bound_m": 0.06297053329299532,
+      "nearest_original_visual_link": "tool_base_link",
+      "gap_to_all_original_visual_aabbs_lower_bound_m": 0.059220448111672694,
+      "named_pad_has_visual": false
+    }
+  ],
+  "detached_from_all_visual_bounds_in_tested_poses": true,
+  "minimum_gap_to_all_visual_bounds_m": 0.058995967992680295,
+  "training_ready": false,
+  "hardware_geometry_validated": false,
+  "limitations": [
+    "AABB distance is a lower bound, not exact mesh-to-mesh distance.",
+    "Source URDF/STL check; imported USD/PhysX geometry requires independent verification.",
+    "No material, collision, asset or trajectory has been modified."
+  ]
+}

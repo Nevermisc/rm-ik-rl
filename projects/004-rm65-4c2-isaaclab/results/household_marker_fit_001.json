@@ -1,0 +1,27 @@
+{
+  "simulation_only": true,
+  "development_only": true,
+  "min_gap_m": 0.016807051124886382,
+  "max_gap_m": 0.04767270039472285,
+  "q_range_rad": [
+    0,
+    0.8
+  ],
+  "cases": [
+    {
+      "object_id": "ycb_large_marker",
+      "size_m": [
+        0.01883413987977489,
+        0.12088643757507711,
+        0.019475929897816546
+      ],
+      "current_y_width_within_modeled_aperture": false,
+      "axes_with_width_in_aperture": [
+        "x",
+        "z"
+      ],
+      "interpretation": "Bounding-box screen only; handles, local cross-sections, pose and table clearance need separate analysis.",
+      "grasp_feasibility_validated": false
+    }
+  ]
+}

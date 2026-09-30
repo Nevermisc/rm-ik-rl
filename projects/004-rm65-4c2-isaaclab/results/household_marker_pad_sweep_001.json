@@ -1,0 +1,1183 @@
+{
+  "fit": {
+    "mode": "urdf_contact_pad_box_development_only",
+    "urdf_sha256": "d9937fb79c038dfbdc67427fcd39d52b1988172bcdf59451c91d815386b9f98d",
+    "predicted_contact_q_rad": 0.78,
+    "modeled_gap_m": 0.018766928988843412,
+    "requested_width_m": 0.0188341398797749,
+    "pad_midpoint_link6_m": [
+      -0.08564520750343371,
+      -0.0011449742605450352,
+      0.10969766738650748
+    ],
+    "closing_axis_link6": [
+      0.0058577557668051715,
+      -0.9999730216484893,
+      0.004432005479048158
+    ],
+    "perception_used": false,
+    "collision_free_path_validated": false
+  },
+  "object_height_m": 0.019475929897816546,
+  "grasp_height_offset_m": 0.0,
+  "states": [
+    {
+      "q_rad": 0.0,
+      "aperture_m": 0.04767270039472285,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012550283199539061,
+          "max_z_above_table_m": 0.03246856857322916
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.011971973791446683,
+          "max_z_above_table_m": 0.03311654362310543
+        }
+      }
+    },
+    {
+      "q_rad": 0.01,
+      "aperture_m": 0.04737240200600508,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012680268399506062,
+          "max_z_above_table_m": 0.03241326758762872
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012109874708437829,
+          "max_z_above_table_m": 0.03305074804217212
+        }
+      }
+    },
+    {
+      "q_rad": 0.02,
+      "aperture_m": 0.047073365908508163,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012806575339934068,
+          "max_z_above_table_m": 0.03235882393982298
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012244194145036608,
+          "max_z_above_table_m": 0.03298571470537412
+        }
+      }
+    },
+    {
+      "q_rad": 0.03,
+      "aperture_m": 0.04677562208311396,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012929191390234337,
+          "max_z_above_table_m": 0.032305243074131296
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012374918669411303,
+          "max_z_above_table_m": 0.03292145011599093
+        }
+      }
+    },
+    {
+      "q_rad": 0.04,
+      "aperture_m": 0.046479200384114246,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013048104288903989,
+          "max_z_above_table_m": 0.032252530348595626
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012502035209218429,
+          "max_z_above_table_m": 0.03285796070042796
+        }
+      }
+    },
+    {
+      "q_rad": 0.05,
+      "aperture_m": 0.04618413053628938,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013163302144752226,
+          "max_z_above_table_m": 0.03220069103444459
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012625531052909963,
+          "max_z_above_table_m": 0.03279525280757378
+        }
+      }
+    },
+    {
+      "q_rad": 0.06,
+      "aperture_m": 0.04589044213200219,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013274773438089527,
+          "max_z_above_table_m": 0.032149730315566394
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012745393851004413,
+          "max_z_above_table_m": 0.03273333270816545
+        }
+      }
+    },
+    {
+      "q_rad": 0.07,
+      "aperture_m": 0.04559816462830627,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013382507021879375,
+          "max_z_above_table_m": 0.03209965328799047
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012861611617321828,
+          "max_z_above_table_m": 0.032672206594161396
+        }
+      }
+    },
+    {
+      "q_rad": 0.08,
+      "aperture_m": 0.045307327344069594,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013486492122853244,
+          "max_z_above_table_m": 0.032050464959377856
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012974172730182476,
+          "max_z_above_table_m": 0.03261188057812198
+        }
+      }
+    },
+    {
+      "q_rad": 0.09,
+      "aperture_m": 0.04501795945711361,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013586718342587609,
+          "max_z_above_table_m": 0.032002170248520395
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013083065933568866,
+          "max_z_above_table_m": 0.03255236069259851
+        }
+      }
+    },
+    {
+      "q_rad": 0.1,
+      "aperture_m": 0.04473009000136792,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013683175658544086,
+          "max_z_above_table_m": 0.03195477398484897
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013188280338251368,
+          "max_z_above_table_m": 0.032493652889530045
+        }
+      }
+    },
+    {
+      "q_rad": 0.11,
+      "aperture_m": 0.04444374786404123,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013775854425071385,
+          "max_z_above_table_m": 0.03190828090795045
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013289805422877193,
+          "max_z_above_table_m": 0.03243576303964793
+        }
+      }
+    },
+    {
+      "q_rad": 0.12,
+      "aperture_m": 0.04415896178280839,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013864745374370213,
+          "max_z_above_table_m": 0.031862695667093655
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013387631035022579,
+          "max_z_above_table_m": 0.032378696931888856
+        }
+      }
+    },
+    {
+      "q_rad": 0.13,
+      "aperture_m": 0.04387576034301434,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013949839617419607,
+          "max_z_above_table_m": 0.031818022820764874
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013481747392207699,
+          "max_z_above_table_m": 0.0323224602728161
+        }
+      }
+    },
+    {
+      "q_rad": 0.14,
+      "aperture_m": 0.043594171974894715,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014031128644866206,
+          "max_z_above_table_m": 0.03177426683621137
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013572145082875353,
+          "max_z_above_table_m": 0.03226705868604868
+        }
+      }
+    },
+    {
+      "q_rad": 0.15,
+      "aperture_m": 0.043314224950813766,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014108604327874988,
+          "max_z_above_table_m": 0.031731432088995204
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013658815067331742,
+          "max_z_above_table_m": 0.03221249771169915
+        }
+      }
+    },
+    {
+      "q_rad": 0.16,
+      "aperture_m": 0.0430359473825197,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014182258918942259,
+          "max_z_above_table_m": 0.031689522862555386
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013741748678650662,
+          "max_z_above_table_m": 0.032158782805819436
+        }
+      }
+    },
+    {
+      "q_rad": 0.17,
+      "aperture_m": 0.04275936721841764,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014252085052670282,
+          "max_z_above_table_m": 0.03164854334777961
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013820937623540155,
+          "max_z_above_table_m": 0.03210591933985535
+        }
+      }
+    },
+    {
+      "q_rad": 0.18,
+      "aperture_m": 0.04248451224086082,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01431807574650383,
+          "max_z_above_table_m": 0.031608497642585276
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013896373983171631,
+          "max_z_above_table_m": 0.03205391260010951
+        }
+      }
+    },
+    {
+      "q_rad": 0.19,
+      "aperture_m": 0.04221141006345963,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014380224401428499,
+          "max_z_above_table_m": 0.03156938975150947
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.0139680502139721,
+          "max_z_above_table_m": 0.03200276778721242
+        }
+      }
+    },
+    {
+      "q_rad": 0.2,
+      "aperture_m": 0.04194008812840932,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014438524802630692,
+          "max_z_above_table_m": 0.03153122358530869
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014035959148378102,
+          "max_z_above_table_m": 0.03195249001560288
+        }
+      }
+    },
+    {
+      "q_rad": 0.21,
+      "aperture_m": 0.04167057370383638,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01449297112011877,
+          "max_z_above_table_m": 0.03149400296056781
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014100093995552843,
+          "max_z_above_table_m": 0.031903084313016083
+        }
+      }
+    },
+    {
+      "q_rad": 0.22,
+      "aperture_m": 0.04140289388116379,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014543557909306407,
+          "max_z_above_table_m": 0.03145773159931828
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014160448342065035,
+          "max_z_above_table_m": 0.03185455561998113
+        }
+      }
+    },
+    {
+      "q_rad": 0.23,
+      "aperture_m": 0.04113707557249518,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014590280111556789,
+          "max_z_above_table_m": 0.03142241312866595
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014217016152530335,
+          "max_z_above_table_m": 0.031806908789326904
+        }
+      }
+    },
+    {
+      "q_rad": 0.24,
+      "aperture_m": 0.0408731455080186,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01463313305468869,
+          "max_z_above_table_m": 0.0313880510804285
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014269791770214812,
+          "max_z_above_table_m": 0.03176014858569676
+        }
+      }
+    },
+    {
+      "q_rad": 0.25,
+      "aperture_m": 0.04061113023342941,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014672112453443464,
+          "max_z_above_table_m": 0.0313546488907821
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014318769917600671,
+          "max_z_above_table_m": 0.031714279685072067
+        }
+      }
+    },
+    {
+      "q_rad": 0.26,
+      "aperture_m": 0.04035105610737294,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014707214409913766,
+          "max_z_above_table_m": 0.03132220989991788
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014363945696914099,
+          "max_z_above_table_m": 0.03166930667430465
+        }
+      }
+    },
+    {
+      "q_rad": 0.27,
+      "aperture_m": 0.04009294929890688,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014738435413933118,
+          "max_z_above_table_m": 0.0312907373517079
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014405314590614643,
+          "max_z_above_table_m": 0.031625234050658174
+        }
+      }
+    },
+    {
+      "q_rad": 0.28,
+      "aperture_m": 0.03983683578498358,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014765772343427214,
+          "max_z_above_table_m": 0.03126023439338074
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014442872461847514,
+          "max_z_above_table_m": 0.03158206622135826
+        }
+      }
+    },
+    {
+      "q_rad": 0.29,
+      "aperture_m": 0.03958274134795211,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01478922246472586,
+          "max_z_above_table_m": 0.03123070407520684
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.01447661555485684,
+          "max_z_above_table_m": 0.03153980750315183
+        }
+      }
+    },
+    {
+      "q_rad": 0.3,
+      "aperture_m": 0.03933069157308066,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014808783432836412,
+          "max_z_above_table_m": 0.031202149350193414
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014506540495361486,
+          "max_z_above_table_m": 0.03149846212187546
+        }
+      }
+    },
+    {
+      "q_rad": 0.31,
+      "aperture_m": 0.03908071184609873,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014824453291678474,
+          "max_z_above_table_m": 0.031174573073789125
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014532644290892266,
+          "max_z_above_table_m": 0.03145803421203294
+        }
+      }
+    },
+    {
+      "q_rad": 0.32,
+      "aperture_m": 0.03883282735075966,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014836230474279122,
+          "max_z_above_table_m": 0.031147978003598642
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014554924331091484,
+          "max_z_above_table_m": 0.031418527816381464
+        }
+      }
+    },
+    {
+      "q_rad": 0.33,
+      "aperture_m": 0.03858706306642312,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01484411380292995,
+          "max_z_above_table_m": 0.03112236679910685
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.01457337838797361,
+          "max_z_above_table_m": 0.03137994688552767
+        }
+      }
+    },
+    {
+      "q_rad": 0.34,
+      "aperture_m": 0.03834344376565776,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014848102489304668,
+          "max_z_above_table_m": 0.031097742021412855
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014588004616148315,
+          "max_z_above_table_m": 0.0313422952775326
+        }
+      }
+    },
+    {
+      "q_rad": 0.35000000000000003,
+      "aperture_m": 0.03810199401186368,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014848196134537944,
+          "max_z_above_table_m": 0.031074106132973872
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014598801553005039,
+          "max_z_above_table_m": 0.031305576757525544
+        }
+      }
+    },
+    {
+      "q_rad": 0.36,
+      "aperture_m": 0.037862738156914974,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014844394729265326,
+          "max_z_above_table_m": 0.031051461497359073
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014605768118859094,
+          "max_z_above_table_m": 0.03126979499732796
+        }
+      }
+    },
+    {
+      "q_rad": 0.37,
+      "aperture_m": 0.03762570033882175,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014836698653624233,
+          "max_z_above_table_m": 0.031029810379013145
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014608903617059618,
+          "max_z_above_table_m": 0.031234953575086072
+        }
+      }
+    },
+    {
+      "q_rad": 0.38,
+      "aperture_m": 0.03739090447941183,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01482510867721576,
+          "max_z_above_table_m": 0.03100915494302986
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014608207734059464,
+          "max_z_above_table_m": 0.031201055974913072
+        }
+      }
+    },
+    {
+      "q_rad": 0.39,
+      "aperture_m": 0.037158374282031434,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014809625959027878,
+          "max_z_above_table_m": 0.030989497254935633
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014603680539446356,
+          "max_z_above_table_m": 0.03116810558654068
+        }
+      }
+    },
+    {
+      "q_rad": 0.4,
+      "aperture_m": 0.036928133229264894,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014790252047319513,
+          "max_z_above_table_m": 0.030970839280482915
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014595322485935952,
+          "max_z_above_table_m": 0.03113610570498035
+        }
+      }
+    },
+    {
+      "q_rad": 0.41000000000000003,
+      "aperture_m": 0.03670020458067291,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014766988879465731,
+          "max_z_above_table_m": 0.03095318288545354
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014583134409326667,
+          "max_z_above_table_m": 0.03110505953019349
+        }
+      }
+    },
+    {
+      "q_rad": 0.42,
+      "aperture_m": 0.03647461137054858,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014739838781763909,
+          "max_z_above_table_m": 0.03093652983547232
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014567117528415996,
+          "max_z_above_table_m": 0.031074970166771743
+        }
+      }
+    },
+    {
+      "q_rad": 0.43,
+      "aperture_m": 0.03625137640569117,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01470880446920117,
+          "max_z_above_table_m": 0.030920881795830385
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014547273444878661,
+          "max_z_above_table_m": 0.031045840623626364
+        }
+      }
+    },
+    {
+      "q_rad": 0.44,
+      "aperture_m": 0.036030522263196536,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014673889045182908,
+          "max_z_above_table_m": 0.03090624033131867
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.01452360414310648,
+          "max_z_above_table_m": 0.031017673813687474
+        }
+      }
+    },
+    {
+      "q_rad": 0.45,
+      "aperture_m": 0.03581207128826385,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014635096001222467,
+          "max_z_above_table_m": 0.03089260690607143
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014496111990009997,
+          "max_z_above_table_m": 0.030990472553612425
+        }
+      }
+    },
+    {
+      "q_rad": 0.46,
+      "aperture_m": 0.035596045592017365,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014592429216591929,
+          "max_z_above_table_m": 0.030879982883419754
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014464799734781486,
+          "max_z_above_table_m": 0.030964239563504692
+        }
+      }
+    },
+    {
+      "q_rad": 0.47000000000000003,
+      "aperture_m": 0.03538246704934275,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014545892957934126,
+          "max_z_above_table_m": 0.0308683695257555
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014429670508620457,
+          "max_z_above_table_m": 0.0309389774666414
+        }
+      }
+    },
+    {
+      "q_rad": 0.48,
+      "aperture_m": 0.035171357296736594,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014495491878836197,
+          "max_z_above_table_m": 0.03085776799440465
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014390727824420163,
+          "max_z_above_table_m": 0.030914688789211192
+        }
+      }
+    },
+    {
+      "q_rad": 0.49,
+      "aperture_m": 0.03496273773016789,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014441231019364065,
+          "max_z_above_table_m": 0.030848179349511562
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014347975576416677,
+          "max_z_above_table_m": 0.030891375960061557
+        }
+      }
+    },
+    {
+      "q_rad": 0.5,
+      "aperture_m": 0.03475662950295028,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014383115805558386,
+          "max_z_above_table_m": 0.030839604549932786
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014301418039799133,
+          "max_z_above_table_m": 0.030869041310455952
+        }
+      }
+    },
+    {
+      "q_rad": 0.51,
+      "aperture_m": 0.03455305352362345,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.0143211520488922,
+          "max_z_above_table_m": 0.030832044453141
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014251059870282384,
+          "max_z_above_table_m": 0.03084768707384075
+        }
+      }
+    },
+    {
+      "q_rad": 0.52,
+      "aperture_m": 0.03435203045384183,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01425534594568946,
+          "max_z_above_table_m": 0.030825499815139712
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014196906103641424,
+          "max_z_above_table_m": 0.030827315385621806
+        }
+      }
+    },
+    {
+      "q_rad": 0.53,
+      "aperture_m": 0.03415358070626882,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014185704076505712,
+          "max_z_above_table_m": 0.030819971290387216
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014138962155207768,
+          "max_z_above_table_m": 0.030807928282951036
+        }
+      }
+    },
+    {
+      "q_rad": 0.54,
+      "aperture_m": 0.03395772444247424,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014112233405469798,
+          "max_z_above_table_m": 0.030815459431731362
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014077233819328017,
+          "max_z_above_table_m": 0.03078952770452248
+        }
+      }
+    },
+    {
+      "q_rad": 0.55,
+      "aperture_m": 0.033764481570832776,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.014034941279587598,
+          "max_z_above_table_m": 0.0308119646903543
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.014011727268784274,
+          "max_z_above_table_m": 0.030772115490378643
+        }
+      }
+    },
+    {
+      "q_rad": 0.56,
+      "aperture_m": 0.03357387174442043,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01395383542800735,
+          "max_z_above_table_m": 0.03080948741572717
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013942449054177047,
+          "max_z_above_table_m": 0.03075569338172643
+        }
+      }
+    },
+    {
+      "q_rad": 0.5700000000000001,
+      "aperture_m": 0.033385914358906164,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01386892396124656,
+          "max_z_above_table_m": 0.03080802785557546
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013869406103270004,
+          "max_z_above_table_m": 0.030740263020763076
+        }
+      }
+    },
+    {
+      "q_rad": 0.58,
+      "aperture_m": 0.03320062855043541,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013780215370381155,
+          "max_z_above_table_m": 0.03080758615585394
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013792605720297432,
+          "max_z_above_table_m": 0.030725825950511765
+        }
+      }
+    },
+    {
+      "q_rad": 0.59,
+      "aperture_m": 0.03301803319350147,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013687718526196296,
+          "max_z_above_table_m": 0.030808162360732222
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013712055585233626,
+          "max_z_above_table_m": 0.030712383614667493
+        }
+      }
+    },
+    {
+      "q_rad": 0.6,
+      "aperture_m": 0.03283814689880088,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013591442678299356,
+          "max_z_above_table_m": 0.030809756412590233
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013627763753024907,
+          "max_z_above_table_m": 0.03069993735745266
+        }
+      }
+    },
+    {
+      "q_rad": 0.61,
+      "aperture_m": 0.03266098801106809,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013491397454194837,
+          "max_z_above_table_m": 0.030812368152024233
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013539738652784322,
+          "max_z_above_table_m": 0.030688488423482624
+        }
+      }
+    },
+    {
+      "q_rad": 0.62,
+      "aperture_m": 0.03248657460688409,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013387592858321834,
+          "max_z_above_table_m": 0.03081599731786236
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013447989086948484,
+          "max_z_above_table_m": 0.030678037957641208
+        }
+      }
+    },
+    {
+      "q_rad": 0.63,
+      "aperture_m": 0.03231492449245349,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013280039271053395,
+          "max_z_above_table_m": 0.030820643547191134
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013352524230397567,
+          "max_z_above_table_m": 0.03066858700496633
+        }
+      }
+    },
+    {
+      "q_rad": 0.64,
+      "aperture_m": 0.03214605520134373,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013168747447658655,
+          "max_z_above_table_m": 0.030826306375391382
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.01325335362953764,
+          "max_z_above_table_m": 0.03066013651054536
+        }
+      }
+    },
+    {
+      "q_rad": 0.65,
+      "aperture_m": 0.031875028411703754,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013053728517227178,
+          "max_z_above_table_m": 0.030832985236185106
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013205527719309995,
+          "max_z_above_table_m": 0.03070772783738457
+        }
+      }
+    },
+    {
+      "q_rad": 0.66,
+      "aperture_m": 0.03084687222593225,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013017085742566534,
+          "max_z_above_table_m": 0.03092277122270215
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013209316855889261,
+          "max_z_above_table_m": 0.03081162180001437
+        }
+      }
+    },
+    {
+      "q_rad": 0.67,
+      "aperture_m": 0.029821645332257757,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.013004994959863597,
+          "max_z_above_table_m": 0.031041827528358573
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013209410371744876,
+          "max_z_above_table_m": 0.03091649772050495
+        }
+      }
+    },
+    {
+      "q_rad": 0.68,
+      "aperture_m": 0.028799451288717755,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012989197642248235,
+          "max_z_above_table_m": 0.031161882511684696
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013205808257525292,
+          "max_z_above_table_m": 0.03102234511135174
+        }
+      }
+    },
+    {
+      "q_rad": 0.6900000000000001,
+      "aperture_m": 0.027780393421645358,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012969695369439066,
+          "max_z_above_table_m": 0.03128292416728226
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013198510873438929,
+          "max_z_above_table_m": 0.031129153387903785
+        }
+      }
+    },
+    {
+      "q_rad": 0.7000000000000001,
+      "aperture_m": 0.02676457482057808,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012946490091647056,
+          "max_z_above_table_m": 0.0314049403910866
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013187518949218144,
+          "max_z_above_table_m": 0.03123691186942243
+        }
+      }
+    },
+    {
+      "q_rad": 0.71,
+      "aperture_m": 0.025752098333610446,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012919584129380712,
+          "max_z_above_table_m": 0.031527918981576974
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013172833584046181,
+          "max_z_above_table_m": 0.03134560978014936
+        }
+      }
+    },
+    {
+      "q_rad": 0.72,
+      "aperture_m": 0.02474306656322794,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012888980173213826,
+          "max_z_above_table_m": 0.03165184764099682
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013154456246447302,
+          "max_z_above_table_m": 0.03145523625038413
+        }
+      }
+    },
+    {
+      "q_rad": 0.73,
+      "aperture_m": 0.02373758186266353,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012854681283516495,
+          "max_z_above_table_m": 0.031776713976583465
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.01313238877414001,
+          "max_z_above_table_m": 0.03156578031757093
+        }
+      }
+    },
+    {
+      "q_rad": 0.74,
+      "aperture_m": 0.022735746332821855,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012816690890149071,
+          "max_z_above_table_m": 0.031902505501807454
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013106633373853066,
+          "max_z_above_table_m": 0.0316772309273953
+        }
+      }
+    },
+    {
+      "q_rad": 0.75,
+      "aperture_m": 0.021737661819819915,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012775012792119317,
+          "max_z_above_table_m": 0.03202920963762099
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.0130771926211051,
+          "max_z_above_table_m": 0.03178957693488907
+        }
+      }
+    },
+    {
+      "q_rad": 0.76,
+      "aperture_m": 0.020743429913199322,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012729651157202246,
+          "max_z_above_table_m": 0.032156813713716176
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013044069459946822,
+          "max_z_above_table_m": 0.03190280710554513
+        }
+      }
+    },
+    {
+      "q_rad": 0.77,
+      "aperture_m": 0.019753151944868874,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.01268061052152357,
+          "max_z_above_table_m": 0.032285304969791706
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.013007267202666747,
+          "max_z_above_table_m": 0.032016910116440755
+        }
+      }
+    },
+    {
+      "q_rad": 0.78,
+      "aperture_m": 0.018766928988843412,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012627895789105975,
+          "max_z_above_table_m": 0.032414670556829034
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012966789529459954,
+          "max_z_above_table_m": 0.03213187455736993
+        }
+      }
+    },
+    {
+      "q_rad": 0.79,
+      "aperture_m": 0.01778486186185079,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012571512231378812,
+          "max_z_above_table_m": 0.03254489753837725
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012922640488060008,
+          "max_z_above_table_m": 0.0322476889319844
+        }
+      }
+    },
+    {
+      "q_rad": 0.8,
+      "aperture_m": 0.016807051124886382,
+      "pads": {
+        "tool_r_2": {
+          "min_z_above_table_m": -0.012511465486650816,
+          "max_z_above_table_m": 0.03267597289184676
+        },
+        "tool_l_2": {
+          "min_z_above_table_m": -0.012874824493334283,
+          "max_z_above_table_m": 0.032364341658943224
+        }
+      }
+    }
+  ],
+  "whole_hand_collision_checked": false,
+  "contact_feasibility_proven": false,
+  "object_id": "ycb_large_marker",
+  "placement": {
+    "world_aabb_size_m": [
+      0.12088643757507711,
+      0.0188341398797749,
+      0.019475929897816546
+    ],
+    "orientation_wxyz": [
+      0.7071067811865476,
+      0.0,
+      0.0,
+      0.7071067811865475
+    ],
+    "asset_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "object_yaw_rad": 1.5707963267948966,
+    "grasp_feasibility_validated": false
+  },
+  "simulation_only": true
+}

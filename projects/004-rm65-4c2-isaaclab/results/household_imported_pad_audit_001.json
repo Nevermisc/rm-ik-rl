@@ -1,0 +1,440 @@
+{
+  "schema": "rm65_imported_gripper_geometry_audit_v1",
+  "simulation_only": true,
+  "physics_steps_executed": 0,
+  "asset_modified": false,
+  "usd": "generated/rm65_4c2_wide_pads.usd",
+  "layer_sha256": {
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/configuration/rm65_4c2_wide_pads_sensor.usd": "0ae7f9634639c252db6108f608337c37cdb4c630a4e10b07aa01223c1035585b",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/configuration/rm65_4c2_wide_pads_base.usd": "9da49fd3a0cb742308ae85cceb404b109a89e77bdd36dd665ee07fab228aa49e",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/configuration/rm65_4c2_wide_pads_physics.usd": "4549eae3142b16c153be66572c1935644d2fd4e6a480fd157c3859da9f025258",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/configuration/rm65_4c2_wide_pads_robot.usd": "145642ce006c956d3ada98cbfee9decff962da1d88afdca8d284b77ec8257277",
+    "/home/chengyu/robot-learning/004-rm65-4c2-isaaclab/generated/rm65_4c2_wide_pads.usd": "3f4370cd6ee7dd6b9d959c53d2dd0ba78ed036ea51d154c6e0bac0df77939cfa"
+  },
+  "stage_meters_per_unit": 1.0,
+  "geometry": [
+    {
+      "path": "/rm65_4c2/tool_base_link/visuals/base_link/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.012754341255916138,
+          -0.04500009270503455,
+          0.8504998454037503
+        ],
+        [
+          0.012746687659909649,
+          0.045000367540744546,
+          0.9475003710770868
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_base_link/collisions/base_link/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.012754341255916138,
+          -0.04500009270503455,
+          0.8504998454037503
+        ],
+        [
+          0.012746687659909649,
+          0.045000367540744546,
+          0.9475003710770868
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_1/visuals/r_1/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004090401521421,
+          -0.056645655932541464,
+          0.9257528318744377
+        ],
+        [
+          0.008996291216450816,
+          -0.03625386925251593,
+          0.9731840289344839
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_1/collisions/r_1/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004090401521421,
+          -0.056645655932541464,
+          0.9257528318744377
+        ],
+        [
+          0.008996291216450816,
+          -0.03625386925251593,
+          0.9731840289344839
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_3/visuals/r_3/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.00900418967357953,
+          -0.05639569055623263,
+          0.9644703115328537
+        ],
+        [
+          0.008996155719932035,
+          -0.03499948893604756,
+          0.9979704544834213
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_3/collisions/r_3/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.00900418967357953,
+          -0.05639569055623263,
+          0.9644703115328537
+        ],
+        [
+          0.008996155719932035,
+          -0.03499948893604756,
+          0.9979704544834213
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_1/visuals/l_1/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004521127274828,
+          0.0362543436478836,
+          0.9257524854100302
+        ],
+        [
+          0.00899586049069741,
+          0.05664613032790913,
+          0.9731836824700764
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_1/collisions/l_1/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004521127274828,
+          0.0362543436478836,
+          0.9257524854100302
+        ],
+        [
+          0.00899586049069741,
+          0.05664613032790913,
+          0.9731836824700764
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_3/visuals/l_3/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004603148282338,
+          0.03500020118191192,
+          0.9644699483896794
+        ],
+        [
+          0.008995742245229227,
+          0.056396402802096984,
+          0.997970091340247
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_3/collisions/l_3/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004603148282338,
+          0.03500020118191192,
+          0.9644699483896794
+        ],
+        [
+          0.008995742245229227,
+          0.056396402802096984,
+          0.997970091340247
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2_base/visuals/l_2_base/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.01250429918541799,
+          0.028100092021084707,
+          0.9296262421565423
+        ],
+        [
+          0.012495755211847884,
+          0.03190024715437211,
+          0.9333739464772668
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2_base/collisions/l_2_base/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.01250429918541799,
+          0.028100092021084707,
+          0.9296262421565423
+        ],
+        [
+          0.012495755211847884,
+          0.03190024715437211,
+          0.9333739464772668
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2/visuals/l_2/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004602152326464,
+          0.02625434888704985,
+          0.9277525155206252
+        ],
+        [
+          0.008995781095462093,
+          0.04664613347164439,
+          0.9751837197984191
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2/collisions/l_2/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004602152326464,
+          0.02625434888704985,
+          0.9277525155206252
+        ],
+        [
+          0.008995781095462093,
+          0.04664613347164439,
+          0.9751837197984191
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_l_2/collisions/contact_pad_box/box",
+      "type": "Cube",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          0.0851694508227906,
+          0.042772508527269326,
+          0.9580797202828305
+        ],
+        [
+          0.08588741682869455,
+          0.04391727499363579,
+          0.9594943147461915
+        ]
+      ],
+      "approximation": null,
+      "collision_enabled": true
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2_base/visuals/r_2_base/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.012503979705950546,
+          -0.03188992970179728,
+          0.9296050972330164
+        ],
+        [
+          0.012496074827820013,
+          -0.02810973300038279,
+          0.9333954484857155
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2_base/collisions/r_2_base/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.012503979705950546,
+          -0.03188992970179728,
+          0.9296050972330164
+        ],
+        [
+          0.012496074827820013,
+          -0.02810973300038279,
+          0.9333954484857155
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2/visuals/r_2/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": false,
+      "purpose": "default",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004140692950609,
+          -0.0466456487054914,
+          0.9277527430281276
+        ],
+        [
+          0.008996240925023444,
+          -0.026253864120914554,
+          0.9751839473059158
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2/collisions/r_2/node_STL_BINARY_/mesh",
+      "type": "Mesh",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          -0.009004140692950609,
+          -0.0466456487054914,
+          0.9277527430281276
+        ],
+        [
+          0.008996240925023444,
+          -0.026253864120914554,
+          0.9751839473059158
+        ]
+      ],
+      "approximation": null
+    },
+    {
+      "path": "/rm65_4c2/tool_r_2/collisions/contact_pad_box/box",
+      "type": "Cube",
+      "collision": true,
+      "purpose": "guide",
+      "authored_visibility": "inherited",
+      "world_aabb_m": [
+        [
+          0.08539446175855912,
+          -0.04216456292626099,
+          0.959566393150519
+        ],
+        [
+          0.08611244798372057,
+          -0.04102724235417564,
+          0.9609862529716702
+        ]
+      ],
+      "approximation": null,
+      "collision_enabled": true
+    }
+  ],
+  "pad_visual_separation": [
+    {
+      "pad": "/rm65_4c2/tool_l_2/collisions/contact_pad_box/box",
+      "nearest_visual": "/rm65_4c2/tool_base_link/visuals/base_link/node_STL_BINARY_/mesh",
+      "aabb_gap_lower_bound_m": 0.0731913878387602,
+      "collision_enabled": true
+    },
+    {
+      "pad": "/rm65_4c2/tool_r_2/collisions/contact_pad_box/box",
+      "nearest_visual": "/rm65_4c2/tool_base_link/visuals/base_link/node_STL_BINARY_/mesh",
+      "aabb_gap_lower_bound_m": 0.07364297638040546,
+      "collision_enabled": true
+    }
+  ],
+  "detached_pad_collision_enabled": true,
+  "training_ready": false,
+  "native_gripper_validated": false,
+  "limitations": [
+    "Composed USD at authored default transforms, not dynamic PhysX hull extraction.",
+    "Positive bounds separation proves a geometric gap; overlap would not prove contact."
+  ]
+}

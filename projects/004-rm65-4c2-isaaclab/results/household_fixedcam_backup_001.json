@@ -1,0 +1,50 @@
+{
+  "schema": "household_development_backup_v1",
+  "status": "pass",
+  "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/household_fixedcam_runs_20260930_001.tar",
+  "archive_bytes": 315340800,
+  "archive_sha256": "55befb71f65465b1b0092fc2797320fb9786e6a6463a2c1c81f65f6a090c5458",
+  "source_roots": [
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_fixedcam_banana_001",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_fixedcam_banana_002",
+    "projects/004-rm65-4c2-isaaclab/datasets/rm65_household_visible_fixedcam_marker_001",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_fixedcam_banana_001.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_fixedcam_banana_002.log",
+    "projects/004-rm65-4c2-isaaclab/results/household_visible_fixedcam_marker_001.log",
+    "projects/004-rm65-4c2-isaaclab/config/household_camera_rig_v1.json",
+    "projects/004-rm65-4c2-isaaclab/config/household_camera_rig_v2.json",
+    "projects/004-rm65-4c2-isaaclab/outputs/household_fixedcam_banana_001_desktop.png"
+  ],
+  "source_file_index_sha256": "c573bb0e988f103e0e774ae6930a53bdb38e4c066893f9d055ee16848994bcd6",
+  "all_member_hashes_match_source": true,
+  "excludes": [
+    "task_report.live.json"
+  ],
+  "extraction_restore_tested": false,
+  "independent_copy_verified": true,
+  "independent_copy_path": "C:/Users/95380/Documents/ChatGPT/robot learning/RM65_DATA_BACKUP_DO_NOT_GIT/household_2026_09_30/household_fixedcam_runs_20260930_001.tar",
+  "independent_copy_sha256": "55befb71f65465b1b0092fc2797320fb9786e6a6463a2c1c81f65f6a090c5458",
+  "safe_archive_audit": {
+    "schema": "rm65_safe_backup_tar_audit_v1",
+    "status": "pass",
+    "archive_path": "/home/chengyu/robot-learning/rm65-backup-staging/household_fixedcam_runs_20260930_001.tar",
+    "required_prefix": "projects/004-rm65-4c2-isaaclab",
+    "checks": {
+      "no_unsafe_or_special_entries": true,
+      "no_duplicate_entries": true,
+      "regular_file_count_matches_manifest": true,
+      "regular_file_bytes_match_manifest": true
+    },
+    "entry_count": 3229,
+    "directory_count": 0,
+    "regular_file_count": 3229,
+    "regular_file_bytes": 309579407,
+    "expected_file_count": 3229,
+    "expected_total_bytes": 309579407,
+    "unsafe_entries": [],
+    "duplicate_entries": [],
+    "real_robot_command_sent": false
+  },
+  "raw_data_committed_to_git": false,
+  "real_robot_command_sent": false
+}

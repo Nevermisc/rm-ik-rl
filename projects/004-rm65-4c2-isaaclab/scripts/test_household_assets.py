@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-from openpi_extension.household_assets import load_household
+from openpi_extension.household_assets import load_household, manifest_object_ids
 
 
 class HouseholdTests(unittest.TestCase):
@@ -61,6 +61,14 @@ class HouseholdTests(unittest.TestCase):
 
     def test_unknown_object(self):
         with self.assertRaisesRegex(ValueError,'unknown'): load_household(self.manifest,'not_present')
+
+    def test_explicit_subset_manifest(self):
+        self.manifest.write_text(json.dumps(dict(requested_object_ids=['ycb_mug'], cases=[self.case])))
+        self.assertEqual(manifest_object_ids(self.manifest), ['ycb_mug'])
+
+    def test_incomplete_declared_subset(self):
+        self.manifest.write_text(json.dumps(dict(requested_object_ids=['ycb_mug', 'ycb_large_marker'], cases=[self.case])))
+        with self.assertRaisesRegex(ValueError, 'complete'): manifest_object_ids(self.manifest)
 
 
 if __name__ == '__main__': unittest.main()

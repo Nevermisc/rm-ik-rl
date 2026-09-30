@@ -1,0 +1,76 @@
+{
+  "status": "pass",
+  "simulation_only": true,
+  "requested_object_ids": [
+    "ycb_large_marker"
+  ],
+  "cases": [
+    {
+      "object_id": "ycb_large_marker",
+      "filename": "040_large_marker.usd",
+      "prompt_name": "marker",
+      "simulation_mass_kg": 0.02,
+      "collision_limit": "Rigid capped marker; cap detachment and ink not simulated.",
+      "source_provider": "NVIDIA Isaac 5.1 YCB assets",
+      "source_collection": "Props/YCB/Axis_Aligned",
+      "asset_license": "NVIDIA/underlying third-party asset terms; not project code license",
+      "mass_is_simulation_assumption": true,
+      "split": "development",
+      "real_object_grasp_validated": false,
+      "source_url": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/040_large_marker.usd",
+      "package_path": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_marker_assets_001/ycb_large_marker/model.usd",
+      "status": "pass",
+      "package_sha256": "685db469b44dc4ce36e63a15622dfbb0a67d9b909582616a5d0df29e513212f3",
+      "package_bytes": 465214,
+      "source_sha256": "73189a60294bda11af23ddfb00a43dda0e4b40ff661300034e8092480bc25634",
+      "copied_textures": [
+        {
+          "source": "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/5.1/Isaac/Props/YCB/Axis_Aligned/Materials/Textures/040_large_marker_COLOR.png",
+          "relative_path": "textures/040_large_marker_COLOR.png",
+          "sha256": "36bd303d1c71003df8118ff9095178b943cdf2b102cbfe5e70ee676a454dfc8a",
+          "bytes": 4687059
+        }
+      ],
+      "external_runtime_dependency": "Isaac built-in OmniPBR.mdl",
+      "physics_modifications": {
+        "mass_kg": 0.02,
+        "static_friction": 0.7,
+        "dynamic_friction": 0.5,
+        "collision_approximation": "convexDecomposition",
+        "cavity_fidelity_validated": false
+      },
+      "stage_meters_per_unit": 1.0,
+      "stage_up_axis": "Z",
+      "default_prim": "/Root",
+      "bounds_min": [
+        -0.009416799930852648,
+        -0.0604428802331638,
+        -0.009737559935356077
+      ],
+      "bounds_max": [
+        0.009417339948922243,
+        0.06044355734191331,
+        0.00973836996246047
+      ],
+      "mesh_count": 1,
+      "texture_assets": [
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.info:mdl:sourceAsset",
+          "authored": "OmniPBR.mdl",
+          "resolved": ""
+        },
+        {
+          "attribute": "/Root/Looks/OmniPBR/Shader.inputs:diffuse_texture",
+          "authored": "textures/040_large_marker_COLOR.png",
+          "resolved": "/home/chengyu/robot-learning/rm-ik-rl/projects/004-rm65-4c2-isaaclab/outputs/household_marker_assets_001/ycb_large_marker/textures/040_large_marker_COLOR.png"
+        }
+      ],
+      "rigid_prims": [
+        "/Root"
+      ],
+      "collider_prims": [
+        "/Root/_40_large_marker"
+      ]
+    }
+  ]
+}

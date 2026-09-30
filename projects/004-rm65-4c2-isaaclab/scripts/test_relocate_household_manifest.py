@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from openpi_extension.household_assets import HOUSEHOLD_CATALOG
+from openpi_extension.household_assets import LEGACY_OBJECT_IDS
 from relocate_household_manifest import relocate
 
 
@@ -12,7 +12,7 @@ from relocate_household_manifest import relocate
 def cache(tmp_path):
     cases = []
     root = tmp_path/'restored'
-    for key in HOUSEHOLD_CATALOG:
+    for key in LEGACY_OBJECT_IDS:
         folder = root/key
         folder.mkdir(parents=True)
         (folder/'model.usd').write_bytes(b'unit fixture')

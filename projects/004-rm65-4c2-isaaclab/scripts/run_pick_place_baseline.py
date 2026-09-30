@@ -19,6 +19,10 @@ if str(PROJECT_ROOT) not in sys.path:
 from isaaclab.app import AppLauncher
 from openpi_extension.multi_object import CATALOG, spawn_config, write_development_report as _write_development_report
 from openpi_extension.household_assets import HOUSEHOLD_CATALOG, load_household
+from openpi_extension.physics_contract import GRAVITY_M_S2, validate_strict_options, inspect_runtime, validate_runtime_snapshot
+from openpi_extension.object_placement import yaw_placement
+from openpi_extension.gripper_stage_targets import gripper_stage_targets
+from openpi_extension.camera_rig import load_camera_rig, camera_rotation
 
 
 parser = argparse.ArgumentParser(description=__doc__)
@@ -28,8 +32,17 @@ parser.add_argument("--description", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--development-object", choices=[k for k, s in CATALOG.items() if s.split == "development"] + list(HOUSEHOLD_CATALOG))
 parser.add_argument("--household-manifest", type=Path)
+camera_group = parser.add_mutually_exclusive_group()
+camera_group.add_argument('--camera-rig', type=Path, help='Versioned fixed world/wrist camera geometry.')
+camera_group.add_argument('--legacy-camera-rig', action='store_true', help='Explicit historical object-aimed camera reproduction only.')
+parser.add_argument('--development-object-yaw-rad', type=float, default=0.)
+parser.add_argument('--physics-contract', choices=('strict_gravity', 'legacy_diagnostic'),
+                    help='New object probes default to strict gravity; legacy mode is diagnostic only.')
 parser.add_argument("--development-pad-calibration-urdf", type=Path)
+parser.add_argument('--allow-legacy-detached-pad-diagnostic', action='store_true',
+                    help='Explicit diagnosis only: old block-derived pads do not match native gripper geometry.')
 parser.add_argument("--development-pad-height-offset-m", type=float, default=0.0)
+parser.add_argument('--development-preshape-target-rad', type=float, default=0.)
 parser.add_argument("--development-free-close-probe", action="store_true")
 parser.add_argument("--development-free-close-soft-gains", action="store_true")
 parser.add_argument("--development-free-close-force-drive", action="store_true")
@@ -152,7 +165,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--episode-prompt",
-    default="pick up the block and place it on the target",
+    default=None,
     help="Language instruction stored with the expert episode.",
 )
 parser.add_argument(
@@ -216,7 +229,26 @@ parser.add_argument(
 )
 AppLauncher.add_app_launcher_args(parser)
 args = parser.parse_args()
+from household_grasp_calibration import require_legacy_pad_diagnostic_opt_in
+try:
+    require_legacy_pad_diagnostic_opt_in(args.development_pad_calibration_urdf is not None,
+                                       args.allow_legacy_detached_pad_diagnostic)
+except ValueError as error:
+    parser.error(str(error))
+if args.camera_rig is None and args.development_object and not args.legacy_camera_rig:
+    args.camera_rig = PROJECT_ROOT / 'config/household_camera_rig_v2.json'
+CAMERA_RIG = load_camera_rig(args.camera_rig) if args.camera_rig else {
+    'mode': 'legacy_object_aimed', 'uses_object_pose_for_camera_initialization': True,
+    'uses_task_target_for_camera_initialization': True}
+args.physics_contract = args.physics_contract or ('strict_gravity' if args.development_object else 'legacy_diagnostic')
+if args.physics_contract == 'strict_gravity':
+    try:
+        validate_strict_options(args)
+    except ValueError as error:
+        parser.error(str(error))
 PAD_CALIBRATION = None
+PHYSICS_EVIDENCE = None
+PHYSICS_OBJECT = None
 VIEWER_CONTEXT = None
 LIVE_VIEW = None
 VISIBLE_PHASE = 'STARTING'
@@ -226,8 +258,23 @@ VISIBLE_START_TIME = None
 
 
 def write_development_report(path, report, spec=None):
+    report['camera_rig'] = CAMERA_RIG
+    report['object_placement'] = OBJECT_PLACEMENT
+    report['physics_contract'] = dict(mode=args.physics_contract, initial=PHYSICS_EVIDENCE)
+    report['controller_provenance'] = dict(
+        mode='pi05_with_ground_truth_release_supervisor' if args.pi05_closed_loop else 'scripted_privileged_kinematics',
+        object_pose_used_for_action_supervision=True,
+        pure_visual_policy_autonomy=False)
+    if args.physics_contract == 'strict_gravity' and PHYSICS_OBJECT is not None:
+        snapshot = inspect_runtime(VIEWER_CONTEXT, get_current_stage(), PHYSICS_OBJECT)
+        checked = validate_runtime_snapshot(snapshot, ARM_BODY_PATHS | MOVING_GRIPPER_BODY_PATHS | {'/World/Cube'}, BLOCK_MASS_KG)
+        report['physics_contract']['final'] = dict(snapshot=snapshot, validation=checked)
+        if checked['status'] != 'pass':
+            raise RuntimeError('final strict gravity validation failed: ' + str(checked['errors']))
     if args.development_pad_calibration_urdf is not None:
         report['development_pad_calibration'] = PAD_CALIBRATION
+        report['gripper_geometry_admission'] = dict(native_gripper_validated=False, training_ready=False,
+            geometry='legacy_block_derived_detached_collision_pads', explicit_diagnostic_opt_in=True)
     if args.development_gripper_profile != 'historical' or args.development_visible_realtime:
         report['development_presentation'] = dict(
             headless=args.headless, gripper_profile=args.development_gripper_profile,
@@ -239,8 +286,8 @@ def write_development_report(path, report, spec=None):
 
 
 if args.development_pad_calibration_urdf is not None:
-    if args.development_object not in ('ycb_pudding_box', 'ycb_banana') or args.pi05_closed_loop:
-        parser.error('pad calibration is restricted to scripted pudding-box/banana development probes')
+    if args.development_object not in ('ycb_pudding_box', 'ycb_banana', 'ycb_large_marker') or args.pi05_closed_loop:
+        parser.error('pad calibration is restricted to reviewed scripted object development probes')
     if args.top_down_yaw_rad != 0 or args.top_down_tilt_rad != 0 or args.top_down_blend != 1:
         parser.error('pad calibration currently requires full vertical top-down yaw=0')
     if not -.025 <= args.development_pad_height_offset_m <= .025:
@@ -257,16 +304,18 @@ if args.development_free_close_soft_gains:
     args.gripper_damping = 12.0
 if args.development_free_close_force_drive and not (args.development_free_close_probe and args.development_free_close_soft_gains):
     parser.error('force drive is restricted to the soft-gains free-close comparison')
+if args.development_preshape_target_rad != 0 and (args.development_gripper_profile != 'force_limited_v1' or args.pi05_closed_loop or args.development_free_close_probe):
+    parser.error('preshape is restricted to force-limited scripted grasp development')
 if args.development_gripper_profile != 'historical':
-    if args.development_object != 'ycb_banana' or args.development_pad_calibration_urdf is None or args.pi05_closed_loop:
-        parser.error('force_limited_v1 is restricted to calibrated scripted banana development')
+    if args.development_object not in ('ycb_banana', 'ycb_large_marker') or args.development_pad_calibration_urdf is None or args.pi05_closed_loop:
+        parser.error('force_limited_v1 is restricted to calibrated scripted banana/marker development')
     if args.development_free_close_soft_gains or args.development_free_close_force_drive:
         parser.error('do not combine different drive comparison profiles')
     args.gripper_effort_limit_sim = 1.0
     args.gripper_stiffness = 2.0
     args.gripper_damping = .1
-if args.target_collision_enable_stage == 'initial' and args.development_gripper_profile != 'force_limited_v1':
-    parser.error('initial target collision is currently restricted to force_limited_v1 development')
+if args.target_collision_enable_stage == 'initial' and not (args.development_gripper_profile == 'force_limited_v1' or args.physics_contract == 'strict_gravity'):
+    parser.error('initial target collision requires a strict gravity or force-limited development run')
 if not 0 <= args.development_viewer_hold_seconds <= 3600:
     parser.error('viewer hold must be within 0..3600 seconds')
 if (args.development_visible_realtime or args.development_viewer_hold_seconds or args.development_light_intensity is not None) and not args.development_object:
@@ -284,6 +333,18 @@ if OBJECT_SPEC is not None:
         parser.error("multi-object probes require fresh output and episode paths")
     if not args.natural_source_gravity or args.grasp_orientation_mode != "top_down":
         parser.error("multi-object probes require natural gravity and top_down orientation")
+    OBJECT_PLACEMENT = yaw_placement(OBJECT_SPEC.size_m, args.development_object_yaw_rad)
+else:
+    OBJECT_PLACEMENT = None
+    if args.development_object_yaw_rad != 0:
+        parser.error('object yaw override requires development-object')
+if args.episode_prompt is None:
+    if args.development_object in HOUSEHOLD_CATALOG:
+        args.episode_prompt = f'pick up the {HOUSEHOLD_CATALOG[args.development_object].prompt_name} and place it on the target'
+    elif OBJECT_SPEC is not None:
+        parser.error('geometric probes require an explicit episode-prompt')
+    else:
+        args.episode_prompt = 'pick up the block and place it on the target'
 if not 0.0 < args.policy_gripper_open_threshold < 1.0:
     parser.error("--policy-gripper-open-threshold must be between 0 and 1")
 if not args.policy_gripper_open_threshold <= args.policy_gripper_actual_open_threshold < 1.0:
@@ -373,7 +434,7 @@ SOURCE_PLATFORM_SIZE = (0.120, 0.018, 0.020)
 TARGET_STRIP_SIZE = (0.070, 0.018, 0.020)
 SOURCE_PLATFORM_TOP_Z = 0.7330
 if OBJECT_SPEC is not None:
-    BLOCK_SIZE = OBJECT_SPEC.size_m
+    BLOCK_SIZE = tuple(OBJECT_PLACEMENT['world_aabb_size_m'])
     BLOCK_MASS_KG = OBJECT_SPEC.mass_kg
     SOURCE_PLATFORM_SIZE = ((0.20, 0.20, 0.020) if args.development_source_support == "wide_platform"
                             else (0.120, 0.018, 0.020))
@@ -591,6 +652,7 @@ class ExpertEpisodeCapture:
         wrist_camera: Camera | None = None,
         wrist_tool_body_id: int | None = None,
         reset_renderer_accumulation: bool = False,
+        fixed_rig: dict | None = None,
     ) -> None:
         self.recorder = recorder
         self.arm_ids = arm_ids
@@ -602,6 +664,8 @@ class ExpertEpisodeCapture:
         self.wrist_camera = wrist_camera
         self.wrist_tool_body_id = wrist_tool_body_id
         self.reset_renderer_accumulation = reset_renderer_accumulation
+        self.fixed_rig = fixed_rig
+        self.wrist_local_orientation = None
         self.wrist_local_offset: torch.Tensor | None = None
         self.wrist_local_forward: torch.Tensor | None = None
         self.last_wrist_eye: torch.Tensor | None = None
@@ -626,6 +690,20 @@ class ExpertEpisodeCapture:
             and image.shape[2] == 3
         )
 
+    def _set_fixed_wrist_pose(self, tool_position, tool_quaternion):
+        wrist = self.fixed_rig['config']['wrist']
+        if self.wrist_local_orientation is None:
+            self.wrist_local_offset = torch.as_tensor(wrist['offset_local_m'], device=tool_position.device, dtype=tool_position.dtype)
+            rotation = torch.as_tensor(camera_rotation(wrist['forward_local'], wrist['up_local']),
+                                       device=tool_position.device, dtype=tool_position.dtype)
+            self.wrist_local_orientation = math_utils.quat_from_matrix(rotation.unsqueeze(0))[0]
+        eye = tool_position + math_utils.quat_apply(tool_quaternion.unsqueeze(0), self.wrist_local_offset.unsqueeze(0))[0]
+        orientation = math_utils.quat_mul(tool_quaternion.unsqueeze(0), self.wrist_local_orientation.unsqueeze(0))
+        forward = math_utils.quat_apply(orientation, torch.tensor([[0., 0., -1.]], device=eye.device, dtype=eye.dtype))[0]
+        self.last_wrist_eye = eye.detach().clone()
+        self.last_wrist_forward = forward.detach().clone()
+        self.wrist_camera.set_world_poses(eye.unsqueeze(0), orientation, convention='opengl')
+
     def _render_images(self, robot: Articulation, cube: RigidObject) -> tuple[np.ndarray, np.ndarray]:
         if self.external_camera is None or self.wrist_camera is None:
             raise RuntimeError("both cameras are required for image recording")
@@ -633,6 +711,27 @@ class ExpertEpisodeCapture:
             raise RuntimeError("wrist tool body id is required for image recording")
         tool_position = robot.data.body_pos_w[0, self.wrist_tool_body_id]
         tool_quaternion = robot.data.body_quat_w[0, self.wrist_tool_body_id]
+        if self.fixed_rig is not None:
+            self._set_fixed_wrist_pose(tool_position, tool_quaternion)
+        else:
+            self._set_legacy_wrist_pose(robot, cube, tool_position, tool_quaternion)
+        if self.reset_renderer_accumulation:
+            omni.usd.get_context().reset_renderer_accumulation()
+
+        # Wait for real sensor frames, never substitute fabricated images.
+        last_shapes = None
+        for _ in range(30):
+            self.sim.render()
+            self.external_camera.update(self.physics_dt)
+            self.wrist_camera.update(self.physics_dt)
+            external_rgb = self._rgb(self.external_camera)
+            wrist_rgb = self._rgb(self.wrist_camera)
+            last_shapes = (external_rgb.shape, wrist_rgb.shape)
+            if self._image_ready(external_rgb) and self._image_ready(wrist_rgb):
+                return external_rgb, wrist_rgb
+        raise RuntimeError(f'Isaac cameras did not produce usable RGB frames after 30 render ticks; last shapes were {last_shapes}')
+
+    def _set_legacy_wrist_pose(self, robot, cube, tool_position, tool_quaternion):
         if self.wrist_local_offset is None:
             world_offset = torch.tensor([0.0, 0.15, 0.10], device=robot.device)
             eye = tool_position + world_offset
@@ -655,26 +754,6 @@ class ExpertEpisodeCapture:
         self.last_wrist_forward = forward.detach().clone()
         self.wrist_camera.set_world_poses_from_view(
             eye.unsqueeze(0), (eye + forward).unsqueeze(0)
-        )
-        if self.reset_renderer_accumulation:
-            omni.usd.get_context().reset_renderer_accumulation()
-
-        # Isaac Sim can expose an empty RGB tensor during the first few render
-        # ticks after a headless camera starts.  Wait for real sensor frames
-        # instead of recording a fabricated image or aborting the episode.
-        last_shapes: tuple[tuple[int, ...], tuple[int, ...]] | None = None
-        for _ in range(30):
-            self.sim.render()
-            self.external_camera.update(self.physics_dt)
-            self.wrist_camera.update(self.physics_dt)
-            external_rgb = self._rgb(self.external_camera)
-            wrist_rgb = self._rgb(self.wrist_camera)
-            last_shapes = (external_rgb.shape, wrist_rgb.shape)
-            if self._image_ready(external_rgb) and self._image_ready(wrist_rgb):
-                return external_rgb, wrist_rgb
-        raise RuntimeError(
-            "Isaac cameras did not produce usable RGB frames after 30 render ticks; "
-            f"last shapes were {last_shapes}"
         )
 
     def before_step(
@@ -1458,6 +1537,8 @@ def main() -> int:
     if args.natural_source_gravity:
         source_block_position[2] = SOURCE_PLATFORM_TOP_Z + BLOCK_SIZE[2] / 2.0
         source_block_quaternion = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float64)
+        if OBJECT_PLACEMENT is not None:
+            source_block_quaternion = np.asarray(OBJECT_PLACEMENT['orientation_wxyz'], dtype=np.float64)
     nominal_source_block_position = source_block_position.copy()
     source_block_position[:2] += np.array(
         [args.source_offset_x_m, args.source_offset_y_m], dtype=np.float64
@@ -1499,6 +1580,14 @@ def main() -> int:
         reference_closing_axis_world = grasp_link_rotation @ closing_local
         grasp_target_position_base[2] += args.development_pad_height_offset_m
         PAD_CALIBRATION['height_offset_m'] = args.development_pad_height_offset_m
+        if args.physics_contract == 'strict_gravity':
+            from audit_pad_table_clearance import scan, require_pad_table_clearance
+            PAD_CALIBRATION['table_clearance_screen'] = require_pad_table_clearance(scan(
+                PadGeometry(args.development_pad_calibration_urdf), BLOCK_SIZE[1], BLOCK_SIZE[2],
+                args.development_pad_height_offset_m, args.gripper_close_target_rad))
+        if args.development_preshape_target_rad:
+            PAD_CALIBRATION['preshape'] = PadGeometry(args.development_pad_calibration_urdf).preshape_evidence(
+                args.development_preshape_target_rad, args.gripper_close_target_rad, BLOCK_SIZE[1])
     top_down_ik_seed_index = None
     precomputed_retreat_waypoints: list[np.ndarray] | None = None
     if args.grasp_orientation_mode == "top_down":
@@ -1774,6 +1863,7 @@ def main() -> int:
     sim = SimulationContext(
         sim_utils.SimulationCfg(
             dt=1.0 / 240.0,
+            gravity=GRAVITY_M_S2,
             device=args.device,
             physx=sim_utils.PhysxCfg(
                 enable_enhanced_determinism=args.pi05_closed_loop,
@@ -1915,18 +2005,21 @@ def main() -> int:
     external_camera = None
     wrist_camera = None
     if args.record_images:
+        optics = CAMERA_RIG.get('config', {}).get('optics', dict(width=640, height=480,
+            external_focal_length_mm=24., wrist_focal_length_mm=18., horizontal_aperture_mm=20.955,
+            clipping_range_m=(.01, 10.)))
         external_camera = Camera(
             CameraCfg(
                 prim_path="/World/ExternalCamera",
                 update_period=0.0,
-                height=480,
-                width=640,
+                height=optics['height'],
+                width=optics['width'],
                 data_types=["rgb"],
                 spawn=sim_utils.PinholeCameraCfg(
-                    focal_length=24.0,
+                    focal_length=optics['external_focal_length_mm'],
                     focus_distance=2.0,
-                    horizontal_aperture=20.955,
-                    clipping_range=(0.01, 10.0),
+                    horizontal_aperture=optics['horizontal_aperture_mm'],
+                    clipping_range=tuple(optics['clipping_range_m']),
                 ),
             )
         )
@@ -1934,14 +2027,14 @@ def main() -> int:
             CameraCfg(
                 prim_path="/World/WristCamera",
                 update_period=0.0,
-                height=480,
-                width=640,
+                height=optics['height'],
+                width=optics['width'],
                 data_types=["rgb"],
                 spawn=sim_utils.PinholeCameraCfg(
-                    focal_length=18.0,
+                    focal_length=optics['wrist_focal_length_mm'],
                     focus_distance=1.0,
-                    horizontal_aperture=20.955,
-                    clipping_range=(0.01, 10.0),
+                    horizontal_aperture=optics['horizontal_aperture_mm'],
+                    clipping_range=tuple(optics['clipping_range_m']),
                 ),
             )
         )
@@ -1977,6 +2070,8 @@ def main() -> int:
     approach_arm_gravity_apis = []
     for prim in get_current_stage().Traverse():
         path = str(prim.GetPath())
+        if args.physics_contract == 'strict_gravity' and (path == '/World/Robot' or path.startswith('/World/Robot/')) and prim.HasAPI(UsdPhysics.RigidBodyAPI):
+            PhysxSchema.PhysxRigidBodyAPI.Apply(prim).CreateDisableGravityAttr().Set(False)
         if (
             (args.disable_arm_gravity_during_approach or args.disable_arm_gravity_through_transport)
             and path in ARM_BODY_PATHS
@@ -2008,10 +2103,24 @@ def main() -> int:
     sim.reset()
     robot.reset()
     cube.reset()
+    global PHYSICS_EVIDENCE, PHYSICS_OBJECT
+    if args.physics_contract == 'strict_gravity':
+        snapshot = inspect_runtime(sim, get_current_stage(), cube)
+        checked = validate_runtime_snapshot(snapshot, ARM_BODY_PATHS | MOVING_GRIPPER_BODY_PATHS | {'/World/Cube'}, BLOCK_MASS_KG)
+        PHYSICS_EVIDENCE = dict(snapshot=snapshot, validation=checked)
+        PHYSICS_OBJECT = cube
+        print('STRICT_GRAVITY_CONTRACT=' + json.dumps(PHYSICS_EVIDENCE), flush=True)
+        if checked['status'] != 'pass':
+            raise RuntimeError('initial strict gravity validation failed: ' + str(checked['errors']))
     if external_camera is not None:
-        scene_center = 0.5 * (source_block_position + target_block_position)
+        if CAMERA_RIG['mode'] == 'fixed_mount':
+            scene_center = np.array(CAMERA_RIG['config']['external']['target_world_m'])
+            eye_world = np.array(CAMERA_RIG['config']['external']['eye_world_m'])
+        else:
+            scene_center = 0.5 * (source_block_position + target_block_position)
+            eye_world = scene_center + np.array([0.70, 0.70, 0.45])
         external_eye = torch.as_tensor(
-            scene_center + np.array([0.70, 0.70, 0.45]),
+            eye_world,
             device=sim.device,
             dtype=torch.float32,
         ).unsqueeze(0)
@@ -2021,6 +2130,7 @@ def main() -> int:
             dtype=torch.float32,
         ).unsqueeze(0)
         external_camera.set_world_poses_from_view(external_eye, external_target)
+        print('CAMERA_RIG=' + json.dumps(CAMERA_RIG), flush=True)
     joint_names = list(robot.data.joint_names)
     arm_ids = [joint_names.index(name) for name in ARM_JOINTS]
     gripper_ids = [index for index, name in enumerate(joint_names) if name.startswith("tool_")]
@@ -2034,6 +2144,12 @@ def main() -> int:
             prompt=args.episode_prompt,
             control_hz=1.0 / (sim.get_physics_dt() * args.record_stride_steps),
             metadata={
+                'gripper_geometry_admission': dict(native_gripper_validated=False,
+                    geometry='legacy_block_derived_detached_collision_pads' if args.development_pad_calibration_urdf else 'unverified'),
+                "camera_rig": CAMERA_RIG,
+                "object_placement": OBJECT_PLACEMENT,
+                "physics_contract": dict(mode=args.physics_contract, initial=PHYSICS_EVIDENCE),
+                "controller_provenance": 'pi05_with_ground_truth_release_supervisor' if args.pi05_closed_loop else 'scripted_privileged_kinematics',
                 **({"object_probe": OBJECT_SPEC.metadata(),
                     "source_support": args.development_source_support,
                     "source_support_size_m": list(SOURCE_PLATFORM_SIZE),
@@ -2068,13 +2184,14 @@ def main() -> int:
             external_camera=external_camera,
             wrist_camera=wrist_camera,
             wrist_tool_body_id=(
-                list(robot.data.body_names).index("tool_base_link")
+                list(robot.data.body_names).index(CAMERA_RIG['config']['wrist']['parent_link'] if CAMERA_RIG['mode'] == 'fixed_mount' else 'tool_base_link')
                 if args.record_images
                 else None
             ),
             reset_renderer_accumulation=(
                 args.reset_renderer_accumulation_before_policy_observation
             ),
+            fixed_rig=CAMERA_RIG if CAMERA_RIG['mode'] == 'fixed_mount' else None,
         )
 
     state = robot.data.default_joint_pos.clone()
@@ -2158,6 +2275,16 @@ def main() -> int:
         )
 
     approach_waypoints = [] if args.initialize_at_grasp else list(reversed(retreat_waypoints[:-1])) + [grasp_arm]
+    if args.development_preshape_target_rad:
+        target = np.full(len(gripper_ids), args.development_preshape_target_rad)
+        smooth_move(sim, robot, cube, state, gripper_ids,
+                    state[0, gripper_ids].detach().cpu().numpy().copy(), target, 240,
+                    'PRESHAPE', episode_capture)
+        hold(sim, robot, cube, state, 240, 'PRESHAPE_HOLD', episode_capture)
+        error = float(np.max(np.abs(robot.data.joint_pos[0, gripper_ids].detach().cpu().numpy()-target)))
+        PAD_CALIBRATION['preshape']['actual_max_joint_error_rad'] = error
+        if error > .03:
+            raise RuntimeError(f'gripper preshape tracking failed: {error} rad; approach refused')
     previous_waypoint = pregrasp_arm
     for index, waypoint in enumerate(approach_waypoints, start=1):
         smooth_move(
@@ -2216,8 +2343,8 @@ def main() -> int:
         ),
         flush=True,
     )
-    close_start = np.zeros(len(gripper_ids), dtype=np.float64)
-    close_target = np.full(len(gripper_ids), args.gripper_close_target_rad, dtype=np.float64)
+    close_start, close_target, open_target = gripper_stage_targets(
+        state[0, gripper_ids].detach().cpu().numpy(), args.gripper_close_target_rad)
     smooth_move(
         sim,
         robot,
@@ -2509,7 +2636,7 @@ def main() -> int:
         state,
         gripper_ids,
         close_target,
-        close_start,
+        open_target,
         180,
         "OPEN",
         episode_capture,

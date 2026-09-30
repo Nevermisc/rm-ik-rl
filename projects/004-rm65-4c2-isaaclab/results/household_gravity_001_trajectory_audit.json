@@ -1,0 +1,40 @@
+{
+  "evaluation_scope": "household_temporal_development_only",
+  "training_ready": false,
+  "formal_acceptance_passed": false,
+  "missing_phases": [],
+  "candidate_checks_passed": true,
+  "checks": {
+    "recorded_task_passed": true,
+    "strict_initial_gravity": true,
+    "strict_final_gravity": true,
+    "continuously_elevated_during_carry": true,
+    "no_large_vertical_drop_during_carry": true,
+    "release_command_fully_open": true,
+    "final_joint_feedback_open": true,
+    "final_footprint_within_support": true,
+    "final_bottom_near_support": true,
+    "stable_after_release": true
+  },
+  "carry_min_height_above_source_m": 0.038436830043792725,
+  "carry_vertical_range_m": 0.0006005764007568359,
+  "final_footprint_min_margin_m": 0.015096726560481222,
+  "final_bottom_error_range_m": [
+    -3.589065665554614e-06,
+    -3.450597593435134e-06
+  ],
+  "release_drift_m": 2.107342389479072e-08,
+  "last_open_command_normalized": 0.009939659386873245,
+  "limitations": [
+    "Object AABB/support screen is conservative, not contact-mesh proof.",
+    "Does not validate whole-hand collisions, force calibration or unseen-object generalization.",
+    "Even a passing development candidate cannot automatically enter training."
+  ],
+  "episode": "datasets/rm65_household_visible_gravity_001",
+  "simulation_only": true,
+  "sources_sha256": {
+    "metadata.json": "3814dd526b4f77e0ee3923d41a4e4c3da1942b614344cd43d0b22f7e900406b2",
+    "task_report.json": "ec246e150b3d1d7145b8de5426837624bdaae63dd9213046d6fc7ca292d537ec",
+    "episode.npz": "8461ca948f7646d882c8a0cbd391ad95fbb47b98e1c760d1f9ce4fcf4e473cba"
+  }
+}

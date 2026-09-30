@@ -10,6 +10,13 @@ import xml.etree.ElementTree as ET
 import numpy as np
 
 
+def require_legacy_pad_diagnostic_opt_in(uses_legacy_pad_calibration, explicitly_allowed):
+    if uses_legacy_pad_calibration and not explicitly_allowed:
+        raise ValueError('Legacy block-derived pads are detached from visible fingers; '
+                         'household collection is blocked. Use --allow-legacy-detached-pad-diagnostic '
+                         'only for explicit simulation diagnosis, never as native-gripper validation.')
+
+
 def rotation(axis, angle):
     axis = np.asarray(axis, dtype=float)
     norm = np.linalg.norm(axis)
@@ -93,3 +100,12 @@ class PadGeometry:
             "closing_axis_link6": closing.tolist(),
             "perception_used": False, "collision_free_path_validated": False,
         }
+
+    def preshape_evidence(self, q, close_q, width_m, margin_m=.004):
+        if not np.isfinite(q) or not 0 < q < close_q <= 1:
+            raise ValueError('preshape must be positive and below the close target')
+        gap = self.pads(q)[2]
+        if not np.isfinite(width_m) or width_m <= 0 or gap < width_m + margin_m:
+            raise ValueError('preshape leaves insufficient object clearance')
+        return dict(target_rad=q, modeled_aperture_m=gap, object_width_m=width_m,
+                    minimum_extra_aperture_m=margin_m, whole_hand_collision_checked=False)

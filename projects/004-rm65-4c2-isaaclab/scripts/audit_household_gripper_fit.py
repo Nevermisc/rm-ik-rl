@@ -7,7 +7,7 @@ import sys
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from openpi_extension.household_assets import HOUSEHOLD_CATALOG, load_household
+from openpi_extension.household_assets import manifest_object_ids, load_household
 from household_grasp_calibration import PadGeometry
 
 
@@ -22,7 +22,7 @@ def main():
     geometry = PadGeometry(args.gripper_urdf)
     gaps = [geometry.pads(float(q))[2] for q in np.linspace(0, .8, 401)]
     cases = []
-    for object_id in HOUSEHOLD_CATALOG:
+    for object_id in manifest_object_ids(args.manifest):
         spec = load_household(args.manifest, object_id)
         cases.append(dict(object_id=object_id, size_m=spec.size_m,
             current_y_width_within_modeled_aperture=min(gaps) <= spec.size_m[1] <= max(gaps),

@@ -1,0 +1,41 @@
+{
+  "evaluation_scope": "household_temporal_development_only",
+  "training_ready": false,
+  "formal_acceptance_passed": false,
+  "missing_phases": [],
+  "candidate_checks_passed": true,
+  "checks": {
+    "required_phases_in_order": true,
+    "recorded_task_passed": true,
+    "strict_initial_gravity": true,
+    "strict_final_gravity": true,
+    "continuously_elevated_during_carry": true,
+    "no_large_vertical_drop_during_carry": true,
+    "release_command_fully_open": true,
+    "final_joint_feedback_open": true,
+    "final_footprint_within_support": true,
+    "final_bottom_near_support": true,
+    "stable_after_release": true
+  },
+  "carry_min_height_above_source_m": 0.03587496280670166,
+  "carry_vertical_range_m": 0.0005939006805419922,
+  "final_footprint_min_margin_m": 0.04919349818538086,
+  "final_bottom_error_range_m": [
+    -1.1578181309257474e-06,
+    -1.0947122217608296e-06
+  ],
+  "release_drift_m": 9.503161709289998e-05,
+  "last_open_command_normalized": 0.009939659386873245,
+  "limitations": [
+    "Object AABB/support screen is conservative, not contact-mesh proof.",
+    "Does not validate whole-hand collisions, force calibration or unseen-object generalization.",
+    "Even a passing development candidate cannot automatically enter training."
+  ],
+  "episode": "datasets/rm65_household_visible_fixedcam_marker_001",
+  "simulation_only": true,
+  "sources_sha256": {
+    "metadata.json": "eac521e3d2f0f3ac682bf9c030566660beb40accf28a945b58f22c625efb6287",
+    "task_report.json": "ed5b9a2f2e41079e7456f4afbe4d0cce36e80097bda01eef7f9141e88cbc19b4",
+    "episode.npz": "e2147c24bf560d5cd154ad244a8b9b003fb011094abfc9f918f2febd60dd9c56"
+  }
+}

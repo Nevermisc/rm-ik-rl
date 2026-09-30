@@ -1,12 +1,12 @@
 {
   "schema": "rm65_pi05_engineering_iteration_status_v1",
   "updated_at": "2026-09-30",
-  "git_baseline": "ef2dda6",
-  "working_version": "household-visible.012",
+  "git_baseline": "d6df787",
+  "working_version": "household-generalization.020",
   "committed": true,
-  "phase": "visible_household_session_closed_awaiting_user_confirmation",
-  "current_action": "session closed; preserve the last paused result window temporarily, await user confirmation before new experiments; one visible validation per work type",
-  "current_summary": "results/household_visible_session_002_summary.json",
+  "phase": "autonomous_household_data_and_physics_audit",
+  "current_action": "source and composed USD both confirm detached hidden legacy pads; next create a separate native-surface collision asset, audit mimic and aperture, then visibly validate physics before new household collection",
+  "current_summary": "docs/pi05_sim_deployment_record/HOUSEHOLD_GENERALIZATION_AUDIT_ZH.md",
   "historical_fields_notice": "v4/v5 counters and snapshots below describe previous cube work, not current household progress",
   "latest_confirmed_complete_episode_count": 48,
   "current_v5_snapshot": {
@@ -50,12 +50,13 @@
   "rejected_episode_attempt_count": 6,
   "expert_diagnostic_probe_count": 8,
   "next_actions": [
-    "await user confirmation before the next bounded session",
-    "audit gripper linkage, self-collision and simulated pad geometry before accepting demonstrations; avoid repeated GUI restarts for the same work type",
-    "establish physically feasible household grasps before collecting demonstrations",
+    "source and composed USD geometry audits complete: detached enabled hidden pads confirmed; dynamic PhysX hull extraction not performed",
+    "create a separate native-surface gripper asset and validate coupling, collisions and gravity; do not repaint detached pads as a fix; preserve all historical assets and scores as proxy-only evidence",
+    "recompute native gripper aperture and household feasibility, because the 16.8–47.7 mm estimate belonged to artificial pads; then validate fixed-camera multi-pose demonstrations",
+    "establish a fresh grouped household collection protocol, backup and independent policy evaluation without ground-truth task supervision",
     "train a new checkpoint only after data and held-out evaluation gates are ready"
   ],
-  "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_VISIBLE_ITERATION_LOG.md",
+  "code_update_log": "docs/pi05_sim_deployment_record/HOUSEHOLD_GENERALIZATION_LOG.md",
   "data_leakage_boundary": {
     "development_only_source_failure_count": 6,
     "v3_confirmation_development_case_count": 20,
